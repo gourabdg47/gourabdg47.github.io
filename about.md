@@ -12,4 +12,4 @@ A place to include any other types of information that you'd like to include abo
 
 ### Do Not Contact e
 
-[email@domain.com](mailto:donotmailme@lostindreams.com)
+[donotmailme@lostindreams.com](mailto:donotmailme@lostindreams.com)
