@@ -10,6 +10,6 @@ Some information about you!
 
 A place to include any other types of information that you'd like to include about yourself.
 
-### Do Not Contact e
+### Do Not Contact Me
 
 [donotmailme@lostindreams.com](mailto:donotmailme@lostindreams.com)
