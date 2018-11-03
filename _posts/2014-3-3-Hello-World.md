@@ -3,8 +3,4 @@ layout: post
 title: Welcome to A Strange Blog !
 ---
 
-Will share my journey into the world of Deep Learning ...
-
-![_config.yml]({{ site.baseurl }}https://cdn-images-1.medium.com/max/1600/1*rchGC6ySU1CEezcLEMJkzg.jpeg)
-
-The easiest way to make your first post is to edit this one. Go into /_posts/ and update the Hello World markdown file. For more instructions head over to the [Jekyll Now repository](https://github.com/barryclark/jekyll-now) on GitHub.
+Oh here is the thing, ' The Crazy Thing ', this might sound crazy but its reality, what ever i think of posting here or on my blog post, its already there on web. Crazy huh ! Dam * scratching head* ... Anyone one out there wanna share something, let me know :)
