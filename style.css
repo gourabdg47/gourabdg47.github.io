@@ -35,10 +35,16 @@ a:hover {
   text-decoration: underline;
 }
 
-.about, .contact, .content{
+.about, .content{
   border: 1px solid #ddd;
   padding: 15px;
   margin-bottom: 20px;
+}
+
+.contact {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-top: auto; /* Push contact section to the bottom */
 }
 
 footer {
@@ -46,4 +52,3 @@ footer {
   font-size: 0.8em;
   margin-top: 20px;
 }
-
