@@ -42,9 +42,14 @@ a:hover {
 }
 
 .contact {
-    border: 1px solid #ddd;
-    padding: 15px;
-    margin-top: auto; /* Push contact section to the bottom */
+  border: 1px solid #ddd;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+.welcome {
+  top: 10px;
+  padding: 5px;
 }
 
 footer {
