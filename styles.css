@@ -1,0 +1,209 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'DejaVu Sans Mono', 'Courier New', Courier, monospace;
+  background-color: #1a1a1a;
+  color: #f0f0f0;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+header h1 {
+  font-size: 3em;
+  color: #fff;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+  padding: 10px;
+}
+
+header p {
+  font-size: 1.2em;
+  color: #bbb;
+  margin-top: 10px;
+}
+
+header a {
+  color: #4CAF50;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+header a:hover {
+  color: #45a049;
+}
+
+.posts {
+  max-width: 900px;
+  width: 100%;
+}
+
+.posts h2 {
+  font-size: 1.8em;
+  margin-bottom: 20px;
+}
+
+.post-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 30px;
+}
+
+.post {
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  padding: 20px;
+  background-color: #333;
+}
+
+.post:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+.post h3 {
+  font-size: 1.4em;
+  color: #4CAF50;
+  margin-bottom: 10px;
+}
+
+.post .date {
+  font-size: 0.9em;
+  color: #888;
+  margin-bottom: 10px;
+}
+
+aside {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 250px;
+  background-color: rgba(51, 51, 51, 0.8);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.search input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  border: none;
+  background-color: #444;
+  color: #fff;
+}
+
+.search button {
+  width: 100%;
+  padding: 8px;
+  background-color: #4CAF50;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+  transition: background-color 0.3s ease;
+}
+
+.search button:hover {
+  background-color: #45a049;
+}
+
+.menu {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.menu h3, .follow h3 {
+  font-size: 1.2em;
+  margin-bottom: 10px;
+}
+
+.menu ul {
+  list-style: none;
+}
+
+.menu ul li {
+  margin-bottom: 10px;
+}
+
+.menu ul li a {
+  color: #4CAF50;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.menu ul li a:hover {
+  color: #45a049;
+}
+
+.follow p {
+  margin-bottom: 5px;
+}
+
+footer {
+  margin-top: 40px;
+  width: 100%;
+  text-align: center;
+  padding: 40px 0;
+  background-color: #2a2a2a;
+}
+
+footer p {
+  margin-bottom: 10px;
+  font-size: 1.2em;
+}
+
+footer ul {
+  list-style: none;
+}
+
+footer ul li {
+  margin-bottom: 5px;
+}
+
+footer ul li a {
+  color: #4CAF50;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+footer ul li a:hover {
+  color: #45a049;
+}
+
+.blinking-cursor {
+  font-weight: bold;
+  font-size: 1.2em;  /* Smaller font size to reduce the height */
+  line-height: 1;    /* Ensure it's vertically centered */
+  color: #4CAF50;
+  animation: blink 1s step-end infinite;
+  display: inline-block;
+  vertical-align: text-bottom; /* Align it with the text baseline */
+  width: 10px;    /* Width of the cursor */
+  height: 1.2em;  /* Adjust the height here */
+}
+
+@keyframes blink {
+  from, to {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
