@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Roboto+Mono:wght@300;400;500&display=swap');
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -5,11 +7,16 @@
 }
 
 body {
-  font-family: 'DejaVu Sans Mono', 'Courier New', Courier, monospace;
-  background-color: #1a1a1a;
-  color: #f0f0f0;
+  background: linear-gradient(to bottom right, #0a0a0a, #1a1a1a) fixed;
+  color: #e0e0e0;
+  font-family: 'Roboto Mono', monospace;
   font-size: 16px;
   line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Orbitron', sans-serif;
+  letter-spacing: 1px;
 }
 
 .container {
@@ -63,7 +70,6 @@ header a:hover {
 }
 
 .post {
-  border: none;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -189,14 +195,38 @@ footer ul li a:hover {
 
 .blinking-cursor {
   font-weight: bold;
-  font-size: 1.2em;  /* Smaller font size to reduce the height */
-  line-height: 1;    /* Ensure it's vertically centered */
+  font-size: 1.2em;
+  line-height: 1;
   color: #4CAF50;
   animation: blink 1s step-end infinite;
   display: inline-block;
-  vertical-align: text-bottom; /* Align it with the text baseline */
-  width: 10px;    /* Width of the cursor */
-  height: 1.2em;  /* Adjust the height here */
+  vertical-align: text-bottom;
+  width: 10px;
+}
+
+.typewriter {
+  overflow: hidden;
+  border-right: 2px solid #4CAF50;
+  white-space: nowrap;
+  margin: 0;
+  letter-spacing: 0.15em;
+  display: inline-block;
+}
+
+.typewriter.finished {
+  border-right: none;
+}
+
+.typewriter.finished::after {
+  content: '|';
+  font-weight: bold;
+  font-size: 1.2em;
+  line-height: 1;
+  color: #4CAF50;
+  animation: blink 1s step-end infinite;
+  display: inline-block;
+  vertical-align: text-bottom;
+  width: 10px;
 }
 
 @keyframes blink {
