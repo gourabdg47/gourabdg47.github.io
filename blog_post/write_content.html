@@ -76,7 +76,14 @@
                 <p><strong>Time:</strong> ${time}</p>
                 ${marked.parse(content)}
             `;
+        
         }
+
+        function get_file_name(str){
+            const file_name = str.replace(/ /g, "_");
+            return './blogs/' + file_name;
+        }
+
 
         function saveContent(format) {
             const title = document.getElementById('title').value;
@@ -88,11 +95,13 @@
             let mimeType;
             let filename;
 
+            let fileName = get_file_name(title);
+
             switch (format) {
                 case 'txt':
                     output = `${title}\n\nDate: ${date}\nTime: ${time}\n\n${content}`;
                     mimeType = 'text/plain';
-                    filename = 'blog_post.txt';
+                    filename = fileName + '.txt';
                     break;
                 case 'html':
                     output = `
@@ -102,7 +111,7 @@
                         ${marked.parse(content)}
                     `;
                     mimeType = 'text/html';
-                    filename = 'blog_post.html';
+                    filename = fileName + '.html';
                     break;
                 case 'json':
                     output = JSON.stringify({
@@ -111,8 +120,9 @@
                         time: time,
                         content: content
                     }, null, 2);
+
                     mimeType = 'application/json';
-                    filename = 'blog_post.json';
+                    filename = fileName + '.json';
                     break;
             }
 

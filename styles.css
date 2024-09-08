@@ -7,7 +7,7 @@
 }
 
 body {
-  background: linear-gradient(to bottom right, #0a0a0a, #1a1a1a) fixed;
+  background: linear-gradient(to bottom right, #121212, #2a2a2a) fixed;
   color: #e0e0e0;
   font-family: 'Roboto Mono', monospace;
   font-size: 16px;
@@ -44,13 +44,13 @@ header p {
 }
 
 header a {
-  color: #4CAF50;
+  color: #3498db; /* Standard blue color for links */
   text-decoration: none;
   transition: color 0.3s ease;
 }
 
 header a:hover {
-  color: #45a049;
+  color: #2980b9; /* Darker blue on hover */
 }
 
 .posts {
@@ -69,12 +69,18 @@ header a:hover {
   gap: 30px;
 }
 
+.post-grid a {
+  color: #3498db; /* Standard blue color for links */
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
 .post {
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   padding: 20px;
-  background-color: #333;
+  background-color: #222; /* Darker background for post cards */
 }
 
 .post:hover {
@@ -84,7 +90,7 @@ header a:hover {
 
 .post h3 {
   font-size: 1.4em;
-  color: #4CAF50;
+  color: #fff; /* Changed from #4CAF50 to white for better contrast */
   margin-bottom: 10px;
 }
 
@@ -149,13 +155,13 @@ aside {
 }
 
 .menu ul li a {
-  color: #4CAF50;
+  color: #3498db; /* Standard blue color for links */
   text-decoration: none;
   transition: color 0.3s ease;
 }
 
 .menu ul li a:hover {
-  color: #45a049;
+  color: #2980b9; /* Darker blue on hover */
 }
 
 .follow p {
@@ -184,13 +190,13 @@ footer ul li {
 }
 
 footer ul li a {
-  color: #4CAF50;
+  color: #3498db; /* Standard blue color for links */
   text-decoration: none;
   transition: color 0.3s ease;
 }
 
 footer ul li a:hover {
-  color: #45a049;
+  color: #2980b9; /* Darker blue on hover */
 }
 
 .blinking-cursor {
