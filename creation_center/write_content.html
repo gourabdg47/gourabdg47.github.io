@@ -81,7 +81,7 @@
 
         function get_file_name(str){
             const file_name = str.replace(/ /g, "_");
-            return './blogs/' + file_name;
+            return file_name;
         }
 
 
@@ -101,7 +101,7 @@
                 case 'txt':
                     output = `${title}\n\nDate: ${date}\nTime: ${time}\n\n${content}`;
                     mimeType = 'text/plain';
-                    filename = fileName + '.txt';
+                    filename = 'blog_post.txt';
                     break;
                 case 'html':
                     output = `
@@ -111,7 +111,7 @@
                         ${marked.parse(content)}
                     `;
                     mimeType = 'text/html';
-                    filename = fileName + '.html';
+                    filename = 'blog_post.html';
                     break;
                 case 'json':
                     output = JSON.stringify({
@@ -120,9 +120,8 @@
                         time: time,
                         content: content
                     }, null, 2);
-
                     mimeType = 'application/json';
-                    filename = fileName + '.json';
+                    filename = 'blog_post.json';
                     break;
             }
 
