@@ -4,45 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog Post Creator</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        label {
-            display: block;
-            margin-top: 10px;
-        }
-        input, textarea {
-            width: 100%;
-            padding: 5px;
-            margin-top: 5px;
-        }
-        textarea {
-            height: 200px;
-        }
-        #preview {
-            margin-top: 20px;
-            border: 1px solid #ccc;
-            padding: 10px;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <h1>Blog Post Creator</h1>
-    <label for="title">Title:</label>
-    <input type="text" id="title" placeholder="Enter your post title">
     
-    <label for="date">Date:</label>
-    <input type="text" id="date" readonly>
+    <div class="input-container">
+        <label for="title">Title:</label>
+        <input type="text" id="title" placeholder="Enter your post title">
+    </div>
     
-    <label for="time">Time:</label>
-    <input type="text" id="time" readonly>
+    <div class="input-container">
+        <label for="date">Date:</label>
+        <input type="text" id="date" readonly>
+    </div>
     
-    <label for="content">Content (Markdown):</label>
-    <textarea id="content" placeholder="Enter your post content using markdown"></textarea>
+    <div class="input-container">
+        <label for="time">Time:</label>
+        <input type="text" id="time" readonly>
+    </div>
+    
+    <div class="input-container">
+        <label for="content">Content:</label>
+        <div id="toolbar">
+            <button onclick="applyStyle('bold')"><strong>B</strong></button>
+            <button onclick="applyStyle('italic')"><em>I</em></button>
+            <button onclick="applyStyle('underline')"><u>U</u></button>
+            <button onclick="applyStyle('strikethrough')"><s>S</s></button>
+            <button onclick="applyHeading('h1')">H1</button>
+            <button onclick="applyHeading('h2')">H2</button>
+            <button onclick="applyHeading('h3')">H3</button>
+            <button onclick="insertLink()">Link</button>
+        </div>
+        <div id="content" contenteditable="true" placeholder="Enter your post content"></div>
+    </div>
     
     <h2>Preview:</h2>
     <div id="preview"></div>
@@ -53,92 +48,6 @@
     <button onclick="saveContent('json')">Save as JSON</button>
 
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script>
-        function updateDateTime() {
-            const now = new Date();
-            const dateOptions = { day: '2-digit', month: 'short', year: 'numeric' };
-            const timeOptions = { hour: '2-digit', minute: '2-digit', hour12: true };
-            
-            document.getElementById('date').value = now.toLocaleDateString('en-US', dateOptions);
-            document.getElementById('time').value = now.toLocaleTimeString('en-US', timeOptions);
-        }
-
-        function updatePreview() {
-            const title = document.getElementById('title').value;
-            const date = document.getElementById('date').value;
-            const time = document.getElementById('time').value;
-            const content = document.getElementById('content').value;
-            
-            const preview = document.getElementById('preview');
-            preview.innerHTML = `
-                <h2>${title}</h2>
-                <p><strong>Date:</strong> ${date}</p>
-                <p><strong>Time:</strong> ${time}</p>
-                ${marked.parse(content)}
-            `;
-        
-        }
-
-        function get_file_name(str){
-            const file_name = str.replace(/ /g, "_");
-            return file_name;
-        }
-
-
-        function saveContent(format) {
-            const title = document.getElementById('title').value;
-            const date = document.getElementById('date').value;
-            const time = document.getElementById('time').value;
-            const content = document.getElementById('content').value;
-            
-            let output;
-            let mimeType;
-            let filename;
-
-            let fileName = get_file_name(title);
-
-            switch (format) {
-                case 'txt':
-                    output = `${title}\n\nDate: ${date}\nTime: ${time}\n\n${content}`;
-                    mimeType = 'text/plain';
-                    filename = 'blog_post.txt';
-                    break;
-                case 'html':
-                    output = `
-                        <h1>${title}</h1>
-                        <p><strong>Date:</strong> ${date}</p>
-                        <p><strong>Time:</strong> ${time}</p>
-                        ${marked.parse(content)}
-                    `;
-                    mimeType = 'text/html';
-                    filename = 'blog_post.html';
-                    break;
-                case 'json':
-                    output = JSON.stringify({
-                        title: title,
-                        date: date,
-                        time: time,
-                        content: content
-                    }, null, 2);
-                    mimeType = 'application/json';
-                    filename = 'blog_post.json';
-                    break;
-            }
-
-            const blob = new Blob([output], { type: mimeType });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = filename;
-            a.click();
-            URL.revokeObjectURL(url);
-        }
-
-        updateDateTime();
-        setInterval(updateDateTime, 60000); // Update every minute
-
-        document.getElementById('title').addEventListener('input', updatePreview);
-        document.getElementById('content').addEventListener('input', updatePreview);
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
