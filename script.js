@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 document.addEventListener('DOMContentLoaded', () => {
     // const text = "Seeking to unravel the hidden truths that bind all things . . ";
-    const text = "Creativity, curiosity, and code . . .";
+    const text = "Creativity, curiosity and code . . .";
     const typewriter = document.querySelector('.typewriter');
     let i = 0;
 
@@ -47,4 +47,22 @@ document.addEventListener('DOMContentLoaded', () => {
     setInterval(updateDateTime, 60000);
 
     // ... existing code ...
+
+    const menuToggle = document.getElementById('menuToggle');
+    const menuContent = document.getElementById('menuContent');
+    const aside = document.querySelector('aside');
+
+    menuToggle.addEventListener('click', function() {
+        aside.classList.toggle('expanded');
+        menuContent.classList.toggle('hidden');
+        
+        // Wait for the width transition to complete before showing content
+        if (aside.classList.contains('expanded')) {
+            setTimeout(() => {
+                menuContent.classList.add('visible');
+            }, 300);
+        } else {
+            menuContent.classList.remove('visible');
+        }
+    });
 });

@@ -65,8 +65,14 @@ header a:hover {
 
 .post-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: 30px;
+}
+
+@media (max-width: 768px) {
+  .post-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .post-grid a {
@@ -118,11 +124,42 @@ aside {
   position: fixed;
   top: 20px;
   right: 20px;
-  width: 250px;
-  background-color: rgba(51, 51, 51, 0.8);
+  width: 60px;
+  transition: width 0.3s ease, background-color 0.3s ease;
+  overflow: hidden;
+  background-color: transparent;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+aside.expanded {
+  width: 250px;
+  background-color: rgba(51, 51, 51, 0.8);
+}
+
+#menuToggle {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 10px;
+  width: 100%;
+  text-align: left;
+}
+
+#menuContent {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+#menuContent.visible {
+  opacity: 1;
+}
+
+.hidden {
+  display: none;
 }
 
 .search input {
