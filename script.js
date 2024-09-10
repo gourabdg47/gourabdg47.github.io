@@ -49,21 +49,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // ... existing code ...
 
     const menuToggle = document.getElementById('menuToggle');
-    const menuContent = document.getElementById('menuContent');
     const aside = document.querySelector('aside');
 
     menuToggle.addEventListener('click', function() {
         aside.classList.toggle('expanded');
-        menuContent.classList.toggle('hidden');
-        
-        // Wait for the width transition to complete before showing content
-        if (aside.classList.contains('expanded')) {
-            setTimeout(() => {
-                menuContent.classList.add('visible');
-            }, 300);
-        } else {
-            menuContent.classList.remove('visible');
-        }
     });
 
     function updateGeneratedHTML() {

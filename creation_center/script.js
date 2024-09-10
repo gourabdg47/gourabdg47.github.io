@@ -70,152 +70,189 @@ function saveContent(format) {
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4428530035708940"
     crossorigin="anonymous"></script>
     <title>${title}</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
-    
-        <style>
-            :root {
-                --bg-gradient: linear-gradient(135deg, #121212, #2a2a2a);
-                --text-color: #e0e0e0;
-                --accent-color: #3498db;
-                --accent-hover: #2980b9;
-            }
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Roboto+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #1f2937 0%, #263445 50%, #1e3a5f 100%);
+            --text-color: #e5e7eb;
+            --accent-color: #60a5fa;
+            --accent-hover: #3b82f6;
+        }
 
-            * {
-                box-sizing: border-box;
-                margin: 0;
-                padding: 0;
-            }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
+        html, body {
+            height: 100%;
+            font-size: 16px;
+        }
+
+        body {
+            background: var(--bg-gradient) fixed;
+            color: var(--text-color);
+            font-family: 'Roboto Mono', monospace;
+            line-height: 1.6;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        header {
+            text-align: center;
+            padding: 2rem 1rem;
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            color: var(--accent-color);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            margin-bottom: 0.5rem;
+        }
+
+        .meta {
+            font-style: italic;
+            color: #bbb;
+            font-size: 0.9rem;
+        }
+
+        .content {
+            padding: 2rem;
+            background-color: rgba(255, 255, 255, 0.03);
+        }
+
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--accent-hover);
+            text-decoration: underline;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            margin: 1rem 0;
+        }
+        
+        .tags {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .tag {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: #000;
+            font-size: 0.8rem;
+            padding: 0.3rem 0.6rem;
+            margin: 0.2rem;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .tag:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        footer {
+            background-color: rgba(25, 35, 52, 0.8);
+            color: var(--text-color);
+            padding: 2rem 1rem;
+            text-align: center;
+            margin-top: 2rem;
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .social-icons {
+            margin-top: 1rem;
+        }
+
+        .social-icons a {
+            color: var(--text-color);
+            font-size: 1.5rem;
+            margin: 0 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            color: var(--accent-color);
+        }
+
+        @media (max-width: 600px) {
             html {
-                font-size: 16px;
+                font-size: 14px;
             }
 
             body {
-                background: var(--bg-gradient) fixed;
-                color: var(--text-color);
-                font-family: 'Roboto Mono', monospace;
-                line-height: 1.6;
-                min-height: 100vh;
-                padding: 2rem 1rem;
-            }
-
-            .container {
-                max-width: 800px;
-                margin: 0 auto;
-                background-color: rgba(255, 255, 255, 0.05);
-                border-radius: 10px;
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
-                overflow: hidden;
-            }
-
-            header {
-                text-align: center;
-                padding: 2rem 1rem;
-                background-color: rgba(0, 0, 0, 0.2);
-            }
-
-            h1, h2, h3, h4, h5, h6 {
-                font-family: 'Orbitron', sans-serif;
-                letter-spacing: 1px;
-                line-height: 1.2;
-                margin-bottom: 1rem;
-            }
-
-            header h1 {
-                font-size: 2.5rem;
-                color: #fff;
-                text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-                margin-bottom: 0.5rem;
-            }
-
-            .meta {
-                font-style: italic;
-                color: #bbb;
-                font-size: 0.9rem;
-            }
-
-            .content {
-                padding: 2rem;
-                background-color: rgba(255, 255, 255, 0.03);
-            }
-
-            a {
-                color: var(--accent-color);
-                text-decoration: none;
-                transition: color 0.3s ease;
-            }
-
-            a:hover {
-                color: var(--accent-hover);
-                text-decoration: underline;
-            }
-
-            p {
-                margin-bottom: 1rem;
-            }
-
-            img {
-                max-width: 100%;
-                height: auto;
-                border-radius: 5px;
-                margin: 1rem 0;
-            }
-            
-            .tags {
-                margin-top: 1.5rem;
                 padding: 1rem;
-                background-color: rgba(0, 0, 0, 0.2);
-                border-top: 1px solid rgba(255, 255, 255, 0.1);
             }
 
-            .tag {
-                display: inline-block;
-                background-color: var(--accent-color);
-                color: #000;
-                font-size: 0.8rem;
-                padding: 0.3rem 0.6rem;
-                margin: 0.2rem;
-                border-radius: 15px;
-                transition: all 0.3s ease;
-                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            header, .content {
+                padding: 1.5rem 1rem;
             }
-
-            .tag:hover {
-                background-color: var(--accent-hover);
-                transform: translateY(-2px);
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-            }
-
-            @media (max-width: 600px) {
-                html {
-                    font-size: 14px;
-                }
-
-                body {
-                    padding: 1rem;
-                }
-
-                header, .content {
-                    padding: 1.5rem 1rem;
-                }
-            }
-        </style>
-    </head>
-    <body>
-        <div class="container">
-            <header>
-                <h1>${title}</h1>
-                <p class="meta">Published on ${date} at ${time}</p>
-            </header>
-            <div class="content">
-                ${content}
-            </div>
-            <div class="tags">
-                ${tags.map(tag => `<span class="tag">#${tag}</span>`).join(' ')}
-            </div>
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>${title}</h1>
+            <p class="meta">Published on ${date} at ${time}</p>
+        </header>
+        <div class="content">
+            ${content}
         </div>
-    </body>
-    </html>`;
+        <div class="tags">
+            ${tags.map(tag => `<span class="tag">#${tag}</span>`).join(' ')}
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2024 Singularity. All rights reserved.</p>
+        <div class="social-icons">
+            <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+            <a href="mailto:gourab@gmail.com" aria-label="Gmail"><i class="fas fa-envelope"></i></a>
+            <a href="https://www.linkedin.com/in/gourabdasgupta/" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            <a href="https://www.reddit.com/user/kikimora47" aria-label="Reddit"><i class="fab fa-reddit"></i></a>
+        </div>
+    </footer>
+</body>
+</html>`;
 
         const blob = new Blob([htmlTemplate], { type: 'text/html' });
         const url = URL.createObjectURL(blob);
