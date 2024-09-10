@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Singularity - Blog</title>
-        <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" href="{{ '/assets/css/styles.css' | relative_url }}">
         <script src="script.js"></script>
         <meta name="description" content="Singularity - A blog about Python, programming, and more">
         <meta name="keywords" content="Python, programming, blog, technology">
@@ -26,33 +26,16 @@
             <section class="posts">
                 <h2>Latest posts</h2>
                 <div class="post-grid">
+                {% for post in site.posts %}
                     <article class="post">
-                        <h3><a href="blogs/day1_python_history.html">Python's Evolution: A Journey Through Time</a></h3>
-                        <p class="date">Sep 10, 2024</p>
-                        <p class="excerpt">In the late 1980s, Guido Van Rossum was working at Centrum Wiskunde & Informatica (CWI). It started as a hobby project because he was looking for ...</p>
-                        <div class="post-footer">
-                            <a href="blogs/day1_python_history.html" class="read-more">Read more</a>
-                            <div class="tags">
-                                <span class="tag">#Python</span>
-                                <span class="tag">#Challenge</span>
-                                <!-- More tags... -->
-                            </div>
-                        </div>
+                    <h3><a href="{{ post.url }}">{{ post.title }}</a></h3>
+                    <p class="date">{{ post.date | date: "%b %-d, %Y" }}</p>
+                    <p class="excerpt">{{ post.excerpt | strip_html | truncatewords: 50 }}</p>
+                    <div class="post-footer">
+                        <a href="{{ post.url }}" class="read-more">Read more</a>
+                    </div>
                     </article>
-
-                    <article class="post">
-                        <h3><a href="blogs/python_challenge_day_0.html">Python Challenge: Day 0</a></h3>
-                        <p class="date">Sep 09, 2024</p>
-                        <p class="excerpt">Will start following this tutorial for 30 days. After that will start Django tutorial and parallelly continue the python tutorials. This will be a ...</p>
-                        <div class="post-footer">
-                            <a href="blogs/python_challenge_day_0.html" class="read-more">Read more</a>
-                            <div class="tags">
-                                <span class="tag">#Python</span>
-                                <span class="tag">#Challenge</span>
-                                <!-- More tags... -->
-                            </div>
-                        </div>
-                    </article>
+                {% endfor %}
                 </div>
             </section>
 

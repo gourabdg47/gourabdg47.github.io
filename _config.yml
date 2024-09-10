@@ -1,0 +1,53 @@
+# Site settings
+title: Singularity
+email: your-email@example.com
+description: >- 
+  A blog about Python, programming, and technology. Exploring creativity, curiosity, and code.
+baseurl: "" 
+url: "https://gourabdg47.github.io" 
+twitter_username: your_twitter_username
+github_username:  gourabdg47
+linkedin_username: gourabdasgupta
+reddit_username: kikimora47
+
+# Build settings
+theme: minima
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+# Customization
+header_pages:
+  - about.md
+  - projects.md
+  - books.md
+  - horology.md
+  - playlists.md
+
+# Collections
+collections:
+  posts:
+    output: true
+    permalink: /blog/:year/:month/:day/:title/
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+      author: "Gourab Dasgupta"
+
+# Exclude from processing
+exclude:
+  - .sass-cache/
+  - .jekyll-cache/
+  - gemfiles/
+  - Gemfile
+  - Gemfile.lock
+  - node_modules/
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
