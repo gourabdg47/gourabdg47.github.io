@@ -219,6 +219,20 @@ function insertLink() {
     updatePreview();
 }
 
+function insertImage() {
+    const url = prompt('Enter the URL of the image:');
+    if (url) {
+        document.execCommand('insertImage', false, url);
+    }
+}
+
+function changeTextColor() {
+    const color = prompt('Enter a color name or hex code:');
+    if (color) {
+        document.execCommand('foreColor', false, color);
+    }
+}
+
 updateDateTime();
 setInterval(updateDateTime, 60000); // Update every minute
 
