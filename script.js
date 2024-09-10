@@ -12,6 +12,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let i = 0;
 
     function typeNextCharacter() {
+        if (i === 0) {
+            typewriter.classList.add('visible');
+        }
         if (i < text.length) {
             typewriter.textContent += text.charAt(i);
             i++;
@@ -46,48 +49,33 @@ document.addEventListener('DOMContentLoaded', () => {
     // Update every minute
     setInterval(updateDateTime, 60000);
 
-    // ... existing code ...
+    // Fetch and display IP address
+    const ipDisplay = document.getElementById('ip-address');
+    fetch('https://api.ipify.org?format=json')
+        .then(response => response.json())
+        .then(data => {
+            ipDisplay.textContent = ` ${data.ip}`;
+        })
+        .catch(error => {
+            console.error('Error fetching IP:', error);
+            ipDisplay.textContent = '| IP: Unable to fetch';
+        });
 
     const menuToggle = document.getElementById('menuToggle');
+    const menuContent = document.getElementById('menuContent');
     const aside = document.querySelector('aside');
 
     menuToggle.addEventListener('click', function() {
         aside.classList.toggle('expanded');
+        menuContent.classList.toggle('hidden');
+        
+        // Wait for the width transition to complete before showing content
+        if (aside.classList.contains('expanded')) {
+            setTimeout(() => {
+                menuContent.classList.add('visible');
+            }, 300);
+        } else {
+            menuContent.classList.remove('visible');
+        }
     });
-
-    function updateGeneratedHTML() {
-        const title = document.getElementById('title').value;
-        const date = document.getElementById('date').value;
-        const time = document.getElementById('time').value;
-        const tags = document.getElementById('tags').value.split(',').map(tag => tag.trim());
-        const content = document.getElementById('content').innerHTML;
-
-        const generatedHTML = `
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${title}</title>
-</head>
-<body>
-    <article>
-        <h1>${title}</h1>
-        <p>Published on: ${date} at ${time}</p>
-        <div class="tags">
-            ${tags.map(tag => `<span class="tag">${tag}</span>`).join(' ')}
-        </div>
-        <div class="content">
-            ${content}
-        </div>
-    </article>
-</body>
-</html>
-`;
-
-        document.getElementById('generated-html').textContent = generatedHTML;
-    }
-
-    // Call this function whenever the content changes
-    // For example, you can add event listeners to all input fields and the content div
 });
