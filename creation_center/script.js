@@ -58,6 +58,7 @@ function saveContent(format) {
     const date = document.getElementById('date').value;
     const time = document.getElementById('time').value;
     const content = document.getElementById('content').innerHTML;
+    const tags = document.getElementById('tags').value.split(',').map(tag => tag.trim()).filter(tag => tag);
 
     if (format === 'html') {
         const htmlTemplate = `
@@ -159,6 +160,31 @@ function saveContent(format) {
                 border-radius: 5px;
                 margin: 1rem 0;
             }
+            
+            .tags {
+                margin-top: 1.5rem;
+                padding: 1rem;
+                background-color: rgba(0, 0, 0, 0.2);
+                border-top: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .tag {
+                display: inline-block;
+                background-color: var(--accent-color);
+                color: #000;
+                font-size: 0.8rem;
+                padding: 0.3rem 0.6rem;
+                margin: 0.2rem;
+                border-radius: 15px;
+                transition: all 0.3s ease;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            }
+
+            .tag:hover {
+                background-color: var(--accent-hover);
+                transform: translateY(-2px);
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            }
 
             @media (max-width: 600px) {
                 html {
@@ -184,6 +210,9 @@ function saveContent(format) {
             <div class="content">
                 ${content}
             </div>
+            <div class="tags">
+                ${tags.map(tag => `<span class="tag">#${tag}</span>`).join(' ')}
+            </div>
         </div>
     </body>
     </html>`;
@@ -192,7 +221,7 @@ function saveContent(format) {
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `${title.replace(/\s+/g, '-').toLowerCase()}.html`;
+        a.download = `${get_file_name(title)}.html`;
         a.click();
         URL.revokeObjectURL(url);
     } else {

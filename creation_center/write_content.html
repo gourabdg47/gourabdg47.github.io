@@ -25,6 +25,11 @@
     </div>
     
     <div class="input-container">
+        <label for="tags">Tags:</label>
+        <input type="text" id="tags" placeholder="Enter tags separated by commas">
+    </div>
+    
+    <div class="input-container">
         <label for="content">Content:</label>
         <div id="toolbar">
             <button onclick="applyStyle('bold')"><strong>B</strong></button>
@@ -43,6 +48,9 @@
     
     <h2>Preview:</h2>
     <div id="preview"></div>
+
+    <h2>Generated HTML:</h2>
+    <pre id="generated-html"></pre>
 
     <h2>Save Content:</h2>
     <button onclick="saveContent('txt')">Save as TXT</button>
