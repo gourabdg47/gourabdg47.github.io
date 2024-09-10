@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
     fetch('https://api.ipify.org?format=json')
         .then(response => response.json())
         .then(data => {
-            ipDisplay.textContent = ` ${data.ip}`;
+            ipDisplay.textContent = `${data.ip}`;
         })
         .catch(error => {
             console.error('Error fetching IP:', error);
