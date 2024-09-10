@@ -1,81 +1,60 @@
-document.addEventListener('DOMContentLoaded', function() {
-    // Display current time
-    const timeDisplay = document.getElementById('time');
-    const now = new Date();
-    timeDisplay.innerHTML = now.toLocaleTimeString();
-});
-
 document.addEventListener('DOMContentLoaded', () => {
-    // const text = "Seeking to unravel the hidden truths that bind all things . . ";
-    const text = "Creativity, curiosity and code . . .";
-    const typewriter = document.querySelector('.typewriter');
-    let i = 0;
+    const elements = {
+        typewriter: document.querySelector('.typewriter'),
+        timeDisplay: document.getElementById('time'),
+        dateDisplay: document.getElementById('date'),
+        ipDisplay: document.getElementById('ip-address'),
+        menuToggle: document.getElementById('menuToggle'),
+        menuContent: document.getElementById('menuContent'),
+        aside: document.querySelector('aside')
+    };
+
+    // Typewriter effect
+    const typewriterText = "Creativity, curiosity and code . . .";
+    let typewriterIndex = 0;
 
     function typeNextCharacter() {
-        if (i === 0) {
-            typewriter.classList.add('visible');
+        if (typewriterIndex === 0) {
+            elements.typewriter.classList.add('visible');
         }
-        if (i < text.length) {
-            typewriter.textContent += text.charAt(i);
-            i++;
-            setTimeout(typeNextCharacter, 100); // Adjust typing speed here (milliseconds)
+        if (typewriterIndex < typewriterText.length) {
+            elements.typewriter.textContent += typewriterText[typewriterIndex++];
+            setTimeout(typeNextCharacter, 100);
         } else {
-            typewriter.classList.add('finished');
+            elements.typewriter.classList.add('finished');
         }
     }
 
-    // Start typing after a short delay
-    setTimeout(typeNextCharacter, 1000); // 1 second delay before starting
-
-    // Display current time and date
-    const timeDisplay = document.getElementById('time');
-    const dateDisplay = document.getElementById('date');
-
+    // Date and time display
     function updateDateTime() {
         const now = new Date();
-        
-        // Format time: 12-hour with AM/PM, hours and minutes only
-        const timeOptions = { hour: 'numeric', minute: '2-digit', hour12: true };
-        timeDisplay.innerHTML = now.toLocaleTimeString('en-US', timeOptions);
-        
-        // Format date: 26 September 2024
-        const dateOptions = { day: 'numeric', month: 'long', year: 'numeric' };
-        dateDisplay.innerHTML = now.toLocaleDateString('en-US', dateOptions);
+        elements.timeDisplay.textContent = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+        elements.dateDisplay.textContent = now.toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' });
     }
 
-    // Initial update
-    updateDateTime();
-
-    // Update every minute
-    setInterval(updateDateTime, 60000);
-
-    // Fetch and display IP address
-    const ipDisplay = document.getElementById('ip-address');
+    // IP address fetch
     fetch('https://api.ipify.org?format=json')
         .then(response => response.json())
-        .then(data => {
-            ipDisplay.textContent = `${data.ip}`;
-        })
+        .then(data => elements.ipDisplay.textContent = data.ip)
         .catch(error => {
             console.error('Error fetching IP:', error);
-            ipDisplay.textContent = '| IP: Unable to fetch';
+            elements.ipDisplay.textContent = 'Unable to fetch';
         });
 
-    const menuToggle = document.getElementById('menuToggle');
-    const menuContent = document.getElementById('menuContent');
-    const aside = document.querySelector('aside');
-
-    menuToggle.addEventListener('click', function() {
-        aside.classList.toggle('expanded');
-        menuContent.classList.toggle('hidden');
+    // Menu toggle
+    elements.menuToggle.addEventListener('click', () => {
+        elements.aside.classList.toggle('expanded');
+        elements.menuContent.classList.toggle('hidden');
         
-        // Wait for the width transition to complete before showing content
-        if (aside.classList.contains('expanded')) {
-            setTimeout(() => {
-                menuContent.classList.add('visible');
-            }, 300);
+        if (elements.aside.classList.contains('expanded')) {
+            setTimeout(() => elements.menuContent.classList.add('visible'), 300);
         } else {
-            menuContent.classList.remove('visible');
+            elements.menuContent.classList.remove('visible');
         }
     });
+
+    // Initialize
+    setTimeout(typeNextCharacter, 1000);
+    updateDateTime();
+    setInterval(updateDateTime, 60000);
 });
