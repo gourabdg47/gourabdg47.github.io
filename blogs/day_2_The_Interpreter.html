@@ -174,7 +174,14 @@
             <p class="meta">Published on Sep 11, 2024 at 08:57 PM</p>
         </header>
         <div class="content">
-            <div>Python interpreter is generally installed at <i><b>/usr/local/bin/python</b></i> in Linux or Unix. In Windows, python is usually installed in <i><b>C:\Python27</b></i></div><div>By default, Python source files are treated as encoded in ASCII. To use custom encodings, we have to add a comment at the beginning of the file.</div><div>Syntax: <b># -*- coding: encoding -*-</b></div><div>For example, to declare that Windows-1252 encoding, first like of the code should have:&nbsp;</div><div><b># -*- coding: cp1252 -*-</b></div><div>If the source code starts with a UNIX “shebang” line, then encoding declaration should be added at the second line:&nbsp;</div><div><b>#!/usr/bin/env python</b></div><div><b># -*- coding: cp1252 -*-</b></div>
+            <div>The Python interpreter is a program that reads and executes Python code. When you write Python code, the interpreter converts the code into a form that the computer's hardware can execute. Python is an interpreted language, meaning that it does not need to be compiled into machine code before execution; instead, the interpreter processes the code line by line.
+                <b>>CPython</b>: This is the default and most widely used Python interpreter. <i>CPython</i> is written in C and compiles Python code into bytecode, which it then interprets.
+                </br>Few other python implimentations are:
+                </br><b>PyPy</b>: An alternative Python interpreter with a Just-In-Time (JIT) compiler, which can make
+                </br><b>Jython</b>: A Python interpreter for running Python on the Java platform.
+                </br><b>IronPython</b>: An implementation that runs Python programs on the .NET framework.
+                </br><b>REPL </b>(<i>Read-Eval-Print Loop</i>), in interactive mode, the Python interpreter functions as a REPL, where it reads the user’s input, evaluates the expression, prints the result, and loops back for more input.
+                Python interpreter is generally installed at <i><b>/usr/local/bin/python</b></i> in Linux or Unix. In Windows, python is usually installed in <i><b>C:\Python27</b></i></div><div>By default, Python source files are treated as encoded in ASCII. To use custom encodings, we have to add a comment at the beginning of the file.</div><div>Syntax: <b># -*- coding: encoding -*-</b></div><div>For example, to declare that Windows-1252 encoding, first like of the code should have:&nbsp;</div><div><b># -*- coding: cp1252 -*-</b></div><div>If the source code starts with a UNIX “shebang” line, then encoding declaration should be added at the second line:&nbsp;</div><div><b>#!/usr/bin/env python</b></div><div><b># -*- coding: cp1252 -*-</b></div>
         </div>
         <div class="tags">
             <span class="tag">#Python</span> <span class="tag">#Challange</span>
