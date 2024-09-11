@@ -1,91 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Singularity - Blog</title>
-        <link rel="stylesheet" href="{{ '/assets/css/styles.css' | relative_url }}">
-        <script src="script.js"></script>
-        <meta name="description" content="Singularity - A blog about Python, programming, and more">
-        <meta name="keywords" content="Python, programming, blog, technology">
-        <meta property="og:title" content="Singularity - Blog">
-        <meta property="og:description" content="Explore Python's evolution, coding challenges, and more on Singularity">
-        <meta property="og:image" content="path/to/logo/logo.png">
-        <meta property="og:url" content="https://gourabdg47.github.io">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    </head>
-    <body>
-        <div class="container">
-            <header>
-                <h1>&gt; Singularity</h1>
-                <p class="typewriter"></p>
-                <p>Welcome <span id="ip-address"></span> : <a href="#"></a> <span id="time"></span> <span id="date"></span></p>
+---
+layout: default
+title: Home
+---
 
-            </header>
+<header>
+    <h1>&gt; Singularity</h1>
+    <p class="typewriter"></p>
+    <p>Welcome <span id="ip-address"></span> : <a href="#"></a> <span id="time"></span> <span id="date"></span></p>
+</header>
 
-            <section class="posts">
-                <h2>Latest posts</h2>
-                <div class="post-grid">
-                {% for post in site.posts %}
-                    <article class="post">
-                    <h3><a href="{{ post.url }}">{{ post.title }}</a></h3>
-                    <p class="date">{{ post.date | date: "%b %-d, %Y" }}</p>
-                    <p class="excerpt">{{ post.excerpt | strip_html | truncatewords: 50 }}</p>
-                    <div class="post-footer">
-                        <a href="{{ post.url }}" class="read-more">Read more</a>
-                    </div>
-                    </article>
-                {% endfor %}
-                </div>
-            </section>
+<section class="posts">
+    <h2>Latest posts</h2>
+    <div class="post-grid">
+    {% for post in site.posts %}
+        <article class="post">
+            <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
+            <p class="date">{{ post.date | date: "%b %-d, %Y" }}</p>
+            <p class="excerpt">{{ post.excerpt | strip_html | truncatewords: 50 }}</p>
+            <div class="post-footer">
+                <a href="{{ post.url | relative_url }}" class="read-more">Read more</a>
+            </div>
+        </article>
+    {% endfor %}
+    </div>
+</section>
 
-            <aside>
-                <div class="menu-header">
-                    <button id="menuToggle" aria-label="Toggle Menu">☰</button>
-                    <span class="menu-title">Menu</span>
-                </div>
-                <nav id="menuContent" class="hidden">
-                    <ul class="menu-list">
-                        <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
-                        <li><a href="#"><i class="fas fa-project-diagram"></i> Projects</a></li>
-                        <li><a href="#"><i class="fas fa-book"></i> Books</a></li>
-                        <li><a href="#"><i class="fas fa-clock"></i> Horology</a></li>
-                        <li><a href="#"><i class="fas fa-music"></i> Playlists</a></li>
-                        <li><a href="https://buymeacoffee.com/gourabdg" target="_blank" rel="noopener noreferrer"><i class="fas fa-coffee"></i> Buy me a Coffee!</a></li>
-                    </ul>
-                </nav>
-            </aside>
-
-            <footer>
-                <div class="footer-content">
-                    <div class="footer-section">
-                        <h3>About</h3>
-                        <p>Singularity is a blog about Python, programming, and technology.</p>
-                    </div>
-                    <div class="footer-section">
-                        <h3>Quick Links</h3>
-                        <ul>
-                            <li><a href="#">Home</a></li>
-                            <li><a href="#">Archive</a></li>
-                            <li><a href="#">Contact</a></li>
-                        </ul>
-                    </div>
-                    <div class="footer-section">
-                        <h3>Connect</h3>
-                        <div class="social-icons">
-                            <a href="https://github.com/gourabdg47" aria-label="GitHub"><i class="fab fa-github"></i></a>
-                            <a href="mailto:gourab@gmail.com" aria-label="Gmail"><i class="fas fa-envelope"></i></a>
-                            <a href="https://www.linkedin.com/in/gourabdasgupta/" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                            <a href="https://www.reddit.com/user/kikimora47" aria-label="Reddit"><i class="fab fa-reddit"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="footer-bottom">
-                    <p align="center">&copy; 2024 Singularity. All rights reserved.</p>
-                </div>
-                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4428530035708940" crossorigin="anonymous"></script>
-            </footer>
-        </div>
-
-    </body>
-</html>
+{% include aside.html %}
+{% include footer.html %}

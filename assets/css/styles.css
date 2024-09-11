@@ -432,27 +432,4 @@ footer {
   }
   .menu-header {
     justify-content: space-between;
-    border-radius: 0;
-    background-color: rgba(25, 35, 52, 0.8);
   }
-  #menuToggle {
-    background-color: rgba(25, 35, 52, 0.8);
-  }
-  .menu-title {
-    opacity: 1;
-  }
-  #menuContent {
-    display: none;
-  }
-  aside.expanded #menuContent {
-    display: block;
-  }
-  .post-footer {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  .tags {
-    margin-top: 10px;
-    justify-content: flex-start;
-  }
-}

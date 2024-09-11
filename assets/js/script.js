@@ -32,29 +32,14 @@ document.addEventListener('DOMContentLoaded', () => {
         elements.dateDisplay.textContent = now.toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' });
     }
 
-    // IP address fetch
-    fetch('https://api.ipify.org?format=json')
-        .then(response => response.json())
-        .then(data => elements.ipDisplay.textContent = data.ip)
-        .catch(error => {
-            console.error('Error fetching IP:', error);
-            elements.ipDisplay.textContent = 'Unable to fetch';
-        });
-
     // Menu toggle
     elements.menuToggle.addEventListener('click', () => {
-        elements.aside.classList.toggle('expanded');
         elements.menuContent.classList.toggle('hidden');
-        
-        if (elements.aside.classList.contains('expanded')) {
-            setTimeout(() => elements.menuContent.classList.add('visible'), 300);
-        } else {
-            elements.menuContent.classList.remove('visible');
-        }
+        elements.aside.classList.toggle('expanded');
     });
 
     // Initialize
-    setTimeout(typeNextCharacter, 1000);
+    typeNextCharacter();
     updateDateTime();
-    setInterval(updateDateTime, 60000);
+    setInterval(updateDateTime, 1000);
 });
