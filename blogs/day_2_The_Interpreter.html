@@ -1,67 +1,4 @@
-function updateDateTime() {
-    const now = new Date();
-    const dateOptions = { day: '2-digit', month: 'short', year: 'numeric' };
-    const timeOptions = { hour: '2-digit', minute: '2-digit', hour12: true };
-    
-    document.getElementById('date').value = now.toLocaleDateString('en-US', dateOptions);
-    document.getElementById('time').value = now.toLocaleTimeString('en-US', timeOptions);
-}
 
-function updatePreview() {
-    const title = document.getElementById('title').value;
-    const date = document.getElementById('date').value;
-    const time = document.getElementById('time').value;
-    const content = document.getElementById('content').innerHTML;
-    
-    const preview = document.getElementById('preview');
-    preview.innerHTML = `
-        <h2>${title}</h2>
-        <p><strong>Date:</strong> ${date}</p>
-        <p><strong>Time:</strong> ${time}</p>
-        ${content}
-    `;
-}
-
-function applyStyle(style) {
-    document.execCommand(style, false, null);
-    document.getElementById('content').focus();
-}
-
-function applyHeading(level) {
-    const selection = window.getSelection();
-    const range = selection.getRangeAt(0);
-    const container = range.commonAncestorContainer;
-
-    // Check if we're already inside a heading
-    let currentHeading = container.nodeType === Node.TEXT_NODE ? container.parentNode : container;
-    while (currentHeading && !['H1', 'H2', 'H3'].includes(currentHeading.tagName)) {
-        currentHeading = currentHeading.parentNode;
-    }
-
-    if (currentHeading && currentHeading.tagName === level.toUpperCase()) {
-        // If we're in the same heading level, remove it
-        document.execCommand('formatBlock', false, 'p');
-    } else {
-        // Apply the new heading
-        document.execCommand('formatBlock', false, level);
-    }
-
-    document.getElementById('content').focus();
-}
-
-function get_file_name(str){
-    return str.replace(/ /g, "_");
-}
-
-function saveContent(format) {
-    const title = document.getElementById('title').value;
-    const date = document.getElementById('date').value;
-    const time = document.getElementById('time').value;
-    const content = document.getElementById('content').innerHTML;
-    const tags = document.getElementById('tags').value.split(',').map(tag => tag.trim()).filter(tag => tag);
-
-    if (format === 'html') {
-        const htmlTemplate = `
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -69,7 +6,7 @@ function saveContent(format) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4428530035708940"
     crossorigin="anonymous"></script>
-    <title>${title}</title>
+    <title>Day 2 - The Interpreter</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Roboto+Mono:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -233,14 +170,14 @@ function saveContent(format) {
 <body>
     <div class="container">
         <header>
-            <h1>${title}</h1>
-            <p class="meta">Published on ${date} at ${time}</p>
+            <h1>Day 2 - The Interpreter</h1>
+            <p class="meta">Published on Sep 11, 2024 at 08:57 PM</p>
         </header>
         <div class="content">
-            ${content}
+            <div>Python interpreter is generally installed at <i><b>/usr/local/bin/python</b></i> in Linux or Unix. In Windows, python is usually installed in <i><b>C:\Python27</b></i></div><div>By default, Python source files are treated as encoded in ASCII. To use custom encodings, we have to add a comment at the beginning of the file.</div><div>Syntax: <b># -*- coding: encoding -*-</b></div><div>For example, to declare that Windows-1252 encoding, first like of the code should have:&nbsp;</div><div><b># -*- coding: cp1252 -*-</b></div><div>If the source code starts with a UNIX “shebang” line, then encoding declaration should be added at the second line:&nbsp;</div><div><b>#!/usr/bin/env python</b></div><div><b># -*- coding: cp1252 -*-</b></div>
         </div>
         <div class="tags">
-            ${tags.map(tag => `<span class="tag">#${tag}</span>`).join(' ')}
+            <span class="tag">#Python</span> <span class="tag">#Challange</span>
         </div>
     </div>
     <footer>
@@ -253,55 +190,4 @@ function saveContent(format) {
         </div>
     </footer>
 </body>
-</html>`;
-
-        const blob = new Blob([htmlTemplate], { type: 'text/html' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `${get_file_name(title)}.html`;
-        a.click();
-        URL.revokeObjectURL(url);
-    } else {
-        // ... existing code for other formats ...
-    }
-}
-
-function insertLink() {
-    const selection = window.getSelection();
-    const range = selection.getRangeAt(0);
-    const selectedText = range.toString();
-
-    const url = prompt("Enter the URL:", "https://");
-    if (url) {
-        const linkText = selectedText || prompt("Enter the link text:", "");
-        if (linkText) {
-            const link = document.createElement('a');
-            link.href = url;
-            link.textContent = linkText;
-            range.deleteContents();
-            range.insertNode(link);
-        }
-    }
-    updatePreview();
-}
-
-function insertImage() {
-    const url = prompt('Enter the URL of the image:');
-    if (url) {
-        document.execCommand('insertImage', false, url);
-    }
-}
-
-function changeTextColor() {
-    const color = prompt('Enter a color name or hex code:');
-    if (color) {
-        document.execCommand('foreColor', false, color);
-    }
-}
-
-updateDateTime();
-setInterval(updateDateTime, 60000); // Update every minute
-
-document.getElementById('title').addEventListener('input', updatePreview);
-document.getElementById('content').addEventListener('input', updatePreview);
+</html>

@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-09-11T12:43:50+05:30</updated><id>http://localhost:4000/feed.xml</id><title type="html">Singularity</title><subtitle>A blog about Python, programming, and technology. Exploring creativity, curiosity, and code.</subtitle><entry><title type="html">Welcome to Jekyll!</title><link href="http://localhost:4000/blog/2024/09/10/welcome-to-jekyll/" rel="alternate" type="text/html" title="Welcome to Jekyll!" /><published>2024-09-10T23:50:22+05:30</published><updated>2024-09-10T23:50:22+05:30</updated><id>http://localhost:4000/blog/2024/09/10/welcome-to-jekyll</id><content type="html" xml:base="http://localhost:4000/blog/2024/09/10/welcome-to-jekyll/"><![CDATA[<p>You’ll find this post in your <code class="language-plaintext highlighter-rouge">_posts</code> directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run <code class="language-plaintext highlighter-rouge">jekyll serve</code>, which launches a web server and auto-regenerates your site when a file is updated.</p>
+
+<p>Jekyll requires blog post files to be named according to the following format:</p>
+
+<p><code class="language-plaintext highlighter-rouge">YEAR-MONTH-DAY-title.MARKUP</code></p>
+
+<p>Where <code class="language-plaintext highlighter-rouge">YEAR</code> is a four-digit number, <code class="language-plaintext highlighter-rouge">MONTH</code> and <code class="language-plaintext highlighter-rouge">DAY</code> are both two-digit numbers, and <code class="language-plaintext highlighter-rouge">MARKUP</code> is the file extension representing the format used in the file. After that, include the necessary front matter. Take a look at the source for this post to get an idea about how it works.</p>
+
+<p>Jekyll also offers powerful support for code snippets:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">print_hi</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
+  <span class="nb">puts</span> <span class="s2">"Hi, </span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2">"</span>
+<span class="k">end</span>
+<span class="n">print_hi</span><span class="p">(</span><span class="s1">'Tom'</span><span class="p">)</span>
+<span class="c1">#=&gt; prints 'Hi, Tom' to STDOUT.</span></code></pre></figure>
+
+<p>Check out the <a href="https://jekyllrb.com/docs/home">Jekyll docs</a> for more info on how to get the most out of Jekyll. File all bugs/feature requests at <a href="https://github.com/jekyll/jekyll">Jekyll’s GitHub repo</a>. If you have questions, you can ask them on <a href="https://talk.jekyllrb.com/">Jekyll Talk</a>.</p>]]></content><author><name>Gourab Dasgupta</name></author><category term="jekyll" /><category term="update" /><summary type="html"><![CDATA[You’ll find this post in your _posts directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run jekyll serve, which launches a web server and auto-regenerates your site when a file is updated.]]></summary></entry><entry><title type="html">Python challenge</title><link href="http://localhost:4000/blog/2024/09/10/day0/" rel="alternate" type="text/html" title="Python challenge" /><published>2024-09-10T00:00:00+05:30</published><updated>2024-09-10T00:00:00+05:30</updated><id>http://localhost:4000/blog/2024/09/10/day0</id><content type="html" xml:base="http://localhost:4000/blog/2024/09/10/day0/"><![CDATA[<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python challenge - Day 0</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="template-styles.css">
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #121212, #2a2a2a);
+            --text-color: #e0e0e0;
+            --accent-color: #3498db;
+            --accent-hover: #2980b9;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            font-size: 16px;
+        }
+
+        body {
+            background: var(--bg-gradient) fixed;
+            color: var(--text-color);
+            font-family: 'Roboto Mono', monospace;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+
+        header {
+            text-align: center;
+            padding: 2rem 1rem;
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            margin-bottom: 0.5rem;
+        }
+
+        .meta {
+            font-style: italic;
+            color: #bbb;
+            font-size: 0.9rem;
+        }
+
+        .content {
+            padding: 2rem;
+            background-color: rgba(255, 255, 255, 0.03);
+        }
+
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--accent-hover);
+            text-decoration: underline;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            margin: 1rem 0;
+        }
+
+        @media (max-width: 600px) {
+            html {
+                font-size: 14px;
+            }
+
+            body {
+                padding: 1rem;
+            }
+
+            header, .content {
+                padding: 1.5rem 1rem;
+            }
+        }
+    </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Python challenge - Day 0</h1>
+                <p class="meta">Published on Sep 09, 2024 at 02:06 AM</p>
+            </header>
+            <div class="content">
+                This is a journal / challenge for start studying python &amp; Django from scratch.<div>Link I will follow through the challenge:</div><div>* <a href="https://docs.python.org/2/tutorial/">Python</a></div><div>* <a href="https://www.geeksforgeeks.org/django-projects/">Django</a></div><div>Django I will start after completing 30 days in python and continue python parallelly as well.&nbsp;</div><div><i><b>Lets do this !!!&nbsp;</b></i></div><div><br></div>
+            </div>
+        </div>
+    </body>
+    </html>]]></content><author><name>Gourab Dasgupta</name></author><category term="jekyll" /><category term="update" /><summary type="html"><![CDATA[Python challenge - Day 0 :root { --bg-gradient: linear-gradient(135deg, #121212, #2a2a2a); --text-color: #e0e0e0; --accent-color: #3498db; --accent-hover: #2980b9; }]]></summary></entry><entry><title type="html">Python’s Evolution: A Journey Through Time</title><link href="http://localhost:4000/blog/2024/09/10/day1/" rel="alternate" type="text/html" title="Python’s Evolution: A Journey Through Time" /><published>2024-09-10T00:00:00+05:30</published><updated>2024-09-10T00:00:00+05:30</updated><id>http://localhost:4000/blog/2024/09/10/day1</id><content type="html" xml:base="http://localhost:4000/blog/2024/09/10/day1/"><![CDATA[<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4428530035708940"
+    crossorigin="anonymous"></script>
+    <title>Day 1 - Python's Evolution: A Journey Through Time</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    
+        <style>
+            :root {
+                --bg-gradient: linear-gradient(135deg, #121212, #2a2a2a);
+                --text-color: #e0e0e0;
+                --accent-color: #3498db;
+                --accent-hover: #2980b9;
+            }
+
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+
+            html {
+                font-size: 16px;
+            }
+
+            body {
+                background: var(--bg-gradient) fixed;
+                color: var(--text-color);
+                font-family: 'Roboto Mono', monospace;
+                line-height: 1.6;
+                min-height: 100vh;
+                padding: 2rem 1rem;
+            }
+
+            .container {
+                max-width: 800px;
+                margin: 0 auto;
+                background-color: rgba(255, 255, 255, 0.05);
+                border-radius: 10px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+                overflow: hidden;
+            }
+
+            header {
+                text-align: center;
+                padding: 2rem 1rem;
+                background-color: rgba(0, 0, 0, 0.2);
+            }
+
+            h1, h2, h3, h4, h5, h6 {
+                font-family: 'Orbitron', sans-serif;
+                letter-spacing: 1px;
+                line-height: 1.2;
+                margin-bottom: 1rem;
+            }
+
+            header h1 {
+                font-size: 2.5rem;
+                color: #fff;
+                text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+                margin-bottom: 0.5rem;
+            }
+
+            .meta {
+                font-style: italic;
+                color: #bbb;
+                font-size: 0.9rem;
+            }
+
+            .content {
+                padding: 2rem;
+                background-color: rgba(255, 255, 255, 0.03);
+            }
+
+            a {
+                color: var(--accent-color);
+                text-decoration: none;
+                transition: color 0.3s ease;
+            }
+
+            a:hover {
+                color: var(--accent-hover);
+                text-decoration: underline;
+            }
+
+            p {
+                margin-bottom: 1rem;
+            }
+
+            img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 5px;
+                margin: 1rem 0;
+            }
+
+            @media (max-width: 600px) {
+                html {
+                    font-size: 14px;
+                }
+
+                body {
+                    padding: 1rem;
+                }
+
+                header, .content {
+                    padding: 1.5rem 1rem;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Day 1 - Python's Evolution: A Journey Through Time</h1>
+                <p class="meta">Published on Sep 10, 2024 at 03:37 PM</p>
+            </header>
+            <div class="content">
+                In the late 1980s,&nbsp;<b>Guido Van Rossum</b> was working at&nbsp;<i>Centrum Wiskunde &amp; Informatica</i> (CWI). It started as a hobby project because he was looking for something to keep him occupied during the Christmas. As a successor to ABC capable of exception handling and interfacing with the Amoeba operating system, where Guido Van Rossum had already helped in building. ABC had few issues like:&nbsp;<div><b>1.</b> <b>Limited Extensibility : </b>ABC as a teaching language, was easy to use but wasn't very extensible. It lacked the features / ability to integrate or extend ith other programming languages making it not so good to solve more complex real-world tasks</div><div><b>2. No access to External Libraries: </b>ABC did not provide access to external libs or OS functionalities limiting it's tasks beyond basic educational purposes.</div><div><b>3. Closed Environment: </b>ABC had a monolithic and closed environment, which meant developers can't contribute or improve the language. Python, was designed to be open and flexible&nbsp;</div><div><b>4. performance issues: </b>ABC's performance was not optimized&nbsp;&nbsp;for larger projects. It was slow and inefficient for real-world software development needs</div><div><br></div><div>The inspiration for the name came from the BBC's TV Show "<b><i>Monty Python's Flying Circus</i></b>", as he was a big fan of the TV Show.&nbsp;</div><div><br></div><div>Python reached version 1.0 in January 1994. Some major new features included were functional programming tools like <b>lambda</b>, <b>map</b>, <b>filter</b> and <b>reduce. </b>By version 1.4, Python had acquired several new features, some where Modula-3 inspired keyword arguments, build-in support for complex numbers, basic form of data hiding by name mangling.</div><div><br></div><div><i><b>Python 2.0</b>&nbsp;&nbsp;</i>was released on <i>October 16, 2000</i> with many new features, for example cycle-detecting garbage collector as well as reference counting for <i>memory management </i>and also support for Unicode. The development was more transparent and community-based process</div><div><br></div><div><b>Python 3.0 </b>was a major backwards-incompatible release, which was released on December 3, 2008.&nbsp;</div><div><br></div><h2>Python’s Design Philosophy</h2><div>The Zen of Python is a collection of guiding principles for writing computer programs in Python, authored by Tim Peters. You can access it in Python by typing '&nbsp;<code><b><i>import this</i></b></code>&nbsp;'. The ZENs are:&nbsp;<br></div><div><br></div><div><li><strong>Beautiful is better than ugly.</strong></li><li><strong>Explicit is better than implicit.</strong></li><li><strong>Simple is better than complex.</strong></li><li><strong>Complex is better than complicated.</strong></li><li><strong>Flat is better than nested.</strong></li><li><strong>Sparse is better than dense.</strong></li><li><strong>Readability counts.</strong></li><li><strong>Special cases aren't special enough to break the rules.</strong></li><li><strong>Although practicality beats purity.</strong></li><li><strong>Errors should never pass silently.</strong></li><li><strong>Unless explicitly silenced.</strong></li><li><strong>In the face of ambiguity, refuse the temptation to guess.</strong></li><li><strong>There should be one-- and preferably only one --obvious way to do it.</strong></li><li><strong>Although that way may not be obvious at first unless you're Dutch.</strong></li><li><strong>Now is better than never.</strong></li><li><strong>Although never is often better than <em>right</em> now.</strong></li><li><strong>If the implementation is hard to explain, it's a bad idea.</strong></li><li><strong>If the implementation is easy to explain, it may be a good idea.</strong></li><li><strong>Namespaces are one honking great idea -- let's do more of those!</strong></li></div><div><br></div><div><h2>Conclusion</h2><p>Python's journey, from its humble beginnings as a hobby project during the late 1980s to one of the most widely used programming languages today, showcases its adaptability and focus on simplicity. Born out of the limitations of the ABC language, Python was made to be extensible, open, and efficient for real-world applications. Over the years, Python has evolved with the introduction of new features, while staying true to its core design philosophy, as encapsulated in the Zen of Python. Whether for web development, data science, automation, or education, Python continues to empower developers across the globe with its readability, versatility, and strong community support</p></div><div><br></div><div><br></div><div><i><a href="https://www.python.org/downloads/">Download Python (latest)</a></i></div>
+            </div>
+        </div>
+    </body>
+    </html>]]></content><author><name>Gourab Dasgupta</name></author><category term="jekyll" /><category term="update" /><summary type="html"><![CDATA[Day 1 - Python's Evolution: A Journey Through Time :root { --bg-gradient: linear-gradient(135deg, #121212, #2a2a2a); --text-color: #e0e0e0; --accent-color: #3498db; --accent-hover: #2980b9; }]]></summary></entry></feed>

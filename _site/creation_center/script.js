@@ -139,7 +139,6 @@ function saveContent(format) {
 
         .content {
             padding: 2rem;
-            color: #FFFFFF;
             background-color: rgba(255, 255, 255, 0.03);
         }
 
