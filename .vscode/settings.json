@@ -26,5 +26,30 @@
   // Run tasks in macOS
   "terminal.integrated.profiles.osx": {
     "zsh": { "path": "/bin/zsh", "args": ["-l", "-i"] }
-  }
+  },
+  "cSpell.words": [
+    "alexa",
+    "Alexa",
+    "avaters",
+    "backlink",
+    "blanklines",
+    "Dasg",
+    "Dasgupta",
+    "disqus",
+    "Disqus",
+    "giscus",
+    "Giscus",
+    "goatcounter",
+    "Gourab",
+    "gourabdg",
+    "knowledges",
+    "Kolkata",
+    "matomo",
+    "Matomo",
+    "purgecss",
+    "recognization",
+    "rollup",
+    "umami",
+    "Umami"
+  ]
 }
