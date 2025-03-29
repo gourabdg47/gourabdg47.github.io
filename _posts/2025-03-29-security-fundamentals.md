@@ -1,5 +1,5 @@
 ---
-title: Security Fundamentals 1.0
+title: Security Fundamentals
 author: gourabdg47
 date: 2025-03-29T19:33:00
 categories:
@@ -7,6 +7,7 @@ categories:
   - Security +
 tags:
   - writing
+  - reading
 render_with_liquid: true
 ---
 I am following [Udemy Jason Dion](https://www.udemy.com/course/securityplus/learn/lecture/40324620#overview)'s course for Security +
@@ -35,8 +36,17 @@ I am following [Udemy Jason Dion](https://www.udemy.com/course/securityplus/lear
 - Non-Repudiation : Guaranteeing that a specific action or event has taken place and can not be denied by the other party involved
 - AAA of Security : 
 	- Authentication : Process of verifying the identity of a user or system
-	- Authorization : Define what action or resources a user can access
+	- Authorization : Define what action or resources a user can access (maintain system integrity). Rules & Policies 
 	- Accounting : Act of tracking user activity and resource usage mainly for audit and billing purpose
+		- Transparency 
+		- Security 
+		- Accountability 
+		
+		* Accounting System : Audit trail, Regulatory Compliance, Forensic Analysis, Resource Optimization, User Accountability 
+		* Tech can be used : 
+			1. Syslog servers
+			2. Network analysis tools
+			3. SIEMs
 - Security Controls : Measures put in place to protect confidentiality, integrity & availability of information system and data
 	- Security Categories : 
 		1. Technical
@@ -50,6 +60,14 @@ I am following [Udemy Jason Dion](https://www.udemy.com/course/securityplus/lear
 		4. Deterrent
 		5. Corrective
 		6. Directive
+## Security Controls Matrix
+
+|Control Type|Preventive|Detective|Corrective|Deterrent|Compensating|Directive|
+|---|---|---|---|---|---|---|
+|**Technical**|• Firewall rules<br>• Encryption<br>• Antivirus|• IDS/IPS<br>• Log monitoring<br>• SIEM|• Patch management<br>• Automated remediation|• Warning messages<br>• System alerts|• Virtual patching<br>• Redundant systems|• Secure configuration guidelines|
+|**Managerial**|• Security policies<br>• Risk assessments<br>• Training programs|• Compliance reviews<br>• Audit procedures|• Incident response plans<br>• Corrective action policies|• Disciplinary actions<br>• Sanctions|• Exception management<br>• Risk acceptance procedures|• Written policies<br>• Documented procedures|
+|**Operational**|• Standard operating procedures<br>• Security awareness|• Incident reporting<br>• Manual inspections|• Troubleshooting<br>• Manual interventions|• Supervisory presence<br>• Access logging|• Temporary workaround procedures|• Guidance on secure practices<br>• Best practices documentation|
+|**Physical**|• Locks<br>• Biometric readers<br>• Physical barriers|• CCTV<br>• Motion sensors<br>• Alarms|• Fire suppression systems<br>• Repair of access points|• Signage<br>• Security lighting<br>• Visible security guards|• Extra locks<br>• Reinforced doors|• Instructional signage<br>• Emergency exit guidelines|
 
 - Zero Trust : Security model that operates on the principal that no one, whether inside, or outside the organization, should be trusted by default 
 	- Control plane
