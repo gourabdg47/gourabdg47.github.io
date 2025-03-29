@@ -9,7 +9,7 @@ tags:
   - writing
 render_with_liquid: true
 ---
-I am following [Udemy [Jason Dion](https://www.udemy.com/user/jason-dion/)'s course for Security +](https://www.udemy.com/course/securityplus/learn/lecture/40324620#overview)
+I am following [Udemy Jason Dion](https://www.udemy.com/course/securityplus/learn/lecture/40324620#overview)'s course for Security +
 
 ## Fundamentals of Security
 
