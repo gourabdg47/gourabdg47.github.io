@@ -40,7 +40,7 @@ I am following [Udemy Jason Dion](https://www.udemy.com/course/securityplus/lear
 	- Control plane
 	- Data plane
 
-TEST -- 
+
 
 > To get in touch with me or for general discussion please visit [ZeroDayMindset Discussion](https://github.com/orgs/X3N0-G0D/discussions) 
 {: .prompt-info }
