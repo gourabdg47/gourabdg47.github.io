@@ -1,5 +1,6 @@
 [
   "github-sync",
   "dataview",
-  "templater-obsidian"
+  "templater-obsidian",
+  "obsidian-style-settings"
 ]
