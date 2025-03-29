@@ -6,8 +6,8 @@ categories:
   - Information
   - Security +
 tags:
-  - writing
   - reading
+  - certification
 render_with_liquid: true
 ---
 I am following [Udemy Jason Dion](https://www.udemy.com/course/securityplus/learn/lecture/40324620#overview)'s course for Security +
@@ -62,18 +62,18 @@ I am following [Udemy Jason Dion](https://www.udemy.com/course/securityplus/lear
 		6. Directive
 ## Security Controls Matrix
 
-|Control Type|Preventive|Detective|Corrective|Deterrent|Compensating|Directive|
-|---|---|---|---|---|---|---|
-|**Technical**|• Firewall rules<br>• Encryption<br>• Antivirus|• IDS/IPS<br>• Log monitoring<br>• SIEM|• Patch management<br>• Automated remediation|• Warning messages<br>• System alerts|• Virtual patching<br>• Redundant systems|• Secure configuration guidelines|
-|**Managerial**|• Security policies<br>• Risk assessments<br>• Training programs|• Compliance reviews<br>• Audit procedures|• Incident response plans<br>• Corrective action policies|• Disciplinary actions<br>• Sanctions|• Exception management<br>• Risk acceptance procedures|• Written policies<br>• Documented procedures|
-|**Operational**|• Standard operating procedures<br>• Security awareness|• Incident reporting<br>• Manual inspections|• Troubleshooting<br>• Manual interventions|• Supervisory presence<br>• Access logging|• Temporary workaround procedures|• Guidance on secure practices<br>• Best practices documentation|
-|**Physical**|• Locks<br>• Biometric readers<br>• Physical barriers|• CCTV<br>• Motion sensors<br>• Alarms|• Fire suppression systems<br>• Repair of access points|• Signage<br>• Security lighting<br>• Visible security guards|• Extra locks<br>• Reinforced doors|• Instructional signage<br>• Emergency exit guidelines|
+| Control Type    | Preventive                                                       | Detective                                    | Corrective                                                | Deterrent                                                     | Compensating                                           | Directive                                                        |
+| --------------- | ---------------------------------------------------------------- | -------------------------------------------- | --------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------ | ---------------------------------------------------------------- |
+| **Technical**   | • Firewall rules<br>• Encryption<br>• Antivirus                  | • IDS/IPS<br>• Log monitoring<br>• SIEM      | • Patch management<br>• Automated remediation             | • Warning messages<br>• System alerts                         | • Virtual patching<br>• Redundant systems              | • Secure configuration guidelines                                |
+| **Managerial**  | • Security policies<br>• Risk assessments<br>• Training programs | • Compliance reviews<br>• Audit procedures   | • Incident response plans<br>• Corrective action policies | • Disciplinary actions<br>• Sanctions                         | • Exception management<br>• Risk acceptance procedures | • Written policies<br>• Documented procedures                    |
+| **Operational** | • Standard operating procedures<br>• Security awareness          | • Incident reporting<br>• Manual inspections | • Troubleshooting<br>• Manual interventions               | • Supervisory presence<br>• Access logging                    | • Temporary workaround procedures                      | • Guidance on secure practices<br>• Best practices documentation |
+| **Physical**    | • Locks<br>• Biometric readers<br>• Physical barriers            | • CCTV<br>• Motion sensors<br>• Alarms       | • Fire suppression systems<br>• Repair of access points   | • Signage<br>• Security lighting<br>• Visible security guards | • Extra locks<br>• Reinforced doors                    | • Instructional signage<br>• Emergency exit guidelines           |
 
 - **Zero Trust :** Zero Trust is not just another security buzzword—it's a paradigm shift that challenges the traditional "trust but verify" mindset. Instead of assuming that anyone inside your network is inherently trustworthy, Zero Trust flips the script: **never trust, always verify**. This means that whether a user or device is inside or outside your organization’s network, every access attempt must be authenticated, authorized, and continuously monitored.
 	### *The Two Essential Planes of Zero Trust*
 	Zero Trust architecture can be divided into two primary components:
 	
-	#### 1. **Control Plane**
+	1. **Control Plane**
 	
 	Think of the control plane as the brain of your security system. It’s where all the magic happens—from defining policies to making real-time decisions on who gets access. Here’s what it does:
 	
@@ -86,7 +86,7 @@ I am following [Udemy Jason Dion](https://www.udemy.com/course/securityplus/lear
 	- **Dynamic Adaptation:** The control plane isn’t static. It continuously learns from ongoing traffic and can adapt policies in real time to mitigate emerging threats or respond to unusual behavior.
 	    
 	
-	#### 2. **Data Plane**
+	 2. **Data Plane**
 	
 	If the control plane is the brain, then the data plane is the nervous system that actually carries  out the actions. It’s responsible for:
 	
@@ -102,6 +102,18 @@ I am following [Udemy Jason Dion](https://www.udemy.com/course/securityplus/lear
 	* Confirming the authenticity of digital transactions 
 	* Ensuring Integrity
 	* Providing Accountability
+- Gap Analysis : Process of evaluating the difference between an organizations current performance and it's desired performance
+	 **Steps of the analysis** :
+		1. Define the scope
+		2. Gather data on the current state of the organization
+		3. Analyze the data to identify the gaps 
+		4. Develop a plan to bridge the gap
+		
+	 **Types** : 
+		- Technical Gap Analysis
+		- Business Gap Analysis
+	
+	 **POA&M** : Plan of action Milestones, Outline the specific measures to address each vulnerability, allocate resources and setup timelines for each remediation task that is needed
 
 
 > To get in touch with me or for general discussion please visit [ZeroDayMindset Discussion](https://github.com/orgs/X3N0-G0D/discussions) 
