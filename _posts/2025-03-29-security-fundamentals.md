@@ -75,45 +75,80 @@ I am following [Udemy Jason Dion](https://www.udemy.com/course/securityplus/lear
 	
 	1. **Control Plane**
 	
-	Think of the control plane as the brain of your security system. It’s where all the magic happens—from defining policies to making real-time decisions on who gets access. Here’s what it does:
-	
-	- **Policy Management:** The control plane establishes and manages the security policies that dictate who or what is allowed to access your resources. It takes into account contextual data like user roles, device security posture, location, and time of access.
-	    
-	- **Identity Verification:** Every access request goes through rigorous identity checks. The control plane integrates with authentication systems (like multi-factor authentication or SSO) to confirm that users are who they claim to be.
-	    
-	- **Centralized Decision-Making:** When a request comes in, the control plane quickly evaluates it against the established policies. It decides whether the request should be permitted, flagged for additional scrutiny, or denied outright.
-	    
-	- **Dynamic Adaptation:** The control plane isn’t static. It continuously learns from ongoing traffic and can adapt policies in real time to mitigate emerging threats or respond to unusual behavior.
+		Think of the control plane as the brain of your security system. It’s where all the magic happens—from defining policies to making real-time decisions on who gets access. Here’s what it does:
+		
+		- **Policy Management:** The control plane establishes and manages the security policies that dictate who or what is allowed to access your resources. It takes into account contextual data like user roles, device security posture, location, and time of access.
+		    
+		- **Identity Verification:** Every access request goes through rigorous identity checks. The control plane integrates with authentication systems (like multi-factor authentication or SSO) to confirm that users are who they claim to be.
+		    
+		- **Centralized Decision-Making:** When a request comes in, the control plane quickly evaluates it against the established policies. It decides whether the request should be permitted, flagged for additional scrutiny, or denied outright.
+		    
+		- **Dynamic Adaptation:** The control plane isn’t static. It continuously learns from ongoing traffic and can adapt policies in real time to mitigate emerging threats or respond to unusual behavior.
 	    
 	
 	 2. **Data Plane**
 	
-	If the control plane is the brain, then the data plane is the nervous system that actually carries  out the actions. It’s responsible for:
-	
-	- **Traffic Management:** The data plane handles the flow of information. It routes data packets between users and resources, ensuring that only authenticated and authorized requests get through.
-	    
-	- **Policy Enforcement:** Once the control plane makes a decision, the data plane enforces it. For example, if access is denied, the data plane stops the data packets from reaching their destination.
-	    
-	- **Real-Time Monitoring:** It continuously monitors data flow for any signs of abnormal activity. This immediate, on-the-fly analysis is crucial for detecting breaches or potential threats as they happen.
-	    
-	- **Scalability:** The data plane is designed to manage large volumes of traffic efficiently, making sure that security measures don’t bottleneck your network performance.
+		If the control plane is the brain, then the data plane is the nervous system that actually carries  out the actions. It’s responsible for:
+		
+		- **Traffic Management:** The data plane handles the flow of information. It routes data packets between users and resources, ensuring that only authenticated and authorized requests get through.
+		    
+		- **Policy Enforcement:** Once the control plane makes a decision, the data plane enforces it. For example, if access is denied, the data plane stops the data packets from reaching their destination.
+		    
+		- **Real-Time Monitoring:** It continuously monitors data flow for any signs of abnormal activity. This immediate, on-the-fly analysis is crucial for detecting breaches or potential threats as they happen.
+		    
+		- **Scalability:** The data plane is designed to manage large volumes of traffic efficiently, making sure that security measures don’t bottleneck your network performance.
 	
 * Non-repudiation : Undeniable proof in the world in digital transactions (Digital Signatures)
 	* Confirming the authenticity of digital transactions 
 	* Ensuring Integrity
 	* Providing Accountability
-- Gap Analysis : Process of evaluating the difference between an organizations current performance and it's desired performance
-	 **Steps of the analysis** :
-		1. Define the scope
-		2. Gather data on the current state of the organization
-		3. Analyze the data to identify the gaps 
-		4. Develop a plan to bridge the gap
-		
-	 **Types** : 
-		- Technical Gap Analysis
-		- Business Gap Analysis
 	
-	 **POA&M** : Plan of action Milestones, Outline the specific measures to address each vulnerability, allocate resources and setup timelines for each remediation task that is needed
+* **Gap Analysis** : The process of evaluating the difference between an organization's current performance and its desired performance. This systematic approach helps organizations identify shortcomings in processes, systems, skills, or resources that prevent them from achieving optimal results.
+## Steps of the Analysis
+
+1. **Define the Scope**
+    - Clearly identify objectives and goals
+    - Establish performance metrics and benchmarks
+    - Determine which aspects of the organization to evaluate
+2. **Gather Data on the Current State**
+    - Collect relevant metrics and performance indicators
+    - Interview stakeholders and team members
+    - Review existing documentation and reports
+    - Observe current processes in action
+3. **Analyze the Data to Identify Gaps**
+    - Compare current performance against desired outcomes
+    - Quantify discrepancies where possible
+    - Prioritize gaps based on impact and strategic importance
+    - Identify root causes of performance shortfalls
+4. **Develop a Plan to Bridge the Gap**
+    - Create specific, actionable strategies to address each gap
+    - Assign responsibilities and allocate resources
+    - Establish realistic timelines for implementation
+    - Define success metrics to measure progress
+
+## Types of Gap Analysis
+
+### Technical Gap Analysis
+
+Focuses on evaluating technological capabilities, systems, infrastructure, and technical skills within an organization. This analysis identifies where technical capabilities fall short of requirements or industry standards.
+
+### Business Gap Analysis
+
+Examines broader organizational elements including business processes, market positioning, customer service, and operational efficiency. This analysis helps align business operations with strategic objectives.
+
+## POA&M (Plan of Action & Milestones)
+
+A POA&M is a structured document that outlines specific measures to address each identified vulnerability or gap. Key components include:
+
+- Detailed description of each gap or vulnerability
+- Specific remediation tasks and action items
+- Resource allocation (budget, personnel, tools)
+- Clearly defined timelines for completion
+- Assignment of responsibility for each task
+- Methods for tracking progress and measuring success
+- Regular review and update processes
+
+The POA&M serves as both a roadmap for implementation and an accountability tool to ensure that remediation efforts stay on track and achieve their intended outcomes.
 
 
 > To get in touch with me or for general discussion please visit [ZeroDayMindset Discussion](https://github.com/orgs/X3N0-G0D/discussions) 
