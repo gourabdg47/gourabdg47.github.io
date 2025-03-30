@@ -404,6 +404,178 @@ Key categories:
     
 4. **Attack Surface Reduction**: Disable unused services and segment networks.
 
+## What Are TTPs?
+
+- **Tactics**: The _goals_ of an attacker (e.g., gaining initial access, exfiltrating data).
+    
+- **Techniques**: The _methods_ used to achieve those goals (e.g., phishing, credential dumping).
+    
+- **Procedures**: The _step-by-step actions_ taken to execute techniques (e.g., specific malware code, exploit chains).
+
+#### **Real-World Examples with TTP Breakdowns**
+
+##### **1. SolarWinds Hack (2020)**
+
+**Threat Actor**: APT29 (Cozy Bear, Russian SVR)  
+**Objective**: Espionage and persistent access to U.S. government and corporate networks.
+
+- **Tactics**:
+    
+    - **Initial Access**: Compromise software supply chain.
+    - **Persistence**: Establish backdoor for long-term access.
+    - **Exfiltration**: Steal sensitive data.
+        
+- **Techniques**:
+    
+    - **Supply Chain Compromise**: Trojanized SolarWinds Orion software updates.
+    - **Credential Access**: Forged SAML tokens to bypass authentication.
+    - **Lateral Movement**: Used compromised credentials to pivot across networks.
+        
+- **Procedures**:
+    
+    - Injected malicious code (`SUNBURST` backdoor) into Orion’s update process.
+    - Used DNS tunneling to communicate with command-and-control (C2) servers.
+    - Masqueraded as legitimate traffic to avoid detection.
+        
+
+**Mitigation**:
+
+- Code signing for software updates.
+- Network segmentation and zero-trust architecture.
+    
+
+---
+
+##### **2. WannaCry Ransomware (2017)**
+
+**Threat Actor**: Lazarus Group (North Korea)  
+**Objective**: Financial gain via ransomware and disruption.
+
+- **Tactics**:
+    
+    - **Initial Access**: Exploit unpatched vulnerabilities.
+    - **Impact**: Encrypt data and demand ransom.
+        
+- **Techniques**:
+    
+    - **Exploitation of Public-Facing Apps**: EternalBlue SMBv1 exploit.
+    - **Data Encryption**: Ransomware payload (AES-128 encryption).
+    - **Command and Control**: Kill switch domain to halt propagation.
+        
+- **Procedures**:
+    
+    - Scanned for vulnerable Windows systems (port 445).
+    - Deployed ransomware via DoublePulsar backdoor.
+    - Demanded Bitcoin payments for decryption keys.
+        
+
+**Mitigation**:
+
+- Patch management (MS17-010).
+- Disable legacy protocols (SMBv1).
+    
+
+---
+
+##### **3. Twitter Bitcoin Scam (2020)**
+
+**Threat Actor**: Social engineering hackers  
+**Objective**: Financial fraud via hijacked accounts.
+
+- **Tactics**:
+    
+    - **Credential Access**: Phish employee credentials.
+    - **Privilege Escalation**: Abuse internal admin tools.
+        
+- **Techniques**:
+    
+    - **Spear Phishing**: Targeted Twitter employees via phone/email.
+    - **Internal Tool Abuse**: Used "Twitter Admin" panel to reset account passwords.
+        
+- **Procedures**:
+    
+    - Convinced employees via fake "IT department" calls to share credentials.
+    - Accessed internal Slack channels to find admin tool locations.
+    - Posted Bitcoin scam tweets from high-profile accounts (Elon Musk, Obama).
+        
+
+**Mitigation**:
+
+- Multi-factor authentication (MFA) for admin tools.
+- Employee security awareness training.
+    
+
+---
+
+##### **4. NotPetya (2017)**
+
+**Threat Actor**: Sandworm Team (Russian GRU)  
+**Objective**: Destructive cyberattack disguised as ransomware.
+
+- **Tactics**:
+    
+    - **Initial Access**: Compromise Ukrainian accounting software (M.E.Doc).
+    - **Impact**: Wipe data and disrupt critical infrastructure.
+        
+- **Techniques**:
+    
+    - **Supply Chain Compromise**: Trojanized M.E.Doc updates.
+    - **Credential Dumping**: Mimikatz tool to extract passwords.
+    - **Disk Wiping**: Overwrite Master Boot Record (MBR).
+        
+- **Procedures**:
+    
+    - Used EternalBlue exploit to spread laterally.
+    - Deployed fake ransomware payload (no decryption possible).
+    - Targeted Ukrainian businesses, but spread globally (Maersk, Merck).
+        
+**Mitigation**:
+
+- Air-gap critical systems.
+- Segment networks to limit lateral movement.
+    
+
+---
+
+##### **5. MOVEit Transfer Exploit (2023)**
+
+**Threat Actor**: Clop ransomware gang  
+**Objective**: Extortion via mass data theft.
+
+- **Tactics**:
+    
+    - **Initial Access**: Exploit zero-day in MOVEit file-transfer software.
+    - **Collection**: Steal sensitive data for double extortion.
+        
+- **Techniques**:
+    
+    - **SQL Injection**: Exploited CVE-2023-34362 to gain admin access.
+    - **Data Theft**: Downloaded files from compromised MOVEit instances.
+    - **Extortion**: Threatened to leak data unless ransom paid.
+        
+- **Procedures**:
+    
+    - Scanned for vulnerable MOVEit Transfer servers.
+    - Deployed web shells (e.g., `LemonDuck`) to maintain access.
+    - Exfiltrated data via HTTPS to avoid detection.
+        
+
+**Mitigation**:
+
+- Patch critical vulnerabilities immediately.
+- Monitor for unusual outbound traffic (data exfiltration).
+
+##### **Key Takeaways for Defenders**
+
+1. **Map to MITRE ATT&CK**: Use frameworks to identify TTPs in your environment.
+    
+2. **Behavioral Detection**: Focus on anomalous activities (e.g., credential dumping, lateral movement).
+    
+3. **Proactive Hunting**: Assume breach and look for Indicators of Compromise (IoCs).
+
+
+
+
 
 > To get in touch with me or for general discussion please visit [ZeroDayMindset Discussion](https://github.com/orgs/X3N0-G0D/discussions) 
 {: .prompt-info }
