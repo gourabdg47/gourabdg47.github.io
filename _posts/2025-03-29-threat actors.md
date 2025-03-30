@@ -24,7 +24,7 @@ An individual or entity responsible for incidents that impact security and data 
 **Description**: Government-sponsored groups conducting cyber espionage, sabotage, or warfare for political/military goals.  
 **Motivation**: Geopolitical advantage, intelligence gathering, or disruption of adversaries.
 
-#### Examples:
+###### Examples:
 
 - **Stuxnet (2010)**
     
@@ -58,7 +58,7 @@ An individual or entity responsible for incidents that impact security and data 
 **Description**: Profit-driven individuals or groups using ransomware, phishing, or fraud.  
 **Motivation**: Financial gain through extortion, data theft, or scams.
 
-#### Examples:
+###### Examples:
 
 - **WannaCry (2017)**
     
@@ -92,7 +92,7 @@ An individual or entity responsible for incidents that impact security and data 
 **Description**: Activists using cyberattacks to promote political/social causes.  
 **Motivation**: Ideological goals, such as exposing corruption or supporting social justice.
 
-#### Examples:
+###### Examples:
 
 - **Sony Pictures Hack (2014)**
     
@@ -118,7 +118,7 @@ An individual or entity responsible for incidents that impact security and data 
 **Description**: Employees or contractors who intentionally or accidentally harm an organization.  
 **Motivation**: Revenge, financial gain, or negligence.
 
-#### Examples:
+###### Examples:
 
 - **Edward Snowden Leaks (2013)**
     
@@ -144,7 +144,7 @@ An individual or entity responsible for incidents that impact security and data 
 **Description**: Sophisticated networks conducting large-scale fraud, data theft, or ransomware.  
 **Motivation**: Profit through illegal cyber operations.
 
-#### Examples:
+###### Examples:
 
 - **Target Data Breach (2013)**
     
@@ -170,7 +170,7 @@ An individual or entity responsible for incidents that impact security and data 
 **Description**: Unskilled attackers using pre-made tools for low-level attacks.  
 **Motivation**: Notoriety, curiosity, or minor disruption.
 
-#### Example:
+###### Example:
 
 - **Mirai Botnet (2016)**
     
