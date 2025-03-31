@@ -4,7 +4,7 @@ author: gourabdg47
 date: 2025-03-30T18:05:00
 categories:
   - Information
-  - Tech
+  - Cybersecurity
 tags:
   - reading
   - networking
