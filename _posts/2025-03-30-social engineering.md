@@ -87,7 +87,6 @@ Attack vectors evolve constantly, but these are the most prevalent:
 Social engineering thrives on human error. By recognizing red flags and fostering a culture of skepticism, individuals and organizations can significantly reduce their risk.  
 
 ---
----
 
 ### Case Study: The "IT Support" Pretexting Attack  
 **Scenario**: An attacker poses as a member of the company’s IT team, claiming to resolve a "critical system vulnerability." They pressure an employee to reveal their login credentials under the guise of urgent maintenance.  
