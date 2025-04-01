@@ -7,7 +7,7 @@ categories:
   - Security +
 tags:
   - reading
-  - certification
+  - case-study
 render_with_liquid: true
 ---
 # The Silent Heist: Anatomy of a Hypothetical Spear Phishing Campaign  
