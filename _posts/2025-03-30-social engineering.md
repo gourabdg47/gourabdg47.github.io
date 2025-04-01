@@ -1,7 +1,7 @@
 ---
 title: Social Engineering
 author: gourabdg47
-date: "{{date}} {{time}}"
+date: 2025-04-01 07:48
 categories:
   - Information
   - Security +
