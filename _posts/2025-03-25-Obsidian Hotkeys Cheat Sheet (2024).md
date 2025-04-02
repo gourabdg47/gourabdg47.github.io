@@ -45,22 +45,22 @@ render_with_liquid: false
 --- 
 #### **🚀 Why Use Obsidian?**
 
-##### **1. For Researchers & Writers**
+1. **For Researchers & Writers**
 
 - **Zettelkasten & Linking**: Build a **networked knowledge base** with `[[wikilinks]]`.
 - **Long-Term Usability**: Plain-text notes remain readable for decades.
 
-##### **2. For Developers & Techies**
+2. **For Developers & Techies**
 
 - **Git Integration**: Version control your notes like code.
 - **Custom Scripts**: Automate workflows with DataviewJS & Templater.
 
-##### **3. For Productivity Nerds**
+3. **For Productivity Nerds**
 
 - **Task Management**: Plugins like Tasks and Kanban turn notes into a productivity hub.
 - **Daily Notes & Journals**: Built-in templates for rapid logging.
 
-##### **4. For Privacy-Conscious Users**
+4. **For Privacy-Conscious Users**
 
 - **No forced cloud sync** (unlike Notion, Evernote).
 - **End-to-end encrypted sync** (paid feature).
