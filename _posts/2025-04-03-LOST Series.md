@@ -32,7 +32,7 @@ render_with_liquid: true
 - **Benjamin Linus** – A manipulative leader of "the Others."
 - **Desmond Hume** – A man trapped in a bunker who can see the future.
 
-Well that's out of the way lets see, right now I finished season 2, will start watching season 3 e1 but the thing is studying for an exam and watching series, I having conflicting dilemma. Well these shouldn't be any dilemma because its a simple thing, but we humans do have a tendency to bring drama, complication in life intentionally, Right ?
+Well that's out of the way lets see, right now I have finished season 2, will start watching season 3 e1 but the thing is studying for an exam and watching series, I am having some conflicting dilemma. Well these shouldn't be any dilemma because its a simple thing, but we humans do have a tendency to bring drama, complication in life intentionally, Right ?
 
 
 
