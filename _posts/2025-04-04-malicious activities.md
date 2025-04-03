@@ -83,7 +83,17 @@ _Prevention_: Using encrypted communications like TLS 1.3
 
 --- 
 ### Indicator of Compromise (IOC)
-
+Data pieces that detect potential malicious activity on a network or system. This a digital evidence that a security breach has occurred. 
+###### Indications
+1. Account lockouts
+2. Blocked content
+3. Resource consumption
+4. Out-of-cycle logging
+5. Missing logs
+6. Concurrent session usages
+7. Impossible travel
+8. Resource inaccessibility
+9. Article or documents on security breach
 
 
 
