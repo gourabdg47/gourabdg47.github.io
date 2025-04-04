@@ -12,8 +12,8 @@ render_with_liquid: true
 ---
 I am following [Jason Dion's Security+ course on Udemy](https://www.udemy.com/course/securityplus/learn/lecture/40324620#overview) to prepare for the CompTIA Security+ certification.
 
-## Risk Management
-Risk management is the fundamental process that involves identifying, analyzing, treating, monitoring, and reporting risks in an organization. Whether you’re a seasoned IT professional or just beginning your cybersecurity career, understanding risk management principles is essential. This guide is structured around the key topics covered in the Security+ syllabus and is filled with detailed insights, practical examples, and case studies to stimulate your thinking.
+# Risk Management
+**Risk management** is the fundamental process that involves identifying, analyzing, treating, monitoring, and reporting risks in an organization. Whether you’re a seasoned IT professional or just beginning your cybersecurity career, understanding risk management principles is essential.
 
 ---
 
