@@ -38,15 +38,9 @@ order: 4
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
 }
-/* Hover Effects */
-.terminal-link:hover {
-  box-shadow: 0 0 15px rgba(46, 204, 113, 0.4),
-              inset 0 0 20px rgba(46, 204, 113, 0.2);
-  animation: glitch 0.2s infinite;
-  background: transparent !important;
-}
+
 /* TV Static Effect on Hover */
-.terminal-link:hover::before {
+.terminal-container:hover::before {
   background: 
     linear-gradient(0deg, rgba(0, 0, 0, 0.1) 25%, 
     transparent 25%, transparent 50%, 
