@@ -17,14 +17,13 @@ order: 4
   border: none;
   outline: none;
   box-shadow: none;
-}
-
-.terminal-container {
+  
   font-family: 'Courier New', monospace;
   padding: 0;
   margin: 0;
-  background-color: transparent;
 }
+
+
 
 /* Blinking Cursor */
 .terminal-link::after {
@@ -38,9 +37,15 @@ order: 4
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
 }
-
+/* Hover Effects */
+.terminal-link:hover {
+  box-shadow: 0 0 15px rgba(46, 204, 113, 0.4),
+              inset 0 0 20px rgba(46, 204, 113, 0.2);
+  animation: glitch 0.2s infinite;
+  background: transparent !important;
+}
 /* TV Static Effect on Hover */
-.terminal-container:hover::before {
+.terminal-link:hover::before {
   background: 
     linear-gradient(0deg, rgba(0, 0, 0, 0.1) 25%, 
     transparent 25%, transparent 50%, 
@@ -64,11 +69,11 @@ order: 4
 .terminal-link span.coffee { color: #f1c40f; }
 </style>
 
-<div class="terminal-container">
-	<a href="https://www.buymeacoffee.com/gourabdg" class="terminal-link">
-	  <span class="command">root@h4x0r:~#</span> 
-	  <span class="path">cd ~/wallet</span>
-	  <span class="operator">&& ./</span>
-	  <span class="command">buy_me_coffee.sh &#8208;&#8208;fuel 🍵</span>
-	</a>
-</div>
+
+<a href="https://www.buymeacoffee.com/gourabdg" class="terminal-link">
+  <span class="command">root@h4x0r:~#</span> 
+  <span class="path">cd ~/wallet</span>
+  <span class="operator">&& ./</span>
+  <span class="command">buy_me_coffee.sh &#8208;&#8208;fuel 🍵</span>
+</a>
+
