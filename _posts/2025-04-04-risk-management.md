@@ -289,7 +289,7 @@ The migration was successful, with enhanced data security and operational effici
 
 
 > **Case Studies was created using ChatGPT** 
-> {: .prompt-info }
+{: .prompt-info }
 
 ---
 
