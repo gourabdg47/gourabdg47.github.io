@@ -75,5 +75,5 @@ order: 4
   <span class="command">root@h4x0r:~#</span> 
   <span class="path">cd ~/wallet</span>
   <span class="operator">&& ./</span>
-  <span class="command">buy_me_coffee.sh - -fuel 🍵</span>
+  <span class="command">buy_me_coffee.sh &hyphen;&hyphen;fuel 🍵</span>
 </a>
