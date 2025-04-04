@@ -5,4 +5,4 @@ order: 4
 ---
 
 Well not sure what to say but do check out my posts & stay tuned ... <br>
-If you wanna [Buy Me A Coffee](https://www.buymeacoffee.com/gourabdg) <-- Click me 🍻
+[>_ cd ~/wallet && ./buy_me_coffee.sh 🍵](https://www.buymeacoffee.com/gourabdg)
