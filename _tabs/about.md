@@ -65,6 +65,11 @@ order: 4
 .terminal-link span.operator { color: #e74c3c; }
 .terminal-link span.command { color: #2ecc71; }
 .terminal-link span.coffee { color: #f1c40f; }
+
+a.terminal-link {
+  text-decoration: none !important;
+}
+
 </style>
 
 
