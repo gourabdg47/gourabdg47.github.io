@@ -54,7 +54,17 @@ order: 4
   animation: glitch 0.2s infinite;
 }
 
-
+/* TV Static Effect on Hover */
+.terminal-link:hover::before {
+  background: 
+    linear-gradient(0deg, rgba(0, 0, 0, 0.1) 25%, 
+    transparent 25%, transparent 50%, 
+    rgba(0, 0, 0, 0.1) 50%, 
+    rgba(0, 0, 0, 0.1) 75%, 
+    transparent 75%),
+    url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAIklEQVQIW2NkQAKrVq36zwjjgzhhYWGMYAEYB8RmROaABADeOQ8CXl/xfgAAAABJRU5ErkJggg==');
+  background-size: 100% 4px, auto;
+}
 
 @keyframes glitch {
   0% { text-shadow: 1px 0 red, -1px 0 blue; }
@@ -75,5 +85,5 @@ order: 4
   <span class="command">root@h4x0r:~#</span> 
   <span class="path">cd ~/wallet</span>
   <span class="operator">&& ./</span>
-  <span class="command">buy_me_coffee.sh &hyphen;&hyphen;fuel 🍵</span>
+  <span class="command">buy_me_coffee.sh --fuel 🍵</span>
 </a>
