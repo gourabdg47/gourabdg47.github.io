@@ -39,11 +39,13 @@ order: 4
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
 }
-/* Hover Effects */
+
 .terminal-link:hover {
-  animation: glitch 0.2s infinite;
+  animation: glitch-text-only 0.2s infinite;
   background: transparent !important;
 }
+
+
 /* TV Static Effect on Hover */
 .terminal-link:hover::before {
   background: 
@@ -55,7 +57,13 @@ order: 4
     url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAIklEQVQIW2NkQAKrVq36zwjjgzhhYWGMYAEYB8RmROaABADeOQ8CXl/xfgAAAABJRU5ErkJggg==');
   background-size: 100% 4px, auto;
 }
-@keyframes glitch-text-only { 0% { text-shadow: 1px 0 red, -1px 0 blue; } 25% { text-shadow: -2px 0 blue, 2px 0 red; } 50% { text-shadow: 2px 0 red, -2px 0 blue; } 75% { text-shadow: -1px 0 blue, 1px 0 red; } 100% { text-shadow: 1px 0 red, -1px 0 blue; } }
+@keyframes glitch-text-only {
+  0% { text-shadow: 1px 0 red, -1px 0 blue; }
+  25% { text-shadow: -2px 0 blue, 2px 0 red; }
+  50% { text-shadow: 2px 0 red, -2px 0 blue; }
+  75% { text-shadow: -1px 0 blue, 1px 0 red; }
+  100% { text-shadow: 1px 0 red, -1px 0 blue; }
+}
 
 
 /* Command Syntax Coloring */
