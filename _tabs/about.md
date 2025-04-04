@@ -113,7 +113,20 @@ Well not sure what to say but do check out my posts & stay tuned ... <br>
   box-shadow: inset 0 0 10px rgba(46, 204, 113, 0.1);
 }
 
-
+/* CRT Screen Effect */
+.terminal-link::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    rgba(0, 255, 0, 0.02) 50%,
+    rgba(0, 0, 0, 0.05) 50%
+  );
+  pointer-events: none;
+}
 
 /* Blinking Cursor */
 .terminal-link::after {
@@ -167,5 +180,5 @@ Well not sure what to say but do check out my posts & stay tuned ... <br>
   <span class="command">root@h4x0r:~#</span> 
   <span class="path">cd ~/wallet</span>
   <span class="operator">&& ./</span>
-  <span class="command">buy_me_coffee.sh --fuel 🍵</span>
+  <span class="command">buy_me_coffee.sh - -fuel 🍵</span>
 </a>
