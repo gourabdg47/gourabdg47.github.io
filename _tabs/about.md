@@ -3,7 +3,7 @@
 icon: fas fa-info-circle
 order: 4
 ---
-/* Retro Hacker Theme - Transparent */
+
 .terminal-link {
   font-family: 'Courier New', monospace;
   color: #2ecc71 !important;
