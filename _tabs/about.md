@@ -23,7 +23,9 @@ order: 4
   margin: 0;
 }
 
-
+.content a:not(.img-link) {
+	border-bottom: 0px solid var(--link-underline-color);
+}
 
 /* Blinking Cursor */
 .terminal-link::after {
@@ -53,22 +55,14 @@ order: 4
     url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAIklEQVQIW2NkQAKrVq36zwjjgzhhYWGMYAEYB8RmROaABADeOQ8CXl/xfgAAAABJRU5ErkJggg==');
   background-size: 100% 4px, auto;
 }
-@keyframes glitch {
-  0% { text-shadow: 1px 0 red, -1px 0 blue; }
-  25% { text-shadow: -2px 0 blue, 2px 0 red; }
-  50% { transform: translateX(2px); }
-  75% { transform: translateX(-2px); }
-  100% { text-shadow: none; }
-}
+@keyframes glitch-text-only { 0% { text-shadow: 1px 0 red, -1px 0 blue; } 25% { text-shadow: -2px 0 blue, 2px 0 red; } 50% { text-shadow: 2px 0 red, -2px 0 blue; } 75% { text-shadow: -1px 0 blue, 1px 0 red; } 100% { text-shadow: 1px 0 red, -1px 0 blue; } }
+
+
 /* Command Syntax Coloring */
 .terminal-link span.path { color: #3498db; }
 .terminal-link span.operator { color: #e74c3c; }
 .terminal-link span.command { color: #2ecc71; }
 .terminal-link span.coffee { color: #f1c40f; }
-
-a.terminal-link {
-  text-decoration: none !important;
-}
 
 </style>
 
