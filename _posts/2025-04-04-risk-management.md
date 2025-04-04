@@ -66,7 +66,7 @@ Risk identification involves a systematic process to detect threats before they 
 - Recovery Time Objective (RTO)
 - Recovery Point Objective (RPO)
 - Mean Time to Repair (MTTR)
-- Mean Time to Failure (MTBF)
+- Mean Time Before Failure (MTBF)
 
 ### Key Metrics for Identification
 
