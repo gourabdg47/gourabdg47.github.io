@@ -64,6 +64,14 @@ order: 4
 .terminal-link span.command { color: #2ecc71; }
 .terminal-link span.coffee { color: #f1c40f; }
 
+.content a.terminal-link,
+a.terminal-link,
+.content a.terminal-link:hover,
+.terminal-link:hover {
+  border-bottom: none !important;
+  text-decoration: none !important;
+}
+
 </style>
 
 
