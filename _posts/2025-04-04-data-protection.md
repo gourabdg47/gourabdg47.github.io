@@ -16,13 +16,13 @@ I am following [Udemy Jason Dion](https://www.udemy.com/course/securityplus/lear
 The process of protecting/safeguarding important information from corruption, compromise or loss.
 ##### Data Classifications 
 Category based on the organization's value and the sensitivity of the information if it were to be disclosed
-1. **Sensitive Data**: Any information that can result in the loss of security or loss of advantage to a company if accessed by any unauthorized person
-2. **Confidential Data**: Contains items such as trade secrets, intellectual property data and source code that affect the business if disclosed
-3. **Public Data**: Has no impact on the company if released and is often posted in an open-source environment
-4. **Sensitive Data**: Has minimal impact if released (e.g. Organization's financial data)
-5. **Restricted Data**
-6. **Private Data**: Contains data that should only be used from within an organization (e.g. Salary data) 
-7. **Critical Data**: Contains valuable information (e.g. Credit card numbers)
+	1. **Sensitive Data**: Any information that can result in the loss of security or loss of advantage to a company if accessed by any unauthorized person
+	2. **Confidential Data**: Contains items such as trade secrets, intellectual property data and source code that affect the business if disclosed
+	3. **Public Data**: Has no impact on the company if released and is often posted in an open-source environment
+	4. **Sensitive Data**: Has minimal impact if released (e.g. Organization's financial data)
+	5. **Restricted Data**
+	6. **Private Data**: Contains data that should only be used from within an organization (e.g. Salary data) 
+	7. **Critical Data**: Contains valuable information (e.g. Credit card numbers)
 ##### Government Data Classifications
 1. **Unclassified**: Data can be released to the public under the Freedom of Information Act
 2. **Sensitive but unclassified**: Data that would not hurt national security if released but could impact those whose data was being used
@@ -31,12 +31,12 @@ Category based on the organization's value and the sensitivity of the informatio
 5. **Top Secret**: Data that would damage national security if disclosed
 ##### Data Ownerships
 This is the process of identifying the person responsible for the confidentiality, integrity, availability and privacy of the information assets 
-1. **Data Owners**: Senior executive role that has the responsibility for maintaining the confidentiality, integrity and availability of the information asset
-2. **Data Controller**: Entity that holds responsibility for deciding the purpose and methods of data storage, collection, usage and guaranteeing the legality of the processes 
-3. **Data Processors**: Group of individual hired by the data controller to help with tasks like collecting, storing or analyzing data
-4. **Data Stewards**: Focuses on the quality of the data and associated metadata 
-5. **Data Custodian**: Responsible in handling the management of the system on which data assets are stored. System admin
-6. **Data Privacy Officer**: Role that is responsible for the oversight of any kind of privacy-related data like PII, SPII, PHI
+	1. **Data Owners**: Senior executive role that has the responsibility for maintaining the confidentiality, integrity and availability of the information asset
+	2. **Data Controller**: Entity that holds responsibility for deciding the purpose and methods of data storage, collection, usage and guaranteeing the legality of the processes 
+	3. **Data Processors**: Group of individual hired by the data controller to help with tasks like collecting, storing or analyzing data
+	4. **Data Stewards**: Focuses on the quality of the data and associated metadata 
+	5. **Data Custodian**: Responsible in handling the management of the system on which data assets are stored. System admin
+	6. **Data Privacy Officer**: Role that is responsible for the oversight of any kind of privacy-related data like PII, SPII, PHI
 ##### Data States
 1. **Data at rest**: Referred to data stored in database, file systems or other storage systems.
 	__Encryption Methods__: 
