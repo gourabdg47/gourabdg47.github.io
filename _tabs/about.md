@@ -68,3 +68,98 @@ order: 4
   <span class="command">buy_me_coffee.sh &#8208;&#8208;fuel 🍵</span>
 </a>
 
+
+
+---
+<style>
+/* Terminal Button with Truly Transparent Background */
+body, html {
+  margin: 0;
+  padding: 0;
+  background-color: #0e0e0e; /* Very dark background to match */
+}
+
+.terminal-container {
+  font-family: 'Courier New', monospace;
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
+}
+
+.terminal-link {
+  display: inline-block;
+  color: #2ecc71;
+  text-decoration: none;
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+  text-shadow: 0 0 4px rgba(46, 204, 113, 0.5);
+  transition: all 0.3s;
+  background: transparent;
+  border: none;
+  outline: none;
+  box-shadow: none;
+}
+
+/* Command Line Text */
+.prompt {
+  color: #2ecc71;
+}
+
+.path {
+  color: #3498db;
+}
+
+.operator {
+  color: #e74c3c;
+}
+
+.command {
+  color: #2ecc71;
+}
+
+.arg {
+  color: #f1c40f;
+}
+
+/* Blinking Cursor */
+.cursor {
+  display: inline-block;
+  width: 10px;
+  height: 18px;
+  background: #2ecc71;
+  margin-left: 2px;
+  animation: blink 1s step-end infinite;
+  vertical-align: middle;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* Bottom Border Line */
+.terminal-line {
+  height: 1px;
+  background: linear-gradient(90deg, 
+    rgba(52, 152, 219, 0.2) 0%, 
+    rgba(46, 204, 113, 0.8) 50%, 
+    rgba(52, 152, 219, 0.2) 100%);
+  margin-top: 5px;
+}
+</style>
+
+<div class="terminal-container">
+  <a href="https://www.buymeacoffee.com/gourabdg" class="terminal-link">
+    <span class="prompt">root@h4x0r:~#</span> 
+    <span class="path">cd ~/wallet</span> 
+    <span class="operator">&amp;&amp;</span> 
+    <span class="operator">./</span>
+    <span class="command">buy_me_coffee.sh</span> 
+    <span class="arg">--fuel</span> 
+    <span class="arg">☕</span>
+    <span class="cursor"></span>
+  </a>
+  <div class="terminal-line"></div>
+</div>
+
