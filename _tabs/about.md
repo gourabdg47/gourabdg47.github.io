@@ -7,7 +7,7 @@ order: 4
 Well not sure what to say but do check out my posts & stay tuned ... <br>
 %%[>_ cd ~/wallet && ./buy_me_coffee.sh 🍵](https://www.buymeacoffee.com/gourabdg) %%
 
-%%<style>
+%% <style>
 .terminal-link {
   font-family: 'Courier New', monospace;
   color: #2ecc71 !important;
@@ -31,7 +31,7 @@ Well not sure what to say but do check out my posts & stay tuned ... <br>
   <span style="color:#3498db">cd ~/wallet</span> 
   <span style="color:#e74c3c">&&</span> 
   ./buy_me_coffee.sh ☕ 
-</a>%%
+</a> %%
 
 
 
