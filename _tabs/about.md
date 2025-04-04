@@ -18,7 +18,20 @@ order: 4
   box-shadow: inset 0 0 10px rgba(46, 204, 113, 0.1);
 }
 
-
+/* CRT Screen Effect */
+.terminal-link::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    rgba(0, 255, 0, 0.02) 50%,
+    rgba(0, 0, 0, 0.05) 50%
+  );
+  pointer-events: none;
+}
 
 /* Blinking Cursor */
 .terminal-link::after {
@@ -41,17 +54,7 @@ order: 4
   animation: glitch 0.2s infinite;
 }
 
-/* TV Static Effect on Hover */
-.terminal-link:hover::before {
-  background: 
-    linear-gradient(0deg, rgba(0, 0, 0, 0.1) 25%, 
-    transparent 25%, transparent 50%, 
-    rgba(0, 0, 0, 0.1) 50%, 
-    rgba(0, 0, 0, 0.1) 75%, 
-    transparent 75%),
-    url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAIklEQVQIW2NkQAKrVq36zwjjgzhhYWGMYAEYB8RmROaABADeOQ8CXl/xfgAAAABJRU5ErkJggg==');
-  background-size: 100% 4px, auto;
-}
+
 
 @keyframes glitch {
   0% { text-shadow: 1px 0 red, -1px 0 blue; }
