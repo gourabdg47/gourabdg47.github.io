@@ -3,7 +3,7 @@
 icon: fas fa-info-circle
 order: 4
 ---
-
+<style>
 .terminal-link {
   font-family: 'Courier New', monospace;
   color: #2ecc71 !important;
@@ -59,6 +59,7 @@ order: 4
 .terminal-link span.operator { color: #e74c3c; }
 .terminal-link span.command { color: #2ecc71; }
 .terminal-link span.coffee { color: #f1c40f; }
+</style>
 
 <a href="https://www.buymeacoffee.com/gourabdg" class="terminal-link">
   <span class="command">root@h4x0r:~#</span> 
