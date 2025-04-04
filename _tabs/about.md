@@ -9,7 +9,6 @@ order: 4
   font-family: 'Courier New', monospace;
   color: #2ecc71 !important;
   text-decoration: none;
-  border: 1px solid rgba(46, 204, 113, 0.3);
   padding: 8px 12px;
   position: relative;
   overflow: hidden;
