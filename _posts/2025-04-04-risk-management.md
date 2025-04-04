@@ -34,6 +34,23 @@ Risk management is a continuous cycle that helps organizations understand and mi
 
 Each of these steps forms a critical part of an organization's overall security posture.
 
+**Risk Register** (_Risk Law_): It is a key tool in risk management featuring key risk indicators, risk owners and risk thresholds. It can also be defined as a document detailing identified risks, including there description, impact likelihood and mitigation strategies. This is also called the heatmap risk matrix
+##### Key Areas
+- **Risk Description**
+- **Risk Impact**
+- **Risk Likelihood**
+- **Risk Outcome**
+- **Risk Appetite**
+	1. *Expansionary*
+	2. *Conservative*
+	3. *Neutral*: Balance between risk and return
+- **Risk Tolerance** 
+- **Risk Level**
+- **Cost** of each identified in the risk register
+
+**Key Risk Indicators**(KRIs): Evaluate the impact and the likelihood of risks
+**Risk Owner**: Person or group responsible for managing the risk
+
 ---
 
 ## 2. Risk Identification
@@ -45,7 +62,11 @@ Risk identification involves a systematic process to detect threats before they 
 - **Threat Landscape:** What types of threats (malware, insider threats, natural disasters) could affect these assets?
     
 - **Vulnerability Assessment:** What weaknesses exist within the current security controls?
-    
+##### Key Metrics
+- Recovery Time Objective (RTO)
+- Recovery Point Objective (RPO)
+- Mean Time to Repair (MTTR)
+- Mean Time to Failure (MTBF)
 
 ### Key Metrics for Identification
 
@@ -67,6 +88,7 @@ These metrics provide the benchmarks needed to evaluate both current risk exposu
 Risk analysis is performed to evaluate identified risks. It can be divided into two primary types:
 
 ### Qualitative Analysis
+A method of assessing risk based on there potential impact & likelihood of there occurrence
 
 - **Subjective Evaluation:** Uses expert judgment to determine the severity and likelihood of risks.
     
@@ -76,13 +98,19 @@ Risk analysis is performed to evaluate identified risks. It can be divided into 
     
 
 ### Quantitative Analysis
+This is more **Objective** & **Numerical** evaluation of risk
 
 - **Data-Driven Assessment:** Uses statistical models and numerical data to evaluate risk.
     
 - **Cost-Benefit Analysis:** Quantifies the financial impact of risks versus the cost of countermeasures.
     
 - **Probability Calculations:** Applies mathematical models (e.g., Annualized Loss Expectancy) to forecast potential losses.
-    
+
+##### Key Components
+- **Single Loss Expectancy** (SLE): Monetary value expected to be lost in an event
+- **Annualize Rate of Occurrence** (ARO): Estimated frequency with which a threat is expected to occur within a year
+- **Annualized Loss Expectancy** (ALE): SLE x ARO
+- **Exposure Factor** (EF): Portion of an asset that is lost in an event  
 
 By integrating both qualitative and quantitative methods, organizations can develop a more balanced understanding of their risk profile.
 
@@ -258,6 +286,10 @@ A healthcare provider decided to migrate patient data to a cloud service. This m
 
 **Outcome:**  
 The migration was successful, with enhanced data security and operational efficiency. The healthcare provider continues to refine its risk management strategy based on ongoing assessments and evolving threats.
+
+
+> **Case Studies was created using ChatGPT** 
+> {: .prompt-info }
 
 ---
 
