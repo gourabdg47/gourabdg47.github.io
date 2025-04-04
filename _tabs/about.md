@@ -39,8 +39,6 @@ order: 4
 }
 /* Hover Effects */
 .terminal-link:hover {
-  box-shadow: 0 0 15px rgba(46, 204, 113, 0.4),
-              inset 0 0 20px rgba(46, 204, 113, 0.2);
   animation: glitch 0.2s infinite;
   background: transparent !important;
 }
