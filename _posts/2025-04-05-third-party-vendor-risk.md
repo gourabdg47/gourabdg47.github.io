@@ -48,13 +48,14 @@ Process that organizations implement to evaluate the security, reliability and p
 - Penetration Testing 
 - Internal & External Audits
 ##### Basic Concepts 
+Basic Concepts of vendor selection 
 1. **Due Diligence**: 
 	- *Financial Stability*
 	- *Operational History*
 	- *Client Testimonies*
 	- *On-The-Ground Practices* 
 	- *Conflict of Interest*
-	
+
 2. **Vendor Questionaries**
 	Comprehensive Documents that potential vendors fill out to offer insights into the **operations**, **capabilities** & **compliance**
 	- *Data Redundancy Measures* 
