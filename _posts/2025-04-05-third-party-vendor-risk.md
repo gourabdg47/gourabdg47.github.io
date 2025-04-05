@@ -22,10 +22,10 @@ Potential **security risk** and **challenges** introduced by external entities e
 3. **Managed Service Providers** (MSP): Organizations that provide a ranged of technology service and supports to business and other clients 
 	Questions to ask ?
 	
-	1. Evaluate data security measures when we entrust our service providers to access our data
-	2. How can we ensure that the information they are getting actually maintains confidentiality & integrity ?
-	3. Are the managed service providers following cybersecurity protocols robust enough to protect all my data ?
-	4. In face of a security breach, would the service providers be well equipped to provide the necessary support & cooperation that I might need to conduct a full scale incident response or forensic investigation?  
+	- Evaluate data security measures when we entrust our service providers to access our data
+	- How can we ensure that the information they are getting actually maintains confidentiality & integrity ?
+	- Are the managed service providers following cybersecurity protocols robust enough to protect all my data ?
+	- In face of a security breach, would the service providers be well equipped to provide the necessary support & cooperation that I might need to conduct a full scale incident response or forensic investigation?  
 	 
 #### Supply Chain Attacks
 Attack that involves targeting the weaker link in the supply-chain to gain access to the primary target
