@@ -54,7 +54,8 @@ Process that organizations implement to evaluate the security, reliability and p
 	- *Client Testimonies*
 	- *On-The-Ground Practices* 
 	- *Conflict of Interest*
-2. Vendor Questionaries
+	
+2. **Vendor Questionaries**
 	Comprehensive Documents that potential vendors fill out to offer insights into the **operations**, **capabilities** & **compliance**
 	- *Data Redundancy Measures* 
 	- *Security Protocols* 
