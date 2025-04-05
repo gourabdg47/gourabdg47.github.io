@@ -61,6 +61,7 @@ Process that organizations implement to evaluate the security, reliability and p
 	- *Security Protocols* 
 	- *Uptime Guarantees* 
 	- *Disaster Recovery Plans*
+	
 **Rules Of Engagement**: Guidelines that dictates the guidelines between an organization and it's potential vendors 
 - Communication Protocols 
 - Data sharing policies
