@@ -261,6 +261,79 @@ Provide a framework for implementing security measures, ensuring that all aspect
         
     - **Relevance**: Ensures confidentiality and integrity of sensitive data (Domain: Cryptography).
 
+---
+### Procedures
+They are the lifeblood of any organization. It is a systematic sequence of actions or steps taken to achieve a specific outcome.
+OR
+Procedures are **step-by-step instructions** that operationalize policies and standards. They define _how_ to perform specific tasks securely and consistently, ensuring compliance with organizational and regulatory requirements.
+
+#### **Key Characteristics**:
+
+- **Actionable**: Provide clear, repeatable steps.
+- **Detailed**: Leave little room for ambiguity.
+- **Accountable**: Assign roles (e.g., IT staff, incident responders).
+    
+
+---
+Below are some common procedures:
+
+##### 1. Incident Response Procedures
+
+- **Definition**: Steps to detect, analyze, contain, eradicate, and recover from security incidents.
+    
+- **Example Use Case**:
+    
+    - _Phishing Attack_: Employees follow a procedure to report suspicious emails to the SOC. The SOC then isolates affected devices, analyzes the email headers, removes malicious links, and patches vulnerabilities.
+        
+##### 2. Backup and Recovery Procedures
+
+- **Definition**: Steps to create, store, and restore data backups.
+    
+- **Example Use Case**:
+    
+    - _Ransomware Attack_: IT staff follow a procedure to restore encrypted files from offline backups stored in a geographically separate location, ensuring minimal downtime.
+        
+##### 3. Access Control Provisioning
+
+- **Definition**: Steps to grant, modify, or revoke system access (e.g., onboarding/offboarding employees).
+    
+- **Example Use Case**:
+    
+    - _Employee Onboarding_: HR triggers a workflow to create a user account with role-based access (RBAC), ensuring the new hire only accesses resources needed for their job.
+        
+##### 4. Patch Management Procedures
+
+- **Definition**: Steps to test, approve, and deploy software updates.
+    
+- **Example Use Case**:
+    
+    - _Critical Vulnerability_: IT teams use automated tools to deploy patches to all endpoints after testing in a sandbox environment, with a rollback plan if issues arise.
+        
+##### 5. Physical Security Checks
+
+- **Definition**: Steps to inspect facilities for vulnerabilities (e.g., unauthorized access, environmental risks).
+    
+- **Example Use Case**:
+    
+    - _Data Center Audit_: Guards follow a nightly procedure to log entries/exits, check CCTV feeds, and verify server room door locks.
+        
+##### 6. Password Reset Procedures
+
+- **Definition**: Steps to securely reset compromised or forgotten passwords.
+    
+- **Example Use Case**:
+    
+    - _User Lockout_: Help desk verifies identity via MFA and a security question before resetting the password and enforcing a temporary 24-hour password.
+        
+##### 7. Risk Assessment Procedures
+
+- **Definition**: Steps to identify, analyze, and prioritize risks (e.g., vulnerability scans, penetration testing).
+    
+- **Example Use Case**:
+    
+    - _Third-Party Vendor Risk_: A bank conducts annual vulnerability scans on vendor systems and reviews compliance with contractual SLAs.
+
+
 
 ---
 
