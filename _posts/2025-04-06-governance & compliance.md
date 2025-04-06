@@ -334,7 +334,6 @@ Below are some common procedures:
     - _Third-Party Vendor Risk_: A bank conducts annual vulnerability scans on vendor systems and reviews compliance with contractual SLAs.
 
 
-
 ---
 
 > 💡 **Join the discussion**:  
