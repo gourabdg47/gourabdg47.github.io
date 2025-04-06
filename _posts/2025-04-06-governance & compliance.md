@@ -333,6 +333,27 @@ Below are some common procedures:
     
     - _Third-Party Vendor Risk_: A bank conducts annual vulnerability scans on vendor systems and reviews compliance with contractual SLAs.
 
+#### Playbooks
+A **playbook** is a predefined, step-by-step guide that outlines how to detect, respond to, and recover from specific security incidents or operational scenarios. Playbooks standardize responses to ensure consistency, efficiency, and compliance with organizational policies and regulatory frameworks (e.g., NIST, ISO 27001).
+##### Key Components of a Playbook
+
+1. **Objective**: The goal of the playbook (e.g., "Respond to a ransomware attack").
+    
+2. **Roles & Responsibilities**: Who does what (e.g., SOC analysts, IT teams, legal/compliance).
+    
+3. **Detection Steps**: How to identify the incident (e.g., alerts from SIEM, user reports).
+    
+4. **Containment Actions**: Isolate affected systems to prevent spread (e.g., disconnect from the network).
+    
+5. **Eradication Steps**: Remove threats (e.g., delete malware, patch vulnerabilities).
+    
+6. **Recovery Procedures**: Restore systems and data (e.g., use backups, validate integrity).
+    
+7. **Communication Plans**: Notify stakeholders (e.g., executives, customers, regulators).
+    
+8. **Post-Incident Review**: Document lessons learned and update defenses.
+
+
 
 ---
 
