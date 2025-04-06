@@ -974,6 +974,10 @@ render_with_liquid: true
     **Answer:** B  
     _Explanation: Residual risk—the risk remaining after mitigation—helps determine if further actions are necessary._
 
+> Used ChatGPT 
+{: .prompt-info}
+
+
 
 > 💡 **Join the discussion**:  
 > For questions or collaboration opportunities, visit our [ZeroDayMindset Discussion Board](https://github.com/orgs/X3N0-G0D/discussions)
