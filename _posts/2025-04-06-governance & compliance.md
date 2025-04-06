@@ -210,6 +210,59 @@ By integrating these elements, organizations can build resilient, adaptive, and 
 
 
 ---
+### Standards
+Provide a framework for implementing security measures, ensuring that all aspects of an organization's security posture are addressed.
+#### 1. Password Standards
+
+- **Definition**: Rules defining requirements for creating, managing, and protecting passwords (e.g., complexity, length, expiration, reuse).
+    
+- **Example Use Case**:
+    
+    - A company enforces password standards requiring employees to use 12-character passwords with a mix of uppercase letters, numbers, and symbols. Passwords expire every 90 days, and reuse of the last five passwords is blocked. Multi-factor authentication (MFA) is mandated for remote access.
+        
+    - **Relevance**: Mitigates brute-force attacks and credential stuffing (Domain: Identity and Access Management).
+        
+
+---
+
+#### 2. Access Control Standards
+
+- **Definition**: Guidelines for granting, managing, and revoking access to systems, data, or facilities (e.g., role-based access control (RBAC), least privilege).
+    
+- **Example Use Case**:
+    
+    - A hospital uses RBAC standards to ensure nurses can only access patient records in their department, while doctors have broader access. Temporary access is granted to contractors for specific projects and revoked afterward.
+        
+    - **Relevance**: Aligns with the principle of least privilege and prevents unauthorized access (Domain: Identity and Access Management).
+        
+
+---
+
+#### 3. Physical Security Standards
+
+- **Definition**: Protocols to protect physical assets (e.g., servers, offices, devices) from theft, tampering, or environmental hazards.
+    
+- **Example Use Case**:
+    
+    - A data center implements physical security standards such as biometric scanners for entry, CCTV surveillance, and locked server racks. Environmental controls (e.g., fire suppression, cooling systems) are maintained to prevent hardware damage.
+        
+    - **Relevance**: Addresses threats like theft, tailgating, and environmental risks (Domain: Architecture and Design).
+        
+
+---
+
+#### 4. Encryption Standards
+
+- **Definition**: Specifications for encrypting data at rest, in transit, and in use (e.g., AES-256 for data, TLS 1.3 for communications).
+    
+- **Example Use Case**:
+    
+    - A financial institution encrypts all customer transactions using TLS 1.3 to protect data in transit. Credit card details stored in databases are encrypted with AES-256, and keys are managed via a hardware security module (HSM).
+        
+    - **Relevance**: Ensures confidentiality and integrity of sensitive data (Domain: Cryptography).
+
+
+---
 
 > 💡 **Join the discussion**:  
 > For questions or collaboration opportunities, visit our [ZeroDayMindset Discussion Board](https://github.com/orgs/X3N0-G0D/discussions)
