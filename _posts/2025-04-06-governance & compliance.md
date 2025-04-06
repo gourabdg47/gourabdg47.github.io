@@ -406,6 +406,7 @@ A **playbook** is a predefined, step-by-step guide that outlines how to detect
     - **Data Residency**: Storing data within national borders (e.g., Russia’s data localization laws).
     - **Data Sovereignty**: Data subject to the laws of the country where it’s stored.
     - **Cross-Border Data Transfers**: Compliance with mechanisms like EU-US Privacy Shield.
+    
 ---
 
 ## Compliance
