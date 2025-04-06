@@ -87,7 +87,7 @@ Governance structures are the frameworks that define how decisions are made, aut
 ---
 ##### **Centralized Structures**
 
-- **Definition**: A hierarchy where decision-making authority rests with a single leader or small group (e.g., CEO, executive team).
+- **Definition**: A hierarchy where decision-making authority rests with a single leader or small group (e.g., CEO, executive team). Top-down
     
 - **Roles**:
     
@@ -107,7 +107,7 @@ Governance structures are the frameworks that define how decisions are made, aut
 ---
 ##### **Decentralized Structures**
 
-- **Definition**: Authority distributed across teams, departments, or regions (e.g., subsidiaries, autonomous units).
+- **Definition**: Authority distributed across teams, departments, or regions (e.g., subsidiaries, autonomous units). Bottom-up
     
 - **Roles**:
     
