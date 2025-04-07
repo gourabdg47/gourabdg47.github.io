@@ -1,7 +1,7 @@
 ---
 title: Mind Map of Security+ | Study Guide
 author: gourabdg47
-date: 2025-04-05 13:43
+date: 2025-04-07 13:43
 categories:
   - Information
   - Security +
