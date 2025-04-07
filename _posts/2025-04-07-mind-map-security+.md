@@ -12,7 +12,7 @@ render_with_liquid: true
 ---
 # Security+ Study Guide Mind Map
 
-# Cybersecurity Fundamentals
+## Cybersecurity Fundamentals
 
 ### CIA Triad  
 1. **Confidentiality**  
@@ -44,7 +44,7 @@ render_with_liquid: true
 
 ---
 
-# Vulnerabilities & Mitigations
+## Vulnerabilities & Mitigations
 
 ### Malware  
 - **Spyware**  
@@ -99,7 +99,7 @@ render_with_liquid: true
 
 ---
 
-# Cryptography
+## Cryptography
 
 ### Goals  
 1. **Confidentiality**  
