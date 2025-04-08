@@ -94,6 +94,15 @@ It is a systematic process of investigating and analyzing digital devices and da
 2. ***Repeatable Actions*** 
 3. ***Preservation of Evidence*** 
 
+---
+#### Data collection procedures 
+###### Steps 
+1. CPU Registry & Cache Memory : First collect data from anything that is highly volatile.
+2. System Memory (RAM) , Routing Tables, ARP Cache, Process Table, Temporary Swap files
+3. Data on persistent mass storage (HDD/SDD/Flash Drive)
+4. Remote Logging & Monitoring Data
+5. Physical Configuration & Network Topology
+6. Archival Media
 
 ---
 
