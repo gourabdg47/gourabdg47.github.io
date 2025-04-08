@@ -82,7 +82,17 @@ It is a systematic process of investigating and analyzing digital devices and da
 4. **Reporting** : Documenting the findings, processing and the methodologies used during a digital forensic investigation.
 
 **Legal Hold**: Formal notification that instructs employees to preserve all potential relevant electronic data, documents and records.
+- _Preservation Methods_:
+	1. Making backup copies
+	2. Isolating critical systems
+	3. Implementing access controls 
 
+**Electronic Discovery**: Process of identifying, collecting and producing electronically stored information during potential legal proceedings.
+
+##### Code of ethics
+1. ***Avoiding Bias***
+2. ***Repeatable Actions*** 
+3. ***Preservation of Evidence*** 
 
 
 ---
