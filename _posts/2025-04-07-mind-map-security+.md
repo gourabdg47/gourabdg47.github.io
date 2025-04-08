@@ -161,6 +161,44 @@ render_with_liquid: true
 
 ---
 
+## Access Control
+### Schemes
+1. **Discretionary Access Control (DAC)**
+2. **Mandatory Access Control (MAC)**
+	- **SELinux**
+	- **AppArmor**
+3. **Role-Based Access Control (RBAC)**
+4. **Attribute-Based Access Control (ABAC)**
+5. **Rule-Based Access Control (RnBAC)**
+
+### User Accounts
+1. **Provisioning**
+2. **Deprovisioning**
+3. **Privileged Access management (PAM)**
+4. **Generic Accounts**
+5. **Guest Accounts**
+6. **Service Accounts**
+7. **Shared Accounts**
+
+### Authentication
+1. Biometrics
+2. Passwords
+3. Multi-Factor Authentications (MFA)
+4. One-Time Passwords (OTP)
+5. Password less Authentication
+6. Kerberos
+7. RADIUS
+8. TACACS+
+9. SAML
+10. OAuth
+
+### Filesystem Permissions
+1. Linux
+2. Windows
+
+
+---
+
 > 💡 **Join the discussion**:  
 > For questions or collaboration opportunities, visit our [ZeroDayMindset Discussion Board](https://github.com/orgs/X3N0-G0D/discussions)
 {: .prompt-info }
