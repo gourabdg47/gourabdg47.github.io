@@ -211,7 +211,7 @@ MedSecure Hospital had implemented a robust cybersecurity program with a dedicat
 **MedSecure Hospital Cyber Incident Response: A NIST-Aligned Report**
 
 **Author:**  
-[Your Name], Incident Response Specialist
+[Zeroday Mindset](https://gourabdg47.github.io/), Incident Response Specialist
 
 **Date:**  
 April 08, 2025
