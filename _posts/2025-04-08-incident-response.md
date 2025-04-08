@@ -58,13 +58,32 @@ Method for finding hidden threats not caught by regular security monitoring. Thi
 	- *Are they insider threat, a hacktivist, a criminal organization or a nation-state APT ?*
 
 ---
-
 #### Root Cause Analysis
 A systematic process to identify the initial source of the incident and how to prevent if from occurring again.
 1. **Define the scope of the incident** 
 2. **Determine the casual relationships** 
 3. **Identify  an effective solution**
 4. **Implement & track the solution**
+
+---
+#### Digital  Forensic Procedures
+It is a systematic process of investigating and analyzing digital devices and data to uncover evidence for legal purpose, often in the context of criminal investigations or legal disputes.
+###### Phases:
+1. **Identification**: Ensuring the safety of the scene by preventing and evidence contamination and determining the scope of the evidence to be collected.
+2. **Collection**: Must have proper authorization before collecting the evidence. 
+	- *Following the order of volatility*: Sequence in which a data source should be collected and preserved based of there susceptibility to modification or loss
+		1.  **Collect data from system's memory**
+		2. **Capture data from system state**
+		3. **Collect data from storage devices** 
+		4. **Capture network traffic and logs** 
+		5. **Collect remotely stored or archived data**
+	- *Preserving the chain of custody*: This is documented and verifiable record that tracks the handling, transfer and preservation of digital evidence from the moment it's collected until itis presented in a court of law
+3. **Analysis**: Systematically scrutinizing the data to uncover relevant information, such as potential signs of criminal activities, hidden files, time stamps and user interactions
+4. **Reporting** : Documenting the findings, processing and the methodologies used during a digital forensic investigation.
+
+**Legal Hold**: Formal notification that instructs employees to preserve all potential relevant electronic data, documents and records.
+
+
 
 ---
 
