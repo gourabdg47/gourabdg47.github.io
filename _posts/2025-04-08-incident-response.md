@@ -10,7 +10,7 @@ tags:
   - certification
 render_with_liquid: true
 ---
-I am following [Jason Dion's Security+ course on Udemy](https://www.udemy.com/course/securityplus/learn/lecture/40324620#overview) to prepare for the CompTIA Security+ certification.
+̥I am following [Jason Dion's Security+ course on Udemy](https://www.udemy.com/course/securityplus/learn/lecture/40324620#overview) to prepare for the CompTIA Security+ certification.
 
 # **Incident Response**
 Outlines a structured approach to  **<span style="color:rgb(0, 176, 80)">Manage</span>** and **<span style="color:rgb(0, 176, 80)">Mitigate</span>** security incidents effectively
