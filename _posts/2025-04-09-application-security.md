@@ -17,10 +17,58 @@ This chapter covers
 2. Domain 4.0: Security Operations
 3. Domain 5.0: Security Program Management and Oversight
 
+---
 ### Software development life cycle 
 **SDLC** describes  the steps in a model for software development throughout its life. From idea to requirement gathering, analysis to design, coding, testing & rollout. Once the software is in production, it includes from user training, maintenance and decommissioning.
 
 <img src="https://raw.githubusercontent.com/gourabdg47/gourabdg47.github.io/refs/heads/main/assets/images/SDLC.png" alt="High-level SDLC view" width="500" title="High-level SDLC view" />
+
+#### Phases of SDLC
+1. **Planning** : Initial investigation into weather the effort should occur. Here we looks for alternative solutions and high-level cost for each solutions 
+2. **Requirements** : Getting customer input to determine the desired functionality and what improvements are required. Requirements may be ranked to determine which of them are the most critical to the success of the project. 
+3. **Design** : Design for functionality, architecture, integration points, dataflow, business process and other required design consideration.
+4. **Coding** : Development of the parts of the software, testing mainly unite testing (the testing of small components).
+5. **Testing** : Majority of the testing occurs outside the coding phase, like testing with the customers, others outside of the development team
+6. **Maintains**  : Making sure the software keeps on working as intended 
+
+---
+
+**DevOps** combines software development and IT operations with the goal of optimizing the SDLC. This is done by using collections of tools called toolchains to improve SDLC processes. The toolchain includes tools that assist with coding, building, testing, packaging, releasing, configuring monitoring software.
+#### The Role of Security Practitioners in DevSecOps 🔒
+
+In a **DevSecOps** model, security teams don’t just “check boxes” – they actively shape secure development workflows. Here’s what they do:
+##### Key Responsibilities 🛠️
+
+- **Threat Analysis**: Identify risks early in the development lifecycle.
+- **Communication**: Bridge gaps between developers, ops, and leadership.
+- **Planning & Testing**: Embed security into design and automate security checks.
+- **Feedback Loops**: Improve processes by sharing insights with teams.
+- **Continuous Improvement**: Update tools, policies, and training as threats evolve.
+
+##### Collaboration & Awareness 🤝
+
+- Understand the **organization’s risk tolerance** to prioritize effectively.
+- Stay synced with **DevSecOps workflows** (who’s doing what, and when).
+
+##### Integration with CI/CD Pipelines ⚙️
+
+DevSecOps thrives in automated environments:
+
+- **Automated Security Testing**: Scans for vulnerabilities during code commits.
+- **Tooling**:
+
+    - Configuration management (e.g., Ansible, Terraform).
+    - Dependency scanners (e.g., Snyk, OWASP).
+    - Patch management tools.
+
+##### Key Takeaways 💡
+Security in DevSecOps isn’t a gatekeeper – it’s a **continuous partner** that:
+
+1. Adapts to agile workflows.
+2. Balances speed with safety.
+3. Leverages automation to scale securely.
+
+---
 
 
 
