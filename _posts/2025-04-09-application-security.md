@@ -70,8 +70,74 @@ Security in DevSecOps isn’t a gatekeeper – it’s a **continuous partner**�
 
 ---
 
+#### Secure Designing & Coding
+Being part of a SDLC as a security professional is a significant opportunity to improve the security of the application.  During the gathering and designing phase, when the security can be build as a part of the requirements then design according to the requirements. 
+##### Secure Coding Practices: A Guide with OWASP 🔒
+
+###### **Why OWASP?**
+
+The **Open Worldwide Application Security Project (OWASP)** is a gold-standard resource for developers and security teams. It offers:
+
+- Community-driven standards, guides, and tools.
+- Up-to-date best practices for web application security.
+- Insights into evolving cyber threats.
+
+📌 _Tip_: OWASP’s Proactive Controls list is a must-read to stay ahead of risks !
+### OWASP’s Top 10 Proactive Controls
+
+1. **Define Security Requirements**  
+    Bake security into _every_ phase of development, not as an afterthought.
+    
+2. **Leverage Security Frameworks**  
+    Use trusted libraries (e.g., OAuth, Spring Security) to avoid reinventing the wheel.
+    
+3. **Secure Database Access**
+    
+    - Use prebuilt queries to block SQL injection.
+    - Restrict database permissions strictly.
+        
+4. **Encode & Escape Data**  
+    Sanitize inputs by stripping special characters (e.g., `<script>` becomes harmless).
+    
+5. **Validate All Inputs**  
+    Treat _all_ user-provided data as untrusted—filter rigorously.
+    
+6. **Implement Digital Identity**
+    
+    - Enforce MFA and secure password hashing.
+    - Manage sessions with timeouts and encryption.
+        
+7. **Enforce Access Controls**
+    
+    - Apply "deny by default" and the principle of **least privilege**.
+    - Audit permissions regularly.
+        
+8. **Protect Data Everywhere**  
+    Encrypt data _both_ in transit (HTTPS/TLS) and at rest (AES-256).
+    
+9. **Enable Logging & Monitoring**  
+    Track anomalies to detect breaches early and investigate incidents.
+    
+10. **Handle Errors Gracefully**
+    
+    - Never expose sensitive info in error messages.
+    - Test failure scenarios to ensure smooth recovery.
+        
+##### **Resources to Level Up**
+
+- 📜 [OWASP Proactive Controls](https://owasp.org/www-project-proactive-controls)
+- 🚀 [Secure Coding Quick Reference Guide](https://owasp.org/www-project-secure-coding-practices-quick-reference-guide)
+
+##### **Key Takeaway**
+
+OWASP’s guidelines aren’t just rules—they’re a **mindset shift**. By embedding these practices early, teams build security into their DNA, reducing risks without slowing innovation.
+
+---
 
 
+
+
+---
 
 > To get in touch with me or for general discussion please visit [ZeroDayMindset Discussion](https://github.com/orgs/X3N0-G0D/discussions) 
 {: .prompt-info }
