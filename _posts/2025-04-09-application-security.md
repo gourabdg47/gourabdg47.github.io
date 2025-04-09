@@ -151,13 +151,13 @@ Let's turn our attention to the motivating force behind putting these mechanisms
 #### SQL Injections Attacks
 Web apps often take user input (like search terms) and use it to build database queries. For example, an e-commerce site might process a search for **"orange tiger pillow"** like this :
 
-<pre><code>
+```SQL
 SELECT ItemName, ItemDescription, ItemPrice  
 FROM Products  
 WHERE ItemName LIKE '%orange%'  
 AND ItemName LIKE '%tiger%'  
 AND ItemName LIKE '%pillow%'; 
-</code></pre>  
+```  
 
 ##### What’s Happening Here?
 
@@ -167,19 +167,19 @@ AND ItemName LIKE '%pillow%';
 
 ##### Bypassing Security
 An attacker submits this search term :
-<pre><code>
+```SQL
 ' OR 1=1; --  
-</code></pre>  
+```
 
 The app naively converts this into :
 
-<pre><code>
+```SQL
 SELECT ItemName, ItemDescription, ItemPrice  
 FROM Products  
 WHERE ItemName LIKE '%' OR 1=1; --%'  
 AND ItemName LIKE '%tiger%'  
 AND ItemName LIKE '%pillow%';  
-</code></pre>  
+```
 
 
 
