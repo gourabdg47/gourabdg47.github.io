@@ -133,7 +133,36 @@ The **Open Worldwide Application Security Project (OWASP)** is a gold-standard
 OWASP’s guidelines aren’t just rules—they’re a **mindset shift**. By embedding these practices early, teams build security into their DNA, reducing risks without slowing innovation.
 
 ---
+### Injection Vulnerabilities: The Hacker’s Gateway
+Let's turn our attention to the motivating force behind putting these mechanisms in place: the vulnerabilities that attackers may exploit to undermine our security.
+**Injection flaws** rank among the _top attack vectors_ for breaching web applications. They let attackers inject malicious code into input fields, tricking servers into executing unintended commands—often with catastrophic results.
 
+#### Why It Matters
+
+- **Common Targets**: Login forms, search bars, APIs.
+- **Impact**: Data theft, system takeover, or backend server compromise.
+- **Examples**: SQL injection, OS command injection, LDAP injection.
+#### How Attackers Exploit Injections
+
+1. **Malicious Input**: Attackers submit code (e.g., SQL queries, shell commands) into vulnerable fields.
+2. **Server Deception**: The server processes the input as a legitimate command.
+3. **Execution**: The code runs on the server _or_ passes to downstream systems (e.g., databases).
+
+#### SQL Injections Attacks
+Web apps often take user input (like search terms) and use it to build database queries. For example, an e-commerce site might process a search for **"orange tiger pillow"** like this:
+```SQL
+SELECT ItemName, ItemDescription, ItemPrice  
+FROM Products  
+WHERE ItemName LIKE '%orange%'  
+  AND ItemName LIKE '%tiger%'  
+  AND ItemName LIKE '%pillow%';  
+```
+
+##### What’s Happening Here?
+
+1. The app breaks the search into keywords.
+2. It queries the database for items matching **all** terms.
+3. Results are returned to the user.
 
 
 
