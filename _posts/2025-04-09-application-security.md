@@ -20,7 +20,7 @@ This chapter covers
 ### Software development life cycle 
 **SDLC** describes  the steps in a model for software development throughout its life. From idea to requirement gathering, analysis to design, coding, testing & rollout. Once the software is in production, it includes from user training, maintenance and decommissioning.
 
-<img src="https://raw.githubusercontent.com/gourabdg47/gourabdg47.github.io/refs/heads/main/assets/images/SDLC.png" alt="SDLC" width="500" title="SDLC" />
+<img src="https://raw.githubusercontent.com/gourabdg47/gourabdg47.github.io/refs/heads/main/assets/images/SDLC.png" alt="High-level SDLC view" width="500" title="High-level SDLC view" />
 
 
 
