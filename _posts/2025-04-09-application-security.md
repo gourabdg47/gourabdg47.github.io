@@ -171,7 +171,15 @@ An attacker submits this search term :
 ' OR 1=1; --  
 </code></pre>  
 
+The app naively converts this into :
 
+<pre><code>
+SELECT ItemName, ItemDescription, ItemPrice  
+FROM Products  
+WHERE ItemName LIKE '%' OR 1=1; --%'  
+AND ItemName LIKE '%tiger%'  
+AND ItemName LIKE '%pillow%';  
+</code></pre>  
 
 
 
