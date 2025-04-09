@@ -149,7 +149,8 @@ Let's turn our attention to the motivating force behind putting these mechanisms
 3. **Execution**: The code runs on the server _or_ passes to downstream systems (e.g., databases).
 
 #### SQL Injections Attacks
-Web apps often take user input (like search terms) and use it to build database queries. For example, an e-commerce site might process a search for **"orange tiger pillow"** like this:
+Web apps often take user input (like search terms) and use it to build database queries. For example, an e-commerce site might process a search for **"orange tiger pillow"** like this :
+
 ```SQL
 SELECT ItemName, ItemDescription, ItemPrice  
 FROM Products  
@@ -163,6 +164,14 @@ WHERE ItemName LIKE '%orange%'
 1. The app breaks the search into keywords.
 2. It queries the database for items matching **all** terms.
 3. Results are returned to the user.
+
+##### Bypassing Security
+An attacker submits this search term :
+
+<pre><code>
+SELECT * FROM Products  
+WHERE Price > 100;  
+</code></pre>  
 
 
 
