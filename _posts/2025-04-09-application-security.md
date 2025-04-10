@@ -41,7 +41,6 @@ This chapter covers
 | Dynamic Testing         | Testing the application while it is running                      | After deployment / during execution   | Find runtime vulnerabilities                                      | DAST Tools (Burp Suite, OWASP ZAP, Acunetix, Nikto)                      |
 | Fuzzy Testing (Fuzzing) | Sending random, unexpected, or invalid data to crash the program | During or after development           | Find unknown vulnerabilities like crashes, memory corruption, RCE | AFL, Peach Fuzzer, Sulley, BooFuzz                                       |
 
-
 ---
 
 **DevOps** combines software development and IT operations with the goal of optimizing the SDLC. This is done by using collections of tools called toolchains to improve SDLC processes. The toolchain includes tools that assist with coding, building, testing, packaging, releasing, configuring monitoring software.
