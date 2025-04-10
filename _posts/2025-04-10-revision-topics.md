@@ -9,6 +9,7 @@ tags:
   - reading
   - certification
 render_with_liquid: true
+pin: "true"
 ---
 # **Revision Topics**
 
@@ -31,7 +32,13 @@ The chapter "**Risk Management & Privacy**" have something called " *different d
 #### From Security Governance and Compliance, different agreement types
 
 1. **Service-Level Agreements (SLA)** : Written contracts that specify the conditions of service that will be provided by the vendor and the remedies available to the customer if the vendor fails to meet the SLA. Covered issues such as **system availability**, **data durability**, and **response time**.
-2. 
+2. **Memorandum of agreement (MOA)** : This is a letter written to document aspects of a relationship. In simple term this is like a pre-contract where everyone involved agrees on certain terms, responsibilities, and rules before working together.
+3. **Master Service Agreement (MSA)** : This provides an umbrella contract for the work the vender does with an organization over an extended period of time. This agreement typically includes detailed security and privacy requirements 
+4. **Work Order (WO) / Statement of work (SOW)** : When an organization have a **MSA** with a vendor, they may create a **WO** or **SOW** for new project. The SOW outlines the specific services to be provided by the vendor, along with associated timelines and costs.
+5. **Non-Disclosure Agreement (NDA)** : This is an agreement used to protect sensitive information. NDA are crucial when sharing confidential data with the vendors and should be included in the vender agreements. 
+6. **Business Partner Agreement (BPA)** : It is an agreement outlining the terms of a partnership between two or more business entities.
+
+---
 
 
 
