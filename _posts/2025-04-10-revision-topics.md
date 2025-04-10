@@ -120,6 +120,9 @@ Harden systems by reducing attack surfaces and enhancing security settings:
 ---
 
 ##### Podcast of Security Controls & Security Operations 
+> AI Generated
+{: .prompt-info }
+
 
 <audio controls>
   <source src="https://github.com/gourabdg47/gourabdg47.github.io/raw/main/assets/audio_vids/Security_controls_Security_operations_podcast.wav" type="audio/wav">
