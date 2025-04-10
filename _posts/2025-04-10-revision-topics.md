@@ -48,7 +48,12 @@ The chapter "**Risk Management & Privacy**" have something called " *different d
 	3. **Advanced Encryption Standard (AES)** : This is a strong symmetric encryption algorithm and the successor to DES7 .... It is widely used in various applications, including wireless network security (WPA3), TLS, and file/disk encryption
 	
 **Key management**,  including secure creation, distribution, storage, destruction, recovery and  <span style="border-bottom: 1px dotted; cursor: help; font-weight: bold;" title="Escrow of secret keys refers to a system where a third party securely stores a protected copy of an encryption key">Escrow of secret keys</span> , is crucial for symmetric cryptography .  Key exchange is a significant challenge, with methods including offline distribution, public key encryption, and the Diffie-Hellman key exchange algorithm
-**Symmetric encryption** is *generally fast and efficient* for bulk encryption.  However,  it does not provide ***non-repudiation***
+**Symmetric encryption** is *generally fast and efficient* for bulk encryption.  However,  it does not provide 
+<span style="border-bottom: 1px dotted; cursor: help; font-weight: bold;" title="Non-Repudiation means that someone who performed an action cannot later deny having taken that action">Non-Repudiation</span> 
+
+
+
+
 
 
 
