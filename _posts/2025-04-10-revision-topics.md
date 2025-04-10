@@ -117,6 +117,14 @@ Harden systems by reducing attack surfaces and enhancing security settings:
 5. <span style="border-bottom: 1px dotted; cursor: help; font-weight: bold;" title="Mitigate the risk associated with exceptions made to a security policy">Compensating controls</span>
 6. <span style="border-bottom: 1px dotted; cursor: help; font-weight: bold;" title="inform employees and others what they should do to achieve security objectives. E.G. Policies and procedures">Directive controls</span>
 
+---
+
+##### Podcast of Security Controls & Security Operations 
+
+<audio controls>
+  <source src="https://github.com/gourabdg47/gourabdg47.github.io/raw/main/assets/audio_vids/CTI%20Resume.wav" type="audio/wav">
+  Your browser doesn’t support audio. [Download instead](https://github.com/gourabdg47/gourabdg47.github.io/raw/main/assets/audio_vids/CTI%20Resume.wav).
+</audio>
 
 
 ---
