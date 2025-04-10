@@ -51,7 +51,9 @@ The chapter "**Risk Management & Privacy**" have something called " *different d
 **Symmetric encryption** is *generally fast and efficient* for bulk encryption.  However,  it does not provide 
 <span style="border-bottom: 1px dotted; cursor: help; font-weight: bold;" title="Non-Repudiation means that someone who performed an action cannot later deny having taken that action">Non-Repudiation</span> 
 
+- **Asymmetric Key Algorithms** :  Also known as public key algorithms, these systems use two mathematically related keys for each user: a public key, which can be shared with anyone, and a private key, which is kept secret by the owner.
 
+**Asymmetric cryptography** solves the key exchange problem of symmetric cryptography as public keys can be freely shared. It also provides <span style="border-bottom: 1px dotted; cursor: help; font-weight: bold;" title="Authentication is the process of verifying the claimed identity of a subject. It ensures that the subject (typically a person, application, device, system, or organization) is who or what they claim to be">Authentication</span>  and <span style="border-bottom: 1px dotted; cursor: help; font-weight: bold;" title="Non-Repudiation means that someone who performed an action cannot later deny having taken that action">Non-Repudiation</span>  through the use of digital signatures.
 
 
 
