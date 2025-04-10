@@ -33,6 +33,17 @@ This chapter covers
 
 ---
 
+#### Static Testing vs Dynamic Testing vs Fuzzy Testing
+
+| Type                    | What is it?                                                      | When does it happen?                  | Goal                                                              | Tools Used                                                               |
+| ----------------------- | ---------------------------------------------------------------- | ------------------------------------- | ----------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| Static Testing          | Analyzing source code without running the program                | Before execution / during development | Find code-level vulnerabilities                                   | Static Code Analyzers (SonarQube, Checkmarx, Fortify, Bandit for Python) |
+| Dynamic Testing         | Testing the application while it is running                      | After deployment / during execution   | Find runtime vulnerabilities                                      | DAST Tools (Burp Suite, OWASP ZAP, Acunetix, Nikto)                      |
+| Fuzzy Testing (Fuzzing) | Sending random, unexpected, or invalid data to crash the program | During or after development           | Find unknown vulnerabilities like crashes, memory corruption, RCE | AFL, Peach Fuzzer, Sulley, BooFuzz                                       |
+
+
+---
+
 **DevOps** combines software development and IT operations with the goal of optimizing the SDLC. This is done by using collections of tools called toolchains to improve SDLC processes. The toolchain includes tools that assist with coding, building, testing, packaging, releasing, configuring monitoring software.
 #### The Role of Security Practitioners in DevSecOps 🔒
 
