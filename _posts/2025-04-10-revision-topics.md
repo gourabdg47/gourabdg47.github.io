@@ -122,7 +122,7 @@ Harden systems by reducing attack surfaces and enhancing security settings:
 ##### Podcast of Security Controls & Security Operations 
 
 <audio controls>
-  <source src="https://github.com/gourabdg47/gourabdg47.github.io/raw/main/assets/audio_vids/CTI%20Resume.wav" type="audio/wav">
+  <source src="https://github.com/gourabdg47/gourabdg47.github.io/raw/main/assets/audio_vids/Security_controls_Security_operations_podcast.wav" type="audio/wav">
   Your browser doesn’t support audio. [Download instead](https://github.com/gourabdg47/gourabdg47.github.io/raw/main/assets/audio_vids/CTI%20Resume.wav).
 </audio>
 
