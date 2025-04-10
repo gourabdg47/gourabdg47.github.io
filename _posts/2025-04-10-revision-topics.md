@@ -100,11 +100,22 @@ Harden systems by reducing attack surfaces and enhancing security settings:
 - **Default password changes**: Replace vendor defaults with strong, unique passwords.
 - **Removal of unnecessary software**: Uninstall unused applications/services to minimize vulnerabilities.
 
+---
 
+#### Security controls
+###### Categories 
+1. <span style="border-bottom: 1px dotted; cursor: help; font-weight: bold;" title="Enforce confidentiality, integrity, and availability in the digital space . Examples include firewall rules, access control lists (ACLs), intrusion prevention systems (IPS) and encryption">Technical Controls</span>
+2. <span style="border-bottom: 1px dotted; cursor: help; font-weight: bold;" title="Consist of the high-level plans and programs that direct the security efforts of an organization. They often involve risk assessment, security awareness training, and the development and implementation of security policies">Managerial Controls</span>
+3. <span style="border-bottom: 1px dotted; cursor: help; font-weight: bold;" title="Processes put in place to manage technology in a secure manner. Examples include user access reviews , log monitoring, and vulnerability management">Operational Controls</span>
+4. <span style="border-bottom: 1px dotted; cursor: help; font-weight: bold;" title="Tangible protection mechanisms designed to guard physical assets and access to them. Examples include biometric locks4 , access control vestibules, fencing, video surveillance , security guards, access badges, and lighting">Physical Controls </span>
 
-
-
-
+###### Security Control Types
+1. <span style="border-bottom: 1px dotted; cursor: help; font-weight: bold;" title="Aim to stop a security issue before it occurs2 . Firewalls and encryption are examples">Preventive controls</span>
+2. <span style="border-bottom: 1px dotted; cursor: help; font-weight: bold;" title="Seeks to prevent an attacker from attempting to violate security policies. E.G. Sign board, fence">Deterrent controls</span>
+3. <span style="border-bottom: 1px dotted; cursor: help; font-weight: bold;" title="Identify security events that have already occurred. E.G. Intrusion detection systems (IDS)">Detective controls</span>
+4. <span style="border-bottom: 1px dotted; cursor: help; font-weight: bold;" title="Remediate security issues that have already occurred. E.G. Restoring backups after a ransomware attack">Corrective controls</span>
+5. <span style="border-bottom: 1px dotted; cursor: help; font-weight: bold;" title="Mitigate the risk associated with exceptions made to a security policy">Compensating controls</span>
+6. <span style="border-bottom: 1px dotted; cursor: help; font-weight: bold;" title="inform employees and others what they should do to achieve security objectives. E.G. Policies and procedures">Directive controls</span>
 
 
 
