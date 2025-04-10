@@ -64,7 +64,41 @@ The chapter "**Risk Management & Privacy**" have something called " *different d
 - <span style="border-bottom: 1px dotted; cursor: help; font-weight: bold;" title="Symmetric encryption is generally faster and more suitable for encrypting large amounts of data, while asymmetric encryption is slower but offers advantages in key management and non-repudiation">Performance Requirements</span>
 - <span style="border-bottom: 1px dotted; cursor: help; font-weight: bold;" title="Organizations may be required to use specific cryptographic standards and algorithms to comply with regulations">Compliance and Standards</span>
 
+---
+#### Mitigation Techniques for Endpoints
 
+1. **Patching**
+
+	- Ensure operating systems and software are up to date to remove known vulnerabilities.
+	- Timely patching reduces the window of opportunity for exploits.
+	- Implement patch management processes to control and streamline updates.
+    
+2.  **Encryption**
+
+	- Encrypt data on endpoints (full disk or specific files) to prevent unauthorized access.
+	- Use tools like **Trusted Platform Modules (TPM)** and **Hardware Security Modules (HSM)** to manage encryption keys securely.
+    
+3. **Configuration Enforcement**
+
+	- Maintain secure baselines and enforce configurations to reduce vulnerabilities.
+	- Leverage tools like **Group Policy** (Windows) and **SELinux** (Linux) for policy enforcement.
+    
+4. **Decommissioning**
+	
+	- Sanitize or destroy data on retired systems.
+	- Securely handle hardware to prevent exposure of sensitive data.
+    
+##### Hardening Techniques
+
+Harden systems by reducing attack surfaces and enhancing security settings:
+
+- **Encryption**: (Already covered above, but also part of hardening).
+- **Installation of endpoint protection**: Deploy antivirus, antimalware, EDR, and XDR tools to detect, prevent, and remediate threats.
+- **Host-based firewall**: Enable firewalls on endpoints to filter traffic by applications, ports, protocols, and services.
+- **Host-based intrusion prevention system (HIPS)**: Monitor and block malicious endpoint activities.
+- **Disabling ports/protocols**: Close unnecessary ports and protocols; limit interactions to essential services.
+- **Default password changes**: Replace vendor defaults with strong, unique passwords.
+- **Removal of unnecessary software**: Uninstall unused applications/services to minimize vulnerabilities.
 
 
 
