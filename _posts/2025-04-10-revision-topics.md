@@ -55,6 +55,14 @@ The chapter "**Risk Management & Privacy**" have something called " *different d
 
 **Asymmetric cryptography** solves the key exchange problem of symmetric cryptography as public keys can be freely shared. It also provides <span style="border-bottom: 1px dotted; cursor: help; font-weight: bold;" title="Authentication is the process of verifying the claimed identity of a subject. It ensures that the subject (typically a person, application, device, system, or organization) is who or what they claim to be">Authentication</span>  and <span style="border-bottom: 1px dotted; cursor: help; font-weight: bold;" title="Non-Repudiation means that someone who performed an action cannot later deny having taken that action">Non-Repudiation</span>  through the use of digital signatures.
 
+#### Importance of Choosing Appropriate Cryptographic Solutions
+- <span style="border-bottom: 1px dotted; cursor: help; font-weight: bold;" title="You must choose a system that aligns with the specific security requirements, whether it's confidentiality, integrity, authentication, or non-repudiation">Meeting Security Goals</span>
+- <span style="border-bottom: 1px dotted; cursor: help; font-weight: bold;" title="Using weak or deprecated algorithms (like DES) can leave data vulnerable">Strength of the Algorithm</span>
+- <span style="border-bottom: 1px dotted; cursor: help; font-weight: bold;" title="Longer keys generally require more computational power to break">Key Length</span>
+- <span style="border-bottom: 1px dotted; cursor: help; font-weight: bold;" title="Even with a strong algorithm and long key, weak key management can compromise security. Secure creation, distribution, storage, and destruction of keys are crucial">Key Management Practices</span>
+- <span style="border-bottom: 1px dotted; cursor: help; font-weight: bold;" title="Understanding common attacks like downgrade attacks, collision attacks, brute-force attacks, and chosen plaintext attacks helps in selecting algorithms and configurations that offer better resistance">Resistance to Attacks</span>
+- <span style="border-bottom: 1px dotted; cursor: help; font-weight: bold;" title="Symmetric encryption is generally faster and more suitable for encrypting large amounts of data, while asymmetric encryption is slower but offers advantages in key management and non-repudiation">Performance Requirements</span>
+- <span style="border-bottom: 1px dotted; cursor: help; font-weight: bold;" title="Organizations may be required to use specific cryptographic standards and algorithms to comply with regulations">Compliance and Standards</span>
 
 
 
