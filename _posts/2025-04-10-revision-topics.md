@@ -13,8 +13,8 @@ render_with_liquid: true
 # **Revision Topics**
 
 So here's what happening, I doubt that I will pass the exam (CompTIA Security+). There are so many topics, I am getting confused. I will pickup some topics I think I am weak at and study them from different sources. 
-The chapter "**Risk Management & Privacy**" have something called " *different data roles* " .
-These roles helps to clarify responsibilities for **managing & protecting** data within an organization. 
+
+The chapter "**Risk Management & Privacy**" have something called " *different data roles* ". These roles helps to clarify responsibilities for **managing & protecting** data within an organization. 
 
 #### Different data roles outlined
 
