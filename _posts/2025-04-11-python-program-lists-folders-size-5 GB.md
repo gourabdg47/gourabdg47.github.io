@@ -18,7 +18,6 @@ render_with_liquid: true
 
   
 ```python
-5GB)">
 import os
 import sys
 from pathlib import Path
