@@ -4,10 +4,10 @@ author: gourabdg47
 date: 2025-04-09 13:53:00
 categories:
   - Blogging
-  - Journal
+  - Information
 tags:
-  - certification
-  - writing
+  - reading
+  - coding
 render_with_liquid: true
 ---
 
