@@ -3,8 +3,8 @@ title: Python program that scans your computer and lists all folders with size o
 author: gourabdg47
 date: 2025-04-09 13:53:00
 categories:
-  - Blogging
   - Information
+  - Code
 tags:
   - reading
   - coding
