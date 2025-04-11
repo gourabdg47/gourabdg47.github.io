@@ -10,9 +10,7 @@ tags:
   - coding
 render_with_liquid: true
 ---
-
-# Python program that scans your computer and lists all folders with size over 5 GB
-
+  
 > This code **60%** is AI generated. I needed this for my own purpose 
 {: .prompt-info }
 
