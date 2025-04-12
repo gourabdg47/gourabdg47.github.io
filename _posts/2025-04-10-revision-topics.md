@@ -165,6 +165,18 @@ Allows a response packet only if it matches a previously initiated and allowed c
   Your browser doesn’t support audio. [Download instead](https://github.com/gourabdg47/gourabdg47.github.io/raw/main/assets/audio_vids/CTI%20Resume.wav).
 </audio>
 
+---
+
+##### Practices 
+
+- Regulatory audit : A systematic examination of an organization's compliance with regulations 
+- Sender Policy Framework (SPF) : A framework to prevent e-mail spoofing 
+- Network Access Control (NAC) : A security solution that enforces policies on device accessing the network
+- Domain Based Message Authentication (DMARC) : Referring to **email authentication techniques** that verify if an email was genuinely sent from a domain it claims to come from
+- Domain Key Identified Main (DKIM) : It is an **email authentication method** that allows the receiver of an email to **verify that it was sent by an authorized mail server** and **was not altered in transit**
+- E-Discovery : The process of identifying, collecting and producing electronically stored information
+- Supervisory Control and Data Acquisition (SCADA) : It is a  control system architecture used to monitor and manage industrial processes. It combines hardware and software to collect real-time data from sensors and devices, process and analyze it, and provide operators with a graphical interface to supervise and control operations.
+ 
 
 ---
 
