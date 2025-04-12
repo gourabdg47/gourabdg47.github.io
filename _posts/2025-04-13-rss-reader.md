@@ -17,12 +17,15 @@ render_with_liquid: true
 
 #### Usage
 
-- pip install feedparser 
-- pip install html2text 
-- pip install markdown 
-- pip install tkinterweb 
-- python rss_feeder.py
+```python
+pip install feedparser 
+pip install html2text 
+pip install markdown 
+pip install tkinterweb 
 
+python rss_feeder.py
+
+```
 
 
 
