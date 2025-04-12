@@ -118,7 +118,6 @@ Harden systems by reducing attack surfaces and enhancing security settings:
 6. <span style="border-bottom: 1px dotted; cursor: help; font-weight: bold;" title="inform employees and others what they should do to achieve security objectives. E.G. Policies and procedures">Directive controls</span>
 
 ---
-
 #### Difference between stateful and stateless firewalls
 
 ###### Stateless Firewall
@@ -176,6 +175,11 @@ Allows a response packet only if it matches a previously initiated and allowed c
 - Domain Key Identified Main (DKIM) : It is an **email authentication method** that allows the receiver of an email to **verify that it was sent by an authorized mail server** and **was not altered in transit**
 - E-Discovery : The process of identifying, collecting and producing electronically stored information
 - Supervisory Control and Data Acquisition (SCADA) : It is a  control system architecture used to monitor and manage industrial processes. It combines hardware and software to collect real-time data from sensors and devices, process and analyze it, and provide operators with a graphical interface to supervise and control operations.
+- Deauthentication : Commonly associated with wireless network. This attack mostly cause loss of connectivity. 
+- Federation : Allows members of an organization to authenticate using credentials from another organization
+- Mean Time Before Failures (MTBF) : Prediction on how often a repairable system will fail
+- Recovery Time Objectives (RTO) : Objectives required to restore a particular service level
+- Mean Time To Restore (MTTR) : The amount of time requires to restore a component
  
 
 ---
