@@ -119,6 +119,44 @@ Harden systems by reducing attack surfaces and enhancing security settings:
 
 ---
 
+#### Difference between stateful and stateless firewalls
+
+###### Stateless Firewall
+A **stateless firewall** filters packets based only on predefined rules like IP address, port, or protocol **without keeping track of connection state**.
+
+**Key Characteristics:**
+
+- Examines **each packet individually**
+- Doesn't remember past traffic
+- Faster, but less secure
+- Commonly used for **simple packet filtering**
+    
+**Example Rule:**  
+Allow TCP traffic from IP `192.168.1.5` on port `80`.
+
+###### Stateful Firewall
+A **stateful firewall** tracks the **state of active connections** and makes decisions based on the context of traffic (e.g., whether a packet is part of an existing connection).
+
+**Key Characteristics:**
+
+- Maintains a **state table** (connection tracking)
+- Smarter, more secure
+- Can detect and block **unauthorized or suspicious traffic**
+- Used in **modern firewalls and enterprise setups**
+
+**Example Behavior:**  
+Allows a response packet only if it matches a previously initiated and allowed connection.
+
+
+| Feature            | Stateless Firewall        | Stateful Firewall            |
+| ------------------ | ------------------------- | ---------------------------- |
+| Tracks connections | ❌ No                      | ✅ Yes                        |
+| Performance        | ⚡ Faster                  | 🛡️ More resource-intensive  |
+| Security           | 🚧 Basic filtering only   | 🔒 Context-aware filtering   |
+| Use Case           | Simple, low-risk networks | Enterprise, complex networks |
+
+---
+
 #### Podcast of Security Controls & Security Operations  (AI Generated)
 
 
