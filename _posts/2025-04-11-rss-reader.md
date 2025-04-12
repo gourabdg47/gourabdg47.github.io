@@ -13,7 +13,7 @@ render_with_liquid: true
 ---
 
 
-  
+  **CODE** : [RSS READER GUI](https://raw.githubusercontent.com/gourabdg47/gourabdg47.github.io/refs/heads/main/assets/code/rss_reader.py)
 
 #### Usage
 
