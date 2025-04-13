@@ -185,6 +185,13 @@ Allows a response packet only if it matches a previously initiated and allowed c
 - Journaling : Writes data to a temporary journal before writing the information to the database. If power is lost, the system can recover the last transaction from the journal when power is restored.
 - Mobile Device Management (MDM) : A centralized management system for mobile device.
 - Corporately Owned and Personally Enabled (COPE) : Is commonly purchased by the corporation and allows the use of the mobile device for both business and personal use.
+- Escalation : Automation can recognize a security event and security related ticket to the incident response team without any additional human interaction.
+- Guard Rails : They are set by application developers to provide a set of automated validations to user input and behavior. 
+- 802.1X : A centralized authentication server, and this allows all users to use their corporate credentials during the login process.
+- Pre-Shared Key (PSK) : A wireless authentication configuration that allows each user on the network to connect using same key / password
+- Configuration enforcement : A posture assessment evaluates the configuration of a system to ensure all configurations and applications are up to date and secure as possible.
+- Discretionary Access Model : This models allows the owner of the resource to control who has access. 
+- Mandatory Access Control : Allows access to the resource based on the security level assigned to an object. Only users with object's assigned  security clearance or above can access. 
  
 
 ---
