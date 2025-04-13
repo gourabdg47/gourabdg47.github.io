@@ -192,6 +192,15 @@ Allows a response packet only if it matches a previously initiated and allowed c
 - Configuration enforcement : A posture assessment evaluates the configuration of a system to ensure all configurations and applications are up to date and secure as possible.
 - Discretionary Access Model : This models allows the owner of the resource to control who has access. 
 - Mandatory Access Control : Allows access to the resource based on the security level assigned to an object. Only users with object's assigned  security clearance or above can access. 
+- Supervisor Control and Data Acquisition (SCADA) : Is a data **`Hardning`** process for industrial system might include network segmentation, additional firewall and access control list.
+- Configuration enforcement : Many organizations will perform a posture assessment during the login process to verify the proper security controls are in place. If the device does not pass the assessment, the system can be quarantined and any missing security updates can then be installed.
+- Account lockout : In this example, there were no errors or notifications regarding the account or authentication status.
+- Decommissioning : The decommissioning process is often used to permanently remove devices from the network. In this example, the laptop mitigation would allow the device to return to the network once the updates were complete.
+- Sideloading : Sideloading describes the installation of software on a mobile device through the use of third-party operating systems or websites.
+- Compensating Security Control : This control does not prevent an attack but does restore from attack using other means 
+- Responsibility matrix : A cloud responsibility matrix is usually published by the provider to document the responsibilities for all cloud-based services.
+- Playbook : A playbook provides conditional steps to follow when managing an organization's processes and procedures.
+- Instant messaging : Instant messaging is commonly used as an attack vector, and one way to help protect against malicious links delivered by instant messaging is a host-based firewall.
  
 
 ---
