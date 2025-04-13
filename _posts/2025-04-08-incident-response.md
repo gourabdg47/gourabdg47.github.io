@@ -146,13 +146,9 @@ MedSecure Hospital had implemented a robust cybersecurity program with a dedicat
 - **Actions Taken:**
     
     - Established a dedicated Incident Response Team (IRT) with clear roles and responsibilities.
-        
     - Regular training sessions and simulated exercises were conducted to ensure preparedness.
-        
     - A comprehensive incident response plan was maintained and tested.
-        
     - Deployment of SIEM, forensic tools, and network monitoring systems.
-        
     - Scheduled backups were regularly verified and stored offsite.
         
 - **Outcome:**  
@@ -164,9 +160,7 @@ MedSecure Hospital had implemented a robust cybersecurity program with a dedicat
 - **Actions Taken:**
     
     - Continuous monitoring systems (SIEM) detected anomalous behavior (high network traffic and unusual file-access spikes).
-        
     - On-site technicians reported system performance issues.
-        
     - Initial indicators pointed to ransomware activity.
         
 - **Outcome:**  
@@ -178,9 +172,7 @@ MedSecure Hospital had implemented a robust cybersecurity program with a dedicat
 - **Actions Taken:**
     
     - Incident logs and forensic data were collected and reviewed.
-        
     - The IRT performed a threat analysis to determine the scope and impact.
-        
     - The attack was classified as high severity given its potential to disrupt patient services.
         
 - **Outcome:**  
@@ -192,9 +184,7 @@ MedSecure Hospital had implemented a robust cybersecurity program with a dedicat
 - **Actions Taken:**
     
     - Affected systems were immediately isolated by disconnecting them from the main network.
-        
     - Network segmentation was enforced to prevent the spread of the ransomware.
-        
     - Communication channels were established to coordinate containment efforts.
         
 - **Outcome:**  
@@ -206,9 +196,7 @@ MedSecure Hospital had implemented a robust cybersecurity program with a dedicat
 - **Actions Taken:**
     
     - The root cause—a vulnerability in the legacy imaging system—was identified.
-        
     - The vulnerability was patched, and compromised systems were scrubbed of ransomware.
-        
     - Compromised credentials were revoked and replaced.
         
 - **Outcome:**  
@@ -220,9 +208,7 @@ MedSecure Hospital had implemented a robust cybersecurity program with a dedicat
 - **Actions Taken:**
     
     - Affected servers were restored from secure backups.
-        
     - Systems underwent rigorous testing before reintegration.
-        
     - Normal operations resumed gradually, with continuous security monitoring in place.
         
 - **Outcome:**  
@@ -234,11 +220,8 @@ MedSecure Hospital had implemented a robust cybersecurity program with a dedicat
 - **Actions Taken:**
     
     - A “lessons learned” session was conducted to review the incident response process.
-        
     - Detailed reports documented the event, response actions, and recovery process.
-        
     - Security policies were updated to cover lessons learned, including improved patch management and enhanced staff training.
-        
     - Communication protocols were refined for future incidents.
         
 - **Outcome:**  
