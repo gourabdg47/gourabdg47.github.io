@@ -8,8 +8,9 @@ categories:
 tags:
   - reading
   - certification
+  - imp
 render_with_liquid: true
-pin: "true"
+pin: "false"
 ---
 # **Revision Topics**
 

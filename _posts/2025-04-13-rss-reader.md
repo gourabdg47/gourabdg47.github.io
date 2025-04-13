@@ -6,7 +6,6 @@ categories:
   - Information
   - Code
 tags:
-  - reading
   - coding
   - python
 render_with_liquid: true
