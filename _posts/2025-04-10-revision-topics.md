@@ -180,6 +180,10 @@ Allows a response packet only if it matches a previously initiated and allowed c
 - Mean Time Before Failures (MTBF) : Prediction on how often a repairable system will fail
 - Recovery Time Objectives (RTO) : Objectives required to restore a particular service level
 - Mean Time To Restore (MTTR) : The amount of time requires to restore a component
+- Segmenting : Segmenting the servers to their own protected network would allow for additional security controls while still maintaining the uptime and availability of the systems.
+- Journaling : Writes data to a temporary journal before writing the information to the database. If power is lost, the system can recover the last transaction from the journal when power is restored.
+- Mobile Device Management (MDM) : A centralized management system for mobile device.
+- Corporately Owned and Personally Enabled (COPE) : Is commonly purchased by the corporation and allows the use of the mobile device for both business and personal use.
  
 
 ---
