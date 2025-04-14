@@ -100,7 +100,7 @@ theme_mode: # [light | dark]
 cdn:
 
 # the avatar on sidebar, support local or CORS resources
-avatar: "assets/images/avaters/pp_stampos/pixnova-out-0 (8).jpg"
+avatar: "assets/images/avaters/pp_stampos/pixnova-out-0 (10).jpg"
 
 # The URL of the site-wide social preview image used in SEO `og:image` meta tag.
 # It can be overridden by a customized `page.image` in front matter.
