@@ -1,1 +1,1 @@
-Welcome to Zeroday Mindset ... Feel free to explore 
+Welcome to Zeroday Mindset ... Feel free to explore around 
