@@ -201,6 +201,19 @@ Allows a response packet only if it matches a previously initiated and allowed c
 - Responsibility matrix : A cloud responsibility matrix is usually published by the provider to document the responsibilities for all cloud-based services.
 - Playbook : A playbook provides conditional steps to follow when managing an organization's processes and procedures.
 - Instant messaging : Instant messaging is commonly used as an attack vector, and one way to help protect against malicious links delivered by instant messaging is a host-based firewall.
+- Web Application Firewall (WAF) : Protects against web application attacks like XSS, SQL Injection
+- Content Delivery Network (CDN) : Helps to distribute and absorb large volume of traffic (DDOS attack),  mitigating its impact  and keeping web server available to legitimate users.
+- Diffie-Hellman key exchange : Key exchange is a cryptographic protocol that allows two parties to securely exchange cryptographic keys over an unsecured communication channel
+- Cross-site request forgery (CSRF) : Exploits the trust that a web application has in the user's browser. It tricks the user into submitting a request, such as clicking a link or loading a page, that performs an action on a site where the user is authenticated.
+- Enable remote wipe : Allows the data on a mobile device to be erased remotely in case the device is lost or stolen, thus preventing unauthorized access to sensitive information.
+- Secure/Multipurpose Internet Mail Extensions (S/MIME) :  Provides end-to-end encryption for email messages.
+- Kerberos protocol : Kerberos is a network authentication protocol designed to provide strong authentication for user access to network services, often implemented as a single sign-on (SSO) system. It uses secret-key cryptography to authenticate users and services.
+- File Integrity Monitoring (FIM) :  Detects and reports unauthorized changes to critical files.
+- Public Key Infrastructure (PKI) : Provides a framework for managing digital certificates and encryption keys, ensuring secure communications.
+- **Hardware tokens generate OTPs** that do not rely on an internet connection, providing a reliable MFA method for remote employees with unreliable internet access.
+- Trusted Platform Module (TPM) :  Is a hardware component that provides secure generation and storage of cryptographic keys. It ensures that keys are stored securely and can only be accessed by authorized software.
+- **Steganography** : Hiding messages within other non-secret text or data to avoid detection.
+- **Obfuscation** : Makes data difficult to understand but does not hide it.
  
 
 So much is there, the thing is its not tough just that so much information ... I do love this subject and all the information ... But since I am changing my career at so late age, i believe that getting this cert might confirm my entry into cyber security field. Maybe its just a false hope, maybe it's the right step ... Time will answer the questions itself !!!
