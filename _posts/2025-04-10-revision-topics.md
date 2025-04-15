@@ -216,7 +216,7 @@ Allows a response packet only if it matches a previously initiated and allowed c
 - **Obfuscation** : Makes data difficult to understand but does not hide it.
  
 
-So much is there, the thing is its not tough just that so much information ... I do love this subject and all the information ... But since I am changing my career at so late age, i believe that getting this cert might confirm my entry into cyber security field. Maybe its just a false hope, maybe it's the right step ... Time will answer the questions itself !!!
+So much is there, the thing is its not tough just that so much information ... I do love this subject and all the information ... But since I am changing my career at so late age, i believe that getting this cert might confirm my entry into cyber security field. Maybe its just a false hope, maybe it's the right step ... Time will answer the questions  !!!
 
 ---
 
