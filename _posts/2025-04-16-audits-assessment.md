@@ -53,18 +53,13 @@ Systematic evaluations to verify adherence to security policies, regulations, an
 ###### b. External Audits
 
 - **Purpose & Types**  
-    Conducted by qualified third parties (e.g., QSAs, regulators, consulting firms) to validate compliance claims or certify against standards like PCI DSS, SOC 2, HIPAA, or GDPR [scytale](https://scytale.ai/resources/pci-dss-audit/?utm_source=chatgpt.com).
-    
+    Conducted by qualified third parties (e.g., QSAs, regulators, consulting firms) to validate compliance claims or certify against standards like PCI DSS, SOC 2, HIPAA, or GDPR .  [INFO SOURCE](https://scytale.ai/resources/pci-dss-audit/)
 - **Typical Process**
     
     1. **Engagement Letter & Scoping**: Define in‑scope systems, data flows, and control objectives.
-        
     2. **Gap Analysis**: Perform a preliminary assessment to identify compliance gaps.
-        
     3. **Control Testing**: Test technical and administrative controls (e.g., cardholder‑data encryption, access‑log reviews).
-        
     4. **Remediation Support**: Provide a roadmap to address gaps.
-        
     5. **Final Report & Attestation**: Issue a formal audit report and, if compliant, a certification letter.
         
 - **Live Example – PCI DSS Audit:**
