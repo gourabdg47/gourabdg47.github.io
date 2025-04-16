@@ -122,7 +122,7 @@ Gathering intelligence about the target.
     
     - Directly probing the target.
         
-    - Tools: **Nmap** (port scanning), **theHarvester** (email enumeration).
+    - Tools: **Nmap** (port scanning),  **theHarvester** (email enumeration).
         
     - Example: `nmap -sV 192.168.1.1` to identify open ports and services.
         
