@@ -17,218 +17,192 @@ render_with_liquid: true
 
 ---
 
-#### **Audits**
+## **Audits**
 
-Systematic evaluations to verify adherence to security policies, regulations, and best practices.
+_Systematic evaluations to verify adherence to security policies, regulations, and best practices._
 
-##### 1. Types of Audits
+### **1. Types of Audits**
 
-###### a. Internal Audits
+#### **A. Internal Audits**
 
-- **Purpose & Scope**  
-    Provide independent assurance to management and the board that risk is managed within the organization’s risk appetite. Scope typically includes IT governance, patch management, insider‑threat controls, and third‑party relationships .
-    
-- **Methodology**
-    
-    1. **Planning & Risk Assessment**: Define audit objectives, scope, and risk‑based criteria (e.g., high‑value systems, critical controls).
-        
-    2. **Fieldwork**: Test design and operating effectiveness of controls via interviews, walkthroughs, sample testing, and technical validation (e.g., verify patch‑management cycle against NIST SP 800‑40) .
-        
-    3. **Reporting**: Document findings with risk ratings (High/Medium/Low), root‑cause analysis, and remediation recommendations.
-        
-    4. **Follow‑Up**: Track management’s remediation actions until closure.
-        
-- **Framework Alignment**  
-    Use ISO 27001’s Annex A controls as an audit checklist—verifying policies (A.5), roles & responsibilities (A.6), access control (A.9), and operations security (A.12) 
+**Purpose & Scope**
+
+- Provides independent assurance to management that risks are managed within the organization’s risk appetite.
+- Covers IT governance, patch management, insider threats, and third-party relationships.
     
 
--  **Live Example – Patch Management Audit:**
+**Methodology**
 
-	1. **Identify**: Retrieve the organization’s patch policy and schedule.
-	2. **Sample**: Select 10 critical servers.
-	3. **Verify**: Check vulnerability‑scan reports to confirm the latest OS patches were applied within SLA.
-	4. **Interview**: Speak with the system administrator to understand deviation handling.
-	5. **Report**: Note any servers >30 days unpatched as High‑risk findings.
-
-###### b. External Audits
-
-- **Purpose & Types**  
-    Conducted by qualified third parties (e.g., QSAs, regulators, consulting firms) to validate compliance claims or certify against standards like PCI DSS, SOC 2, HIPAA, or GDPR .  [INFO SOURCE](https://scytale.ai/resources/pci-dss-audit/)
-- **Typical Process**
+1. **Planning & Risk Assessment**
     
-    1. **Engagement Letter & Scoping**: Define in‑scope systems, data flows, and control objectives.
-    2. **Gap Analysis**: Perform a preliminary assessment to identify compliance gaps.
-    3. **Control Testing**: Test technical and administrative controls (e.g., cardholder‑data encryption, access‑log reviews).
-    4. **Remediation Support**: Provide a roadmap to address gaps.
-    5. **Final Report & Attestation**: Issue a formal audit report and, if compliant, a certification letter.
+    - Define objectives, scope, and risk-based criteria (e.g., high-value systems).
         
-- **Live Example – PCI DSS Audit:**
+2. **Fieldwork**
     
-    - **Gap Analysis**: Inventory all card‑holder data repositories.
-    - **Testing**: Confirm encryption of data in transit and at rest; sample firewall rulesets to verify segmentation.
-    - **Evidence**: Collect network diagrams, configuration files, and policy documents.
-    - **Outcome**: QSA issues a Report on Compliance (RoC) and Attestation of Compliance (AoC)
+    - Test controls via interviews, walkthroughs, and technical validation (e.g., patch management against NIST SP 800-40).
+        
+3. **Reporting**
+    
+    - Document findings with risk ratings (High/Medium/Low) and remediation recommendations.
+        
+4. **Follow-Up**
+    
+    - Track remediation until closure.
+
+**Framework Alignment**
+
+- Align with ISO 27001 Annex A (e.g., access control, operations security).
+    
+**Live Example – Patch Management Audit**
+
+1. **Identify**: Review patch policy and schedule.
+2. **Sample**: Select 10 critical servers.
+3. **Verify**: Confirm patches applied within SLA using vulnerability scans.
+4. **Interview**: Discuss deviations with system admins.
+5. **Report**: Flag unpatched servers (>30 days) as High-risk.
+    
 
 ---
 
-### **Identifying Security Gaps**
+#### **B. External Audits**
 
-Weaknesses in three key areas:
+**Purpose & Types**
 
-1. **Policies**
+- Conducted by third parties (e.g., QSAs) for compliance (PCI DSS, SOC 2, HIPAA, GDPR).
     
-    - Example: Lack of an incident response plan for ransomware attacks.
-        
-2. **Procedures**
+- **[Reference: PCI DSS Audit Process](https://scytale.ai/resources/pci-dss-audit/)**
     
-    - Example: Employees sharing passwords via unencrypted email.
-        
-3. **Controls**
-    
-    - Example: Missing multi-factor authentication (MFA) for privileged accounts.
-        
 
-**Real-World Gap**: The 2017 Equifax breach occurred due to unpatched Apache Struts (a **control gap**).
+**Typical Process**
+
+1. **Engagement & Scoping**: Define systems, data flows, and controls.
+2. **Gap Analysis**: Identify compliance gaps.
+3. **Control Testing**: Validate encryption, access logs, etc.
+4. **Remediation Support**: Provide a fix roadmap.
+5. **Final Report**: Issue certification (e.g., PCI DSS RoC).
+    
+
+**Live Example – PCI DSS Audit**
+
+- **Gap Analysis**: Inventory cardholder data repositories.
+- **Testing**: Verify encryption (in transit/at rest) and firewall rules.
+- **Evidence**: Collect network diagrams, config files, and policies.
+- **Outcome**: QSA issues Report on Compliance (RoC).
+    
 
 ---
 
-### **Internal Processes**
+## **Identifying Security Gaps**
 
-Focus on aligning workflows with security frameworks:
+_Weaknesses in policies, procedures, or controls:_
 
-- **Processes**: How tasks are executed (e.g., patch management cycles).
-- **Controls**: Safeguards like firewalls, access controls, and encryption.
-- **Compliance**: Meeting standards like HIPAA, NIST CSF, or SOC 2.
+1. **Policies**: Missing incident response plan for ransomware.
+2. **Procedures**: Password sharing via unencrypted email.
+3. **Controls**: No MFA for privileged accounts.
+    
+- **Real-World Example**: Equifax breach (unpatched Apache Struts).
     
 ---
 
-### **Penetration Testing**
+## **Internal Processes**
 
-Simulating real-world attacks to exploit vulnerabilities. Follows a structured **5-phase approach**:
+- **Processes**: Patch management cycles, access reviews.
+- **Controls**: Firewalls, encryption, MFA.
+- **Compliance**: HIPAA, NIST CSF, SOC 2.
+
+---
+
+## **Penetration Testing**
+
+_Simulating attacks to exploit vulnerabilities._
+
+### **Types of Penetration Testing**
+
+#### **1. Physical Penetration Testing**
+
+- **Focus**: Locks, sensors, guards.
+- **Methods**: Tailgating, RFID bypass, dumpster diving.
+- **Use Case**: Data centers, corporate offices.
+
+#### **2. Offensive Penetration Testing**
+
+- **Focus**: Exploiting misconfigurations, weak credentials.
+- **Tools**: Metasploit, Burp Suite.
+- **Use Case**: Banks, tech firms.
+    
+#### **3. Defensive Penetration Testing**
+
+- **Focus**: SOC detection/response.
+- **Methods**: Purple teaming, SIEM monitoring.
+- **Use Case**: Mature security teams.
+    
+#### **4. Integrated Penetration Testing**
+
+- **Focus**: Holistic assessment (phishing + network + physical).
+- **Framework**: MITRE ATT&CK.
+- **Use Case**: ISO 27001/NIST compliance.
+
+---
+
+### **5-Phase Penetration Testing Approach**
 
 #### **1. Reconnaissance**
 
-Gathering intelligence about the target.
-
-- **Passive Reconnaissance**:
-    
-    - No direct interaction with the target.
-        
-    - Tools: **WHOIS lookup**, **Shodan** (searching exposed devices), social media (e.g., LinkedIn for employee names).
-        
-    - Example: Finding an outdated WordPress version via BuiltWith.
-        
-- **Active Reconnaissance**:
-    
-    - Directly probing the target.
-        
-    - Tools: **Nmap** (port scanning),  **theHarvester** (email enumeration).
-        
-    - Example: `nmap -sV 192.168.1.1` to identify open ports and services.
-        
+- **Passive**: WHOIS, Shodan, social media.
+- **Active**: Nmap (`nmap -sV 192.168.1.1`), theHarvester.
 
 #### **2. Scanning & Vulnerability Analysis**
 
-Identifying weaknesses in systems/applications.
-
-- Tools: **Nessus**, **OpenVAS**, **Nikto** (web server scans).
-    
-- Example: Using Nessus to detect a missing MS17-010 patch (EternalBlue vulnerability).
-    
+- **Tools**: Nessus, OpenVAS,  Nikto.
+- **Example**: Detecting unpatched MS17-010 (EternalBlue).
 
 #### **3. Exploitation**
 
-Launching attacks to breach systems.
-
-- **Known Environment**: Attacker has full knowledge (e.g., internal red team).
+- **Black Box Example**:
+```Bash
+msfconsole
+use exploit/windows/smb/ms17_010_eternalblue
+set RHOSTS 10.0.0.5
+exploit
+```
     
-    - Example: Exploiting a misconfigured S3 bucket to exfiltrate data.
-        
-- **Partially Known Environment**: Limited info (e.g., third-party pen-testers).
-    
-- **Unknown Environment** (Black Box): Zero prior knowledge.
-    
-    - **Live Attack Example**:
-        
-        1. Use `nmap -p 445 10.0.0.0/24` to find SMB ports.
-            
-        2. Run `msfconsole` in Metasploit.
-            
-        3. Exploit EternalBlue:
-            
-            ```bash
-            nmap -p 445 10.0.0.0/24
-            
-			msfconsole
-			use exploit/windows/smb/ms17_010_eternalblue
-			set RHOSTS 10.0.0.5
-			set PAYLOAD windows/x64/meterpreter/reverse_tcp
-			exploit
-
-			```
-            
-        4. Gain **meterpreter shell** → Dump credentials with `hashdump`.
-            
+- **Outcome**: Gain meterpreter shell → dump credentials.
 
 #### **4. Post-Exploitation**
 
-Maintaining access and pivoting to other systems.
-
-- Tools: **Mimikatz** (extracting passwords from memory), **Cobalt Strike** (lateral movement).
+- **Tools**: Mimikatz, Cobalt Strike.
+- **Example**: Extracting Kerberos tickets for lateral movement.
     
-- Example: Using `kiwi` in Metasploit to extract Kerberos tickets for privilege escalation.
-    
-
 #### **5. Reporting**
 
-Documenting findings and recommending fixes.
-
-- Example: Prioritizing EternalBlue patching and disabling SMBv1.
-    
+- Prioritize fixes (e.g., patch EternalBlue, disable SMBv1).
 
 ---
 
-### **Pentesting Tools**
+### **Key Tools**
 
-1. **Nmap**
+1. **Nmap**: `nmap -sS -A -T4 192.168.1.1`
+2. **Metasploit**: Exploit development.
+3. **Burp Suite**: SQLi/XSS testing.
+4. **Wireshark**: Traffic analysis.
     
-    - Network mapping and service discovery:
-        
-        nmap -sS -A -T4 192.168.1.1  # Stealth SYN scan + OS detection  
-        
-2. **Metasploit**
-    
-    - Exploit development and execution framework.
-        
-3. **Burp Suite**
-    
-    - Web application testing (e.g., SQLi, XSS).
-        
-4. **Wireshark**
-    
-    - Network traffic analysis for unencrypted credentials.
-        
 
 ---
 
 ### **Mitigation Strategies**
 
-- **Patching**: Regularly update systems (e.g., EternalBlue was patched in 2017!).
-    
+- **Patching**: Update systems (e.g., EternalBlue patch).
 - **Network Segmentation**: Limit lateral movement.
-    
-- **Web Application Firewalls (WAF)**: Block SQLi/XSS payloads.
+- **WAFs**: Block SQLi/XSS.
     
 
 ---
 
-**Exam Tips**:
+**Exam Tips**
 
-- Memorize the **5 phases of penetration testing** (Recon → Scanning → Exploitation → Post-Exploit → Reporting).
-    
-- Know the difference between **passive** (no interaction) and **active** (direct probing) reconnaissance.
-    
-- Practice **Nmap flags**: `-sS` (stealth scan), `-A` (aggressive scan), `-O` (OS detection).
+- Memorize the **5 phases** (Recon → Reporting).
+- Know **passive** (no interaction) vs. **active** (direct probing) recon.
+- Practice Nmap flags: `-sS` (stealth), `-A` (aggressive)
 
 ---
 
