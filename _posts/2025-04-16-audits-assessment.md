@@ -40,6 +40,15 @@ Systematic evaluations to verify adherence to security policies, regulations, an
         
 - **Framework Alignment**  
     Use ISO 27001’s Annex A controls as an audit checklist—verifying policies (A.5), roles & responsibilities (A.6), access control (A.9), and operations security (A.12) 
+    
+
+-  **Live Example – Patch Management Audit:**
+
+	1. **Identify**: Retrieve the organization’s patch policy and schedule.
+	2. **Sample**: Select 10 critical servers.
+	3. **Verify**: Check vulnerability‑scan reports to confirm the latest OS patches were applied within SLA.
+	4. **Interview**: Speak with the system administrator to understand deviation handling.
+	5. **Report**: Note any servers >30 days unpatched as High‑risk findings.
 
 ###### b. External Audits
 
@@ -61,11 +70,8 @@ Systematic evaluations to verify adherence to security policies, regulations, an
 - **Live Example – PCI DSS Audit:**
     
     - **Gap Analysis**: Inventory all card‑holder data repositories.
-        
     - **Testing**: Confirm encryption of data in transit and at rest; sample firewall rulesets to verify segmentation.
-        
     - **Evidence**: Collect network diagrams, configuration files, and policy documents.
-        
     - **Outcome**: QSA issues a Report on Compliance (RoC) and Attestation of Compliance (AoC)
 
 ---
