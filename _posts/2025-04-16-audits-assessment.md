@@ -23,50 +23,50 @@ Systematic evaluations to verify adherence to security policies, regulations, an
 
 ##### 1. Types of Audits
 
-	###### a. Internal Audits
-	
-	- **Purpose & Scope**  
-	    Provide independent assurance to management and the board that risk is managed within the organization’s risk appetite. Scope typically includes IT governance, patch management, insider‑threat controls, and third‑party relationships .
-	    
-	- **Methodology**
-	    
-	    1. **Planning & Risk Assessment**: Define audit objectives, scope, and risk‑based criteria (e.g., high‑value systems, critical controls).
-	        
-	    2. **Fieldwork**: Test design and operating effectiveness of controls via interviews, walkthroughs, sample testing, and technical validation (e.g., verify patch‑management cycle against NIST SP 800‑40) .
-	        
-	    3. **Reporting**: Document findings with risk ratings (High/Medium/Low), root‑cause analysis, and remediation recommendations.
-	        
-	    4. **Follow‑Up**: Track management’s remediation actions until closure.
-	        
-	- **Framework Alignment**  
-	    Use ISO 27001’s Annex A controls as an audit checklist—verifying policies (A.5), roles & responsibilities (A.6), access control (A.9), and operations security (A.12) 
-	
-	###### b. External Audits
-	
-	- **Purpose & Types**  
-	    Conducted by qualified third parties (e.g., QSAs, regulators, consulting firms) to validate compliance claims or certify against standards like PCI DSS, SOC 2, HIPAA, or GDPR [scytale](https://scytale.ai/resources/pci-dss-audit/?utm_source=chatgpt.com).
-	    
-	- **Typical Process**
-	    
-	    1. **Engagement Letter & Scoping**: Define in‑scope systems, data flows, and control objectives.
-	        
-	    2. **Gap Analysis**: Perform a preliminary assessment to identify compliance gaps.
-	        
-	    3. **Control Testing**: Test technical and administrative controls (e.g., cardholder‑data encryption, access‑log reviews).
-	        
-	    4. **Remediation Support**: Provide a roadmap to address gaps.
-	        
-	    5. **Final Report & Attestation**: Issue a formal audit report and, if compliant, a certification letter.
-	        
-	- **Live Example – PCI DSS Audit:**
-	    
-	    - **Gap Analysis**: Inventory all card‑holder data repositories.
-	        
-	    - **Testing**: Confirm encryption of data in transit and at rest; sample firewall rulesets to verify segmentation.
-	        
-	    - **Evidence**: Collect network diagrams, configuration files, and policy documents.
-	        
-	    - **Outcome**: QSA issues a Report on Compliance (RoC) and Attestation of Compliance (AoC)
+###### a. Internal Audits
+
+- **Purpose & Scope**  
+    Provide independent assurance to management and the board that risk is managed within the organization’s risk appetite. Scope typically includes IT governance, patch management, insider‑threat controls, and third‑party relationships .
+    
+- **Methodology**
+    
+    1. **Planning & Risk Assessment**: Define audit objectives, scope, and risk‑based criteria (e.g., high‑value systems, critical controls).
+        
+    2. **Fieldwork**: Test design and operating effectiveness of controls via interviews, walkthroughs, sample testing, and technical validation (e.g., verify patch‑management cycle against NIST SP 800‑40) .
+        
+    3. **Reporting**: Document findings with risk ratings (High/Medium/Low), root‑cause analysis, and remediation recommendations.
+        
+    4. **Follow‑Up**: Track management’s remediation actions until closure.
+        
+- **Framework Alignment**  
+    Use ISO 27001’s Annex A controls as an audit checklist—verifying policies (A.5), roles & responsibilities (A.6), access control (A.9), and operations security (A.12) 
+
+###### b. External Audits
+
+- **Purpose & Types**  
+    Conducted by qualified third parties (e.g., QSAs, regulators, consulting firms) to validate compliance claims or certify against standards like PCI DSS, SOC 2, HIPAA, or GDPR [scytale](https://scytale.ai/resources/pci-dss-audit/?utm_source=chatgpt.com).
+    
+- **Typical Process**
+    
+    1. **Engagement Letter & Scoping**: Define in‑scope systems, data flows, and control objectives.
+        
+    2. **Gap Analysis**: Perform a preliminary assessment to identify compliance gaps.
+        
+    3. **Control Testing**: Test technical and administrative controls (e.g., cardholder‑data encryption, access‑log reviews).
+        
+    4. **Remediation Support**: Provide a roadmap to address gaps.
+        
+    5. **Final Report & Attestation**: Issue a formal audit report and, if compliant, a certification letter.
+        
+- **Live Example – PCI DSS Audit:**
+    
+    - **Gap Analysis**: Inventory all card‑holder data repositories.
+        
+    - **Testing**: Confirm encryption of data in transit and at rest; sample firewall rulesets to verify segmentation.
+        
+    - **Evidence**: Collect network diagrams, configuration files, and policy documents.
+        
+    - **Outcome**: QSA issues a Report on Compliance (RoC) and Attestation of Compliance (AoC)
 
 ---
 
