@@ -200,6 +200,7 @@ Allows a response packet only if it matches a previously initiated and allowed c
 - Compensating Security Control : This control does not prevent an attack but does restore from attack using other means 
 - Responsibility matrix : A cloud responsibility matrix is usually published by the provider to document the responsibilities for all cloud-based services.
 - Playbook : A playbook provides conditional steps to follow when managing an organization's processes and procedures.
+*Well from time to time, you can see my thoughts pouring here or just raw opinions. Well its my dam blog, I can write what ever tf I want but I do make sure the information I write here are accurate because I am also studying from them for this dam exam ...*  
 - Instant messaging : Instant messaging is commonly used as an attack vector, and one way to help protect against malicious links delivered by instant messaging is a host-based firewall.
 - Web Application Firewall (WAF) : Protects against web application attacks like XSS, SQL Injection
 - Content Delivery Network (CDN) : Helps to distribute and absorb large volume of traffic (DDOS attack),  mitigating its impact  and keeping web server available to legitimate users.
@@ -214,6 +215,7 @@ Allows a response packet only if it matches a previously initiated and allowed c
 - Trusted Platform Module (TPM) :  Is a hardware component that provides secure generation and storage of cryptographic keys. It ensures that keys are stored securely and can only be accessed by authorized software.
 - **Steganography** : Hiding messages within other non-secret text or data to avoid detection.
 - **Obfuscation** : Makes data difficult to understand but does not hide it.
+- Deprovisioning  : It is the process of removing or deactivating users access rights when there are no longer needed. 
  
 
 So much is there, the thing is its not tough just that so much information ... I do love this subject and all the information ... But since I am changing my career at so late age, i believe that getting this cert might confirm my entry into cyber security field. Maybe its just a false hope, maybe it's the right step ... Time will answer the questions  !!!
