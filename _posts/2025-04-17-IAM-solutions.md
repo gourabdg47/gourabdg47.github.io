@@ -85,7 +85,7 @@ Google Authenticator generates a time-based one-time password (TOTP) for logging
     
 - **Rotation**: Change every 90 days (though NIST now recommends _longer passwords over frequent changes_).
     
-- **Storage**: Use a password manager (e.g., LastPass, Bitwarden).
+- **Storage**: Use a password manager (e.g., LastPass, ***Bitwarden***).
     
 
 **Example**:  
