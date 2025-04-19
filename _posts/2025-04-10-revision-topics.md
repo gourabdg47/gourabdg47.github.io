@@ -219,6 +219,7 @@ Allows a response packet only if it matches a previously initiated and allowed c
 - Deprovisioning  : It is the process of removing or deactivating users access rights when there are no longer needed. 
 - **Spraying attack** is a type of password attack that involves trying common passwords against multiple accounts.
 - **Fileless malware** operates in memory, often leveraging legitimate system tools to evade detection. It might adjust registry values for persistence and can run within its own process or use tools like PowerShell to achieve its objectives.
+- In **digital forensics**, the *acquisition process* refers to the methodical steps taken to collect digital evidence from a device or system in a way that ensures its integrity and usability in an investigation. This involves creating a bit-by-bit copy (or forensic image) of the original data to preserve its content while preventing any alterations during analysis.
  
 
 So much is there, the thing is its not tough just that so much information ... I do love this subject and all the information ... But since I am changing my career at so late age, i believe that getting this cert might confirm my entry into cyber security field. Maybe its just a false hope, maybe it's the right step ... Time will answer the questions  !!!
