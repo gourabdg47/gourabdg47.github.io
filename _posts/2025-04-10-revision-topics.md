@@ -222,6 +222,8 @@ Allows a response packet only if it matches a previously initiated and allowed c
 - In **digital forensics**, the *acquisition process* refers to the methodical steps taken to collect digital evidence from a device or system in a way that ensures its integrity and usability in an investigation. This involves creating a bit-by-bit copy (or forensic image) of the original data to preserve its content while preventing any alterations during analysis.
 - **Risk register** is a comprehensive record that lists all identified risks, their potential impacts, assigned risk owners, and current risk status. It serves as a central repository for tracking and monitoring risks over time.
 - **Exposure factor** (EF) is the fraction of the asset value that is at risk in the event of a security incident. Asset impact can refer to the general effect on an asset but doesn't provide a quantifiable percentage like the exposure factor does.
+- **Real-Time Operating System** (RTOS) prioritize performance, sometimes at the expense of security features like buffer overflow protections, potentially leaving the system susceptible to certain attacks. While cloud access can pose risks, it's not an inherent security implication of using an RTOS. RTOSs are designed for efficiency and generally don't involve the overheads from virtualization layers.
+
  
 
 So much is there, the thing is its not tough just that so much information ... I do love this subject and all the information ... But since I am changing my career at so late age, i believe that getting this cert might confirm my entry into cyber security field. Maybe its just a false hope, maybe it's the right step ... Time will answer the questions  !!!
