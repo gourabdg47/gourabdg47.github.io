@@ -216,6 +216,8 @@ Allows a response packet only if it matches a previously initiated and allowed c
 - **Steganography** : Hiding messages within other non-secret text or data to avoid detection.
 - **Obfuscation** : Makes data difficult to understand but does not hide it.
 - Deprovisioning  : It is the process of removing or deactivating users access rights when there are no longer needed. 
+- **Spraying attack** is a type of password attack that involves trying common passwords against multiple accounts.
+- **Fileless malware** operates in memory, often leveraging legitimate system tools to evade detection. It might adjust registry values for persistence and can run within its own process or use tools like PowerShell to achieve its objectives.
  
 
 So much is there, the thing is its not tough just that so much information ... I do love this subject and all the information ... But since I am changing my career at so late age, i believe that getting this cert might confirm my entry into cyber security field. Maybe its just a false hope, maybe it's the right step ... Time will answer the questions  !!!
