@@ -27,6 +27,7 @@ The chapter "**Risk Management & Privacy**" have something called " *different d
 5. **Data Custodian** : These are individuals or teams responsible for the secure safekeeping of the information but do not have **controller**    or **stewardship** responsibility.
 6. **Data Processors** : These are service providers that process personal information on behalf of a data controller. E.G. A credit card processing service for a retailer. The retailer remains a data controller while the service acts as a data processor. 
 7. **Data Protection Officer (DPO)** : A specific individual who bears the overall responsible for an organization's data privacy efforts. The chief privacy officer often holds this role. 
+8. **Continuous Integration** (CI) is a software development practice where developers frequently merge code changes into a shared repository, often several times a day. Each integration is then automatically verified by building the software and running automated tests to detect issues early.
 
 ---
 
