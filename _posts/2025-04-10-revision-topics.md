@@ -223,6 +223,7 @@ Allows a response packet only if it matches a previously initiated and allowed c
 - **Risk register** is a comprehensive record that lists all identified risks, their potential impacts, assigned risk owners, and current risk status. It serves as a central repository for tracking and monitoring risks over time.
 - **Exposure factor** (EF) is the fraction of the asset value that is at risk in the event of a security incident. Asset impact can refer to the general effect on an asset but doesn't provide a quantifiable percentage like the exposure factor does.
 - **Real-Time Operating System** (RTOS) prioritize performance, sometimes at the expense of security features like buffer overflow protections, potentially leaving the system susceptible to certain attacks. While cloud access can pose risks, it's not an inherent security implication of using an RTOS. RTOSs are designed for efficiency and generally don't involve the overheads from virtualization layers.
+-  A **proxy server** stands between the user's computer and the internet, intercepting requests and potentially reducing the public-facing attack surface by masking the internal server, meeting the scenario requirements.
 
  
 
