@@ -241,6 +241,12 @@ Allows a response packet only if it matches a previously initiated and allowed c
 - **Infrastructure as code** (IAC) is a method of managing and provisioning IT infrastructure through code, not running code without managing any underlying infrastructure.
 - **Software-defined networking** (SDN) is a network technology that involves dynamically configuring and managing network devices and services through software, not creating multiple isolated environments on a single physical device.
 - **Remote Desktop Protocol** (RDP) port is a type of open service port that is commonly used for remote desktop servers and can be exploited by attackers to perform screen capture, keystroke logging, or malware delivery attacks. It is the default port for RDP, the protocol used to remotely control a Windows based system’s desktop.
+- **Replication** involves creating copies of data in real-time or near-real-time to another location. This ensures data availability even if one location fails and can also aid in load balancing.
+- **Differential backups** store all changes made since the last full backup. They provide a medium between full and incremental backups but do not provide real-time data duplication.
+- **Snapshots** capture the state of a system at a specific point in time. While they offer quick recovery options.
+- **Journaling** monitors and records all transactions and changes to a system.
+- **Human-Machine Interface** (HMI) is a critical component in an ICS that allows operators to interact directly with the system. Its security is paramount to prevent unauthorized access and potential manipulation of the system.
+- **802.1x** is a standard developed by the IEEE to govern port-based network access. When used with a RADIUS based authentication server it provides authentication services, checking user credentials to ensure that the user is a legitimate part of the organization and granting access to only those areas of the system that the user is allowed to access.
 
  
 
