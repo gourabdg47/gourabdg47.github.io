@@ -28,7 +28,7 @@ python dsk_ADHD_domomine_tracker.py
  **CLI Version CODE** : [NeuroFocus Balance Tracker](https://raw.githubusercontent.com/gourabdg47/gourabdg47.github.io/refs/heads/main/assets/code/ada_CLII_ADHD_dopomine_tracker.py)
 
 
-```BASH
+```python
 
 python ada_CLII_ADHD_dopomine_tracker.py
 
