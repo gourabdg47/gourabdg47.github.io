@@ -234,6 +234,13 @@ Allows a response packet only if it matches a previously initiated and allowed c
 - Agentless posture assessment in NAC solutions, while beneficial for supporting a broad range of devices, often provides less granular data about the client compared to agent-based solutions. This can limit the depth of assessment and control. Agentless solutions don't require storage on the client device for an agent, so this isn't a disadvantage of agentless posture assessment. Agentless posture assessment in NAC solutions, while beneficial for supporting a broad range of devices, often provides less granular data about the client compared to agent-based solutions. This can limit the depth of assessment and control. Agentless solutions don't require storage on the client device for an agent, so this isn't a disadvantage of agentless posture assessment.
 - A **backout plan** is crucial when deploying updates or changes to a system. It provides a predefined strategy to revert changes and restore a system to its prior state if complications arise, ensuring system stability and minimizing downtime.
 - A **standard operating procedure** is a set of detailed instructions that describes how specific routine tasks should be carried out.
+- **Ephemeral credentials** are temporary and designed for short-lived purposes, thus reducing the risk of those credentials being misused or compromised.
+- **Principle of least privilege** ensures minimal access rights, it does not provide short-lived credentials.
+- **Static access tokens** are long-lived and don't automatically expire after a short task, posing a higher security risk.
+- **Serverless** is an architecture model that allows running code without managing any underlying infrastructure. It can offer benefits such as flexibility, scalability, cost-efficiency, and security.
+- **Infrastructure as code** (IAC) is a method of managing and provisioning IT infrastructure through code, not running code without managing any underlying infrastructure.
+- **Software-defined networking** (SDN) is a network technology that involves dynamically configuring and managing network devices and services through software, not creating multiple isolated environments on a single physical device.
+- **Remote Desktop Protocol** (RDP) port is a type of open service port that is commonly used for remote desktop servers and can be exploited by attackers to perform screen capture, keystroke logging, or malware delivery attacks. It is the default port for RDP, the protocol used to remotely control a Windows based system’s desktop.
 
  
 
