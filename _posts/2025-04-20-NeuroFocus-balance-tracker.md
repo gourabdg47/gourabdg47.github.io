@@ -17,7 +17,6 @@ render_with_liquid: true
 
   **CODE** : [NeuroFocus Balance Tracker](https://raw.githubusercontent.com/gourabdg47/gourabdg47.github.io/refs/heads/main/assets/code/dsk_ADHD_domomine_tracker.py)
 
-#### Usage
 
 ```python
 
@@ -26,14 +25,12 @@ python dsk_ADHD_domomine_tracker.py
 ```
 
 
- **CLI Version CODE** : [NeuroFocus Balance Tracker](https://raw.githubusercontent.com/gourabdg47/gourabdg47.github.io/refs/heads/main/assets/code/dsk_ADHD_domomine_tracker.py)
-
-
+ **CLI Version CODE** : [NeuroFocus Balance Tracker](https://raw.githubusercontent.com/gourabdg47/gourabdg47.github.io/refs/heads/main/assets/code/ada_CLII_ADHD_dopomine_tracker.py)
 
 
 ```BASH
 
-python hope_my_code_runs_fine.py
+python ada_CLII_ADHD_dopomine_tracker.py
 
 ```
 
