@@ -11,7 +11,7 @@ tags:
 render_with_liquid: true
 ---
   
-> This code is 60% AI-generated. I created it for my own use.
+>I created it for my own use.
 {: .prompt-info }
 
   
