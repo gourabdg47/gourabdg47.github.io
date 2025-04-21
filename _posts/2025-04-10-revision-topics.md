@@ -261,6 +261,9 @@ Allows a response packet only if it matches a previously initiated and allowed c
 -  A **jump server** primarily provides secure access to devices in a different security zone but doesn't specifically control network connectivity based on devices' physical addresses.
 - **Common Vulnerability Scoring System** (CVSS) is an industry standard for assessing the severity of security vulnerabilities. It provides a technique for scoring each vulnerability on a variety of measures.
 
+
+![OSI Layers & Cyber Attacks](https://i.redd.it/758sb6cyf7we1.jpeg)
+
  
 
 So much is there, the thing is its not tough just that so much information ... I do love this subject and all the information ... But since I am changing my career at so late age, i believe that getting this cert might confirm my entry into cyber security field. Maybe its just a false hope, maybe it's the right step ... Time will answer the questions  !!!
