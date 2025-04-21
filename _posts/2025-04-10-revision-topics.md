@@ -10,7 +10,7 @@ tags:
   - certification
   - imp
 render_with_liquid: true
-pin: "false"
+pin: "true"
 ---
 # **Revision Topics**
 
