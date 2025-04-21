@@ -259,6 +259,7 @@ Allows a response packet only if it matches a previously initiated and allowed c
 - **Port security**, a feature of managed network switches, allows an organization to limit which devices can connect to a network based on their physical addresses (MAC addresses), thus meeting the requirements of this scenario.
 - **Fail-open** is a failure mode that permits network traffic to continue even when a device fails. It doesn't directly control which devices can connect to a network.
 -  A **jump server** primarily provides secure access to devices in a different security zone but doesn't specifically control network connectivity based on devices' physical addresses.
+- **Common Vulnerability Scoring System** (CVSS) is an industry standard for assessing the severity of security vulnerabilities. It provides a technique for scoring each vulnerability on a variety of measures.
 
  
 
