@@ -150,6 +150,30 @@ def calculate_metrics(bids, asks, current_price):
         'timestamp': datetime.now()
     }
 
+
+def get_fear_greed_index():
+    """Get Crypto Fear & Greed Index from Alternative.me"""
+    try:
+        url = 'https://api.alternative.me/fng/'
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+        }
+        response = requests.get(url, headers=headers, timeout=5)
+        response.raise_for_status()
+        data = response.json()
+        
+        if 'data' in data and len(data['data']) > 0:
+            return {
+                'value': int(data['data'][0]['value']),
+                'classification': data['data'][0]['value_classification']
+            }
+        return {'value': None, 'classification': 'N/A'}
+    
+    except Exception as e:
+        print(f"Fear & Greed API Error: {str(e)}")
+        return {'value': None, 'classification': 'N/A'}
+
+
 def main():
     history = []
     recent_order_books = deque(maxlen=ORDER_BOOK_HISTORY_SIZE)
@@ -242,7 +266,34 @@ def main():
         for p, v in metrics['resistance']:
             print(f"  ${p:.5f} - {Fore.WHITE}{v:,.2f}")
 
+        # Fear & Greed Index (New Section)
+        fgi = get_fear_greed_index()
+        print(f"\n{Fore.MAGENTA}MARKET SENTIMENT:{Style.RESET_ALL}")
+        
+        if fgi['value'] is not None:
+            if fgi['value'] >= 75:
+                color = Fore.LIGHTGREEN_EX
+                sentiment = "Extreme Greed"
+            elif fgi['value'] >= 55:
+                color = Fore.GREEN
+                sentiment = "Greed"
+            elif fgi['value'] <= 25:
+                color = Fore.LIGHTRED_EX
+                sentiment = "Extreme Fear"
+            elif fgi['value'] <= 45:
+                color = Fore.RED
+                sentiment = "Fear"
+            else:
+                color = Fore.YELLOW
+                sentiment = "Neutral"
+            
+            print(f"{color}Fear & Greed Index: {fgi['value']} ({sentiment})")
+            print(f"{color}Classification: {fgi['classification']}")
+        else:
+            print(f"{Fore.YELLOW}Fear & Greed Index: Data unavailable")
+
         time.sleep(REFRESH_INTERVAL)
+
 
 if __name__ == "__main__":
     try:
