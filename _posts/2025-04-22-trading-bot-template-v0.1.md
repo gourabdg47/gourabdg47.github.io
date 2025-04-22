@@ -21,5 +21,12 @@ render_with_liquid: true
 
 This will be part of a separate project section. This is just a sample (base architecture). Use it at your own risk if you wanna try it out.
 
+***FIX*** : 
+Fix this error (Add proper endpoints) 
+```BASH
+OHLCV HTTP Error: 404 Client Error: Not Found for url: https://api.coindcx.com/exchange/v1/derivatives/futures/data/candles?pair=XRPUSDT&interval=5m&limit=500
+```
+
+
 > To get in touch with me or for general discussion please visit [ZeroDayMindset Discussion](https://github.com/orgs/X3N0-G0D/discussions) 
 {: .prompt-info }
