@@ -265,7 +265,10 @@ Allows a response packet only if it matches a previously initiated and allowed c
 ![OSI Layers & Cyber Attacks](https://i.redd.it/758sb6cyf7we1.jpeg)
 
 
-
+<summary><strong>➡️ Click here for detailed system notes...</strong>
+	- Test
+	- Test 2
+</summary>
 
 
 
