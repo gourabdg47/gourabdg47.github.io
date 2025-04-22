@@ -265,19 +265,6 @@ Allows a response packet only if it matches a previously initiated and allowed c
 ![OSI Layers & Cyber Attacks](https://i.redd.it/758sb6cyf7we1.jpeg)
 
 
-<details>
-<summary><strong>➡️ Click here for detailed system notes...</strong></summary>
-
-* 💻 **Operating System:**
-    * **Windows (Strongly Recommended):** Developed and tested primarily on Windows 10/11. Pre-built releases are Windows-only.
-    * Linux / macOS: Possible *only* by building from source. Needs significant technical expertise (CUDA, Spout alternatives, Audio linking) and is **not officially supported or tested**.
-* 💪 **Graphics Card (GPU):**
-    * **NVIDIA GPU with CUDA Support (MANDATORY):** **Absolutely essential.** ASR, TTS, and RVC rely heavily on CUDA via ONNX Runtime. Without a compatible NVIDIA GPU and correctly installed CUDA/cuDNN, the application **will not work**. Follow the **[CUDA & cuDNN Installation Guide](#prereq-cuda)** below precisely! Install the latest NVIDIA drivers.
-    * CPU-Only / AMD / Intel GPUs: **Not supported.**
-* 🎤 **Microphone:** Required for voice input.
-* 🎧 **Speakers / Headphones:** Required for audio output.
-
-</details>
 
 
 
