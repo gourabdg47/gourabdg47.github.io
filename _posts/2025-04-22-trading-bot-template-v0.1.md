@@ -16,6 +16,7 @@ render_with_liquid: true
 {: .prompt-warning }
 
 **CODE** : [Crypto Trading Bot Template](https://raw.githubusercontent.com/gourabdg47/gourabdg47.github.io/refs/heads/main/assets/code/trading_bot_template.py)
+
 **CODE** :  [Strategy Backtesting](https://raw.githubusercontent.com/gourabdg47/gourabdg47.github.io/refs/heads/main/assets/code/trading_bot_template.py)
 
 This will be part of a separate project section. This is just a sample (base architecture). Use it at your own risk if you wanna try it out.
