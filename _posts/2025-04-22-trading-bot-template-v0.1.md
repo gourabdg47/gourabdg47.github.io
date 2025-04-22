@@ -19,6 +19,9 @@ render_with_liquid: true
 
 **CODE** :  [Strategy Backtesting](https://raw.githubusercontent.com/gourabdg47/gourabdg47.github.io/refs/heads/main/assets/code/trading_bot_template.py)
 
+**CODE** : [Crypto Price Rule Notification snippet](https://raw.githubusercontent.com/gourabdg47/gourabdg47.github.io/refs/heads/main/assets/code/crypto_notification.py)
+
+
 This will be part of a separate project section. This is just a sample (base architecture). Use it at your own risk if you wanna try it out.
 
 ***FIX*** : 
