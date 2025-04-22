@@ -261,6 +261,7 @@ Allows a response packet only if it matches a previously initiated and allowed c
 -  A **jump server** primarily provides secure access to devices in a different security zone but doesn't specifically control network connectivity based on devices' physical addresses.
 - **Common Vulnerability Scoring System** (CVSS) is an industry standard for assessing the severity of security vulnerabilities. It provides a technique for scoring each vulnerability on a variety of measures.
 - **Record-level encryption** is commonly used with databases to encrypt individual columns within the database.
+- **Resource provisioning** can be automated during the on-boarding and off-boarding process to quickly create or remove rights and permissions.
 
 
 ![OSI Layers & Cyber Attacks](https://i.redd.it/758sb6cyf7we1.jpeg)
