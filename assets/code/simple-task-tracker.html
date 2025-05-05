@@ -11,6 +11,17 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      // Replace G-XXXXXXXXXX with your Measurement ID
+      gtag('config', 'G-DN4GBMQMRM');
+    </script>
+    
     <style>
         /* Base styling */
         html, body { height: 100%; font-family: 'Nunito', sans-serif; scroll-behavior: smooth; }
@@ -54,16 +65,8 @@
         .drag-over { background-color: rgba(100, 116, 139, 0.06); }
 
         /* Task Active State (Calmer Opacity Pulse) */
-        .kanban-task.is-active {
-            border-left-color: #fbbf24; /* amber-400 */
-            /* Calmer opacity pulse animation */
-            animation: pulse-opacity 3s infinite ease-in-out; /* Slower duration */
-        }
-        @keyframes pulse-opacity {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.9; } /* Less drastic fade */
-        }
-
+        .kanban-task.is-active { border-left-color: #fbbf24; animation: pulse-opacity 3s infinite ease-in-out; }
+        @keyframes pulse-opacity { 0%, 100% { opacity: 1; } 50% { opacity: 0.9; } }
 
         /* Task Content (Text + Timer + Labels) */
         .task-content { display: flex; flex-direction: column; flex-grow: 1; margin-right: 0.25rem; word-break: break-word; }
@@ -161,7 +164,8 @@
             <div class="flex flex-col sm:flex-row gap-3 items-center">
                  <button id="addTaskBtn" class="btn btn-primary flex-grow sm:flex-grow-0"> <i class="fas fa-plus fa-sm"></i>Add Task
                  </button>
-                 <div class="data-actions flex gap-2 ml-auto"> <button id="exportDataBtn" class="btn btn-secondary btn-icon" title="Export Data (JSON)" aria-label="Export Data">
+                 <div class="data-actions flex gap-2 ml-auto">
+                     <button id="exportDataBtn" class="btn btn-secondary btn-icon" title="Export Data (JSON)" aria-label="Export Data">
                          <i class="fas fa-download"></i>
                      </button>
                      <label for="importDataInput" class="btn btn-secondary btn-icon cursor-pointer" title="Import Data (JSON)" aria-label="Import Data">
@@ -303,37 +307,33 @@
         };
 
         /** Resets the Pomodoro timer based on the *currently set* pomodoroState. */
-        const resetPomodoroTimerTime = (forceUpdateDisplay = true) => {
+        const resetPomodoroTimerTime = (forceUpdateDisplay = true) => { /* ... (no changes) ... */
             clearInterval(pomodoroIntervalId); pomodoroIntervalId = null;
-            // Use current settings variables based on the *current* state
             switch (pomodoroState) {
                 case POMODORO_STATES.WORK: pomodoroTimeLeft = currentWorkMins * 60; break;
                 case POMODORO_STATES.SHORT_BREAK: pomodoroTimeLeft = currentShortBreakMins * 60; break;
                 case POMODORO_STATES.LONG_BREAK: pomodoroTimeLeft = currentLongBreakMins * 60; break;
             }
             if (forceUpdateDisplay) {
-                updatePomodoroDisplay();
-                updatePomodoroStatus();
-                pomodoroStartBtn.style.display = 'inline-flex';
-                pomodoroPauseBtn.style.display = 'none';
-                setPomodoroControlsState(false);
-                document.title = "Focus Kanban Tracker";
+                updatePomodoroDisplay(); updatePomodoroStatus();
+                pomodoroStartBtn.style.display = 'inline-flex'; pomodoroPauseBtn.style.display = 'none';
+                setPomodoroControlsState(false); document.title = "Focus Kanban Tracker";
             }
         };
 
         /** Handles the reset button click - always goes back to WORK state. */
-        const handlePomodoroReset = () => {
-            pomodoroState = POMODORO_STATES.WORK; // Force state to WORK
-            resetPomodoroTimerTime(); // Reset time and update UI based on WORK state
+        const handlePomodoroReset = () => { /* ... (no changes) ... */
+            pomodoroState = POMODORO_STATES.WORK;
+            resetPomodoroTimerTime();
         };
 
         /** Switches to the next Pomodoro state. */
-        const nextPomodoroState = () => {
+        const nextPomodoroState = () => { /* ... (no changes) ... */
             playPomodoroEndSound();
             if (pomodoroState === POMODORO_STATES.WORK) {
                 pomodoroCycles++; pomodoroState = (pomodoroCycles % 4 === 0) ? POMODORO_STATES.LONG_BREAK : POMODORO_STATES.SHORT_BREAK;
             } else { pomodoroState = POMODORO_STATES.WORK; }
-            resetPomodoroTimerTime(); // Reset time based on the NEW state
+            resetPomodoroTimerTime();
         };
         /** Starts the Pomodoro countdown. */
         const startPomodoro = () => { /* ... (no changes) ... */
@@ -682,7 +682,7 @@
                 console.error("Error loading Pomodoro settings:", error);
                 currentWorkMins = DEFAULT_WORK_MINS; currentShortBreakMins = DEFAULT_SHORT_BREAK_MINS; currentLongBreakMins = DEFAULT_LONG_BREAK_MINS;
             }
-            resetPomodoroTimer(false); // Use the modified reset function name
+            resetPomodoroTimerTime(false); // Use the function that doesn't force state
         };
 
         /** Saves Pomodoro settings to localStorage. */
