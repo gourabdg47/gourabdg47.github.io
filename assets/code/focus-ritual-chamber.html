@@ -1,0 +1,1360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Focus Ritual Chamber</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-DN4GBMQMRM"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-DN4GBMQMRM');
+    </script>
+
+    <style>
+        /* --- Scary Theme Overrides & Additions --- */
+        html, body {
+            height: 100%;
+            font-family: 'Inter', sans-serif; /* Readable base font */
+            scroll-behavior: smooth;
+        }
+        body {
+            background-color: #111827; /* bg-gray-900 */
+            color: #d1d5db; /* text-gray-300 */
+            transition: background-color 0.5s ease;
+        }
+        h1, h2, h3, h4, .scary-font {
+             font-family: 'Creepster', cursive; /* Scary font for headers */
+             letter-spacing: 0.05em;
+        }
+
+        /* Pomodoro Timer Panel */
+        .pomodoro-panel {
+            position: relative;
+            overflow: hidden;
+            background-color: #1f2937; /* bg-gray-800 */
+            border-radius: 0.5rem;
+            padding: 1rem 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 5px 15px rgba(255, 0, 0, 0.2), 0 2px 5px rgba(0,0,0, 0.5); /* Reddish glow + dark shadow */
+            border: 1px solid #4b5563; /* border-gray-600 */
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            transition: opacity 0.5s ease, transform 0.5s ease, box-shadow 0.3s ease;
+            z-index: 1;
+        }
+        /* Progress Bar */
+        #pomodoro-progress-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background-color: rgba(127, 29, 29, 0.6); /* Dark red with transparency (red-900) */
+            transform-origin: right center;
+            transform: scaleX(0);
+            transition: transform 0.5s linear;
+            z-index: -1;
+            overflow: hidden;
+        }
+        #pomodoro-progress-bar::after { /* Wave effect -> changed to subtle static */
+             content: '';
+             position: absolute;
+             width: 100%;
+             height: 100%;
+             top: 0;
+             left: 0;
+             background: repeating-linear-gradient(
+                45deg,
+                rgba(0, 0, 0, 0.1),
+                rgba(0, 0, 0, 0.1) 5px, /* Thinner stripes */
+                rgba(0, 0, 0, 0.15) 5px,
+                rgba(0, 0, 0, 0.15) 10px /* Thinner stripes */
+             );
+             opacity: 0.3; /* More subtle */
+             z-index: 1;
+             /* Removed wave animation */
+        }
+
+        .pomodoro-main-controls { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; width: 100%; gap: 0.75rem;}
+        @media (min-width: 768px) { .pomodoro-main-controls { flex-direction: row; justify-content: space-between; } }
+        .pomodoro-display {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: #fca5a5; /* text-red-300 */
+            font-family: 'Menlo', 'Monaco', 'Consolas', "Courier New", monospace;
+            line-height: 1;
+            text-shadow: 0 0 5px rgba(255, 0, 0, 0.5); /* Red text glow */
+        }
+        .timer-flicker { /* Apply this class when timer is running */
+            animation: flicker 1.5s infinite alternate;
+        }
+        @keyframes flicker {
+            0%, 18%, 22%, 25%, 53%, 57%, 100% { text-shadow: 0 0 4px #ef4444, 0 0 10px #ef4444, 0 0 1px #ef4444; color: #fca5a5; } /* red-500, red-300 */
+            20%, 24%, 55% { text-shadow: none; color: #dc2626; } /* red-600 */
+        }
+        .pomodoro-status {
+            font-size: 0.875rem;
+            font-weight: 600;
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.25rem; /* Less rounded */
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border: 1px solid;
+        }
+        .pomodoro-status.work { background-color: #450a0a; color: #fca5a5; border-color: #7f1d1d; } /* dark red, light red text, darker red border */
+        .pomodoro-status.break { background-color: #064e3b; color: #6ee7b7; border-color: #047857; } /* dark green, light green text, darker green border */
+        .pomodoro-controls { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; align-items: center;}
+        .pomodoro-controls button { padding: 0.5rem 1rem; font-size: 0.875rem; }
+        .pomodoro-controls button i { margin-right: 0.375rem; }
+        .pomodoro-controls button:disabled { opacity: 0.4; filter: grayscale(80%); cursor: not-allowed; }
+        .pomodoro-controls .btn-icon i { margin-right: 0; }
+
+        /* Pomodoro Settings Section */
+        .pomodoro-settings { position: relative; z-index: 2; display: none; width: 100%; border-top: 1px solid #4b5563; margin-top: 1rem; padding-top: 1rem; gap: 1.5rem; flex-direction: column; align-items: center; }
+        .pomodoro-settings.active { display: flex; }
+        .pomodoro-settings-grid { display: grid; grid-template-columns: repeat(1, 1fr); gap: 1rem; width: 100%; max-width: 500px; }
+        @media (min-width: 480px) { .pomodoro-settings-grid { grid-template-columns: repeat(2, 1fr); } }
+        .pomodoro-settings-section { display: flex; flex-direction: column; gap: 0.5rem; }
+        .pomodoro-settings-section h4 { font-size: 1.2rem; font-weight: normal; color: #fca5a5; margin-bottom: 0.25rem; border-bottom: 1px solid #7f1d1d; padding-bottom: 0.25rem;}
+        .pomodoro-settings-item { display: flex; flex-direction: column; gap: 0.1rem; }
+        .pomodoro-settings-item label { font-size: 0.8rem; color: #9ca3af; display: block; margin-bottom: 0.1rem;}
+        .pomodoro-settings-item input[type="number"] { width: 100%; padding: 0.375rem 0.5rem; border: 1px solid #4b5563; border-radius: 0.25rem; font-size: 0.875rem; text-align: center; -moz-appearance: textfield; background-color: #374151; color: #d1d5db;}
+        .pomodoro-settings-item input[type="number"]::-webkit-outer-spin-button,
+        .pomodoro-settings-item input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+        .pomodoro-settings-toggle-item { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; margin-top: 0.5rem; }
+        .pomodoro-settings-toggle-item label { font-size: 0.8rem; color: #9ca3af; margin-bottom: 0; flex-grow: 1; }
+        /* Toggle Switch Styles */
+        .pomodoro-settings-toggle-item input[type="checkbox"] {
+            appearance: none; -webkit-appearance: none; position: relative;
+            width: 3rem; height: 1.5rem;
+            background-color: #4b5563; /* gray-600 */
+            border-radius: 9999px; cursor: pointer;
+            transition: background-color 0.2s ease-in-out; flex-shrink: 0;
+        }
+        .pomodoro-settings-toggle-item input[type="checkbox"]::before {
+            content: ''; position: absolute; top: 2px; left: 2px;
+            width: 1.25rem; height: 1.25rem;
+            background-color: #111827; /* gray-900 */
+            border: 1px solid #9ca3af; /* gray-400 */
+            border-radius: 50%;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.5);
+            transition: transform 0.2s ease-in-out;
+        }
+        .pomodoro-settings-toggle-item input[type="checkbox"]:checked {
+            background-color: #7f1d1d; /* red-900 */
+        }
+        .pomodoro-settings-toggle-item input[type="checkbox"]:checked::before {
+            transform: translateX(calc(3rem - 1.5rem));
+            background-color: #fca5a5; /* red-300 */
+            border-color: #fca5a5;
+        }
+        .pomodoro-settings-actions { display: flex; justify-content: center; width: 100%; margin-top: 1rem; }
+        .pomodoro-settings-actions button { font-size: 0.875rem; padding: 0.5rem 1rem;}
+
+        /* Add Task Panel - Calm Colors -> Scary Colors */
+        #add-task-panel {
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            background-color: #1f2937; /* bg-gray-800 */
+            border-color: #4b5563; /* border-gray-600 */
+            border-radius: 0; /* Sharp corners */
+        }
+        #add-task-panel h2 {
+            color: #ef4444; /* text-red-500 */
+            font-size: 1.5rem; /* Larger header */
+        }
+        #add-task-panel input[type="text"] {
+            border-color: #4b5563; /* border-gray-600 */
+            background-color: #111827; /* bg-gray-900 */
+            color: #d1d5db; /* text-gray-300 */
+            border-radius: 0;
+        }
+        #add-task-panel input[type="text"]::placeholder {
+            color: #6b7280; /* text-gray-500 */
+            font-style: italic;
+        }
+        #add-task-panel input[type="text"]:focus {
+            border-color: #ef4444; /* focus:border-red-500 */
+            --tw-ring-color: rgba(239, 68, 68, 0.5); /* focus:ring-red-500 with opacity */
+            --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+            --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+            box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+            background-color: #374151; /* bg-gray-700 */
+        }
+        #add-task-panel #addTaskBtn {
+            background-color: #7f1d1d; /* bg-red-900 */
+            border-color: #450a0a; /* border-red-950 */
+            color: #fecaca; /* text-red-200 */
+            border-radius: 0; font-weight: bold; text-transform: uppercase;
+        }
+        #add-task-panel #addTaskBtn:hover:not(:disabled) {
+            background-color: #ef4444; /* bg-red-500 */
+            border-color: #dc2626; /* border-red-600 */
+            color: #111827;
+        }
+        #add-task-panel .data-actions .btn-secondary {
+             background-color: #4b5563; color: #d1d5db; border-color: #6b7280; border-radius: 0;
+        }
+         #add-task-panel .data-actions .btn-secondary:hover:not(:disabled) {
+             background-color: #6b7280; border-color: #9ca3af; color: #f3f4f6;
+         }
+
+
+        /* Kanban Column Styling */
+        .kanban-column {
+            min-height: 350px; display: flex; flex-direction: column;
+            transition: background-color 0.2s ease, box-shadow 0.3s ease, opacity 0.5s ease, transform 0.5s ease;
+            border-radius: 0; /* Sharp corners */
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+            overflow: hidden;
+            border: 1px solid #4b5563;
+        }
+        #todo { background-color: #1e3a8a; } /* dark blue */
+        #inprogress { background-color: #450a0a; } /* dark red */
+        #done { background-color: #064e3b; } /* dark green */
+
+        .column-header {
+            padding: 0.75rem 1rem; border-bottom: 1px solid;
+            font-weight: normal; font-size: 1.5rem; /* Larger header */
+            display: flex; align-items: center;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
+        }
+        #todo .column-header { color: #93c5fd; border-color: #3b82f6; } /* light blue, blue */
+        #inprogress .column-header { color: #fca5a5; border-color: #ef4444; } /* light red, red */
+        #done .column-header { color: #6ee7b7; border-color: #10b981; } /* light green, green */
+
+        .tasks-container { flex-grow: 1; padding: 0.75rem; overflow-y: auto; }
+        .tasks-container > .kanban-task + .kanban-task { margin-top: 0.75rem; }
+
+        /* Done Column Glow Effect -> Changed to pulsing shadow */
+        .kanban-column.done-glow { animation: pulse-shadow-green 2.5s infinite ease-in-out; }
+        @keyframes pulse-shadow-green {
+            0%, 100% { box-shadow: inset 0 0 10px rgba(0,0,0,0.5), 0 0 0px rgba(16, 185, 129, 0); } /* green-500 */
+            50% { box-shadow: inset 0 0 15px rgba(0,0,0,0.7), 0 0 15px rgba(16, 185, 129, 0.5); }
+        }
+
+        /* Task Card Styling */
+        .kanban-task {
+            cursor: grab;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, border-left-color 0.3s ease, opacity 0.3s ease;
+            position: relative; padding: 0.625rem 2.25rem 0.625rem 1rem;
+            border-radius: 0; /* Sharp corners */
+            background-color: #374151; /* gray-700 */
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+            display: flex; align-items: start;
+            border-left: 3px solid #9ca3af; /* gray-400 */
+            color: #e5e7eb; /* gray-200 */
+        }
+        .kanban-task:hover {
+            box-shadow: 3px 3px 8px rgba(0,0,0,0.7);
+            border-left-color: #fca5a5; /* light red */
+            background-color: #4b5563; /* gray-600 */
+        }
+        .kanban-task:hover .task-actions { opacity: 1; }
+        .kanban-task:active { cursor: grabbing; transform: scale(1.02) rotate(-1deg); box-shadow: 4px 4px 10px rgba(0,0,0,0.8); }
+        .dragging { opacity: 0.6; transform: rotate(3deg) scale(1.03); box-shadow: 0 10px 15px rgba(0,0,0, 0.6); border: 1px dashed #ef4444; }
+        .drag-over { background-color: rgba(239, 68, 68, 0.1); } /* Dim red */
+
+        /* Task Active State -> More intense pulse */
+        .kanban-task.is-active {
+            border-left-color: #facc15; /* yellow-400 */
+            animation: pulse-active-task 1.5s infinite ease-in-out;
+            box-shadow: 0 0 10px rgba(250, 204, 21, 0.5); /* yellow-400 glow */
+        }
+        @keyframes pulse-active-task {
+            0%, 100% { background-color: #4b5563; transform: scale(1); } /* gray-600 */
+            50% { background-color: #52525b; transform: scale(1.01); } /* zinc-600 */
+        }
+
+        /* Task Content */
+        .task-content { display: flex; flex-direction: column; flex-grow: 1; margin-right: 0.25rem; word-break: break-word; }
+        .task-text { line-height: 1.4; color: #e5e7eb; font-size: 0.9rem; margin-bottom: 0.25rem; }
+        .task-labels { display: flex; flex-wrap: wrap; gap: 0.25rem; margin-bottom: 0.25rem; }
+        .task-label { background-color: #312e81; color: #c7d2fe; padding: 0.125rem 0.5rem; font-size: 0.65rem; border-radius: 0.25rem; font-weight: 600; border: 1px solid #4338ca; } /* indigo shades */
+        .task-timer-area { margin-top: auto; font-size: 0.7rem; color: #9ca3af; font-family: 'Menlo', 'Monaco', 'Consolas', "Courier New", monospace; min-height: 1em; display: flex; flex-direction: column; gap: 0.125rem; }
+        .task-timer { display: flex; align-items: center; }
+        .task-timer i { margin-right: 0.25rem; color: #6b7280; flex-shrink: 0; }
+        .task-timer i.fa-check-circle { color: #34d399; } /* emerald-400 */
+
+        /* Task Action Buttons */
+        .task-actions { position: absolute; top: 0.375rem; right: 0.375rem; display: flex; flex-direction: column; gap: 0.25rem; opacity: 0.5; transition: opacity 0.2s ease-in-out; }
+        .kanban-task:hover .task-actions { opacity: 1; }
+        .task-action-btn { background-color: #1f2937; border: 1px solid #4b5563; cursor: pointer; padding: 0.125rem; color: #9ca3af; border-radius: 0; transition: all 0.15s ease-in-out; line-height: 1; width: 1.5rem; height: 1.5rem; display: flex; align-items: center; justify-content: center; box-shadow: none; }
+        .task-action-btn i { font-size: 0.65rem; }
+        .task-action-btn:hover { background-color: #4b5563; color: #f3f4f6; border-color: #6b7280; transform: scale(1.1); }
+        .task-action-btn.delete-btn:hover { background-color: #7f1d1d; color: #fecaca; border-color: #ef4444; }
+        .task-action-btn.edit-btn:hover { background-color: #1e40af; color: #93c5fd; border-color: #3b82f6; }
+        .task-action-btn:active { transform: scale(0.95); filter: brightness(0.8); }
+
+        /* Inline Editing */
+        .editing-container { display: flex; flex-direction: column; gap: 0.5rem; width: 100%; }
+        .editing-input { padding: 0.25rem 0.375rem; border: 1px solid #ef4444; border-radius: 0; outline: none; font-size: 0.9rem; font-family: inherit; background-color: #111827; color: #e5e7eb;}
+        .editing-input::placeholder { color: #6b7280; font-size: 0.8rem;}
+
+        /* Modal */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.85); display: flex; justify-content: center; align-items: center; z-index: 10000; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; backdrop-filter: blur(3px); }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .modal-content { background-color: #1f2937; padding: 1.5rem; border-radius: 0; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5); max-width: 400px; width: 90%; text-align: center; transform: scale(0.9); transition: transform 0.3s ease; border: 1px solid #ef4444; }
+        .modal-overlay.active .modal-content { transform: scale(1); }
+        #modalMessage { color: #fecaca; font-size: 1.2rem; }
+
+        /* Custom Scrollbar */
+        .tasks-container::-webkit-scrollbar { width: 8px; }
+        .tasks-container::-webkit-scrollbar-track { background: #1f2937; }
+        .tasks-container::-webkit-scrollbar-thumb { background: #7f1d1d; border-radius: 0; border: 1px solid #450a0a; }
+        .tasks-container::-webkit-scrollbar-thumb:hover { background: #ef4444; }
+
+        /* Button Styling (General) - Overridden for scary theme */
+        .btn { display: inline-flex; align-items: center; justify-content: center; padding: 0.625rem 1.25rem; border-radius: 0; font-weight: 600; transition: background-color 0.2s, box-shadow 0.2s, transform 0.1s, opacity 0.2s; border: 1px solid; box-shadow: 2px 2px 5px rgba(0,0,0,0.5); cursor: pointer; text-transform: uppercase; }
+        .btn:active { transform: scale(0.98) translate(1px, 1px); box-shadow: 1px 1px 3px rgba(0,0,0,0.7); }
+        .btn-primary { background-color: #7f1d1d; color: #fecaca; border-color: #450a0a; } /* Pomodoro Start, Save Settings */
+        .btn-primary:hover:not(:disabled) { background-color: #ef4444; border-color: #b91c1c; color: #111827; }
+        .btn-danger { background-color: #b91c1c; color: #fee2e2; border-color: #7f1d1d; } /* Modal Confirm */
+        .btn-danger:hover:not(:disabled) { background-color: #ef4444; border-color: #991b1b; color: #1f2937; }
+        .btn-secondary { background-color: #4b5563; color: #d1d5db; border-color: #6b7280; } /* Pomodoro Pause/Reset, Modal Cancel, Export/Import */
+        .btn-secondary:hover:not(:disabled) { background-color: #6b7280; border-color: #9ca3af; color: #f3f4f6; }
+        .btn-clear { padding: 0.25rem 0.5rem; font-size: 0.75rem; color: #fca5a5; background-color: transparent; border: none; box-shadow: none; font-weight: 500; border-radius: 0; transition: background-color 0.2s, color 0.2s; text-transform: none; }
+        .btn-clear:hover { background-color: rgba(127, 29, 29, 0.5); color: #fee2e2; }
+        .btn i { margin-right: 0.5rem; }
+        .btn-icon { padding: 0.5rem; width: 2.25rem; height: 2.25rem; border-radius: 0; }
+        .btn-icon i { margin-right: 0; font-size: 0.875rem; }
+
+        /* --- Zen Mode Styles --- */
+        .zen-mode-active #add-task-panel,
+        .zen-mode-active #todo,
+        .zen-mode-active #inprogress,
+        .zen-mode-active #done,
+        .zen-mode-active .pomodoro-panel,
+        .zen-mode-active .bmc-button {
+            opacity: 0.05; /* Even more dim */
+            pointer-events: none;
+            transform: scale(0.95); /* Slightly more shrink */
+            filter: blur(2px); /* Add blur */
+            transition: opacity 0.6s ease, transform 0.6s ease, filter 0.6s ease;
+        }
+        .zen-mode-active.zen-target-inprogress #inprogress {
+            opacity: 1;
+            pointer-events: auto;
+            transform: scale(1);
+            filter: blur(0);
+            animation: pulse-calm-scary 2s infinite ease-in-out; /* Different pulse */
+            box-shadow: 0 0 20px rgba(239, 68, 68, 0.6); /* Intense red glow */
+        }
+        .zen-mode-active.zen-target-todo #todo {
+            opacity: 1;
+            pointer-events: auto;
+            transform: scale(1);
+            filter: blur(0);
+            animation: none;
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.4); /* Blue glow */
+        }
+        .zen-mode-active .pomodoro-panel { /* Keep Pomodoro panel visible */
+            opacity: 1;
+            pointer-events: auto;
+            transform: scale(1);
+            filter: blur(0);
+            animation: none;
+            box-shadow: 0 5px 15px rgba(255, 0, 0, 0.3), 0 2px 5px rgba(0,0,0, 0.6); /* Maintain its shadow */
+        }
+        @keyframes pulse-calm-scary { /* Renamed and adjusted */
+            0%, 100% { box-shadow: inset 0 0 10px rgba(0,0,0,0.5), 0 0 15px rgba(239, 68, 68, 0.4); } /* red-500 */
+            50% { box-shadow: inset 0 0 15px rgba(0,0,0,0.8), 0 0 25px rgba(239, 68, 68, 0.8); }
+        }
+
+        /* --- Buy Me a Coffee Button Styles --- */
+        .bmc-button {
+            position: fixed;
+            bottom: 1rem;
+            right: 1rem;
+            z-index: 1000;
+            padding: 0.6rem;
+            width: 3rem;
+            height: 3rem;
+            background-color: #450a0a; /* dark red */
+            color: #fca5a5; /* light red */
+            border-radius: 50%; /* Make it round */
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
+            transition: transform 0.2s ease-out, box-shadow 0.2s ease, opacity 0.5s ease, background-color 0.2s;
+            animation: bmc-float-scary 2.5s ease-in-out infinite;
+            border: 1px solid #ef4444;
+        }
+
+        .bmc-button img {
+            height: 1.5em; /* Slightly smaller */
+            width: 1.5em;
+            filter: grayscale(50%) contrast(1.2); /* Desaturate and contrast */
+        }
+
+        .bmc-button:hover {
+            background-color: #ef4444; /* red-500 */
+            color: #111827;
+            transform: translateY(-3px) scale(1.1) rotate(5deg); /* Add rotation */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.8);
+            animation-play-state: paused;
+        }
+        .bmc-button:hover img {
+            filter: grayscale(0%) contrast(1);
+        }
+
+        @keyframes bmc-float-scary { /* More erratic float */
+            0%, 100% { transform: translateY(0) rotate(-2deg); }
+            50% { transform: translateY(-5px) rotate(2deg); }
+        }
+
+    </style>
+</head>
+<body class="p-4 md:p-8">
+    <div class="max-w-7xl mx-auto">
+        <div class="pomodoro-panel">
+             <div id="pomodoro-progress-bar"></div>
+             <div class="pomodoro-main-controls">
+                 <div class="flex items-center gap-4">
+                     <span id="pomodoro-display" class="pomodoro-display">25:00</span>
+                     <span id="pomodoro-status" class="pomodoro-status work">Focus</span>
+                 </div>
+                 <div class="pomodoro-controls">
+                     <button id="pomodoro-start" class="btn btn-primary btn-sm"><i class="fas fa-play-circle"></i>Begin</button>
+                     <button id="pomodoro-pause" class="btn btn-secondary btn-sm" style="display: none;"><i class="fas fa-pause-circle"></i>Hesitate</button>
+                     <button id="pomodoro-reset" class="btn btn-secondary btn-sm"><i class="fas fa-undo-alt"></i>Relapse</button>
+                     <button id="pomodoro-settings-toggle" class="btn btn-secondary btn-icon btn-sm" title="Configure Ritual" aria-label="Configure Ritual">
+                         <i class="fas fa-cog fa-spin" style="--fa-animation-duration: 5s;"></i> </button>
+                 </div>
+             </div>
+             <div id="pomodoro-settings" class="pomodoro-settings">
+                 <div class="pomodoro-settings-grid">
+                     <div class="pomodoro-settings-section">
+                         <h4 class="scary-font">Durations (Minutes of Sanity)</h4>
+                         <div class="pomodoro-settings-item">
+                             <label for="setting-work-mins">Focus:</label>
+                             <input type="number" id="setting-work-mins" min="1" max="120" step="1">
+                         </div>
+                         <div class="pomodoro-settings-item">
+                             <label for="setting-short-break-mins">Respite:</label>
+                             <input type="number" id="setting-short-break-mins" min="1" max="30" step="1">
+                         </div>
+                         <div class="pomodoro-settings-item">
+                             <label for="setting-long-break-mins">Void Gaze:</label>
+                             <input type="number" id="setting-long-break-mins" min="1" max="60" step="1">
+                         </div>
+                     </div>
+                     <div class="pomodoro-settings-section">
+                         <h4 class="scary-font">Ritual Behavior</h4>
+                         <div class="pomodoro-settings-item">
+                             <label for="setting-long-break-interval">Cycles before Void:</label>
+                             <input type="number" id="setting-long-break-interval" min="1" max="10" step="1">
+                         </div>
+                         <div class="pomodoro-settings-toggle-item">
+                             <label id="label-auto-start-breaks" for="setting-auto-start-breaks">Descend Automatically (Breaks)?</label>
+                             <input type="checkbox" id="setting-auto-start-breaks" aria-labelledby="label-auto-start-breaks">
+                         </div>
+                         <div class="pomodoro-settings-toggle-item">
+                             <label id="label-auto-start-work" for="setting-auto-start-work">Return Unbidden (Work)?</label>
+                             <input type="checkbox" id="setting-auto-start-work" aria-labelledby="label-auto-start-work">
+                         </div>
+                         <div class="pomodoro-settings-toggle-item">
+                             <label id="label-enable-sounds" for="setting-enable-sounds">Whispers from Beyond?</label>
+                             <input type="checkbox" id="setting-enable-sounds" aria-labelledby="label-enable-sounds">
+                         </div>
+                         <div class="pomodoro-settings-toggle-item">
+                             <label id="label-enable-zen-mode" for="setting-enable-zen-mode">Embrace the Abyss (Zen)?</label>
+                             <input type="checkbox" id="setting-enable-zen-mode" aria-labelledby="label-enable-zen-mode">
+                         </div>
+                     </div>
+                 </div>
+                 <div class="pomodoro-settings-actions">
+                     <button id="pomodoro-save-settings" class="btn btn-primary btn-sm">Seal the Pact</button>
+                 </div>
+             </div>
+        </div>
+
+        <div id="add-task-panel" class="mb-6 md:mb-8 bg-gray-800 p-4 shadow-lg border border-gray-600">
+            <h2 class="scary-font text-lg font-semibold mb-3 text-red-500">Scribe New Incantation</h2>
+            <div class="flex flex-col sm:flex-row gap-3 mb-3">
+                <input type="text" id="newTaskInput" placeholder="Whisper your intent..." class="flex-grow p-2.5 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition shadow-sm bg-gray-900 text-gray-300 placeholder-gray-500" aria-label="New incantation description">
+                <input type="text" id="newTaskLabels" placeholder="Sigils (comma-sep)..." class="p-2.5 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition shadow-sm bg-gray-900 text-gray-300 placeholder-gray-500 sm:w-1/3" aria-label="New incantation sigils">
+            </div>
+            <div class="flex flex-col sm:flex-row gap-3 items-center">
+                 <button id="addTaskBtn" class="btn btn-primary flex-grow sm:flex-grow-0"> <i class="fas fa-pencil-alt fa-sm"></i>Commit</button>
+                 <div class="data-actions flex gap-2 ml-auto">
+                     <button id="exportDataBtn" class="btn btn-secondary btn-icon" title="Extract Soul (JSON)" aria-label="Extract Soul">
+                         <i class="fas fa-file-export"></i>
+                     </button>
+                     <label for="importDataInput" class="btn btn-secondary btn-icon cursor-pointer" title="Consume Soul (JSON)" aria-label="Consume Soul">
+                         <i class="fas fa-file-import"></i>
+                     </label>
+                     <input type="file" id="importDataInput" accept=".json" style="display: none;">
+                 </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+            <div id="todo" class="kanban-column bg-blue-900 border-blue-700">
+                <h2 class="column-header text-blue-300 border-blue-500 scary-font"><i class="fas fa-scroll mr-2 text-blue-400"></i>Decrees</h2>
+                <div class="tasks-container"></div>
+            </div>
+            <div id="inprogress" class="kanban-column bg-red-950 border-red-800">
+                <h2 class="column-header text-red-300 border-red-600 scary-font"><i id="inprogress-spinner" class="fas fa-sync-alt mr-2 text-red-400"></i>The Ritual</h2>
+                <div class="tasks-container"></div>
+            </div>
+            <div id="done" class="kanban-column bg-green-950 border-green-800">
+                 <div class="column-header flex justify-between items-center text-green-300 border-green-600">
+                     <span class="scary-font"><i class="fas fa-check-double mr-2 text-green-400"></i>Oblivion</span>
+                     <button id="clearDoneBtn" title="Purge the completed" class="btn-clear"><i class="fas fa-skull-crossbones mr-1"></i> Purge</button>
+                 </div>
+                 <div class="tasks-container"></div>
+            </div>
+        </div>
+    </div>
+
+    <a href="https://buymeacoffee.com/gourabdg" target="_blank" rel="noopener noreferrer" class="bmc-button" title="Offer tribute to the Entity!">
+        <img src="https://www.buymeacoffee.com/assets/img/guidelines/logo-mark-3.svg" alt="Tribute icon" />
+    </a>
+
+    <canvas id="confettiCanvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999;"></canvas>
+
+    <div id="confirmationModal" class="modal-overlay">
+        <div class="modal-content">
+            <p id="modalMessage" class="mb-5 scary-font">Are you certain?</p>
+            <div class="flex justify-center gap-4">
+                <button id="confirmBtn" class="btn btn-danger">Confirm Sacrifice</button>
+                <button id="cancelBtn" class="btn btn-secondary">Show Weakness</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- DOM Element Selection ---
+        const addTaskPanel = document.getElementById('add-task-panel');
+        const newTaskInput = document.getElementById('newTaskInput');
+        const newTaskLabels = document.getElementById('newTaskLabels');
+        const addTaskBtn = document.getElementById('addTaskBtn');
+        const columns = document.querySelectorAll('.kanban-column');
+        const tasksContainers = document.querySelectorAll('.tasks-container');
+        const todoTasksContainer = document.getElementById('todo').querySelector('.tasks-container');
+        const inprogressTasksContainer = document.getElementById('inprogress').querySelector('.tasks-container');
+        const doneTasksContainer = document.getElementById('done').querySelector('.tasks-container');
+        const inprogressSpinner = document.getElementById('inprogress-spinner');
+        const doneColumn = document.getElementById('done');
+        const clearDoneBtn = document.getElementById('clearDoneBtn');
+        const confettiCanvas = document.getElementById('confettiCanvas');
+        const confirmationModal = document.getElementById('confirmationModal');
+        const modalMessage = document.getElementById('modalMessage');
+        const confirmBtn = document.getElementById('confirmBtn');
+        const cancelBtn = document.getElementById('cancelBtn');
+        const pomodoroPanel = document.querySelector('.pomodoro-panel');
+        const pomodoroDisplay = document.getElementById('pomodoro-display');
+        const pomodoroStatus = document.getElementById('pomodoro-status');
+        const pomodoroStartBtn = document.getElementById('pomodoro-start');
+        const pomodoroPauseBtn = document.getElementById('pomodoro-pause');
+        const pomodoroResetBtn = document.getElementById('pomodoro-reset');
+        const pomodoroProgressBar = document.getElementById('pomodoro-progress-bar');
+        const exportDataBtn = document.getElementById('exportDataBtn');
+        const importDataInput = document.getElementById('importDataInput');
+        const pomodoroSettingsToggleBtn = document.getElementById('pomodoro-settings-toggle');
+        const pomodoroSettingsDiv = document.getElementById('pomodoro-settings');
+        const settingWorkMinsInput = document.getElementById('setting-work-mins');
+        const settingShortBreakMinsInput = document.getElementById('setting-short-break-mins');
+        const settingLongBreakMinsInput = document.getElementById('setting-long-break-mins');
+        const settingLongBreakIntervalInput = document.getElementById('setting-long-break-interval');
+        const settingAutoStartBreaksInput = document.getElementById('setting-auto-start-breaks');
+        const settingAutoStartWorkInput = document.getElementById('setting-auto-start-work');
+        const settingEnableSoundsInput = document.getElementById('setting-enable-sounds');
+        const settingEnableZenModeInput = document.getElementById('setting-enable-zen-mode');
+        const pomodoroSaveSettingsBtn = document.getElementById('pomodoro-save-settings');
+        const bmcButton = document.querySelector('.bmc-button');
+
+        // --- Global Variables & Instances ---
+        // Confetti disabled for scary theme
+        // const myConfetti = confetti.create(confettiCanvas, { resize: true, useWorker: true });
+        const activeTaskTimers = {};
+        let draggedItem = null;
+        let sourceColumnId = null;
+        let confirmCallback = null;
+
+        // --- Default Pomodoro Settings ---
+        const DEFAULT_WORK_MINS = 25;
+        const DEFAULT_SHORT_BREAK_MINS = 5;
+        const DEFAULT_LONG_BREAK_MINS = 15;
+        const DEFAULT_LONG_BREAK_INTERVAL = 4;
+        const DEFAULT_AUTO_START_BREAKS = false; // Default off for scary theme
+        const DEFAULT_AUTO_START_WORK = false;  // Default off for scary theme
+        const DEFAULT_ENABLE_SOUNDS = true;
+        const DEFAULT_ENABLE_ZEN_MODE = true;
+
+        // --- Pomodoro Settings (loaded from localStorage) ---
+        let currentWorkMins = DEFAULT_WORK_MINS;
+        let currentShortBreakMins = DEFAULT_SHORT_BREAK_MINS;
+        let currentLongBreakMins = DEFAULT_LONG_BREAK_MINS;
+        let currentLongBreakInterval = DEFAULT_LONG_BREAK_INTERVAL;
+        let currentAutoStartBreaks = DEFAULT_AUTO_START_BREAKS;
+        let currentAutoStartWork = DEFAULT_AUTO_START_WORK;
+        let currentEnableSounds = DEFAULT_ENABLE_SOUNDS;
+        let currentEnableZenMode = DEFAULT_ENABLE_ZEN_MODE;
+
+        // Pomodoro Timer State
+        const POMODORO_STATES = { WORK: 'Focus', SHORT_BREAK: 'Respite', LONG_BREAK: 'Void Gaze' }; // Themed states
+        let pomodoroIntervalId = null;
+        let pomodoroState = POMODORO_STATES.WORK;
+        let pomodoroTimeLeft = currentWorkMins * 60;
+        let pomodoroTotalDuration = currentWorkMins * 60;
+        let pomodoroCycles = 0;
+
+        // --- Sound Synthesis (Tone.js) ---
+        let soundsReady = false;
+        let taskCompleteSynth = null; // Replaced with creepy sound
+        let pomodoroEndSynth = null; // Replaced with creepy sound
+        let timerTickSynth = null; // Added for creepy ticks
+
+        const initAudio = () => {
+            if (soundsReady) return;
+            Tone.start().then(() => {
+                // Creepy completion sound (e.g., low distorted pluck)
+                taskCompleteSynth = new Tone.PluckSynth({
+                    attackNoise: 1,
+                    dampening: 8000, // High dampening for quick decay
+                    resonance: 0.9,
+                    release: 0.5
+                }).toDestination();
+                 const distortion = new Tone.Distortion(0.6).toDestination();
+                 taskCompleteSynth.connect(distortion);
+
+
+                // Pomodoro end sound (e.g., dissonant chord)
+                pomodoroEndSynth = new Tone.PolySynth(Tone.Synth, {
+                    oscillator: { type: 'sawtooth' },
+                    envelope: { attack: 0.1, decay: 0.5, sustain: 0.1, release: 1 }
+                }).toDestination();
+                 const chorus = new Tone.Chorus(4, 2.5, 0.5).toDestination().start();
+                 pomodoroEndSynth.connect(chorus);
+
+                // Timer tick sound (e.g., noisy pulse)
+                timerTickSynth = new Tone.NoiseSynth({
+                    noise: { type: 'brown' }, // Use brown noise for lower freq
+                    envelope: { attack: 0.005, decay: 0.02, sustain: 0 } // Very short click
+                }).toDestination();
+                timerTickSynth.volume.value = -25; // Make it quiet
+
+                console.log("Audio apparitions ready."); soundsReady = true;
+            }).catch(e => console.error("Tone.start failed:", e));
+        };
+
+        const playTaskCompleteSound = () => { // Now plays creepy sound
+            if (!soundsReady || !taskCompleteSynth || !currentEnableSounds) return;
+            try {
+                // Play a low, distorted pluck
+                taskCompleteSynth.triggerAttack("C2", Tone.now()); // Low C note
+            }
+            catch (e) { console.error("Error playing task complete sound:", e); }
+        };
+
+        const playPomodoroEndSound = () => { // Now plays creepy sound
+             if (!soundsReady || !pomodoroEndSynth || !currentEnableSounds) return;
+             try {
+                 // Play a dissonant chord
+                 pomodoroEndSynth.triggerAttackRelease(["C3", "D#3", "G#3"], "1n", Tone.now()); // Dissonant minor chord
+             }
+             catch (e) { console.error("Error playing pomodoro end sound:", e); }
+        };
+
+        const playTimerTickSound = () => { // New tick sound
+            if (!soundsReady || !timerTickSynth || !currentEnableSounds) return;
+            try {
+                timerTickSynth.triggerAttack(Tone.now());
+            } catch (e) { console.error("Error playing timer tick sound:", e); }
+        };
+
+        // --- Helper Functions ---
+        const formatPomodoroTime = (totalSeconds) => {
+            const minutes = Math.floor(totalSeconds / 60); const seconds = totalSeconds % 60;
+            return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        };
+        const updatePomodoroDisplay = () => {
+            pomodoroDisplay.textContent = formatPomodoroTime(pomodoroTimeLeft);
+            document.title = `${formatPomodoroTime(pomodoroTimeLeft)} - ${pomodoroState} | Ritual Chamber`; // Themed title
+        };
+        const updatePomodoroStatus = () => {
+            pomodoroStatus.textContent = pomodoroState; // Use themed state names
+            pomodoroStatus.className = `pomodoro-status ${pomodoroState === POMODORO_STATES.WORK ? 'work' : 'break'}`;
+        };
+        const setPomodoroControlsState = (isRunning) => {
+            pomodoroStartBtn.disabled = isRunning;
+            pomodoroPauseBtn.disabled = !isRunning;
+            pomodoroResetBtn.disabled = isRunning;
+            pomodoroSettingsToggleBtn.disabled = isRunning;
+             // Add/remove flicker class based on running state
+            pomodoroDisplay.classList.toggle('timer-flicker', isRunning);
+        };
+        const updateZenMode = () => {
+            document.body.classList.remove('zen-mode-active', 'zen-target-inprogress', 'zen-target-todo');
+            if (!currentEnableZenMode) return;
+
+            const isRunning = pomodoroIntervalId !== null;
+            const isWorkState = pomodoroState === POMODORO_STATES.WORK;
+            const inProgressHasTasks = inprogressTasksContainer.children.length > 0;
+
+            if (isRunning && isWorkState) {
+                document.body.classList.add('zen-mode-active');
+                if (inProgressHasTasks) {
+                    document.body.classList.add('zen-target-inprogress');
+                } else {
+                    document.body.classList.add('zen-target-todo');
+                }
+            }
+        };
+        const updateProgressBar = () => {
+            if (!pomodoroProgressBar || pomodoroTotalDuration <= 0) return;
+            const progress = Math.max(0, pomodoroTimeLeft / pomodoroTotalDuration);
+            pomodoroProgressBar.style.transform = `scaleX(${progress})`;
+        };
+        const resetPomodoroTimerTime = (forceUpdateDisplay = true) => {
+            clearInterval(pomodoroIntervalId); pomodoroIntervalId = null;
+
+            switch (pomodoroState) {
+                case POMODORO_STATES.WORK:
+                    pomodoroTimeLeft = currentWorkMins * 60;
+                    pomodoroTotalDuration = currentWorkMins * 60;
+                    break;
+                case POMODORO_STATES.SHORT_BREAK:
+                    pomodoroTimeLeft = currentShortBreakMins * 60;
+                    pomodoroTotalDuration = currentShortBreakMins * 60;
+                    break;
+                case POMODORO_STATES.LONG_BREAK:
+                    pomodoroTimeLeft = currentLongBreakMins * 60;
+                    pomodoroTotalDuration = currentLongBreakMins * 60;
+                    break;
+                default:
+                    pomodoroTotalDuration = currentWorkMins * 60;
+            }
+
+            if (forceUpdateDisplay) {
+                updatePomodoroDisplay(); updatePomodoroStatus();
+                pomodoroStartBtn.style.display = 'inline-flex'; pomodoroPauseBtn.style.display = 'none';
+                setPomodoroControlsState(false); // Also removes flicker
+                document.title = "Focus Ritual Chamber";
+            }
+
+            if (pomodoroProgressBar) {
+                pomodoroProgressBar.style.transition = 'none';
+                pomodoroProgressBar.style.transform = 'scaleX(0)';
+                void pomodoroProgressBar.offsetWidth;
+                pomodoroProgressBar.style.transition = 'transform 0.5s linear';
+            }
+            updateZenMode();
+        };
+        const handlePomodoroReset = () => { // "Relapse"
+            // Add penalty? Maybe visual distortion briefly?
+            pomodoroPanel.style.animation = 'shake 0.5s ease-in-out';
+            setTimeout(() => pomodoroPanel.style.animation = '', 500);
+
+            pomodoroState = POMODORO_STATES.WORK;
+            pomodoroCycles = 0;
+            resetPomodoroTimerTime();
+        };
+        const nextPomodoroState = () => {
+            playPomodoroEndSound(); // Play creepy end sound
+            let shouldAutoStart = false;
+            let previousState = pomodoroState;
+
+            if (pomodoroState === POMODORO_STATES.WORK) {
+                pomodoroCycles++;
+                pomodoroState = (pomodoroCycles % currentLongBreakInterval === 0)
+                    ? POMODORO_STATES.LONG_BREAK
+                    : POMODORO_STATES.SHORT_BREAK;
+                shouldAutoStart = currentAutoStartBreaks;
+            } else {
+                pomodoroState = POMODORO_STATES.WORK;
+                shouldAutoStart = currentAutoStartWork;
+            }
+
+            if (pomodoroState === POMODORO_STATES.WORK && previousState !== POMODORO_STATES.WORK) {
+               pomodoroCycles = 0;
+            }
+
+            resetPomodoroTimerTime();
+
+            if (shouldAutoStart) {
+                startPomodoro();
+            }
+        };
+        const startPomodoro = () => {
+            initAudio();
+            if (pomodoroIntervalId) return;
+
+            resetPomodoroTimerTime(false);
+
+            pomodoroStartBtn.style.display = 'none'; pomodoroPauseBtn.style.display = 'inline-flex';
+            setPomodoroControlsState(true); // Also adds flicker
+
+            if (pomodoroProgressBar) {
+                 pomodoroProgressBar.style.transition = 'none';
+                 pomodoroProgressBar.style.transform = 'scaleX(1)';
+                 void pomodoroProgressBar.offsetWidth;
+                 pomodoroProgressBar.style.transition = 'transform 0.5s linear';
+            }
+
+            pomodoroIntervalId = setInterval(() => {
+                pomodoroTimeLeft--;
+                updatePomodoroDisplay();
+                updateProgressBar();
+                playTimerTickSound(); // Play creepy tick
+
+                if (pomodoroTimeLeft <= 0) {
+                    clearInterval(pomodoroIntervalId); pomodoroIntervalId = null; nextPomodoroState();
+                }
+            }, 1000);
+
+            updateZenMode();
+        };
+        const pausePomodoro = () => { // "Hesitate"
+             // Add penalty?
+            clearInterval(pomodoroIntervalId); pomodoroIntervalId = null;
+            pomodoroStartBtn.style.display = 'inline-flex'; pomodoroPauseBtn.style.display = 'none';
+            setPomodoroControlsState(false); // Also removes flicker
+            updateZenMode();
+        };
+        const formatTaskTime = (ms) => {
+            if (ms === null || ms === undefined || ms < 0) return '';
+            let s = Math.floor(ms / 1000); let m = Math.floor(s / 60); let h = Math.floor(m / 60); let d = Math.floor(h / 24);
+            s %= 60; m %= 60; h %= 24; let p = [];
+            if (d > 0) p.push(`${d}D`); if (h > 0 || d > 0) p.push(`${h}H`); if (m > 0 || h > 0 || d > 0) p.push(`${m}m`); p.push(`${s}s`);
+            return p.join(':');
+        };
+
+        // --- Task Work Timer Functions ---
+        const updateTaskTimerDisplay = (taskElement, startTime) => {
+            const timerDiv = taskElement.querySelector('.task-timer');
+            if (!timerDiv || !startTime) return;
+            const elapsed = Date.now() - startTime;
+            timerDiv.innerHTML = `<i class="fas fa-hourglass-half fa-spin fa-xs" style="--fa-animation-duration: 2s;"></i> ${formatTaskTime(elapsed)}`; // Spinning hourglass
+            timerDiv.style.display = 'flex';
+        };
+        const startTaskTimerInterval = (taskElement, startTime) => {
+            const taskId = taskElement.id; stopTaskTimerInterval(taskElement);
+            updateTaskTimerDisplay(taskElement, startTime);
+            activeTaskTimers[taskId] = setInterval(() => updateTaskTimerDisplay(taskElement, startTime), 1000);
+            taskElement.dataset.timerStartTime = startTime;
+            taskElement.classList.add('is-active');
+        };
+        const stopTaskTimerInterval = (taskElement) => {
+            const taskId = taskElement.id;
+            if (activeTaskTimers[taskId]) { clearInterval(activeTaskTimers[taskId]); delete activeTaskTimers[taskId]; }
+            taskElement.classList.remove('is-active');
+        };
+        const displayTotalTaskTime = (taskElement, totalTimeMs) => {
+            const timerDiv = taskElement.querySelector('.task-timer');
+            if (timerDiv) {
+                if (totalTimeMs !== null && totalTimeMs >= 0) {
+                    // Changed icon to skull
+                    timerDiv.innerHTML = `<i class="fas fa-skull fa-xs text-green-400"></i> Consumed: ${formatTaskTime(totalTimeMs)}`;
+                    timerDiv.style.display = 'flex';
+                } else {
+                    timerDiv.innerHTML = ''; timerDiv.style.display = 'none';
+                }
+            }
+        };
+        const pauseWorkTimer = (taskElement) => {
+            const startTime = taskElement.dataset.timerStartTime ? parseInt(taskElement.dataset.timerStartTime, 10) : null;
+            if (startTime) {
+                const elapsed = Date.now() - startTime;
+                let currentTotalTime = parseInt(taskElement.dataset.totalTime || '0', 10);
+                taskElement.dataset.totalTime = currentTotalTime + elapsed;
+                delete taskElement.dataset.timerStartTime;
+            }
+            stopTaskTimerInterval(taskElement);
+            const totalTime = parseInt(taskElement.dataset.totalTime || '0', 10);
+            displayTotalTaskTime(taskElement, totalTime);
+        };
+
+        // --- Task Element Creation & Management ---
+        const createTaskElement = (taskData) => {
+            const { id, text, labels = [], startTime = null, totalTime = 0 } = taskData;
+            const task = document.createElement('div');
+            task.className = 'kanban-task'; task.draggable = true;
+            task.id = id || `task-${Date.now()}`;
+            task.dataset.totalTime = totalTime || 0;
+            task.dataset.labels = JSON.stringify(labels);
+
+            const contentDiv = document.createElement('div'); contentDiv.className = 'task-content';
+            const textSpan = document.createElement('span'); textSpan.className = 'task-text'; textSpan.textContent = text;
+            contentDiv.appendChild(textSpan);
+            const labelsDiv = document.createElement('div'); labelsDiv.className = 'task-labels';
+            labels.forEach(label => {
+                const labelSpan = document.createElement('span');
+                labelSpan.className = 'task-label';
+                labelSpan.textContent = label;
+                labelsDiv.appendChild(labelSpan);
+            });
+            contentDiv.appendChild(labelsDiv);
+            const timerAreaDiv = document.createElement('div'); timerAreaDiv.className = 'task-timer-area';
+            const timerDiv = document.createElement('div'); timerDiv.className = 'task-timer'; timerDiv.style.display = 'none';
+            timerAreaDiv.appendChild(timerDiv);
+            contentDiv.appendChild(timerAreaDiv);
+            task.appendChild(contentDiv);
+
+            const actionsDiv = document.createElement('div'); actionsDiv.className = 'task-actions';
+            const editBtn = document.createElement('button'); editBtn.className = 'task-action-btn edit-btn'; editBtn.innerHTML = '<i class="fas fa-edit fa-xs"></i>'; editBtn.title = "Recant"; editBtn.setAttribute('aria-label', 'Recant');
+            editBtn.addEventListener('click', (e) => { e.stopPropagation(); enableEditing(task, contentDiv); });
+            actionsDiv.appendChild(editBtn);
+            const deleteBtn = document.createElement('button'); deleteBtn.className = 'task-action-btn delete-btn'; deleteBtn.innerHTML = '<i class="fas fa-trash-alt fa-xs"></i>'; deleteBtn.title = "Banish"; deleteBtn.setAttribute('aria-label', 'Banish');
+            deleteBtn.addEventListener('click', (e) => {
+                e.stopPropagation(); const currentText = task.querySelector('.task-text').textContent;
+                showConfirmationModal(`Banish incantation: "${currentText}"?`, () => {
+                    stopTaskTimerInterval(task);
+                    const parentColumnId = task.closest('.kanban-column')?.id;
+                    task.remove();
+                    updateBoardState();
+                    saveTasks();
+                    if (parentColumnId === 'inprogress' && pomodoroIntervalId !== null && pomodoroState === POMODORO_STATES.WORK) {
+                        updateZenMode();
+                    }
+                });
+            });
+            actionsDiv.appendChild(deleteBtn);
+            task.appendChild(actionsDiv);
+
+            task.addEventListener('dragstart', handleDragStart); task.addEventListener('dragend', handleDragEnd);
+            return task;
+        };
+        const enableEditing = (taskElement, contentDiv) => {
+            const textSpan = contentDiv.querySelector('.task-text');
+            const labelsDiv = contentDiv.querySelector('.task-labels');
+            const timerArea = contentDiv.querySelector('.task-timer-area');
+            const currentText = textSpan.textContent;
+            const currentLabels = JSON.parse(taskElement.dataset.labels || '[]');
+            const editContainer = document.createElement('div');
+            editContainer.className = 'editing-container';
+            const textInput = document.createElement('input');
+            textInput.type = 'text'; textInput.value = currentText;
+            textInput.className = 'editing-input';
+            textInput.setAttribute('aria-label', 'Recant incantation description');
+            editContainer.appendChild(textInput);
+            const labelsInput = document.createElement('input');
+            labelsInput.type = 'text'; labelsInput.value = currentLabels.join(', ');
+            labelsInput.placeholder = 'New sigils...';
+            labelsInput.className = 'editing-input';
+            labelsInput.setAttribute('aria-label', 'Recant incantation sigils');
+            editContainer.appendChild(labelsInput);
+            textSpan.style.display = 'none'; labelsDiv.style.display = 'none'; if(timerArea) timerArea.style.display = 'none';
+            contentDiv.insertBefore(editContainer, textSpan); textInput.select();
+            const saveEdit = () => {
+                const newText = textInput.value.trim();
+                const newLabels = labelsInput.value.split(',').map(label => label.trim()).filter(label => label !== '');
+                textSpan.textContent = (newText && newText !== currentText) ? newText : currentText;
+                taskElement.dataset.labels = JSON.stringify(newLabels);
+                labelsDiv.innerHTML = ''; newLabels.forEach(label => { const labelSpan = document.createElement('span'); labelSpan.className = 'task-label'; labelSpan.textContent = label; labelsDiv.appendChild(labelSpan); });
+                contentDiv.removeChild(editContainer); textSpan.style.display = ''; labelsDiv.style.display = 'flex'; if(timerArea) timerArea.style.display = 'flex';
+                if ((newText && newText !== currentText) || (JSON.stringify(newLabels) !== JSON.stringify(currentLabels))) {
+                    saveTasks();
+                }
+            };
+            let saved = false; const handleSave = () => { if (!saved) { saved = true; saveEdit(); } };
+            const handleCancel = () => { if (!saved) { saved = true; contentDiv.removeChild(editContainer); textSpan.style.display = ''; labelsDiv.style.display = 'flex'; if(timerArea) timerArea.style.display = 'flex'; } };
+            textInput.addEventListener('blur', handleSave); labelsInput.addEventListener('blur', handleSave);
+            editContainer.addEventListener('keypress', (e) => { if (e.key === 'Enter') { handleSave(); } else if (e.key === 'Escape') { handleCancel(); } });
+            editContainer.addEventListener('keydown', (e) => { if (e.key === 'Escape') { handleCancel(); } });
+        };
+        const addTask = () => {
+            initAudio();
+            const taskText = newTaskInput.value.trim(); const labelText = newTaskLabels.value.trim();
+            if (taskText === '') { newTaskInput.focus(); return; }
+            const labels = labelText.split(',').map(label => label.trim()).filter(label => label !== '');
+            const taskData = { id: `task-${Date.now()}`, text: taskText, labels: labels };
+            const newTask = createTaskElement(taskData);
+            todoTasksContainer.appendChild(newTask);
+            newTaskInput.value = ''; newTaskLabels.value = '';
+            saveTasks();
+            updateZenMode();
+        };
+
+        // --- Drag and Drop Event Handlers ---
+        function handleDragStart(e) {
+            initAudio();
+            if (e.target.querySelector('input:focus') || e.target.querySelector('.editing-input')) { e.preventDefault(); return; }
+            draggedItem = e.target; sourceColumnId = draggedItem.closest('.kanban-column').id;
+            setTimeout(() => { if(draggedItem) draggedItem.classList.add('dragging'); }, 0);
+            e.dataTransfer.effectAllowed = 'move';
+            try { e.dataTransfer.setData('text/plain', e.target.id); } catch (error) { console.error("Error setting drag data:", error); }
+        }
+        function handleDragEnd(e) {
+            setTimeout(() => {
+                if (draggedItem) { draggedItem.classList.remove('dragging'); }
+                draggedItem = null; sourceColumnId = null; columns.forEach(col => col.classList.remove('drag-over'));
+            }, 0);
+        }
+        function handleDragOver(e) {
+            e.preventDefault(); e.dataTransfer.dropEffect = 'move';
+            const targetColumn = e.currentTarget.closest('.kanban-column');
+            columns.forEach(col => { col.classList.toggle('drag-over', col === targetColumn); });
+        }
+        function handleDragEnter(e) {
+             e.preventDefault(); e.currentTarget.closest('.kanban-column').classList.add('drag-over');
+        }
+        function handleDragLeave(e) {
+            const column = e.currentTarget.closest('.kanban-column');
+            if (!column || !column.contains(e.relatedTarget)) {
+                 if(column) column.classList.remove('drag-over');
+            }
+        }
+        function handleDrop(e) {
+            e.preventDefault();
+            const dropZoneContainer = e.currentTarget;
+            const dropZoneColumn = dropZoneContainer.closest('.kanban-column');
+            if (!draggedItem || !dropZoneContainer.classList.contains('tasks-container') || !dropZoneColumn) {
+                if (draggedItem) draggedItem.classList.remove('dragging');
+                draggedItem = null; sourceColumnId = null;
+                columns.forEach(col => col.classList.remove('drag-over'));
+                return;
+            }
+
+            const destinationColumnId = dropZoneColumn.id;
+            const wasInProgress = sourceColumnId === 'inprogress';
+            const willBeInProgress = destinationColumnId === 'inprogress';
+            const willBeInDone = destinationColumnId === 'done';
+            const willBeInTodo = destinationColumnId === 'todo';
+
+            if (wasInProgress && !willBeInProgress) {
+                pauseWorkTimer(draggedItem);
+            }
+            if (!wasInProgress && willBeInProgress) {
+                const newWorkStartTime = Date.now();
+                startTaskTimerInterval(draggedItem, newWorkStartTime);
+            }
+
+            if (willBeInDone) {
+                const totalTime = parseInt(draggedItem.dataset.totalTime || '0', 10);
+                displayTotalTaskTime(draggedItem, totalTime);
+                playTaskCompleteSound(); // Play creepy sound
+                // triggerConfetti(); // Confetti disabled
+            } else if (willBeInTodo) {
+                const timerDiv = draggedItem.querySelector('.task-timer');
+                if (timerDiv) {
+                    timerDiv.innerHTML = '';
+                    timerDiv.style.display = 'none';
+                }
+                draggedItem.classList.remove('is-active');
+            }
+
+            const afterElement = getDragAfterElement(dropZoneContainer, e.clientY);
+            if (afterElement == null) {
+                dropZoneContainer.appendChild(draggedItem);
+            } else {
+                dropZoneContainer.insertBefore(draggedItem, afterElement);
+            }
+
+            dropZoneColumn.classList.remove('drag-over');
+            saveTasks();
+            updateZenMode();
+        }
+        function getDragAfterElement(container, y) {
+            const draggableElements = [...container.querySelectorAll('.kanban-task:not(.dragging)')];
+            return draggableElements.reduce((closest, child) => {
+                const box = child.getBoundingClientRect(); const offset = y - box.top - box.height / 2;
+                if (offset < 0 && offset > closest.offset) { return { offset: offset, element: child }; } else { return closest; }
+            }, { offset: Number.NEGATIVE_INFINITY }).element;
+        }
+
+        // --- Other Event Handlers ---
+        // const triggerConfetti = () => { myConfetti({ particleCount: 120, spread: 75, origin: { y: 0.6 }, zIndex: 10000, gravity: 0.8 }); };
+        const handleClearDone = () => {
+             if (doneTasksContainer.children.length > 0) {
+                 showConfirmationModal("Purge all completed rituals from Oblivion?", () => {
+                     doneTasksContainer.innerHTML = '';
+                     saveTasks();
+                 });
+             }
+        };
+
+        // --- Confirmation Modal ---
+        function showConfirmationModal(message, callback) { modalMessage.textContent = message; confirmCallback = callback; confirmationModal.classList.add('active'); }
+        function hideConfirmationModal() { confirmationModal.classList.remove('active'); confirmCallback = null; }
+
+        // --- Data Export/Import ---
+        const exportData = () => {
+            const tasksData = {};
+            columns.forEach(column => {
+                const columnId = column.id; tasksData[columnId] = [];
+                column.querySelectorAll('.kanban-task').forEach(task => {
+                    const textSpan = task.querySelector('.task-text');
+                    if (textSpan) {
+                        tasksData[columnId].push({
+                            id: task.id, text: textSpan.textContent, labels: JSON.parse(task.dataset.labels || '[]'),
+                            startTime: task.dataset.timerStartTime ? parseInt(task.dataset.timerStartTime, 10) : null,
+                            totalTime: parseInt(task.dataset.totalTime || '0', 10)
+                        });
+                    }
+                });
+            });
+            try {
+                const jsonString = JSON.stringify(tasksData, null, 2); const blob = new Blob([jsonString], { type: 'application/json' }); const url = URL.createObjectURL(blob);
+                const a = document.createElement('a'); a.href = url; const timestamp = new Date().toISOString().slice(0, 19).replace(/[-:T]/g, ''); a.download = `ritual_soul_${timestamp}.json`; // Themed filename
+                document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
+            } catch (error) { console.error("Error extracting soul:", error); alert("Failed to extract soul. The spirits resist."); }
+        };
+        const handleImportData = (event) => {
+            const file = event.target.files[0]; if (!file) { return; }
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const importedData = JSON.parse(e.target.result);
+                    if (typeof importedData !== 'object' || importedData === null) { throw new Error("Invalid soul format: Not an object."); }
+                    const columnIds = Object.keys(importedData); const expectedCols = ['todo', 'inprogress', 'done'];
+                    if (!expectedCols.every(col => columnIds.includes(col) && Array.isArray(importedData[col]))) { throw new Error("Invalid soul format: Missing or incorrect dimensions."); }
+                    showConfirmationModal("Consuming this soul will overwrite your current ritual. Are you sure?", () => {
+                        tasksContainers.forEach(container => container.innerHTML = '');
+                        Object.values(activeTaskTimers).forEach(clearInterval); for (const key in activeTaskTimers) { delete activeTaskTimers[key]; }
+                        loadTasksFromData(importedData);
+                        saveTasks();
+                        alert("Soul consumed successfully!");
+                    });
+                } catch (error) { console.error("Error consuming soul:", error); alert(`Failed to consume soul: ${error.message}`); }
+                finally { event.target.value = null; }
+            };
+            reader.onerror = (e) => { console.error("Error reading soul file:", e); alert("Failed to read the offered soul."); event.target.value = null; };
+            reader.readAsText(file);
+        };
+
+        // --- Local Storage Persistence ---
+        const POMODORO_SETTINGS_KEY = 'pomodoroSettings_v3_scary'; // New key for themed version
+        const KANBAN_TASKS_KEY = 'kanbanTasks_scary'; // New key for themed version
+
+        // --- Board Visual State Updates ---
+        const updateSpinnerAnimation = () => {
+            if (inprogressSpinner) {
+                const hasTasks = inprogressTasksContainer.children.length > 0;
+                inprogressSpinner.classList.toggle('fa-spin', hasTasks); // Keep spinning, maybe faster?
+                 inprogressSpinner.style.setProperty('--fa-animation-duration', hasTasks ? '1.5s' : '0s'); // Faster spin when active
+            }
+        };
+        const updateDoneGlow = () => {
+            if (doneColumn) {
+                const todoEmpty = todoTasksContainer.children.length === 0;
+                const inprogressEmpty = inprogressTasksContainer.children.length === 0;
+                const doneHasTasks = doneTasksContainer.children.length > 0;
+                doneColumn.classList.toggle('done-glow', todoEmpty && inprogressEmpty && doneHasTasks);
+            }
+        };
+        const updateBoardState = () => {
+            updateSpinnerAnimation();
+            updateDoneGlow();
+        }
+
+        // --- Save/Load Functions ---
+        const saveTasks = () => {
+            const tasksData = {};
+            columns.forEach(column => {
+                const columnId = column.id; tasksData[columnId] = [];
+                column.querySelectorAll('.kanban-task').forEach(task => {
+                    const textSpan = task.querySelector('.task-text');
+                    if (textSpan) {
+                        tasksData[columnId].push({
+                            id: task.id, text: textSpan.textContent, labels: JSON.parse(task.dataset.labels || '[]'),
+                            startTime: task.dataset.timerStartTime ? parseInt(task.dataset.timerStartTime, 10) : null,
+                            totalTime: parseInt(task.dataset.totalTime || '0', 10)
+                        });
+                    }
+                });
+            });
+            try { localStorage.setItem(KANBAN_TASKS_KEY, JSON.stringify(tasksData)); }
+            catch (error) { console.error("Error saving rituals to localStorage:", error); }
+            updateBoardState();
+        };
+        const loadTasksFromData = (tasksData) => {
+             Object.keys(tasksData).forEach(columnId => {
+                 const columnElement = document.getElementById(columnId);
+                 if (columnElement) {
+                     const tasksContainer = columnElement.querySelector('.tasks-container');
+                     tasksData[columnId].forEach(taskData => {
+                         if(taskData && taskData.id && typeof taskData.text === 'string') {
+                             taskData.labels = Array.isArray(taskData.labels) ? taskData.labels : [];
+                             const taskElement = createTaskElement(taskData); tasksContainer.appendChild(taskElement);
+
+                             if (columnId === 'inprogress') {
+                                 if (taskData.startTime) {
+                                     startTaskTimerInterval(taskElement, taskData.startTime);
+                                 } else if (taskData.totalTime > 0) {
+                                     displayTotalTaskTime(taskElement, taskData.totalTime);
+                                 } else {
+                                     const timerDiv = taskElement.querySelector('.task-timer');
+                                     if(timerDiv) timerDiv.style.display = 'none';
+                                 }
+                             } else if (columnId === 'done') {
+                                 displayTotalTaskTime(taskElement, taskData.totalTime || 0);
+                             } else {
+                                 const timerDiv = taskElement.querySelector('.task-timer');
+                                 if(timerDiv) timerDiv.style.display = 'none';
+                             }
+                         } else { console.warn("Skipping invalid ritual data during load:", taskData); }
+                     });
+                 }
+             });
+             updateBoardState();
+             updateZenMode();
+        };
+        const loadTasks = () => {
+             Object.values(activeTaskTimers).forEach(clearInterval); for (const key in activeTaskTimers) { delete activeTaskTimers[key]; }
+             let savedTasksJson; try { savedTasksJson = localStorage.getItem(KANBAN_TASKS_KEY); } catch (error) { console.error("Error reading rituals from localStorage:", error); return; }
+             if (savedTasksJson) {
+                 try { const tasksData = JSON.parse(savedTasksJson); loadTasksFromData(tasksData); }
+                 catch (error) { console.error("Error parsing saved rituals JSON:", error); localStorage.removeItem(KANBAN_TASKS_KEY); updateBoardState(); updateZenMode(); }
+             } else {
+                 updateBoardState();
+                 updateZenMode();
+             }
+        };
+        const loadPomodoroSettings = () => {
+            try {
+                const savedSettings = localStorage.getItem(POMODORO_SETTINGS_KEY);
+                if (savedSettings) {
+                    const settings = JSON.parse(savedSettings);
+                    currentWorkMins = parseInt(settings.work, 10) || DEFAULT_WORK_MINS;
+                    currentShortBreakMins = parseInt(settings.shortBreak, 10) || DEFAULT_SHORT_BREAK_MINS;
+                    currentLongBreakMins = parseInt(settings.longBreak, 10) || DEFAULT_LONG_BREAK_MINS;
+                    currentLongBreakInterval = parseInt(settings.longBreakInterval, 10) || DEFAULT_LONG_BREAK_INTERVAL;
+                    currentAutoStartBreaks = settings.autoStartBreaks ?? DEFAULT_AUTO_START_BREAKS;
+                    currentAutoStartWork = settings.autoStartWork ?? DEFAULT_AUTO_START_WORK;
+                    currentEnableSounds = settings.enableSounds ?? DEFAULT_ENABLE_SOUNDS;
+                    currentEnableZenMode = settings.enableZenMode ?? DEFAULT_ENABLE_ZEN_MODE;
+
+                } else {
+                    currentWorkMins = DEFAULT_WORK_MINS;
+                    currentShortBreakMins = DEFAULT_SHORT_BREAK_MINS;
+                    currentLongBreakMins = DEFAULT_LONG_BREAK_MINS;
+                    currentLongBreakInterval = DEFAULT_LONG_BREAK_INTERVAL;
+                    currentAutoStartBreaks = DEFAULT_AUTO_START_BREAKS;
+                    currentAutoStartWork = DEFAULT_AUTO_START_WORK;
+                    currentEnableSounds = DEFAULT_ENABLE_SOUNDS;
+                    currentEnableZenMode = DEFAULT_ENABLE_ZEN_MODE;
+                }
+            } catch (error) {
+                console.error("Error loading Pomodoro settings:", error);
+                currentWorkMins = DEFAULT_WORK_MINS;
+                currentShortBreakMins = DEFAULT_SHORT_BREAK_MINS;
+                currentLongBreakMins = DEFAULT_LONG_BREAK_MINS;
+                currentLongBreakInterval = DEFAULT_LONG_BREAK_INTERVAL;
+                currentAutoStartBreaks = DEFAULT_AUTO_START_BREAKS;
+                currentAutoStartWork = DEFAULT_AUTO_START_WORK;
+                currentEnableSounds = DEFAULT_ENABLE_SOUNDS;
+                currentEnableZenMode = DEFAULT_ENABLE_ZEN_MODE;
+            }
+            resetPomodoroTimerTime(false);
+        };
+        const savePomodoroSettings = (settings) => {
+             try { localStorage.setItem(POMODORO_SETTINGS_KEY, JSON.stringify(settings)); }
+             catch (error) { console.error("Error saving Pomodoro settings:", error); alert("Could not save the pact."); }
+        };
+        const handleSavePomodoroSettings = () => {
+             const newWorkMins = parseInt(settingWorkMinsInput.value, 10);
+             const newShortBreakMins = parseInt(settingShortBreakMinsInput.value, 10);
+             const newLongBreakMins = parseInt(settingLongBreakMinsInput.value, 10);
+             const newLongBreakInterval = parseInt(settingLongBreakIntervalInput.value, 10);
+             const newAutoStartBreaks = settingAutoStartBreaksInput.checked;
+             const newAutoStartWork = settingAutoStartWorkInput.checked;
+             const newEnableSounds = settingEnableSoundsInput.checked;
+             const newEnableZenMode = settingEnableZenModeInput.checked;
+
+             if (isNaN(newWorkMins) || newWorkMins < 1 ||
+                 isNaN(newShortBreakMins) || newShortBreakMins < 1 ||
+                 isNaN(newLongBreakMins) || newLongBreakMins < 1 ||
+                 isNaN(newLongBreakInterval) || newLongBreakInterval < 1) {
+                 alert("Enter valid numbers for durations and interval, fool."); return;
+             }
+
+             currentWorkMins = newWorkMins;
+             currentShortBreakMins = newShortBreakMins;
+             currentLongBreakMins = newLongBreakMins;
+             currentLongBreakInterval = newLongBreakInterval;
+             currentAutoStartBreaks = newAutoStartBreaks;
+             currentAutoStartWork = newAutoStartWork;
+             currentEnableSounds = newEnableSounds;
+             currentEnableZenMode = newEnableZenMode;
+
+             savePomodoroSettings({
+                 work: currentWorkMins,
+                 shortBreak: currentShortBreakMins,
+                 longBreak: currentLongBreakMins,
+                 longBreakInterval: currentLongBreakInterval,
+                 autoStartBreaks: currentAutoStartBreaks,
+                 autoStartWork: currentAutoStartWork,
+                 enableSounds: currentEnableSounds,
+                 enableZenMode: currentEnableZenMode
+             });
+
+             handlePomodoroReset();
+             pomodoroSettingsDiv.classList.remove('active');
+             // alert("Pact sealed!"); // Maybe too cheerful?
+             updateZenMode();
+        };
+
+        // --- Event Listener Setup ---
+        document.addEventListener('DOMContentLoaded', () => {
+            loadPomodoroSettings();
+            loadTasks();
+            handlePomodoroReset();
+
+            ['click', 'keypress', 'dragstart'].forEach(evt => {
+                document.body.addEventListener(evt, initAudio, { once: true });
+            });
+
+            document.addEventListener('keydown', (e) => { if (e.altKey && e.key.toLowerCase() === 'n') { e.preventDefault(); newTaskInput.focus(); } });
+        });
+        addTaskBtn.addEventListener('click', addTask);
+        newTaskInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') addTask(); });
+        newTaskLabels.addEventListener('keypress', (e) => { if (e.key === 'Enter') addTask(); });
+        clearDoneBtn.addEventListener('click', handleClearDone);
+        tasksContainers.forEach(container => {
+            container.addEventListener('dragover', handleDragOver); container.addEventListener('dragenter', handleDragEnter);
+            container.addEventListener('dragleave', handleDragLeave); container.addEventListener('drop', handleDrop);
+        });
+        confirmBtn.addEventListener('click', () => { if (typeof confirmCallback === 'function') { try { confirmCallback(); } catch (error) { console.error("Error executing confirmation callback:", error); } } hideConfirmationModal(); });
+        cancelBtn.addEventListener('click', hideConfirmationModal);
+        confirmationModal.addEventListener('click', (e) => { if (e.target === confirmationModal) hideConfirmationModal(); });
+        pomodoroStartBtn.addEventListener('click', startPomodoro);
+        pomodoroPauseBtn.addEventListener('click', pausePomodoro);
+        pomodoroResetBtn.addEventListener('click', handlePomodoroReset);
+        exportDataBtn.addEventListener('click', exportData);
+        importDataInput.addEventListener('change', handleImportData);
+        pomodoroSettingsToggleBtn.addEventListener('click', () => {
+            const isActive = pomodoroSettingsDiv.classList.toggle('active');
+            if (isActive) {
+                settingWorkMinsInput.value = currentWorkMins;
+                settingShortBreakMinsInput.value = currentShortBreakMins;
+                settingLongBreakMinsInput.value = currentLongBreakMins;
+                settingLongBreakIntervalInput.value = currentLongBreakInterval;
+                settingAutoStartBreaksInput.checked = currentAutoStartBreaks;
+                settingAutoStartWorkInput.checked = currentAutoStartWork;
+                settingEnableSoundsInput.checked = currentEnableSounds;
+                settingEnableZenModeInput.checked = currentEnableZenMode;
+            }
+        });
+        pomodoroSaveSettingsBtn.addEventListener('click', handleSavePomodoroSettings);
+
+        // Add shake animation style dynamically if needed
+        const styleSheet = document.createElement("style");
+        styleSheet.type = "text/css";
+        styleSheet.innerText = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+                20%, 40%, 60%, 80% { transform: translateX(5px); }
+            }
+        `;
+        document.head.appendChild(styleSheet);
+
+    </script>
+
+</body>
+</html>
