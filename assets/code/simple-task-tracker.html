@@ -12,14 +12,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-DN4GBMQMRM"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      // Replace G-XXXXXXXXXX with your Measurement ID if you have one
-      // gtag('config', 'G-XXXXXXXXXX');
-      gtag('config', 'G-DN4GBMQMRM'); // Using the provided ID for now
+      gtag('config', 'G-DN4GBMQMRM');
     </script>
 
     <style>
@@ -39,16 +37,26 @@
         .pomodoro-controls button { padding: 0.5rem 1rem; font-size: 0.875rem; }
         .pomodoro-controls button i { margin-right: 0.375rem; }
         .pomodoro-controls button:disabled { opacity: 0.5; cursor: not-allowed; }
+        /* Fix for settings button icon alignment */
+        .pomodoro-controls .btn-icon i { margin-right: 0; }
 
         /* Pomodoro Settings Section */
-        .pomodoro-settings { display: none; width: 100%; border-top: 1px solid #e5e7eb; margin-top: 1rem; padding-top: 1rem; gap: 0.75rem; flex-direction: column; align-items: center; }
+        .pomodoro-settings { display: none; width: 100%; border-top: 1px solid #e5e7eb; margin-top: 1rem; padding-top: 1rem; gap: 1.5rem; flex-direction: column; align-items: center; } /* Increased gap */
         .pomodoro-settings.active { display: flex; }
-        .pomodoro-settings-inputs { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; }
-        .pomodoro-settings-inputs label { font-size: 0.875rem; color: #4b5563; display: flex; align-items: center; gap: 0.25rem;}
-        .pomodoro-settings-inputs input[type="number"] { width: 4rem; padding: 0.25rem 0.5rem; border: 1px solid #d1d5db; border-radius: 0.25rem; font-size: 0.875rem; text-align: center; -moz-appearance: textfield; }
-        .pomodoro-settings-inputs input[type="number"]::-webkit-outer-spin-button,
-        .pomodoro-settings-inputs input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-        .pomodoro-settings button { font-size: 0.875rem; padding: 0.5rem 1rem;}
+        .pomodoro-settings-grid { display: grid; grid-template-columns: repeat(1, 1fr); gap: 1rem; width: 100%; max-width: 500px; } /* Grid layout */
+        @media (min-width: 480px) { .pomodoro-settings-grid { grid-template-columns: repeat(2, 1fr); } } /* 2 columns on small screens */
+        .pomodoro-settings-section { display: flex; flex-direction: column; gap: 0.5rem; }
+        .pomodoro-settings-section h4 { font-size: 0.9rem; font-weight: 600; color: #4b5563; margin-bottom: 0.25rem; border-bottom: 1px solid #e5e7eb; padding-bottom: 0.25rem;}
+        .pomodoro-settings-item { display: flex; flex-direction: column; gap: 0.1rem; } /* Stack label and input */
+        .pomodoro-settings-item label { font-size: 0.8rem; color: #4b5563; display: block; margin-bottom: 0.1rem;}
+        .pomodoro-settings-item input[type="number"] { width: 100%; padding: 0.375rem 0.5rem; border: 1px solid #d1d5db; border-radius: 0.25rem; font-size: 0.875rem; text-align: center; -moz-appearance: textfield; }
+        .pomodoro-settings-item input[type="number"]::-webkit-outer-spin-button,
+        .pomodoro-settings-item input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+        .pomodoro-settings-toggle-item { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; margin-top: 0.5rem; }
+        .pomodoro-settings-toggle-item label { font-size: 0.8rem; color: #4b5563; margin-bottom: 0; } /* Keep label aligned */
+        .pomodoro-settings-toggle-item input[type="checkbox"] { height: 1rem; width: 1rem; cursor: pointer; accent-color: #2563eb; } /* Style checkbox */
+        .pomodoro-settings-actions { display: flex; justify-content: center; width: 100%; margin-top: 1rem; }
+        .pomodoro-settings-actions button { font-size: 0.875rem; padding: 0.5rem 1rem;}
 
         /* Kanban Column Styling */
         .kanban-column { min-height: 350px; display: flex; flex-direction: column; transition: background-color 0.2s ease, box-shadow 0.3s ease; border-radius: 0.5rem; box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); overflow: hidden; }
@@ -56,10 +64,8 @@
         .tasks-container { flex-grow: 1; padding: 0.75rem; overflow-y: auto; }
         .tasks-container > .kanban-task + .kanban-task { margin-top: 0.75rem; }
 
-        /* NEW: Done Column Glow Effect */
-        .kanban-column.done-glow {
-            animation: pulse-glow 2.5s infinite ease-in-out;
-        }
+        /* Done Column Glow Effect */
+        .kanban-column.done-glow { animation: pulse-glow 2.5s infinite ease-in-out; }
         @keyframes pulse-glow {
             0%, 100% { box-shadow: 0 0 0px 0px rgba(34, 197, 94, 0.3), 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); } /* green-500 */
             50% { box-shadow: 0 0 10px 4px rgba(34, 197, 94, 0.4), 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); }
@@ -149,20 +155,47 @@
                  </div>
              </div>
              <div id="pomodoro-settings" class="pomodoro-settings">
-                 <div class="pomodoro-settings-inputs">
-                     <label for="setting-work-mins">Work (min):
-                         <input type="number" id="setting-work-mins" min="1" max="120" step="1">
-                     </label>
-                     <label for="setting-short-break-mins">Short Break (min):
-                         <input type="number" id="setting-short-break-mins" min="1" max="30" step="1">
-                     </label>
-                     <label for="setting-long-break-mins">Long Break (min):
-                         <input type="number" id="setting-long-break-mins" min="1" max="60" step="1">
-                     </label>
+                 <div class="pomodoro-settings-grid">
+                     <div class="pomodoro-settings-section">
+                         <h4>Durations (minutes)</h4>
+                         <div class="pomodoro-settings-item">
+                             <label for="setting-work-mins">Work:</label>
+                             <input type="number" id="setting-work-mins" min="1" max="120" step="1">
+                         </div>
+                         <div class="pomodoro-settings-item">
+                             <label for="setting-short-break-mins">Short Break:</label>
+                             <input type="number" id="setting-short-break-mins" min="1" max="30" step="1">
+                         </div>
+                         <div class="pomodoro-settings-item">
+                             <label for="setting-long-break-mins">Long Break:</label>
+                             <input type="number" id="setting-long-break-mins" min="1" max="60" step="1">
+                         </div>
+                     </div>
+                     <div class="pomodoro-settings-section">
+                         <h4>Behavior</h4>
+                         <div class="pomodoro-settings-item">
+                             <label for="setting-long-break-interval">Cycles before Long Break:</label>
+                             <input type="number" id="setting-long-break-interval" min="1" max="10" step="1">
+                         </div>
+                         <div class="pomodoro-settings-toggle-item">
+                             <label for="setting-auto-start-breaks">Auto-start Breaks?</label>
+                             <input type="checkbox" id="setting-auto-start-breaks">
+                         </div>
+                         <div class="pomodoro-settings-toggle-item">
+                             <label for="setting-auto-start-work">Auto-start Work after Break?</label>
+                             <input type="checkbox" id="setting-auto-start-work">
+                         </div>
+                          <div class="pomodoro-settings-toggle-item">
+                             <label for="setting-enable-sounds">Enable Sounds?</label>
+                             <input type="checkbox" id="setting-enable-sounds">
+                         </div>
+                     </div>
                  </div>
-                 <button id="pomodoro-save-settings" class="btn btn-primary btn-sm">Save Settings</button>
+                 <div class="pomodoro-settings-actions">
+                     <button id="pomodoro-save-settings" class="btn btn-primary btn-sm">Save Settings</button>
+                 </div>
              </div>
-         </div>
+        </div>
 
         <div class="mb-6 md:mb-8 bg-white p-4 rounded-lg shadow-sm border border-gray-200">
             <h2 class="text-lg font-semibold mb-3 text-gray-700">Add New Task</h2>
@@ -226,8 +259,8 @@
         const todoTasksContainer = document.getElementById('todo').querySelector('.tasks-container');
         const inprogressTasksContainer = document.getElementById('inprogress').querySelector('.tasks-container');
         const doneTasksContainer = document.getElementById('done').querySelector('.tasks-container');
-        const inprogressSpinner = document.getElementById('inprogress-spinner'); // Get spinner icon
-        const doneColumn = document.getElementById('done'); // Get Done column element
+        const inprogressSpinner = document.getElementById('inprogress-spinner');
+        const doneColumn = document.getElementById('done');
         const clearDoneBtn = document.getElementById('clearDoneBtn');
         const confettiCanvas = document.getElementById('confettiCanvas');
         const confirmationModal = document.getElementById('confirmationModal');
@@ -246,6 +279,10 @@
         const settingWorkMinsInput = document.getElementById('setting-work-mins');
         const settingShortBreakMinsInput = document.getElementById('setting-short-break-mins');
         const settingLongBreakMinsInput = document.getElementById('setting-long-break-mins');
+        const settingLongBreakIntervalInput = document.getElementById('setting-long-break-interval'); // New
+        const settingAutoStartBreaksInput = document.getElementById('setting-auto-start-breaks'); // New
+        const settingAutoStartWorkInput = document.getElementById('setting-auto-start-work'); // New
+        const settingEnableSoundsInput = document.getElementById('setting-enable-sounds'); // New
         const pomodoroSaveSettingsBtn = document.getElementById('pomodoro-save-settings');
 
         // --- Global Variables & Instances ---
@@ -255,42 +292,51 @@
         let sourceColumnId = null;
         let confirmCallback = null;
 
-        // --- Default Pomodoro Durations ---
+        // --- Default Pomodoro Settings ---
         const DEFAULT_WORK_MINS = 25;
         const DEFAULT_SHORT_BREAK_MINS = 5;
         const DEFAULT_LONG_BREAK_MINS = 15;
+        const DEFAULT_LONG_BREAK_INTERVAL = 4; // Cycles before long break
+        const DEFAULT_AUTO_START_BREAKS = true;
+        const DEFAULT_AUTO_START_WORK = true;
+        const DEFAULT_ENABLE_SOUNDS = true;
 
-        // --- Pomodoro Settings ---
+        // --- Pomodoro Settings (will be loaded from localStorage) ---
         let currentWorkMins = DEFAULT_WORK_MINS;
         let currentShortBreakMins = DEFAULT_SHORT_BREAK_MINS;
         let currentLongBreakMins = DEFAULT_LONG_BREAK_MINS;
+        let currentLongBreakInterval = DEFAULT_LONG_BREAK_INTERVAL;
+        let currentAutoStartBreaks = DEFAULT_AUTO_START_BREAKS;
+        let currentAutoStartWork = DEFAULT_AUTO_START_WORK;
+        let currentEnableSounds = DEFAULT_ENABLE_SOUNDS;
 
         // Pomodoro Timer State
         const POMODORO_STATES = { WORK: 'Work', SHORT_BREAK: 'Break', LONG_BREAK: 'Break' };
-        let pomodoroIntervalId = null; let pomodoroState = POMODORO_STATES.WORK;
+        let pomodoroIntervalId = null;
+        let pomodoroState = POMODORO_STATES.WORK;
         let pomodoroTimeLeft = currentWorkMins * 60;
-        let pomodoroCycles = 0;
+        let pomodoroCycles = 0; // Tracks completed WORK cycles since last long break
 
         // --- Sound Synthesis (Tone.js) ---
         let soundsReady = false;
         let taskCompleteSynth = null;
         let pomodoroEndSynth = null;
 
-        const initAudio = () => { /* ... (no changes) ... */
+        const initAudio = () => {
             if (soundsReady) return;
             Tone.start().then(() => {
                 taskCompleteSynth = new Tone.Synth({ oscillator: { type: 'sine' }, envelope: { attack: 0.01, decay: 0.2, sustain: 0.1, release: 0.5 } }).toDestination();
-                 pomodoroEndSynth = new Tone.Synth({ oscillator: { type: 'triangle' }, envelope: { attack: 0.05, decay: 0.3, sustain: 0.2, release: 0.8 } }).toDestination();
-                 console.log("Audio ready."); soundsReady = true;
+                pomodoroEndSynth = new Tone.Synth({ oscillator: { type: 'triangle' }, envelope: { attack: 0.05, decay: 0.3, sustain: 0.2, release: 0.8 } }).toDestination();
+                console.log("Audio ready."); soundsReady = true;
             }).catch(e => console.error("Tone.start failed:", e));
         };
-        const playTaskCompleteSound = () => { /* ... (no changes) ... */
-            if (!soundsReady || !taskCompleteSynth) return;
+        const playTaskCompleteSound = () => {
+            if (!soundsReady || !taskCompleteSynth || !currentEnableSounds) return; // Check sound setting
             try { taskCompleteSynth.triggerAttackRelease("C5", "8n", Tone.now()); taskCompleteSynth.triggerAttackRelease("G5", "8n", Tone.now() + 0.15); }
             catch (e) { console.error("Error playing task complete sound:", e); }
         };
-        const playPomodoroEndSound = () => { /* ... (no changes) ... */
-             if (!soundsReady || !pomodoroEndSynth) return;
+        const playPomodoroEndSound = () => {
+             if (!soundsReady || !pomodoroEndSynth || !currentEnableSounds) return; // Check sound setting
              try { pomodoroEndSynth.triggerAttackRelease("E4", "4n", Tone.now()); pomodoroEndSynth.triggerAttackRelease("G4", "4n", Tone.now() + 0.3); }
              catch (e) { console.error("Error playing pomodoro end sound:", e); }
         };
@@ -299,30 +345,30 @@
         // --- Helper Functions ---
 
         /** Formats seconds into MM:SS string. */
-        const formatPomodoroTime = (totalSeconds) => { /* ... (no changes) ... */
+        const formatPomodoroTime = (totalSeconds) => {
             const minutes = Math.floor(totalSeconds / 60); const seconds = totalSeconds % 60;
             return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
         };
         /** Updates the Pomodoro timer display in the UI. */
-        const updatePomodoroDisplay = () => { /* ... (no changes) ... */
+        const updatePomodoroDisplay = () => {
             pomodoroDisplay.textContent = formatPomodoroTime(pomodoroTimeLeft);
             document.title = `${formatPomodoroTime(pomodoroTimeLeft)} - ${pomodoroState} | Kanban`;
         };
         /** Updates the Pomodoro status indicator (Work/Break). */
-        const updatePomodoroStatus = () => { /* ... (no changes) ... */
+        const updatePomodoroStatus = () => {
             pomodoroStatus.textContent = pomodoroState;
             pomodoroStatus.className = `pomodoro-status ${pomodoroState === POMODORO_STATES.WORK ? 'work' : 'break'}`;
         };
         /** Enables/disables Pomodoro control buttons based on timer state. */
-        const setPomodoroControlsState = (isRunning) => { /* ... (no changes) ... */
+        const setPomodoroControlsState = (isRunning) => {
             pomodoroStartBtn.disabled = isRunning;
             pomodoroPauseBtn.disabled = !isRunning;
-            pomodoroResetBtn.disabled = isRunning;
-            pomodoroSettingsToggleBtn.disabled = isRunning;
+            pomodoroResetBtn.disabled = isRunning; // Can't reset while running
+            pomodoroSettingsToggleBtn.disabled = isRunning; // Can't change settings while running
         };
 
         /** Resets the Pomodoro timer based on the *currently set* pomodoroState. */
-        const resetPomodoroTimerTime = (forceUpdateDisplay = true) => { /* ... (no changes) ... */
+        const resetPomodoroTimerTime = (forceUpdateDisplay = true) => {
             clearInterval(pomodoroIntervalId); pomodoroIntervalId = null;
             switch (pomodoroState) {
                 case POMODORO_STATES.WORK: pomodoroTimeLeft = currentWorkMins * 60; break;
@@ -336,24 +382,50 @@
             }
         };
 
-        /** Handles the reset button click - always goes back to WORK state. */
-        const handlePomodoroReset = () => { /* ... (no changes) ... */
+        /** Handles the reset button click - always goes back to WORK state and resets cycles. */
+        const handlePomodoroReset = () => {
             pomodoroState = POMODORO_STATES.WORK;
+            pomodoroCycles = 0; // Reset cycle count on manual reset
             resetPomodoroTimerTime();
         };
 
-        /** Switches to the next Pomodoro state. */
-        const nextPomodoroState = () => { /* ... (no changes) ... */
+        /** Switches to the next Pomodoro state and handles auto-start. */
+        const nextPomodoroState = () => {
             playPomodoroEndSound();
+            let shouldAutoStart = false;
+
             if (pomodoroState === POMODORO_STATES.WORK) {
-                pomodoroCycles++; pomodoroState = (pomodoroCycles % 4 === 0) ? POMODORO_STATES.LONG_BREAK : POMODORO_STATES.SHORT_BREAK;
-            } else { pomodoroState = POMODORO_STATES.WORK; }
-            resetPomodoroTimerTime();
+                pomodoroCycles++;
+                pomodoroState = (pomodoroCycles % currentLongBreakInterval === 0)
+                    ? POMODORO_STATES.LONG_BREAK
+                    : POMODORO_STATES.SHORT_BREAK;
+                shouldAutoStart = currentAutoStartBreaks;
+            } else { // Currently on a break
+                pomodoroState = POMODORO_STATES.WORK;
+                shouldAutoStart = currentAutoStartWork;
+                // Reset cycles only when starting a new work session after a LONG break
+                if (pomodoroStatus.textContent === POMODORO_STATES.LONG_BREAK) { // Check previous state before update
+                   // pomodoroCycles = 0; // This logic might be debated - reset after long break or keep counting? Resetting seems more common.
+                   // Let's reset cycles when a WORK session *starts* after any break.
+                }
+            }
+
+             // Reset cycles when a WORK session *starts* after any break.
+            if (pomodoroState === POMODORO_STATES.WORK) {
+                pomodoroCycles = 0;
+            }
+
+
+            resetPomodoroTimerTime(); // This updates display and status
+
+            if (shouldAutoStart) {
+                startPomodoro();
+            }
         };
         /** Starts the Pomodoro countdown. */
-        const startPomodoro = () => { /* ... (no changes) ... */
+        const startPomodoro = () => {
             initAudio();
-            if (pomodoroIntervalId) return;
+            if (pomodoroIntervalId) return; // Already running
             pomodoroStartBtn.style.display = 'none'; pomodoroPauseBtn.style.display = 'inline-flex';
             setPomodoroControlsState(true);
             pomodoroIntervalId = setInterval(() => {
@@ -364,14 +436,15 @@
             }, 1000);
         };
         /** Pauses the Pomodoro countdown. */
-        const pausePomodoro = () => { /* ... (no changes) ... */
+        const pausePomodoro = () => {
             clearInterval(pomodoroIntervalId); pomodoroIntervalId = null;
             pomodoroStartBtn.style.display = 'inline-flex'; pomodoroPauseBtn.style.display = 'none';
             setPomodoroControlsState(false);
+            // Keep current title (showing paused time)
         };
 
         /** Formats task timer milliseconds into a D:H:M:S string. */
-        const formatTaskTime = (ms) => { /* ... (no changes) ... */
+        const formatTaskTime = (ms) => {
             if (ms === null || ms === undefined || ms < 0) return '';
             let s = Math.floor(ms / 1000); let m = Math.floor(s / 60); let h = Math.floor(m / 60); let d = Math.floor(h / 24);
             s %= 60; m %= 60; h %= 24; let p = [];
@@ -380,26 +453,26 @@
         };
 
         // --- Task Work Timer Functions ---
-        const updateTaskTimerDisplay = (taskElement, startTime) => { /* ... (no changes) ... */
+        const updateTaskTimerDisplay = (taskElement, startTime) => {
             const timerDiv = taskElement.querySelector('.task-timer');
             if (!timerDiv || !startTime) return;
             const elapsed = Date.now() - startTime;
             timerDiv.innerHTML = `<i class="fas fa-stopwatch fa-xs"></i> ${formatTaskTime(elapsed)}`;
             timerDiv.style.display = 'flex';
         };
-        const startTaskTimerInterval = (taskElement, startTime) => { /* ... (no changes) ... */
-            const taskId = taskElement.id; stopTaskTimerInterval(taskElement);
-            updateTaskTimerDisplay(taskElement, startTime);
+        const startTaskTimerInterval = (taskElement, startTime) => {
+            const taskId = taskElement.id; stopTaskTimerInterval(taskElement); // Clear existing interval first
+            updateTaskTimerDisplay(taskElement, startTime); // Initial display
             activeTaskTimers[taskId] = setInterval(() => updateTaskTimerDisplay(taskElement, startTime), 1000);
             taskElement.dataset.timerStartTime = startTime;
             taskElement.classList.add('is-active');
         };
-        const stopTaskTimerInterval = (taskElement) => { /* ... (no changes) ... */
+        const stopTaskTimerInterval = (taskElement) => {
             const taskId = taskElement.id;
             if (activeTaskTimers[taskId]) { clearInterval(activeTaskTimers[taskId]); delete activeTaskTimers[taskId]; }
             taskElement.classList.remove('is-active');
         };
-        const displayTotalTaskTime = (taskElement, totalTimeMs) => { /* ... (no changes) ... */
+        const displayTotalTaskTime = (taskElement, totalTimeMs) => {
             const timerDiv = taskElement.querySelector('.task-timer');
             if (timerDiv) {
                 if (totalTimeMs !== null && totalTimeMs >= 0) {
@@ -410,28 +483,29 @@
                 }
             }
         };
-        const pauseWorkTimer = (taskElement) => { /* ... (no changes) ... */
+        const pauseWorkTimer = (taskElement) => {
             const startTime = taskElement.dataset.timerStartTime ? parseInt(taskElement.dataset.timerStartTime, 10) : null;
             if (startTime) {
                 const elapsed = Date.now() - startTime;
                 let currentTotalTime = parseInt(taskElement.dataset.totalTime || '0', 10);
                 taskElement.dataset.totalTime = currentTotalTime + elapsed;
-                delete taskElement.dataset.timerStartTime;
+                delete taskElement.dataset.timerStartTime; // Remove start time as it's now paused
             }
-            stopTaskTimerInterval(taskElement);
-            const timerDiv = taskElement.querySelector('.task-timer');
-            if(timerDiv) timerDiv.style.display = 'none'; // Hide timer when paused
+            stopTaskTimerInterval(taskElement); // Stop the interval and remove active class
+            // Optionally display the paused total time immediately
+            const totalTime = parseInt(taskElement.dataset.totalTime || '0', 10);
+            displayTotalTaskTime(taskElement, totalTime); // Show "Total:" time when paused
         };
 
         // --- Task Element Creation & Management ---
-        const createTaskElement = (taskData) => { /* ... (no changes, except removing redundant timer display logic here) ... */
+        const createTaskElement = (taskData) => {
             const { id, text, labels = [], startTime = null, totalTime = 0 } = taskData;
             const task = document.createElement('div');
             task.className = 'kanban-task'; task.draggable = true;
             task.id = id || `task-${Date.now()}`;
             task.dataset.totalTime = totalTime || 0;
             task.dataset.labels = JSON.stringify(labels);
-            // No need to set startTime dataset here, it's handled when loading/moving
+            // startTime dataset is handled by load/move logic
 
             const contentDiv = document.createElement('div'); contentDiv.className = 'task-content';
             const textSpan = document.createElement('span'); textSpan.className = 'task-text'; textSpan.textContent = text;
@@ -471,7 +545,7 @@
             return task;
         };
         /** Enables inline editing for a task's text and labels. */
-        const enableEditing = (taskElement, contentDiv) => { /* ... (no changes) ... */
+        const enableEditing = (taskElement, contentDiv) => {
             const textSpan = contentDiv.querySelector('.task-text');
             const labelsDiv = contentDiv.querySelector('.task-labels');
             const timerArea = contentDiv.querySelector('.task-timer-area');
@@ -498,57 +572,56 @@
                 textSpan.textContent = (newText && newText !== currentText) ? newText : currentText;
                 taskElement.dataset.labels = JSON.stringify(newLabels);
                 labelsDiv.innerHTML = ''; newLabels.forEach(label => { const labelSpan = document.createElement('span'); labelSpan.className = 'task-label'; labelSpan.textContent = label; labelsDiv.appendChild(labelSpan); });
-                contentDiv.removeChild(editContainer); textSpan.style.display = ''; labelsDiv.style.display = 'flex'; if(timerArea) timerArea.style.display = 'flex';
+                contentDiv.removeChild(editContainer); textSpan.style.display = ''; labelsDiv.style.display = 'flex'; if(timerArea) timerArea.style.display = 'flex'; // Use flex for timer area
                 if ((newText && newText !== currentText) || (JSON.stringify(newLabels) !== JSON.stringify(currentLabels))) {
-                     saveTasks(); // Save only if changed
-                     // No need to call updateBoardState here, saveTasks does it
+                    saveTasks(); // Save only if changed (also updates board state)
                 }
             };
             let saved = false; const handleSave = () => { if (!saved) { saved = true; saveEdit(); } };
-            const handleCancel = () => { if (!saved) { saved = true; contentDiv.removeChild(editContainer); textSpan.style.display = ''; labelsDiv.style.display = 'flex'; if(timerArea) timerArea.style.display = 'flex'; } };
+            const handleCancel = () => { if (!saved) { saved = true; contentDiv.removeChild(editContainer); textSpan.style.display = ''; labelsDiv.style.display = 'flex'; if(timerArea) timerArea.style.display = 'flex'; } }; // Use flex for timer area
             textInput.addEventListener('blur', handleSave); labelsInput.addEventListener('blur', handleSave);
             editContainer.addEventListener('keypress', (e) => { if (e.key === 'Enter') { handleSave(); } else if (e.key === 'Escape') { handleCancel(); } });
             editContainer.addEventListener('keydown', (e) => { if (e.key === 'Escape') { handleCancel(); } });
         };
         /** Adds a new task to the 'To Do' column. */
-        const addTask = () => { /* ... (no changes) ... */
-            initAudio();
+        const addTask = () => {
+            initAudio(); // Ensure audio context is ready
             const taskText = newTaskInput.value.trim(); const labelText = newTaskLabels.value.trim();
             if (taskText === '') { newTaskInput.focus(); return; }
             const labels = labelText.split(',').map(label => label.trim()).filter(label => label !== '');
             const taskData = { id: `task-${Date.now()}`, text: taskText, labels: labels };
             const newTask = createTaskElement(taskData);
-            todoTasksContainer.appendChild(newTask); // Use specific container
+            todoTasksContainer.appendChild(newTask); // Add to To Do
             newTaskInput.value = ''; newTaskLabels.value = '';
             saveTasks(); // This will also trigger updateBoardState
         };
 
         // --- Drag and Drop Event Handlers ---
-        function handleDragStart(e) { /* ... (no changes) ... */
-            initAudio();
-            if (e.target.querySelector('input:focus') || e.target.querySelector('.editing-input')) { e.preventDefault(); return; }
+        function handleDragStart(e) {
+            initAudio(); // Ensure audio context is ready
+            if (e.target.querySelector('input:focus') || e.target.querySelector('.editing-input')) { e.preventDefault(); return; } // Prevent drag during edit
             draggedItem = e.target; sourceColumnId = draggedItem.closest('.kanban-column').id;
-            setTimeout(() => { if(draggedItem) draggedItem.classList.add('dragging'); }, 0); // Check if draggedItem still exists
+            setTimeout(() => { if(draggedItem) draggedItem.classList.add('dragging'); }, 0);
             e.dataTransfer.effectAllowed = 'move';
             try { e.dataTransfer.setData('text/plain', e.target.id); } catch (error) { console.error("Error setting drag data:", error); }
         }
-        function handleDragEnd(e) { /* ... (no changes) ... */
+        function handleDragEnd(e) {
             setTimeout(() => {
                 if (draggedItem) { draggedItem.classList.remove('dragging'); }
                 draggedItem = null; sourceColumnId = null; columns.forEach(col => col.classList.remove('drag-over'));
             }, 0);
         }
-        function handleDragOver(e) { /* ... (no changes) ... */
+        function handleDragOver(e) {
             e.preventDefault(); e.dataTransfer.dropEffect = 'move';
             const targetColumn = e.currentTarget.closest('.kanban-column');
             columns.forEach(col => { col.classList.toggle('drag-over', col === targetColumn); });
         }
-        function handleDragEnter(e) { /* ... (no changes) ... */
+        function handleDragEnter(e) {
              e.preventDefault(); e.currentTarget.closest('.kanban-column').classList.add('drag-over');
         }
-        function handleDragLeave(e) { /* ... (no changes) ... */
+        function handleDragLeave(e) {
             const column = e.currentTarget.closest('.kanban-column');
-            // Check if the relatedTarget (where the mouse is going) is outside the current column
+            // Only remove drag-over if leaving the column entirely
             if (!column || !column.contains(e.relatedTarget)) {
                  if(column) column.classList.remove('drag-over');
             }
@@ -572,24 +645,19 @@
 
             // --- Timer Logic ---
             if (wasInProgress && !willBeInProgress) {
-                // Moving OUT of In Progress: Pause timer, store elapsed time
+                // Moving OUT of In Progress: Pause timer, store elapsed time, show total
                 pauseWorkTimer(draggedItem);
             }
             if (!wasInProgress && willBeInProgress) {
                 // Moving INTO In Progress: Start timer (or restart if paused)
                 const newWorkStartTime = Date.now();
                 startTaskTimerInterval(draggedItem, newWorkStartTime);
-                // Clear any "Total:" display if moving back from Done
-                const timerDiv = draggedItem.querySelector('.task-timer');
-                if (timerDiv && timerDiv.innerHTML.includes('Total:')) {
-                    timerDiv.innerHTML = ''; // Clear it, display will update with stopwatch
-                    timerDiv.style.display = 'flex'; // Ensure it's visible
-                }
+                // Timer display updated by startTaskTimerInterval
             }
 
             // --- Display Logic ---
             if (willBeInDone) {
-                // Moving INTO Done: Display total time, play sound, confetti
+                // Moving INTO Done: Display final total time, play sound, confetti
                 const totalTime = parseInt(draggedItem.dataset.totalTime || '0', 10);
                 displayTotalTaskTime(draggedItem, totalTime);
                 playTaskCompleteSound();
@@ -602,12 +670,12 @@
                     timerDiv.style.display = 'none';
                 }
                 draggedItem.classList.remove('is-active');
-                // Reset total time if moving back to To Do? Optional, depends on desired logic.
-                // draggedItem.dataset.totalTime = '0';
+                // Reset total time if moving back to To Do? Let's keep it for potential restarts.
+                // delete draggedItem.dataset.totalTime; // Uncomment to reset time
+            } else if (willBeInProgress && wasInProgress) {
+                // Moving WITHIN In Progress (reordering): Timer continues, no change needed here.
             } else if (willBeInProgress && !wasInProgress) {
-                 // Moving INTO In Progress (from ToDo/Done): Timer started above, ensure display is correct
-                 const startTime = parseInt(draggedItem.dataset.timerStartTime, 10);
-                 updateTaskTimerDisplay(draggedItem, startTime); // Initial display update
+                 // Moving INTO In Progress (from ToDo/Done): Timer started above, display updated by startTaskTimerInterval
             }
 
 
@@ -623,7 +691,7 @@
             saveTasks(); // Save state and update spinner/glow
         }
         /** Finds element to insert before based on Y-coordinate. */
-        function getDragAfterElement(container, y) { /* ... (no changes) ... */
+        function getDragAfterElement(container, y) {
             const draggableElements = [...container.querySelectorAll('.kanban-task:not(.dragging)')];
             return draggableElements.reduce((closest, child) => {
                 const box = child.getBoundingClientRect(); const offset = y - box.top - box.height / 2;
@@ -632,7 +700,7 @@
         }
 
         // --- Other Event Handlers ---
-        const triggerConfetti = () => { /* ... (no changes) ... */ myConfetti({ particleCount: 120, spread: 75, origin: { y: 0.6 }, zIndex: 10000, gravity: 0.8 }); };
+        const triggerConfetti = () => { myConfetti({ particleCount: 120, spread: 75, origin: { y: 0.6 }, zIndex: 10000, gravity: 0.8 }); };
         const handleClearDone = () => {
              if (doneTasksContainer.children.length > 0) {
                  showConfirmationModal("Clear all tasks from the 'Done' column?", () => {
@@ -643,11 +711,11 @@
         };
 
         // --- Confirmation Modal ---
-        function showConfirmationModal(message, callback) { /* ... (no changes) ... */ modalMessage.textContent = message; confirmCallback = callback; confirmationModal.classList.add('active'); }
-        function hideConfirmationModal() { /* ... (no changes) ... */ confirmationModal.classList.remove('active'); confirmCallback = null; }
+        function showConfirmationModal(message, callback) { modalMessage.textContent = message; confirmCallback = callback; confirmationModal.classList.add('active'); }
+        function hideConfirmationModal() { confirmationModal.classList.remove('active'); confirmCallback = null; }
 
         // --- Data Export/Import ---
-        const exportData = () => { /* ... (no changes) ... */
+        const exportData = () => {
             const tasksData = {};
             columns.forEach(column => {
                 const columnId = column.id; tasksData[columnId] = [];
@@ -668,7 +736,7 @@
                 document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
             } catch (error) { console.error("Error exporting data:", error); alert("Failed to export data. See console for details."); }
         };
-        const handleImportData = (event) => { /* ... (no changes) ... */
+        const handleImportData = (event) => {
             const file = event.target.files[0]; if (!file) { return; }
             const reader = new FileReader();
             reader.onload = (e) => {
@@ -685,17 +753,17 @@
                         alert("Data imported successfully!");
                     });
                 } catch (error) { console.error("Error importing data:", error); alert(`Failed to import data: ${error.message}`); }
-                finally { event.target.value = null; }
+                finally { event.target.value = null; } // Reset file input
             };
             reader.onerror = (e) => { console.error("Error reading file:", e); alert("Failed to read the selected file."); event.target.value = null; };
             reader.readAsText(file);
         };
 
         // --- Local Storage Persistence ---
-        const POMODORO_SETTINGS_KEY = 'pomodoroSettings'; // Key for settings
+        const POMODORO_SETTINGS_KEY = 'pomodoroSettings_v2'; // Use a new key for new settings format
+        const KANBAN_TASKS_KEY = 'kanbanTasks';
 
-        // --- NEW: Functions to Update Board Visual State ---
-
+        // --- Board Visual State Updates ---
         /** Updates the In Progress spinner animation based on tasks present. */
         const updateSpinnerAnimation = () => {
             if (inprogressSpinner) {
@@ -703,27 +771,23 @@
                 inprogressSpinner.classList.toggle('fa-spin', hasTasks);
             }
         };
-
         /** Updates the Done column glow effect based on task distribution. */
         const updateDoneGlow = () => {
             if (doneColumn) {
                 const todoEmpty = todoTasksContainer.children.length === 0;
                 const inprogressEmpty = inprogressTasksContainer.children.length === 0;
                 const doneHasTasks = doneTasksContainer.children.length > 0;
-
                 // Glow only if ToDo and InProgress are empty, and Done has tasks
                 doneColumn.classList.toggle('done-glow', todoEmpty && inprogressEmpty && doneHasTasks);
             }
         };
-
         /** Central function to update dynamic visual states */
         const updateBoardState = () => {
             updateSpinnerAnimation();
             updateDoneGlow();
         }
 
-        // --- Modified Save/Load Functions ---
-
+        // --- Save/Load Functions ---
         const saveTasks = () => {
             const tasksData = {};
             columns.forEach(column => {
@@ -739,11 +803,9 @@
                     }
                 });
             });
-            try { localStorage.setItem('kanbanTasks', JSON.stringify(tasksData)); }
+            try { localStorage.setItem(KANBAN_TASKS_KEY, JSON.stringify(tasksData)); }
             catch (error) { console.error("Error saving tasks to localStorage:", error); }
-
-            // Update visual state AFTER saving
-            updateBoardState();
+            updateBoardState(); // Update visuals after saving
         };
 
         /** Loads tasks from a data object (used by initial load and import). */
@@ -760,21 +822,16 @@
                              // Restore state based on column
                              if (columnId === 'inprogress') {
                                  if (taskData.startTime) {
-                                     // Calculate elapsed time since page was closed
-                                     const elapsedSinceLoad = Date.now() - taskData.startTime;
-                                     const previousTotal = taskData.totalTime || 0;
-                                     // Decide how to handle time passed while closed.
-                                     // Option 1: Resume timer, adding elapsed time to total when paused/moved.
+                                     // Task was actively running when saved. Resume timer.
+                                     // The start time is preserved from the save.
                                      startTaskTimerInterval(taskElement, taskData.startTime);
-                                     // Option 2: Add elapsed time immediately (timer shows total time since original start)
-                                     // taskElement.dataset.totalTime = previousTotal + elapsedSinceLoad;
-                                     // startTaskTimerInterval(taskElement, taskData.startTime); // Still need interval
-                                     // Option 3: Just restore totalTime and don't restart timer automatically
-                                     // displayTotalTaskTime(taskElement, previousTotal);
-                                     // delete taskElement.dataset.timerStartTime; // Remove start time if not auto-restarting
+                                 } else if (taskData.totalTime > 0) {
+                                     // Task was paused in 'In Progress' when saved. Display total time.
+                                     displayTotalTaskTime(taskElement, taskData.totalTime);
                                  } else {
-                                     // Task was in progress but timer wasn't running (maybe paused before close?)
-                                     displayTotalTaskTime(taskElement, taskData.totalTime || 0); // Show paused time
+                                     // Task was just moved to 'In Progress' but not started/paused (unlikely but possible)
+                                     const timerDiv = taskElement.querySelector('.task-timer');
+                                     if(timerDiv) timerDiv.style.display = 'none';
                                  }
                              } else if (columnId === 'done') {
                                  displayTotalTaskTime(taskElement, taskData.totalTime || 0);
@@ -786,24 +843,22 @@
                      });
                  }
              });
-             // Update visual state after loading all tasks
-             updateBoardState();
+             updateBoardState(); // Update visuals after loading all tasks
         };
 
         /** Loads tasks from localStorage on initial page load. */
         const loadTasks = () => {
-             Object.values(activeTaskTimers).forEach(clearInterval); for (const key in activeTaskTimers) { delete activeTaskTimers[key]; }
-             let savedTasksJson; try { savedTasksJson = localStorage.getItem('kanbanTasks'); } catch (error) { console.error("Error reading tasks from localStorage:", error); return; }
+             Object.values(activeTaskTimers).forEach(clearInterval); for (const key in activeTaskTimers) { delete activeTaskTimers[key]; } // Clear any stray timers
+             let savedTasksJson; try { savedTasksJson = localStorage.getItem(KANBAN_TASKS_KEY); } catch (error) { console.error("Error reading tasks from localStorage:", error); return; }
              if (savedTasksJson) {
                  try { const tasksData = JSON.parse(savedTasksJson); loadTasksFromData(tasksData); }
-                 catch (error) { console.error("Error parsing saved tasks JSON:", error); localStorage.removeItem('kanbanTasks'); /* Clear corrupted data */ }
+                 catch (error) { console.error("Error parsing saved tasks JSON:", error); localStorage.removeItem(KANBAN_TASKS_KEY); /* Clear corrupted data */ }
              }
-             // Ensure board state is correct even if no tasks were loaded
-             updateBoardState();
+             updateBoardState(); // Ensure board state is correct even if no tasks loaded
         };
 
         /** Loads Pomodoro settings from localStorage. */
-        const loadPomodoroSettings = () => { /* ... (no changes) ... */
+        const loadPomodoroSettings = () => {
             try {
                 const savedSettings = localStorage.getItem(POMODORO_SETTINGS_KEY);
                 if (savedSettings) {
@@ -811,35 +866,83 @@
                     currentWorkMins = parseInt(settings.work, 10) || DEFAULT_WORK_MINS;
                     currentShortBreakMins = parseInt(settings.shortBreak, 10) || DEFAULT_SHORT_BREAK_MINS;
                     currentLongBreakMins = parseInt(settings.longBreak, 10) || DEFAULT_LONG_BREAK_MINS;
+                    currentLongBreakInterval = parseInt(settings.longBreakInterval, 10) || DEFAULT_LONG_BREAK_INTERVAL;
+                    // Use ?? for boolean defaults to handle cases where the key might be missing in older saves
+                    currentAutoStartBreaks = settings.autoStartBreaks ?? DEFAULT_AUTO_START_BREAKS;
+                    currentAutoStartWork = settings.autoStartWork ?? DEFAULT_AUTO_START_WORK;
+                    currentEnableSounds = settings.enableSounds ?? DEFAULT_ENABLE_SOUNDS;
+
                 } else {
-                    currentWorkMins = DEFAULT_WORK_MINS; currentShortBreakMins = DEFAULT_SHORT_BREAK_MINS; currentLongBreakMins = DEFAULT_LONG_BREAK_MINS;
+                    // Set defaults if nothing is saved
+                    currentWorkMins = DEFAULT_WORK_MINS;
+                    currentShortBreakMins = DEFAULT_SHORT_BREAK_MINS;
+                    currentLongBreakMins = DEFAULT_LONG_BREAK_MINS;
+                    currentLongBreakInterval = DEFAULT_LONG_BREAK_INTERVAL;
+                    currentAutoStartBreaks = DEFAULT_AUTO_START_BREAKS;
+                    currentAutoStartWork = DEFAULT_AUTO_START_WORK;
+                    currentEnableSounds = DEFAULT_ENABLE_SOUNDS;
                 }
             } catch (error) {
                 console.error("Error loading Pomodoro settings:", error);
-                currentWorkMins = DEFAULT_WORK_MINS; currentShortBreakMins = DEFAULT_SHORT_BREAK_MINS; currentLongBreakMins = DEFAULT_LONG_BREAK_MINS;
+                // Fallback to defaults on error
+                currentWorkMins = DEFAULT_WORK_MINS;
+                currentShortBreakMins = DEFAULT_SHORT_BREAK_MINS;
+                currentLongBreakMins = DEFAULT_LONG_BREAK_MINS;
+                currentLongBreakInterval = DEFAULT_LONG_BREAK_INTERVAL;
+                currentAutoStartBreaks = DEFAULT_AUTO_START_BREAKS;
+                currentAutoStartWork = DEFAULT_AUTO_START_WORK;
+                currentEnableSounds = DEFAULT_ENABLE_SOUNDS;
             }
             // Reset timer display based on loaded settings, but don't force state yet
-            resetPomodoroTimerTime(false);
+            resetPomodoroTimerTime(false); // Don't update UI fully yet, wait for DOMContentLoaded reset
         };
 
         /** Saves Pomodoro settings to localStorage. */
-        const savePomodoroSettings = (settings) => { /* ... (no changes) ... */
+        const savePomodoroSettings = (settings) => {
              try { localStorage.setItem(POMODORO_SETTINGS_KEY, JSON.stringify(settings)); }
              catch (error) { console.error("Error saving Pomodoro settings:", error); alert("Could not save Pomodoro settings."); }
         };
 
         /** Handles saving the new Pomodoro settings from the input fields. */
-        const handleSavePomodoroSettings = () => { /* ... (no changes) ... */
+        const handleSavePomodoroSettings = () => {
              const newWorkMins = parseInt(settingWorkMinsInput.value, 10);
              const newShortBreakMins = parseInt(settingShortBreakMinsInput.value, 10);
              const newLongBreakMins = parseInt(settingLongBreakMinsInput.value, 10);
-             if (isNaN(newWorkMins) || newWorkMins < 1 || isNaN(newShortBreakMins) || newShortBreakMins < 1 || isNaN(newLongBreakMins) || newLongBreakMins < 1) {
-                 alert("Please enter valid positive numbers for all durations."); return;
+             const newLongBreakInterval = parseInt(settingLongBreakIntervalInput.value, 10);
+             const newAutoStartBreaks = settingAutoStartBreaksInput.checked;
+             const newAutoStartWork = settingAutoStartWorkInput.checked;
+             const newEnableSounds = settingEnableSoundsInput.checked;
+
+             // Validation
+             if (isNaN(newWorkMins) || newWorkMins < 1 ||
+                 isNaN(newShortBreakMins) || newShortBreakMins < 1 ||
+                 isNaN(newLongBreakMins) || newLongBreakMins < 1 ||
+                 isNaN(newLongBreakInterval) || newLongBreakInterval < 1) {
+                 alert("Please enter valid positive numbers for all durations and the cycle interval."); return;
              }
-             currentWorkMins = newWorkMins; currentShortBreakMins = newShortBreakMins; currentLongBreakMins = newLongBreakMins;
-             savePomodoroSettings({ work: currentWorkMins, shortBreak: currentShortBreakMins, longBreak: currentLongBreakMins });
-             handlePomodoroReset(); // Use the reset handler which forces WORK state and updates display
-             pomodoroSettingsDiv.classList.remove('active');
+
+             // Update current settings
+             currentWorkMins = newWorkMins;
+             currentShortBreakMins = newShortBreakMins;
+             currentLongBreakMins = newLongBreakMins;
+             currentLongBreakInterval = newLongBreakInterval;
+             currentAutoStartBreaks = newAutoStartBreaks;
+             currentAutoStartWork = newAutoStartWork;
+             currentEnableSounds = newEnableSounds;
+
+             // Save to localStorage
+             savePomodoroSettings({
+                 work: currentWorkMins,
+                 shortBreak: currentShortBreakMins,
+                 longBreak: currentLongBreakMins,
+                 longBreakInterval: currentLongBreakInterval,
+                 autoStartBreaks: currentAutoStartBreaks,
+                 autoStartWork: currentAutoStartWork,
+                 enableSounds: currentEnableSounds
+             });
+
+             handlePomodoroReset(); // Reset timer to WORK state with new durations & reset cycles
+             pomodoroSettingsDiv.classList.remove('active'); // Hide settings panel
              alert("Pomodoro settings saved!");
         };
 
@@ -848,14 +951,14 @@
         document.addEventListener('DOMContentLoaded', () => {
             loadPomodoroSettings(); // Load settings first
             loadTasks();           // Load tasks and update board state
-            handlePomodoroReset(); // Set initial Pomodoro state to WORK & update display
+            handlePomodoroReset(); // Set initial Pomodoro state to WORK & update display based on loaded/default settings
 
-            // Init audio on first interaction
-            document.body.addEventListener('click', initAudio, { once: true });
-            document.body.addEventListener('keypress', initAudio, { once: true });
-            document.body.addEventListener('dragstart', initAudio, { once: true });
+            // Init audio on first interaction (click, keypress, drag)
+            ['click', 'keypress', 'dragstart'].forEach(evt => {
+                document.body.addEventListener(evt, initAudio, { once: true });
+            });
 
-            // Keyboard shortcut for new task
+            // Keyboard shortcut for new task (Alt+N)
             document.addEventListener('keydown', (e) => { if (e.altKey && e.key.toLowerCase() === 'n') { e.preventDefault(); newTaskInput.focus(); } });
         });
         addTaskBtn.addEventListener('click', addTask);
@@ -868,19 +971,25 @@
         });
         confirmBtn.addEventListener('click', () => { if (typeof confirmCallback === 'function') { try { confirmCallback(); } catch (error) { console.error("Error executing confirmation callback:", error); } } hideConfirmationModal(); });
         cancelBtn.addEventListener('click', hideConfirmationModal);
-        confirmationModal.addEventListener('click', (e) => { if (e.target === confirmationModal) hideConfirmationModal(); });
+        confirmationModal.addEventListener('click', (e) => { if (e.target === confirmationModal) hideConfirmationModal(); }); // Close on overlay click
         pomodoroStartBtn.addEventListener('click', startPomodoro);
         pomodoroPauseBtn.addEventListener('click', pausePomodoro);
         pomodoroResetBtn.addEventListener('click', handlePomodoroReset);
         exportDataBtn.addEventListener('click', exportData);
-        importDataInput.addEventListener('change', handleImportData);
+        importDataInput.addEventListener('change', handleImportData); // Listen for file selection
+
         // Pomodoro Settings Listeners
         pomodoroSettingsToggleBtn.addEventListener('click', () => {
             const isActive = pomodoroSettingsDiv.classList.toggle('active');
             if (isActive) {
+                // Populate inputs with current settings when opening
                 settingWorkMinsInput.value = currentWorkMins;
                 settingShortBreakMinsInput.value = currentShortBreakMins;
                 settingLongBreakMinsInput.value = currentLongBreakMins;
+                settingLongBreakIntervalInput.value = currentLongBreakInterval;
+                settingAutoStartBreaksInput.checked = currentAutoStartBreaks;
+                settingAutoStartWorkInput.checked = currentAutoStartWork;
+                settingEnableSoundsInput.checked = currentEnableSounds;
             }
         });
         pomodoroSaveSettingsBtn.addEventListener('click', handleSavePomodoroSettings);
