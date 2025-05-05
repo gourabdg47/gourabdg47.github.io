@@ -23,11 +23,67 @@
     <style>
         /* Base styling */
         html, body { height: 100%; font-family: 'Nunito', sans-serif; scroll-behavior: smooth; }
-        body { background-color: #f8fafc; /* slate-50 */ }
+        body { background-color: #f8fafc; /* slate-50 */ transition: background-color 0.5s ease; }
 
         /* Pomodoro Timer Panel */
-        .pomodoro-panel { background-color: white; border-radius: 0.5rem; padding: 1rem 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); border: 1px solid #e5e7eb; display: flex; flex-direction: column; gap: 0.75rem; }
-        .pomodoro-main-controls { display: flex; flex-direction: column; align-items: center; width: 100%; gap: 0.75rem;}
+        .pomodoro-panel {
+            position: relative; /* Needed for absolute positioning of progress bar */
+            overflow: hidden; /* Hide overflowing progress bar/waves */
+            background-color: white;
+            border-radius: 0.5rem;
+            padding: 1rem 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            border: 1px solid #e5e7eb;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            z-index: 1;
+        }
+        /* Progress Bar */
+        #pomodoro-progress-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background-color: rgba(134, 239, 172, 0.4); /* Light green with transparency (green-300) */
+            transform-origin: right center;
+            transform: scaleX(0);
+            transition: transform 0.5s linear;
+            z-index: -1;
+            overflow: hidden;
+        }
+        #pomodoro-progress-bar::after { /* Wave effect */
+             content: '';
+             position: absolute;
+             width: 200%;
+             height: 100%;
+             top: 0;
+             left: 0;
+             background: linear-gradient(
+               -45deg,
+               rgba(255, 255, 255, 0.1) 25%,
+               transparent 25%,
+               transparent 50%,
+               rgba(255, 255, 255, 0.1) 50%,
+               rgba(255, 255, 255, 0.1) 75%,
+               transparent 75%,
+               transparent
+             );
+             background-size: 50px 50px;
+             opacity: 0.5;
+             animation: wave-animation 4s linear infinite;
+             z-index: 1;
+        }
+
+        @keyframes wave-animation {
+            0% { background-position: 0 0; }
+            100% { background-position: 100px 0; }
+        }
+
+        .pomodoro-main-controls { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; width: 100%; gap: 0.75rem;}
         @media (min-width: 768px) { .pomodoro-main-controls { flex-direction: row; justify-content: space-between; } }
         .pomodoro-display { font-size: 2.25rem; font-weight: 700; color: #1f2937; font-family: 'Menlo', 'Monaco', 'Consolas', "Courier New", monospace; line-height: 1; }
         .pomodoro-status { font-size: 0.875rem; font-weight: 600; padding: 0.25rem 0.75rem; border-radius: 9999px; text-transform: uppercase; letter-spacing: 0.05em; }
@@ -37,29 +93,96 @@
         .pomodoro-controls button { padding: 0.5rem 1rem; font-size: 0.875rem; }
         .pomodoro-controls button i { margin-right: 0.375rem; }
         .pomodoro-controls button:disabled { opacity: 0.5; cursor: not-allowed; }
-        /* Fix for settings button icon alignment */
         .pomodoro-controls .btn-icon i { margin-right: 0; }
 
         /* Pomodoro Settings Section */
-        .pomodoro-settings { display: none; width: 100%; border-top: 1px solid #e5e7eb; margin-top: 1rem; padding-top: 1rem; gap: 1.5rem; flex-direction: column; align-items: center; } /* Increased gap */
+        .pomodoro-settings { position: relative; z-index: 2; display: none; width: 100%; border-top: 1px solid #e5e7eb; margin-top: 1rem; padding-top: 1rem; gap: 1.5rem; flex-direction: column; align-items: center; }
         .pomodoro-settings.active { display: flex; }
-        .pomodoro-settings-grid { display: grid; grid-template-columns: repeat(1, 1fr); gap: 1rem; width: 100%; max-width: 500px; } /* Grid layout */
-        @media (min-width: 480px) { .pomodoro-settings-grid { grid-template-columns: repeat(2, 1fr); } } /* 2 columns on small screens */
+        .pomodoro-settings-grid { display: grid; grid-template-columns: repeat(1, 1fr); gap: 1rem; width: 100%; max-width: 500px; }
+        @media (min-width: 480px) { .pomodoro-settings-grid { grid-template-columns: repeat(2, 1fr); } }
         .pomodoro-settings-section { display: flex; flex-direction: column; gap: 0.5rem; }
         .pomodoro-settings-section h4 { font-size: 0.9rem; font-weight: 600; color: #4b5563; margin-bottom: 0.25rem; border-bottom: 1px solid #e5e7eb; padding-bottom: 0.25rem;}
-        .pomodoro-settings-item { display: flex; flex-direction: column; gap: 0.1rem; } /* Stack label and input */
+        .pomodoro-settings-item { display: flex; flex-direction: column; gap: 0.1rem; }
         .pomodoro-settings-item label { font-size: 0.8rem; color: #4b5563; display: block; margin-bottom: 0.1rem;}
         .pomodoro-settings-item input[type="number"] { width: 100%; padding: 0.375rem 0.5rem; border: 1px solid #d1d5db; border-radius: 0.25rem; font-size: 0.875rem; text-align: center; -moz-appearance: textfield; }
         .pomodoro-settings-item input[type="number"]::-webkit-outer-spin-button,
         .pomodoro-settings-item input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
         .pomodoro-settings-toggle-item { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; margin-top: 0.5rem; }
-        .pomodoro-settings-toggle-item label { font-size: 0.8rem; color: #4b5563; margin-bottom: 0; } /* Keep label aligned */
-        .pomodoro-settings-toggle-item input[type="checkbox"] { height: 1rem; width: 1rem; cursor: pointer; accent-color: #2563eb; } /* Style checkbox */
+        .pomodoro-settings-toggle-item label { font-size: 0.8rem; color: #4b5563; margin-bottom: 0; flex-grow: 1; /* Allow label to take space */ }
+        /* Toggle Switch Styles */
+        .pomodoro-settings-toggle-item input[type="checkbox"] {
+            appearance: none;
+            -webkit-appearance: none;
+            position: relative;
+            width: 3rem; /* Width of the toggle track */
+            height: 1.5rem; /* Height of the toggle track */
+            background-color: #e5e7eb; /* bg-gray-200 */
+            border-radius: 9999px; /* Fully rounded */
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+            flex-shrink: 0; /* Prevent shrinking */
+        }
+        .pomodoro-settings-toggle-item input[type="checkbox"]::before {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 1.25rem; /* Size of the handle */
+            height: 1.25rem;
+            background-color: white;
+            border-radius: 50%; /* Circular handle */
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease-in-out;
+        }
+        .pomodoro-settings-toggle-item input[type="checkbox"]:checked {
+            background-color: #60a5fa; /* bg-blue-400 */
+        }
+        .pomodoro-settings-toggle-item input[type="checkbox"]:checked::before {
+            transform: translateX(calc(3rem - 1.5rem)); /* Move handle to the right (track width - handle width) */
+        }
         .pomodoro-settings-actions { display: flex; justify-content: center; width: 100%; margin-top: 1rem; }
         .pomodoro-settings-actions button { font-size: 0.875rem; padding: 0.5rem 1rem;}
 
+        /* Add Task Panel - Calm Colors */
+        #add-task-panel {
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            background-color: #eff6ff; /* bg-blue-50 */
+            border-color: #dbeafe; /* border-blue-100 */
+        }
+        #add-task-panel h2 {
+            color: #1e40af; /* text-blue-800 */
+        }
+        #add-task-panel input[type="text"] {
+            border-color: #bfdbfe; /* border-blue-200 */
+            background-color: white;
+        }
+        #add-task-panel input[type="text"]:focus {
+            border-color: #60a5fa; /* focus:border-blue-400 */
+            --tw-ring-color: rgba(96, 165, 250, 0.5); /* focus:ring-blue-300 with opacity */
+            --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+            --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+            box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+        }
+        #add-task-panel #addTaskBtn {
+            background-color: #60a5fa; /* bg-blue-400 */
+            border-color: #60a5fa;
+            color: white;
+        }
+        #add-task-panel #addTaskBtn:hover:not(:disabled) {
+            background-color: #3b82f6; /* bg-blue-500 */
+            border-color: #3b82f6;
+        }
+        /* Keep export/import buttons secondary */
+        #add-task-panel .data-actions .btn-secondary {
+             background-color: #e5e7eb; color: #374151; border-color: #d1d5db;
+        }
+         #add-task-panel .data-actions .btn-secondary:hover:not(:disabled) {
+             background-color: #d1d5db; border-color: #9ca3af;
+         }
+
+
         /* Kanban Column Styling */
-        .kanban-column { min-height: 350px; display: flex; flex-direction: column; transition: background-color 0.2s ease, box-shadow 0.3s ease; border-radius: 0.5rem; box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); overflow: hidden; }
+        .kanban-column { min-height: 350px; display: flex; flex-direction: column; transition: background-color 0.2s ease, box-shadow 0.3s ease, opacity 0.5s ease, transform 0.5s ease; border-radius: 0.5rem; box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); overflow: hidden; }
         .column-header { padding: 0.75rem 1rem; border-bottom-width: 1px; font-weight: 700; font-size: 1rem; display: flex; align-items: center; }
         .tasks-container { flex-grow: 1; padding: 0.75rem; overflow-y: auto; }
         .tasks-container > .kanban-task + .kanban-task { margin-top: 0.75rem; }
@@ -67,7 +190,7 @@
         /* Done Column Glow Effect */
         .kanban-column.done-glow { animation: pulse-glow 2.5s infinite ease-in-out; }
         @keyframes pulse-glow {
-            0%, 100% { box-shadow: 0 0 0px 0px rgba(34, 197, 94, 0.3), 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); } /* green-500 */
+            0%, 100% { box-shadow: 0 0 0px 0px rgba(34, 197, 94, 0.3), 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); }
             50% { box-shadow: 0 0 10px 4px rgba(34, 197, 94, 0.4), 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); }
         }
 
@@ -79,11 +202,11 @@
         .dragging { opacity: 0.7; transform: rotate(2deg); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); }
         .drag-over { background-color: rgba(100, 116, 139, 0.06); }
 
-        /* Task Active State (Calmer Opacity Pulse) */
+        /* Task Active State */
         .kanban-task.is-active { border-left-color: #fbbf24; animation: pulse-opacity 3s infinite ease-in-out; }
         @keyframes pulse-opacity { 0%, 100% { opacity: 1; } 50% { opacity: 0.9; } }
 
-        /* Task Content (Text + Timer + Labels) */
+        /* Task Content */
         .task-content { display: flex; flex-direction: column; flex-grow: 1; margin-right: 0.25rem; word-break: break-word; }
         .task-text { line-height: 1.4; color: #374151; font-size: 0.9rem; margin-bottom: 0.25rem; }
         .task-labels { display: flex; flex-wrap: wrap; gap: 0.25rem; margin-bottom: 0.25rem; }
@@ -119,10 +242,10 @@
         .tasks-container::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 10px; }
         .tasks-container::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
 
-        /* Button Styling */
+        /* Button Styling (General) */
         .btn { display: inline-flex; align-items: center; justify-content: center; padding: 0.625rem 1.25rem; border-radius: 0.375rem; font-weight: 600; transition: background-color 0.2s, box-shadow 0.2s, transform 0.1s, opacity 0.2s; border: 1px solid transparent; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); cursor: pointer; }
         .btn:active { transform: scale(0.98); }
-        .btn-primary { background-color: #2563eb; color: white; border-color: #2563eb; }
+        .btn-primary { background-color: #2563eb; color: white; border-color: #2563eb; } /* Default primary */
         .btn-primary:hover:not(:disabled) { background-color: #1d4ed8; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
         .btn-danger { background-color: #dc2626; color: white; border-color: #dc2626; }
         .btn-danger:hover:not(:disabled) { background-color: #b91c1c; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
@@ -134,12 +257,84 @@
         .btn-icon { padding: 0.5rem; width: 2.25rem; height: 2.25rem; border-radius: 9999px; }
         .btn-icon i { margin-right: 0; font-size: 0.875rem; }
 
+        /* --- Zen Mode Styles --- */
+        .zen-mode-active #add-task-panel,
+        .zen-mode-active #todo,
+        .zen-mode-active #inprogress,
+        .zen-mode-active #done,
+        .zen-mode-active .pomodoro-panel,
+        .zen-mode-active .bmc-button {
+            opacity: 0.15;
+            pointer-events: none;
+            transform: scale(0.98);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        .zen-mode-active.zen-target-inprogress #inprogress {
+            opacity: 1;
+            pointer-events: auto;
+            transform: scale(1);
+            animation: pulse-calm 3s infinite ease-in-out;
+        }
+        .zen-mode-active.zen-target-todo #todo {
+            opacity: 1;
+            pointer-events: auto;
+            transform: scale(1);
+            animation: none;
+        }
+        .zen-mode-active .pomodoro-panel { /* Keep Pomodoro panel visible */
+            opacity: 1;
+            pointer-events: auto;
+            transform: scale(1);
+            animation: none;
+        }
+        @keyframes pulse-calm {
+            0%, 100% { box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); }
+            50% { box-shadow: 0 4px 10px -1px rgba(251, 191, 36, 0.25), 0 2px 6px -2px rgba(251, 191, 36, 0.2); }
+        }
+
+        /* --- Buy Me a Coffee Button Styles --- */
+        .bmc-button {
+            position: fixed;
+            bottom: 1rem;
+            right: 1rem;
+            z-index: 1000;
+            padding: 0.6rem;
+            width: 3rem;
+            height: 3rem;
+            background-color: #FFDD00;
+            color: #000000;
+            border-radius: 9999px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: transform 0.2s ease-out, box-shadow 0.2s ease, opacity 0.5s ease;
+            animation: bmc-float 3s ease-in-out infinite;
+        }
+
+        .bmc-button img {
+            height: 1.75em;
+            width: 1.75em;
+        }
+
+        .bmc-button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            animation-play-state: paused;
+        }
+
+        @keyframes bmc-float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-4px); }
+        }
+
     </style>
 </head>
 <body class="p-4 md:p-8">
-
     <div class="max-w-7xl mx-auto">
         <div class="pomodoro-panel">
+             <div id="pomodoro-progress-bar"></div>
              <div class="pomodoro-main-controls">
                  <div class="flex items-center gap-4">
                      <span id="pomodoro-display" class="pomodoro-display">25:00</span>
@@ -179,15 +374,19 @@
                          </div>
                          <div class="pomodoro-settings-toggle-item">
                              <label for="setting-auto-start-breaks">Auto-start Breaks?</label>
-                             <input type="checkbox" id="setting-auto-start-breaks">
+                             <input type="checkbox" id="setting-auto-start-breaks" aria-labelledby="label-auto-start-breaks">
                          </div>
                          <div class="pomodoro-settings-toggle-item">
                              <label for="setting-auto-start-work">Auto-start Work after Break?</label>
-                             <input type="checkbox" id="setting-auto-start-work">
+                             <input type="checkbox" id="setting-auto-start-work" aria-labelledby="label-auto-start-work">
                          </div>
-                          <div class="pomodoro-settings-toggle-item">
+                         <div class="pomodoro-settings-toggle-item">
                              <label for="setting-enable-sounds">Enable Sounds?</label>
-                             <input type="checkbox" id="setting-enable-sounds">
+                             <input type="checkbox" id="setting-enable-sounds" aria-labelledby="label-enable-sounds">
+                         </div>
+                         <div class="pomodoro-settings-toggle-item">
+                             <label for="setting-enable-zen-mode">Enable Zen Mode?</label>
+                             <input type="checkbox" id="setting-enable-zen-mode" aria-labelledby="label-enable-zen-mode">
                          </div>
                      </div>
                  </div>
@@ -197,11 +396,11 @@
              </div>
         </div>
 
-        <div class="mb-6 md:mb-8 bg-white p-4 rounded-lg shadow-sm border border-gray-200">
-            <h2 class="text-lg font-semibold mb-3 text-gray-700">Add New Task</h2>
+        <div id="add-task-panel" class="mb-6 md:mb-8 bg-blue-50 p-4 rounded-lg shadow-sm border border-blue-100">
+            <h2 class="text-lg font-semibold mb-3 text-blue-800">Add New Task</h2>
             <div class="flex flex-col sm:flex-row gap-3 mb-3">
-                <input type="text" id="newTaskInput" placeholder="Enter task (try breaking large tasks down!)" class="flex-grow p-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition shadow-sm" aria-label="New task description">
-                <input type="text" id="newTaskLabels" placeholder="Labels (comma-separated)..." class="p-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition shadow-sm sm:w-1/3" aria-label="New task labels">
+                <input type="text" id="newTaskInput" placeholder="Enter task (try breaking large tasks down!)" class="flex-grow p-2.5 border border-blue-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-blue-400 transition shadow-sm bg-white" aria-label="New task description">
+                <input type="text" id="newTaskLabels" placeholder="Labels (comma-separated)..." class="p-2.5 border border-blue-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-blue-400 transition shadow-sm bg-white sm:w-1/3" aria-label="New task labels">
             </div>
             <div class="flex flex-col sm:flex-row gap-3 items-center">
                  <button id="addTaskBtn" class="btn btn-primary flex-grow sm:flex-grow-0"> <i class="fas fa-plus fa-sm"></i>Add Task
@@ -237,6 +436,10 @@
         </div>
     </div>
 
+    <a href="https://buymeacoffee.com/gourabdg" target="_blank" rel="noopener noreferrer" class="bmc-button" title="Support the developer!">
+        <img src="https://www.buymeacoffee.com/assets/img/guidelines/logo-mark-3.svg" alt="Buy Me a Coffee logo" />
+    </a>
+
     <canvas id="confettiCanvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999;"></canvas>
 
     <div id="confirmationModal" class="modal-overlay">
@@ -251,6 +454,7 @@
 
     <script>
         // --- DOM Element Selection ---
+        const addTaskPanel = document.getElementById('add-task-panel');
         const newTaskInput = document.getElementById('newTaskInput');
         const newTaskLabels = document.getElementById('newTaskLabels');
         const addTaskBtn = document.getElementById('addTaskBtn');
@@ -267,11 +471,13 @@
         const modalMessage = document.getElementById('modalMessage');
         const confirmBtn = document.getElementById('confirmBtn');
         const cancelBtn = document.getElementById('cancelBtn');
+        const pomodoroPanel = document.querySelector('.pomodoro-panel');
         const pomodoroDisplay = document.getElementById('pomodoro-display');
         const pomodoroStatus = document.getElementById('pomodoro-status');
         const pomodoroStartBtn = document.getElementById('pomodoro-start');
         const pomodoroPauseBtn = document.getElementById('pomodoro-pause');
         const pomodoroResetBtn = document.getElementById('pomodoro-reset');
+        const pomodoroProgressBar = document.getElementById('pomodoro-progress-bar');
         const exportDataBtn = document.getElementById('exportDataBtn');
         const importDataInput = document.getElementById('importDataInput');
         const pomodoroSettingsToggleBtn = document.getElementById('pomodoro-settings-toggle');
@@ -279,11 +485,13 @@
         const settingWorkMinsInput = document.getElementById('setting-work-mins');
         const settingShortBreakMinsInput = document.getElementById('setting-short-break-mins');
         const settingLongBreakMinsInput = document.getElementById('setting-long-break-mins');
-        const settingLongBreakIntervalInput = document.getElementById('setting-long-break-interval'); // New
-        const settingAutoStartBreaksInput = document.getElementById('setting-auto-start-breaks'); // New
-        const settingAutoStartWorkInput = document.getElementById('setting-auto-start-work'); // New
-        const settingEnableSoundsInput = document.getElementById('setting-enable-sounds'); // New
+        const settingLongBreakIntervalInput = document.getElementById('setting-long-break-interval');
+        const settingAutoStartBreaksInput = document.getElementById('setting-auto-start-breaks');
+        const settingAutoStartWorkInput = document.getElementById('setting-auto-start-work');
+        const settingEnableSoundsInput = document.getElementById('setting-enable-sounds');
+        const settingEnableZenModeInput = document.getElementById('setting-enable-zen-mode'); // New Zen Mode Toggle
         const pomodoroSaveSettingsBtn = document.getElementById('pomodoro-save-settings');
+        const bmcButton = document.querySelector('.bmc-button');
 
         // --- Global Variables & Instances ---
         const myConfetti = confetti.create(confettiCanvas, { resize: true, useWorker: true });
@@ -296,12 +504,13 @@
         const DEFAULT_WORK_MINS = 25;
         const DEFAULT_SHORT_BREAK_MINS = 5;
         const DEFAULT_LONG_BREAK_MINS = 15;
-        const DEFAULT_LONG_BREAK_INTERVAL = 4; // Cycles before long break
+        const DEFAULT_LONG_BREAK_INTERVAL = 4;
         const DEFAULT_AUTO_START_BREAKS = true;
         const DEFAULT_AUTO_START_WORK = true;
         const DEFAULT_ENABLE_SOUNDS = true;
+        const DEFAULT_ENABLE_ZEN_MODE = true; // Default Zen Mode to enabled
 
-        // --- Pomodoro Settings (will be loaded from localStorage) ---
+        // --- Pomodoro Settings (loaded from localStorage) ---
         let currentWorkMins = DEFAULT_WORK_MINS;
         let currentShortBreakMins = DEFAULT_SHORT_BREAK_MINS;
         let currentLongBreakMins = DEFAULT_LONG_BREAK_MINS;
@@ -309,13 +518,15 @@
         let currentAutoStartBreaks = DEFAULT_AUTO_START_BREAKS;
         let currentAutoStartWork = DEFAULT_AUTO_START_WORK;
         let currentEnableSounds = DEFAULT_ENABLE_SOUNDS;
+        let currentEnableZenMode = DEFAULT_ENABLE_ZEN_MODE; // New Zen Mode Setting
 
         // Pomodoro Timer State
         const POMODORO_STATES = { WORK: 'Work', SHORT_BREAK: 'Break', LONG_BREAK: 'Break' };
         let pomodoroIntervalId = null;
         let pomodoroState = POMODORO_STATES.WORK;
         let pomodoroTimeLeft = currentWorkMins * 60;
-        let pomodoroCycles = 0; // Tracks completed WORK cycles since last long break
+        let pomodoroTotalDuration = currentWorkMins * 60;
+        let pomodoroCycles = 0;
 
         // --- Sound Synthesis (Tone.js) ---
         let soundsReady = false;
@@ -331,68 +542,111 @@
             }).catch(e => console.error("Tone.start failed:", e));
         };
         const playTaskCompleteSound = () => {
-            if (!soundsReady || !taskCompleteSynth || !currentEnableSounds) return; // Check sound setting
+            if (!soundsReady || !taskCompleteSynth || !currentEnableSounds) return;
             try { taskCompleteSynth.triggerAttackRelease("C5", "8n", Tone.now()); taskCompleteSynth.triggerAttackRelease("G5", "8n", Tone.now() + 0.15); }
             catch (e) { console.error("Error playing task complete sound:", e); }
         };
         const playPomodoroEndSound = () => {
-             if (!soundsReady || !pomodoroEndSynth || !currentEnableSounds) return; // Check sound setting
+             if (!soundsReady || !pomodoroEndSynth || !currentEnableSounds) return;
              try { pomodoroEndSynth.triggerAttackRelease("E4", "4n", Tone.now()); pomodoroEndSynth.triggerAttackRelease("G4", "4n", Tone.now() + 0.3); }
              catch (e) { console.error("Error playing pomodoro end sound:", e); }
         };
 
 
         // --- Helper Functions ---
-
-        /** Formats seconds into MM:SS string. */
         const formatPomodoroTime = (totalSeconds) => {
             const minutes = Math.floor(totalSeconds / 60); const seconds = totalSeconds % 60;
             return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
         };
-        /** Updates the Pomodoro timer display in the UI. */
         const updatePomodoroDisplay = () => {
             pomodoroDisplay.textContent = formatPomodoroTime(pomodoroTimeLeft);
             document.title = `${formatPomodoroTime(pomodoroTimeLeft)} - ${pomodoroState} | Kanban`;
         };
-        /** Updates the Pomodoro status indicator (Work/Break). */
         const updatePomodoroStatus = () => {
             pomodoroStatus.textContent = pomodoroState;
             pomodoroStatus.className = `pomodoro-status ${pomodoroState === POMODORO_STATES.WORK ? 'work' : 'break'}`;
         };
-        /** Enables/disables Pomodoro control buttons based on timer state. */
         const setPomodoroControlsState = (isRunning) => {
             pomodoroStartBtn.disabled = isRunning;
             pomodoroPauseBtn.disabled = !isRunning;
-            pomodoroResetBtn.disabled = isRunning; // Can't reset while running
-            pomodoroSettingsToggleBtn.disabled = isRunning; // Can't change settings while running
+            pomodoroResetBtn.disabled = isRunning;
+            pomodoroSettingsToggleBtn.disabled = isRunning;
         };
 
-        /** Resets the Pomodoro timer based on the *currently set* pomodoroState. */
+        /** Updates the body classes based on Zen Mode setting and timer state. */
+        const updateZenMode = () => {
+            // Always remove classes first
+            document.body.classList.remove('zen-mode-active', 'zen-target-inprogress', 'zen-target-todo');
+
+            // Exit if Zen Mode is disabled in settings
+            if (!currentEnableZenMode) {
+                return;
+            }
+
+            const isRunning = pomodoroIntervalId !== null;
+            const isWorkState = pomodoroState === POMODORO_STATES.WORK;
+            const inProgressHasTasks = inprogressTasksContainer.children.length > 0;
+
+            if (isRunning && isWorkState) {
+                document.body.classList.add('zen-mode-active');
+                if (inProgressHasTasks) {
+                    document.body.classList.add('zen-target-inprogress');
+                } else {
+                    document.body.classList.add('zen-target-todo');
+                }
+            }
+            // No need for an else here, classes were removed at the start
+        };
+
+        const updateProgressBar = () => {
+            if (!pomodoroProgressBar || pomodoroTotalDuration <= 0) return;
+            const progress = Math.max(0, pomodoroTimeLeft / pomodoroTotalDuration);
+            pomodoroProgressBar.style.transform = `scaleX(${progress})`;
+        };
+
         const resetPomodoroTimerTime = (forceUpdateDisplay = true) => {
             clearInterval(pomodoroIntervalId); pomodoroIntervalId = null;
+
             switch (pomodoroState) {
-                case POMODORO_STATES.WORK: pomodoroTimeLeft = currentWorkMins * 60; break;
-                case POMODORO_STATES.SHORT_BREAK: pomodoroTimeLeft = currentShortBreakMins * 60; break;
-                case POMODORO_STATES.LONG_BREAK: pomodoroTimeLeft = currentLongBreakMins * 60; break;
+                case POMODORO_STATES.WORK:
+                    pomodoroTimeLeft = currentWorkMins * 60;
+                    pomodoroTotalDuration = currentWorkMins * 60;
+                    break;
+                case POMODORO_STATES.SHORT_BREAK:
+                    pomodoroTimeLeft = currentShortBreakMins * 60;
+                    pomodoroTotalDuration = currentShortBreakMins * 60;
+                    break;
+                case POMODORO_STATES.LONG_BREAK:
+                    pomodoroTimeLeft = currentLongBreakMins * 60;
+                    pomodoroTotalDuration = currentLongBreakMins * 60;
+                    break;
+                default:
+                    pomodoroTotalDuration = currentWorkMins * 60;
             }
+
             if (forceUpdateDisplay) {
                 updatePomodoroDisplay(); updatePomodoroStatus();
                 pomodoroStartBtn.style.display = 'inline-flex'; pomodoroPauseBtn.style.display = 'none';
                 setPomodoroControlsState(false); document.title = "Focus Kanban Tracker";
             }
-        };
 
-        /** Handles the reset button click - always goes back to WORK state and resets cycles. */
+            if (pomodoroProgressBar) {
+                pomodoroProgressBar.style.transition = 'none';
+                pomodoroProgressBar.style.transform = 'scaleX(0)';
+                void pomodoroProgressBar.offsetWidth;
+                pomodoroProgressBar.style.transition = 'transform 0.5s linear';
+            }
+            updateZenMode();
+        };
         const handlePomodoroReset = () => {
             pomodoroState = POMODORO_STATES.WORK;
-            pomodoroCycles = 0; // Reset cycle count on manual reset
+            pomodoroCycles = 0;
             resetPomodoroTimerTime();
         };
-
-        /** Switches to the next Pomodoro state and handles auto-start. */
         const nextPomodoroState = () => {
             playPomodoroEndSound();
             let shouldAutoStart = false;
+            let previousState = pomodoroState;
 
             if (pomodoroState === POMODORO_STATES.WORK) {
                 pomodoroCycles++;
@@ -400,50 +654,55 @@
                     ? POMODORO_STATES.LONG_BREAK
                     : POMODORO_STATES.SHORT_BREAK;
                 shouldAutoStart = currentAutoStartBreaks;
-            } else { // Currently on a break
+            } else {
                 pomodoroState = POMODORO_STATES.WORK;
                 shouldAutoStart = currentAutoStartWork;
-                // Reset cycles only when starting a new work session after a LONG break
-                if (pomodoroStatus.textContent === POMODORO_STATES.LONG_BREAK) { // Check previous state before update
-                   // pomodoroCycles = 0; // This logic might be debated - reset after long break or keep counting? Resetting seems more common.
-                   // Let's reset cycles when a WORK session *starts* after any break.
-                }
             }
 
-             // Reset cycles when a WORK session *starts* after any break.
-            if (pomodoroState === POMODORO_STATES.WORK) {
-                pomodoroCycles = 0;
+            if (pomodoroState === POMODORO_STATES.WORK && previousState !== POMODORO_STATES.WORK) {
+               pomodoroCycles = 0;
             }
 
-
-            resetPomodoroTimerTime(); // This updates display and status
+            resetPomodoroTimerTime();
 
             if (shouldAutoStart) {
                 startPomodoro();
             }
         };
-        /** Starts the Pomodoro countdown. */
         const startPomodoro = () => {
             initAudio();
-            if (pomodoroIntervalId) return; // Already running
+            if (pomodoroIntervalId) return;
+
+            resetPomodoroTimerTime(false); // Set correct duration for progress bar
+
             pomodoroStartBtn.style.display = 'none'; pomodoroPauseBtn.style.display = 'inline-flex';
             setPomodoroControlsState(true);
+
+            if (pomodoroProgressBar) {
+                 pomodoroProgressBar.style.transition = 'none';
+                 pomodoroProgressBar.style.transform = 'scaleX(1)';
+                 void pomodoroProgressBar.offsetWidth;
+                 pomodoroProgressBar.style.transition = 'transform 0.5s linear';
+            }
+
             pomodoroIntervalId = setInterval(() => {
-                pomodoroTimeLeft--; updatePomodoroDisplay();
+                pomodoroTimeLeft--;
+                updatePomodoroDisplay();
+                updateProgressBar();
+
                 if (pomodoroTimeLeft <= 0) {
                     clearInterval(pomodoroIntervalId); pomodoroIntervalId = null; nextPomodoroState();
                 }
             }, 1000);
+
+            updateZenMode();
         };
-        /** Pauses the Pomodoro countdown. */
         const pausePomodoro = () => {
             clearInterval(pomodoroIntervalId); pomodoroIntervalId = null;
             pomodoroStartBtn.style.display = 'inline-flex'; pomodoroPauseBtn.style.display = 'none';
             setPomodoroControlsState(false);
-            // Keep current title (showing paused time)
+            updateZenMode();
         };
-
-        /** Formats task timer milliseconds into a D:H:M:S string. */
         const formatTaskTime = (ms) => {
             if (ms === null || ms === undefined || ms < 0) return '';
             let s = Math.floor(ms / 1000); let m = Math.floor(s / 60); let h = Math.floor(m / 60); let d = Math.floor(h / 24);
@@ -461,8 +720,8 @@
             timerDiv.style.display = 'flex';
         };
         const startTaskTimerInterval = (taskElement, startTime) => {
-            const taskId = taskElement.id; stopTaskTimerInterval(taskElement); // Clear existing interval first
-            updateTaskTimerDisplay(taskElement, startTime); // Initial display
+            const taskId = taskElement.id; stopTaskTimerInterval(taskElement);
+            updateTaskTimerDisplay(taskElement, startTime);
             activeTaskTimers[taskId] = setInterval(() => updateTaskTimerDisplay(taskElement, startTime), 1000);
             taskElement.dataset.timerStartTime = startTime;
             taskElement.classList.add('is-active');
@@ -489,12 +748,11 @@
                 const elapsed = Date.now() - startTime;
                 let currentTotalTime = parseInt(taskElement.dataset.totalTime || '0', 10);
                 taskElement.dataset.totalTime = currentTotalTime + elapsed;
-                delete taskElement.dataset.timerStartTime; // Remove start time as it's now paused
+                delete taskElement.dataset.timerStartTime;
             }
-            stopTaskTimerInterval(taskElement); // Stop the interval and remove active class
-            // Optionally display the paused total time immediately
+            stopTaskTimerInterval(taskElement);
             const totalTime = parseInt(taskElement.dataset.totalTime || '0', 10);
-            displayTotalTaskTime(taskElement, totalTime); // Show "Total:" time when paused
+            displayTotalTaskTime(taskElement, totalTime);
         };
 
         // --- Task Element Creation & Management ---
@@ -505,7 +763,6 @@
             task.id = id || `task-${Date.now()}`;
             task.dataset.totalTime = totalTime || 0;
             task.dataset.labels = JSON.stringify(labels);
-            // startTime dataset is handled by load/move logic
 
             const contentDiv = document.createElement('div'); contentDiv.className = 'task-content';
             const textSpan = document.createElement('span'); textSpan.className = 'task-text'; textSpan.textContent = text;
@@ -519,7 +776,7 @@
             });
             contentDiv.appendChild(labelsDiv);
             const timerAreaDiv = document.createElement('div'); timerAreaDiv.className = 'task-timer-area';
-            const timerDiv = document.createElement('div'); timerDiv.className = 'task-timer'; timerDiv.style.display = 'none'; // Start hidden
+            const timerDiv = document.createElement('div'); timerDiv.className = 'task-timer'; timerDiv.style.display = 'none';
             timerAreaDiv.appendChild(timerDiv);
             contentDiv.appendChild(timerAreaDiv);
             task.appendChild(contentDiv);
@@ -532,10 +789,14 @@
             deleteBtn.addEventListener('click', (e) => {
                 e.stopPropagation(); const currentText = task.querySelector('.task-text').textContent;
                 showConfirmationModal(`Delete task: "${currentText}"?`, () => {
-                    stopTaskTimerInterval(task); // Ensure timer stops if deleted from In Progress
+                    stopTaskTimerInterval(task);
+                    const parentColumnId = task.closest('.kanban-column')?.id;
                     task.remove();
-                    updateBoardState(); // Update spinner/glow
-                    saveTasks(); // Save after removal
+                    updateBoardState();
+                    saveTasks();
+                    if (parentColumnId === 'inprogress' && pomodoroIntervalId !== null && pomodoroState === POMODORO_STATES.WORK) {
+                        updateZenMode();
+                    }
                 });
             });
             actionsDiv.appendChild(deleteBtn);
@@ -544,7 +805,6 @@
             task.addEventListener('dragstart', handleDragStart); task.addEventListener('dragend', handleDragEnd);
             return task;
         };
-        /** Enables inline editing for a task's text and labels. */
         const enableEditing = (taskElement, contentDiv) => {
             const textSpan = contentDiv.querySelector('.task-text');
             const labelsDiv = contentDiv.querySelector('.task-labels');
@@ -572,34 +832,34 @@
                 textSpan.textContent = (newText && newText !== currentText) ? newText : currentText;
                 taskElement.dataset.labels = JSON.stringify(newLabels);
                 labelsDiv.innerHTML = ''; newLabels.forEach(label => { const labelSpan = document.createElement('span'); labelSpan.className = 'task-label'; labelSpan.textContent = label; labelsDiv.appendChild(labelSpan); });
-                contentDiv.removeChild(editContainer); textSpan.style.display = ''; labelsDiv.style.display = 'flex'; if(timerArea) timerArea.style.display = 'flex'; // Use flex for timer area
+                contentDiv.removeChild(editContainer); textSpan.style.display = ''; labelsDiv.style.display = 'flex'; if(timerArea) timerArea.style.display = 'flex';
                 if ((newText && newText !== currentText) || (JSON.stringify(newLabels) !== JSON.stringify(currentLabels))) {
-                    saveTasks(); // Save only if changed (also updates board state)
+                    saveTasks();
                 }
             };
             let saved = false; const handleSave = () => { if (!saved) { saved = true; saveEdit(); } };
-            const handleCancel = () => { if (!saved) { saved = true; contentDiv.removeChild(editContainer); textSpan.style.display = ''; labelsDiv.style.display = 'flex'; if(timerArea) timerArea.style.display = 'flex'; } }; // Use flex for timer area
+            const handleCancel = () => { if (!saved) { saved = true; contentDiv.removeChild(editContainer); textSpan.style.display = ''; labelsDiv.style.display = 'flex'; if(timerArea) timerArea.style.display = 'flex'; } };
             textInput.addEventListener('blur', handleSave); labelsInput.addEventListener('blur', handleSave);
             editContainer.addEventListener('keypress', (e) => { if (e.key === 'Enter') { handleSave(); } else if (e.key === 'Escape') { handleCancel(); } });
             editContainer.addEventListener('keydown', (e) => { if (e.key === 'Escape') { handleCancel(); } });
         };
-        /** Adds a new task to the 'To Do' column. */
         const addTask = () => {
-            initAudio(); // Ensure audio context is ready
+            initAudio();
             const taskText = newTaskInput.value.trim(); const labelText = newTaskLabels.value.trim();
             if (taskText === '') { newTaskInput.focus(); return; }
             const labels = labelText.split(',').map(label => label.trim()).filter(label => label !== '');
             const taskData = { id: `task-${Date.now()}`, text: taskText, labels: labels };
             const newTask = createTaskElement(taskData);
-            todoTasksContainer.appendChild(newTask); // Add to To Do
+            todoTasksContainer.appendChild(newTask);
             newTaskInput.value = ''; newTaskLabels.value = '';
-            saveTasks(); // This will also trigger updateBoardState
+            saveTasks();
+            updateZenMode();
         };
 
         // --- Drag and Drop Event Handlers ---
         function handleDragStart(e) {
-            initAudio(); // Ensure audio context is ready
-            if (e.target.querySelector('input:focus') || e.target.querySelector('.editing-input')) { e.preventDefault(); return; } // Prevent drag during edit
+            initAudio();
+            if (e.target.querySelector('input:focus') || e.target.querySelector('.editing-input')) { e.preventDefault(); return; }
             draggedItem = e.target; sourceColumnId = draggedItem.closest('.kanban-column').id;
             setTimeout(() => { if(draggedItem) draggedItem.classList.add('dragging'); }, 0);
             e.dataTransfer.effectAllowed = 'move';
@@ -621,7 +881,6 @@
         }
         function handleDragLeave(e) {
             const column = e.currentTarget.closest('.kanban-column');
-            // Only remove drag-over if leaving the column entirely
             if (!column || !column.contains(e.relatedTarget)) {
                  if(column) column.classList.remove('drag-over');
             }
@@ -643,43 +902,28 @@
             const willBeInDone = destinationColumnId === 'done';
             const willBeInTodo = destinationColumnId === 'todo';
 
-            // --- Timer Logic ---
             if (wasInProgress && !willBeInProgress) {
-                // Moving OUT of In Progress: Pause timer, store elapsed time, show total
                 pauseWorkTimer(draggedItem);
             }
             if (!wasInProgress && willBeInProgress) {
-                // Moving INTO In Progress: Start timer (or restart if paused)
                 const newWorkStartTime = Date.now();
                 startTaskTimerInterval(draggedItem, newWorkStartTime);
-                // Timer display updated by startTaskTimerInterval
             }
 
-            // --- Display Logic ---
             if (willBeInDone) {
-                // Moving INTO Done: Display final total time, play sound, confetti
                 const totalTime = parseInt(draggedItem.dataset.totalTime || '0', 10);
                 displayTotalTaskTime(draggedItem, totalTime);
                 playTaskCompleteSound();
                 triggerConfetti();
             } else if (willBeInTodo) {
-                // Moving INTO To Do: Clear timer display and active state
                 const timerDiv = draggedItem.querySelector('.task-timer');
                 if (timerDiv) {
                     timerDiv.innerHTML = '';
                     timerDiv.style.display = 'none';
                 }
                 draggedItem.classList.remove('is-active');
-                // Reset total time if moving back to To Do? Let's keep it for potential restarts.
-                // delete draggedItem.dataset.totalTime; // Uncomment to reset time
-            } else if (willBeInProgress && wasInProgress) {
-                // Moving WITHIN In Progress (reordering): Timer continues, no change needed here.
-            } else if (willBeInProgress && !wasInProgress) {
-                 // Moving INTO In Progress (from ToDo/Done): Timer started above, display updated by startTaskTimerInterval
             }
 
-
-            // --- DOM Manipulation ---
             const afterElement = getDragAfterElement(dropZoneContainer, e.clientY);
             if (afterElement == null) {
                 dropZoneContainer.appendChild(draggedItem);
@@ -688,9 +932,9 @@
             }
 
             dropZoneColumn.classList.remove('drag-over');
-            saveTasks(); // Save state and update spinner/glow
+            saveTasks();
+            updateZenMode();
         }
-        /** Finds element to insert before based on Y-coordinate. */
         function getDragAfterElement(container, y) {
             const draggableElements = [...container.querySelectorAll('.kanban-task:not(.dragging)')];
             return draggableElements.reduce((closest, child) => {
@@ -705,7 +949,7 @@
              if (doneTasksContainer.children.length > 0) {
                  showConfirmationModal("Clear all tasks from the 'Done' column?", () => {
                      doneTasksContainer.innerHTML = '';
-                     saveTasks(); // Save and update board state
+                     saveTasks();
                  });
              }
         };
@@ -749,39 +993,35 @@
                         tasksContainers.forEach(container => container.innerHTML = '');
                         Object.values(activeTaskTimers).forEach(clearInterval); for (const key in activeTaskTimers) { delete activeTaskTimers[key]; }
                         loadTasksFromData(importedData);
-                        saveTasks(); // Save the newly loaded data and update UI state
+                        saveTasks();
                         alert("Data imported successfully!");
                     });
                 } catch (error) { console.error("Error importing data:", error); alert(`Failed to import data: ${error.message}`); }
-                finally { event.target.value = null; } // Reset file input
+                finally { event.target.value = null; }
             };
             reader.onerror = (e) => { console.error("Error reading file:", e); alert("Failed to read the selected file."); event.target.value = null; };
             reader.readAsText(file);
         };
 
         // --- Local Storage Persistence ---
-        const POMODORO_SETTINGS_KEY = 'pomodoroSettings_v2'; // Use a new key for new settings format
+        const POMODORO_SETTINGS_KEY = 'pomodoroSettings_v3'; // Incremented key for new setting
         const KANBAN_TASKS_KEY = 'kanbanTasks';
 
         // --- Board Visual State Updates ---
-        /** Updates the In Progress spinner animation based on tasks present. */
         const updateSpinnerAnimation = () => {
             if (inprogressSpinner) {
                 const hasTasks = inprogressTasksContainer.children.length > 0;
                 inprogressSpinner.classList.toggle('fa-spin', hasTasks);
             }
         };
-        /** Updates the Done column glow effect based on task distribution. */
         const updateDoneGlow = () => {
             if (doneColumn) {
                 const todoEmpty = todoTasksContainer.children.length === 0;
                 const inprogressEmpty = inprogressTasksContainer.children.length === 0;
                 const doneHasTasks = doneTasksContainer.children.length > 0;
-                // Glow only if ToDo and InProgress are empty, and Done has tasks
                 doneColumn.classList.toggle('done-glow', todoEmpty && inprogressEmpty && doneHasTasks);
             }
         };
-        /** Central function to update dynamic visual states */
         const updateBoardState = () => {
             updateSpinnerAnimation();
             updateDoneGlow();
@@ -805,10 +1045,8 @@
             });
             try { localStorage.setItem(KANBAN_TASKS_KEY, JSON.stringify(tasksData)); }
             catch (error) { console.error("Error saving tasks to localStorage:", error); }
-            updateBoardState(); // Update visuals after saving
+            updateBoardState();
         };
-
-        /** Loads tasks from a data object (used by initial load and import). */
         const loadTasksFromData = (tasksData) => {
              Object.keys(tasksData).forEach(columnId => {
                  const columnElement = document.getElementById(columnId);
@@ -819,23 +1057,18 @@
                              taskData.labels = Array.isArray(taskData.labels) ? taskData.labels : [];
                              const taskElement = createTaskElement(taskData); tasksContainer.appendChild(taskElement);
 
-                             // Restore state based on column
                              if (columnId === 'inprogress') {
                                  if (taskData.startTime) {
-                                     // Task was actively running when saved. Resume timer.
-                                     // The start time is preserved from the save.
                                      startTaskTimerInterval(taskElement, taskData.startTime);
                                  } else if (taskData.totalTime > 0) {
-                                     // Task was paused in 'In Progress' when saved. Display total time.
                                      displayTotalTaskTime(taskElement, taskData.totalTime);
                                  } else {
-                                     // Task was just moved to 'In Progress' but not started/paused (unlikely but possible)
                                      const timerDiv = taskElement.querySelector('.task-timer');
                                      if(timerDiv) timerDiv.style.display = 'none';
                                  }
                              } else if (columnId === 'done') {
                                  displayTotalTaskTime(taskElement, taskData.totalTime || 0);
-                             } else { // To Do
+                             } else {
                                  const timerDiv = taskElement.querySelector('.task-timer');
                                  if(timerDiv) timerDiv.style.display = 'none';
                              }
@@ -843,21 +1076,20 @@
                      });
                  }
              });
-             updateBoardState(); // Update visuals after loading all tasks
+             updateBoardState();
+             updateZenMode();
         };
-
-        /** Loads tasks from localStorage on initial page load. */
         const loadTasks = () => {
-             Object.values(activeTaskTimers).forEach(clearInterval); for (const key in activeTaskTimers) { delete activeTaskTimers[key]; } // Clear any stray timers
+             Object.values(activeTaskTimers).forEach(clearInterval); for (const key in activeTaskTimers) { delete activeTaskTimers[key]; }
              let savedTasksJson; try { savedTasksJson = localStorage.getItem(KANBAN_TASKS_KEY); } catch (error) { console.error("Error reading tasks from localStorage:", error); return; }
              if (savedTasksJson) {
                  try { const tasksData = JSON.parse(savedTasksJson); loadTasksFromData(tasksData); }
-                 catch (error) { console.error("Error parsing saved tasks JSON:", error); localStorage.removeItem(KANBAN_TASKS_KEY); /* Clear corrupted data */ }
+                 catch (error) { console.error("Error parsing saved tasks JSON:", error); localStorage.removeItem(KANBAN_TASKS_KEY); updateBoardState(); updateZenMode(); }
+             } else {
+                 updateBoardState();
+                 updateZenMode();
              }
-             updateBoardState(); // Ensure board state is correct even if no tasks loaded
         };
-
-        /** Loads Pomodoro settings from localStorage. */
         const loadPomodoroSettings = () => {
             try {
                 const savedSettings = localStorage.getItem(POMODORO_SETTINGS_KEY);
@@ -867,10 +1099,10 @@
                     currentShortBreakMins = parseInt(settings.shortBreak, 10) || DEFAULT_SHORT_BREAK_MINS;
                     currentLongBreakMins = parseInt(settings.longBreak, 10) || DEFAULT_LONG_BREAK_MINS;
                     currentLongBreakInterval = parseInt(settings.longBreakInterval, 10) || DEFAULT_LONG_BREAK_INTERVAL;
-                    // Use ?? for boolean defaults to handle cases where the key might be missing in older saves
                     currentAutoStartBreaks = settings.autoStartBreaks ?? DEFAULT_AUTO_START_BREAKS;
                     currentAutoStartWork = settings.autoStartWork ?? DEFAULT_AUTO_START_WORK;
                     currentEnableSounds = settings.enableSounds ?? DEFAULT_ENABLE_SOUNDS;
+                    currentEnableZenMode = settings.enableZenMode ?? DEFAULT_ENABLE_ZEN_MODE; // Load Zen Mode setting
 
                 } else {
                     // Set defaults if nothing is saved
@@ -881,6 +1113,7 @@
                     currentAutoStartBreaks = DEFAULT_AUTO_START_BREAKS;
                     currentAutoStartWork = DEFAULT_AUTO_START_WORK;
                     currentEnableSounds = DEFAULT_ENABLE_SOUNDS;
+                    currentEnableZenMode = DEFAULT_ENABLE_ZEN_MODE;
                 }
             } catch (error) {
                 console.error("Error loading Pomodoro settings:", error);
@@ -892,18 +1125,14 @@
                 currentAutoStartBreaks = DEFAULT_AUTO_START_BREAKS;
                 currentAutoStartWork = DEFAULT_AUTO_START_WORK;
                 currentEnableSounds = DEFAULT_ENABLE_SOUNDS;
+                currentEnableZenMode = DEFAULT_ENABLE_ZEN_MODE;
             }
-            // Reset timer display based on loaded settings, but don't force state yet
-            resetPomodoroTimerTime(false); // Don't update UI fully yet, wait for DOMContentLoaded reset
+            resetPomodoroTimerTime(false);
         };
-
-        /** Saves Pomodoro settings to localStorage. */
         const savePomodoroSettings = (settings) => {
              try { localStorage.setItem(POMODORO_SETTINGS_KEY, JSON.stringify(settings)); }
              catch (error) { console.error("Error saving Pomodoro settings:", error); alert("Could not save Pomodoro settings."); }
         };
-
-        /** Handles saving the new Pomodoro settings from the input fields. */
         const handleSavePomodoroSettings = () => {
              const newWorkMins = parseInt(settingWorkMinsInput.value, 10);
              const newShortBreakMins = parseInt(settingShortBreakMinsInput.value, 10);
@@ -912,8 +1141,8 @@
              const newAutoStartBreaks = settingAutoStartBreaksInput.checked;
              const newAutoStartWork = settingAutoStartWorkInput.checked;
              const newEnableSounds = settingEnableSoundsInput.checked;
+             const newEnableZenMode = settingEnableZenModeInput.checked; // Read Zen Mode toggle
 
-             // Validation
              if (isNaN(newWorkMins) || newWorkMins < 1 ||
                  isNaN(newShortBreakMins) || newShortBreakMins < 1 ||
                  isNaN(newLongBreakMins) || newLongBreakMins < 1 ||
@@ -921,7 +1150,6 @@
                  alert("Please enter valid positive numbers for all durations and the cycle interval."); return;
              }
 
-             // Update current settings
              currentWorkMins = newWorkMins;
              currentShortBreakMins = newShortBreakMins;
              currentLongBreakMins = newLongBreakMins;
@@ -929,8 +1157,8 @@
              currentAutoStartBreaks = newAutoStartBreaks;
              currentAutoStartWork = newAutoStartWork;
              currentEnableSounds = newEnableSounds;
+             currentEnableZenMode = newEnableZenMode; // Update Zen Mode setting
 
-             // Save to localStorage
              savePomodoroSettings({
                  work: currentWorkMins,
                  shortBreak: currentShortBreakMins,
@@ -938,27 +1166,26 @@
                  longBreakInterval: currentLongBreakInterval,
                  autoStartBreaks: currentAutoStartBreaks,
                  autoStartWork: currentAutoStartWork,
-                 enableSounds: currentEnableSounds
+                 enableSounds: currentEnableSounds,
+                 enableZenMode: currentEnableZenMode // Save Zen Mode setting
              });
 
-             handlePomodoroReset(); // Reset timer to WORK state with new durations & reset cycles
-             pomodoroSettingsDiv.classList.remove('active'); // Hide settings panel
+             handlePomodoroReset(); // Resets timer and updates Zen Mode based on new setting
+             pomodoroSettingsDiv.classList.remove('active');
              alert("Pomodoro settings saved!");
+             updateZenMode(); // Explicitly update zen mode after saving settings
         };
-
 
         // --- Event Listener Setup ---
         document.addEventListener('DOMContentLoaded', () => {
-            loadPomodoroSettings(); // Load settings first
-            loadTasks();           // Load tasks and update board state
-            handlePomodoroReset(); // Set initial Pomodoro state to WORK & update display based on loaded/default settings
+            loadPomodoroSettings();
+            loadTasks();
+            handlePomodoroReset();
 
-            // Init audio on first interaction (click, keypress, drag)
             ['click', 'keypress', 'dragstart'].forEach(evt => {
                 document.body.addEventListener(evt, initAudio, { once: true });
             });
 
-            // Keyboard shortcut for new task (Alt+N)
             document.addEventListener('keydown', (e) => { if (e.altKey && e.key.toLowerCase() === 'n') { e.preventDefault(); newTaskInput.focus(); } });
         });
         addTaskBtn.addEventListener('click', addTask);
@@ -971,18 +1198,15 @@
         });
         confirmBtn.addEventListener('click', () => { if (typeof confirmCallback === 'function') { try { confirmCallback(); } catch (error) { console.error("Error executing confirmation callback:", error); } } hideConfirmationModal(); });
         cancelBtn.addEventListener('click', hideConfirmationModal);
-        confirmationModal.addEventListener('click', (e) => { if (e.target === confirmationModal) hideConfirmationModal(); }); // Close on overlay click
+        confirmationModal.addEventListener('click', (e) => { if (e.target === confirmationModal) hideConfirmationModal(); });
         pomodoroStartBtn.addEventListener('click', startPomodoro);
         pomodoroPauseBtn.addEventListener('click', pausePomodoro);
         pomodoroResetBtn.addEventListener('click', handlePomodoroReset);
         exportDataBtn.addEventListener('click', exportData);
-        importDataInput.addEventListener('change', handleImportData); // Listen for file selection
-
-        // Pomodoro Settings Listeners
+        importDataInput.addEventListener('change', handleImportData);
         pomodoroSettingsToggleBtn.addEventListener('click', () => {
             const isActive = pomodoroSettingsDiv.classList.toggle('active');
             if (isActive) {
-                // Populate inputs with current settings when opening
                 settingWorkMinsInput.value = currentWorkMins;
                 settingShortBreakMinsInput.value = currentShortBreakMins;
                 settingLongBreakMinsInput.value = currentLongBreakMins;
@@ -990,6 +1214,7 @@
                 settingAutoStartBreaksInput.checked = currentAutoStartBreaks;
                 settingAutoStartWorkInput.checked = currentAutoStartWork;
                 settingEnableSoundsInput.checked = currentEnableSounds;
+                settingEnableZenModeInput.checked = currentEnableZenMode; // Populate Zen Mode toggle
             }
         });
         pomodoroSaveSettingsBtn.addEventListener('click', handleSavePomodoroSettings);
