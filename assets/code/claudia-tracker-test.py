@@ -62,7 +62,7 @@ PRODUCTIVITY_CATEGORIES = {
         "Creative & Design": ['photoshop', 'illustrator', 'indesign', 'premiere pro', 'after effects', 'adobe xd', 'figma', 'sketch', 'invision', 'zeplin', 'canva', 'blender', 'maya', '3ds max', 'autocad', 'davinci resolve', 'final cut pro', 'logic pro', 'ableton live', 'pro tools', 'audacity'],
         "Communication (Work/Study)": ['slack', 'microsoft teams', 'zoom', 'google meet', 'webex'],
         "Task & Project Management": ['jira', 'trello', 'asana', 'monday.com', 'clickup', 'basecamp', 'notion', 'obsidian', 'evernote', 'microsoft to do', 'todoist', 'any.do', 'calendar', 'scheduling', 'planner'],
-        "Research & Learning": ['wikipedia', 'google scholar', 'pubmed', 'jstor', 'arxiv', 'researchgate', 'coursera', 'edx', 'udemy', 'khan academy', 'linkedin learning', 'documentation', 'research paper', 'study', 'learning', 'tutorial', 'reference'],
+        "Research & Learning": ['Security-Plus-Guide-skillweed', 'wikipedia', 'google scholar', 'pubmed', 'jstor', 'arxiv', 'researchgate', 'coursera', 'edx', 'udemy', 'khan academy', 'linkedin learning', 'documentation', 'research paper', 'study', 'learning', 'tutorial', 'reference'],
         "Focus & Productivity Tools": ['freedom.to', 'cold turkey', 'forest', 'focus keeper', 'rescuetime', 'rize.io', 'lifeat', 'stayfocusd', 'pomodoro', 'session', 'flown', 'brain.fm', 'noisli'],
         "Business Specific": ['quickbooks', 'xero', 'sage', 'netsuite', 'salesforce', 'hubspot', 'zoho crm' ]
     },

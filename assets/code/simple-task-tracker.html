@@ -17,11 +17,11 @@
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-
-      // Replace G-XXXXXXXXXX with your Measurement ID
-      gtag('config', 'G-DN4GBMQMRM');
+      // Replace G-XXXXXXXXXX with your Measurement ID if you have one
+      // gtag('config', 'G-XXXXXXXXXX');
+      gtag('config', 'G-DN4GBMQMRM'); // Using the provided ID for now
     </script>
-    
+
     <style>
         /* Base styling */
         html, body { height: 100%; font-family: 'Nunito', sans-serif; scroll-behavior: smooth; }
@@ -51,10 +51,19 @@
         .pomodoro-settings button { font-size: 0.875rem; padding: 0.5rem 1rem;}
 
         /* Kanban Column Styling */
-        .kanban-column { min-height: 350px; display: flex; flex-direction: column; transition: background-color 0.2s ease; border-radius: 0.5rem; box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); overflow: hidden; }
+        .kanban-column { min-height: 350px; display: flex; flex-direction: column; transition: background-color 0.2s ease, box-shadow 0.3s ease; border-radius: 0.5rem; box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); overflow: hidden; }
         .column-header { padding: 0.75rem 1rem; border-bottom-width: 1px; font-weight: 700; font-size: 1rem; display: flex; align-items: center; }
         .tasks-container { flex-grow: 1; padding: 0.75rem; overflow-y: auto; }
         .tasks-container > .kanban-task + .kanban-task { margin-top: 0.75rem; }
+
+        /* NEW: Done Column Glow Effect */
+        .kanban-column.done-glow {
+            animation: pulse-glow 2.5s infinite ease-in-out;
+        }
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 0px 0px rgba(34, 197, 94, 0.3), 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); } /* green-500 */
+            50% { box-shadow: 0 0 10px 4px rgba(34, 197, 94, 0.4), 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); }
+        }
 
         /* Task Card Styling */
         .kanban-task { cursor: grab; transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, border-left-color 0.3s ease, opacity 0.3s ease; position: relative; padding: 0.625rem 2.25rem 0.625rem 1rem; border-radius: 0.375rem; background-color: white; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.07); display: flex; align-items: start; border-left: 3px solid #cbd5e1; }
@@ -125,7 +134,7 @@
 
     <div class="max-w-7xl mx-auto">
         <div class="pomodoro-panel">
-            <div class="pomodoro-main-controls">
+             <div class="pomodoro-main-controls">
                  <div class="flex items-center gap-4">
                      <span id="pomodoro-display" class="pomodoro-display">25:00</span>
                      <span id="pomodoro-status" class="pomodoro-status work">Work</span>
@@ -139,7 +148,7 @@
                      </button>
                  </div>
              </div>
-            <div id="pomodoro-settings" class="pomodoro-settings">
+             <div id="pomodoro-settings" class="pomodoro-settings">
                  <div class="pomodoro-settings-inputs">
                      <label for="setting-work-mins">Work (min):
                          <input type="number" id="setting-work-mins" min="1" max="120" step="1">
@@ -182,15 +191,15 @@
                 <div class="tasks-container"></div>
             </div>
             <div id="inprogress" class="kanban-column bg-yellow-50">
-                <h2 class="column-header text-yellow-800 border-yellow-200"><i class="fas fa-spinner fa-spin mr-2 text-yellow-600"></i>In Progress</h2>
+                <h2 class="column-header text-yellow-800 border-yellow-200"><i id="inprogress-spinner" class="fas fa-spinner mr-2 text-yellow-600"></i>In Progress</h2>
                 <div class="tasks-container"></div>
             </div>
             <div id="done" class="kanban-column bg-green-50">
                  <div class="column-header flex justify-between items-center text-green-800 border-green-200">
-                    <span><i class="fas fa-check-circle mr-2 text-green-600"></i>Done</span>
-                    <button id="clearDoneBtn" title="Clear all done tasks" class="btn-clear"><i class="fas fa-trash-alt mr-1"></i> Clear All</button>
-                </div>
-                <div class="tasks-container"></div>
+                     <span><i class="fas fa-check-circle mr-2 text-green-600"></i>Done</span>
+                     <button id="clearDoneBtn" title="Clear all done tasks" class="btn-clear"><i class="fas fa-trash-alt mr-1"></i> Clear All</button>
+                 </div>
+                 <div class="tasks-container"></div>
             </div>
         </div>
     </div>
@@ -206,6 +215,7 @@
             </div>
         </div>
     </div>
+
     <script>
         // --- DOM Element Selection ---
         const newTaskInput = document.getElementById('newTaskInput');
@@ -213,6 +223,11 @@
         const addTaskBtn = document.getElementById('addTaskBtn');
         const columns = document.querySelectorAll('.kanban-column');
         const tasksContainers = document.querySelectorAll('.tasks-container');
+        const todoTasksContainer = document.getElementById('todo').querySelector('.tasks-container');
+        const inprogressTasksContainer = document.getElementById('inprogress').querySelector('.tasks-container');
+        const doneTasksContainer = document.getElementById('done').querySelector('.tasks-container');
+        const inprogressSpinner = document.getElementById('inprogress-spinner'); // Get spinner icon
+        const doneColumn = document.getElementById('done'); // Get Done column element
         const clearDoneBtn = document.getElementById('clearDoneBtn');
         const confettiCanvas = document.getElementById('confettiCanvas');
         const confirmationModal = document.getElementById('confirmationModal');
@@ -266,7 +281,7 @@
             Tone.start().then(() => {
                 taskCompleteSynth = new Tone.Synth({ oscillator: { type: 'sine' }, envelope: { attack: 0.01, decay: 0.2, sustain: 0.1, release: 0.5 } }).toDestination();
                  pomodoroEndSynth = new Tone.Synth({ oscillator: { type: 'triangle' }, envelope: { attack: 0.05, decay: 0.3, sustain: 0.2, release: 0.8 } }).toDestination();
-                console.log("Audio ready."); soundsReady = true;
+                 console.log("Audio ready."); soundsReady = true;
             }).catch(e => console.error("Tone.start failed:", e));
         };
         const playTaskCompleteSound = () => { /* ... (no changes) ... */
@@ -385,15 +400,15 @@
             taskElement.classList.remove('is-active');
         };
         const displayTotalTaskTime = (taskElement, totalTimeMs) => { /* ... (no changes) ... */
-             const timerDiv = taskElement.querySelector('.task-timer');
-             if (timerDiv) {
-                 if (totalTimeMs !== null && totalTimeMs >= 0) {
-                     timerDiv.innerHTML = `<i class="fas fa-check-circle fa-xs text-green-600"></i> Total: ${formatTaskTime(totalTimeMs)}`;
-                     timerDiv.style.display = 'flex';
-                 } else {
-                     timerDiv.innerHTML = ''; timerDiv.style.display = 'none';
-                 }
-             }
+            const timerDiv = taskElement.querySelector('.task-timer');
+            if (timerDiv) {
+                if (totalTimeMs !== null && totalTimeMs >= 0) {
+                    timerDiv.innerHTML = `<i class="fas fa-check-circle fa-xs text-green-600"></i> Total: ${formatTaskTime(totalTimeMs)}`;
+                    timerDiv.style.display = 'flex';
+                } else {
+                    timerDiv.innerHTML = ''; timerDiv.style.display = 'none';
+                }
+            }
         };
         const pauseWorkTimer = (taskElement) => { /* ... (no changes) ... */
             const startTime = taskElement.dataset.timerStartTime ? parseInt(taskElement.dataset.timerStartTime, 10) : null;
@@ -404,19 +419,19 @@
                 delete taskElement.dataset.timerStartTime;
             }
             stopTaskTimerInterval(taskElement);
-             const timerDiv = taskElement.querySelector('.task-timer');
-             if(timerDiv) timerDiv.style.display = 'none';
+            const timerDiv = taskElement.querySelector('.task-timer');
+            if(timerDiv) timerDiv.style.display = 'none'; // Hide timer when paused
         };
 
         // --- Task Element Creation & Management ---
-        const createTaskElement = (taskData) => { /* ... (no changes) ... */
+        const createTaskElement = (taskData) => { /* ... (no changes, except removing redundant timer display logic here) ... */
             const { id, text, labels = [], startTime = null, totalTime = 0 } = taskData;
             const task = document.createElement('div');
             task.className = 'kanban-task'; task.draggable = true;
             task.id = id || `task-${Date.now()}`;
             task.dataset.totalTime = totalTime || 0;
             task.dataset.labels = JSON.stringify(labels);
-            if (startTime) { task.dataset.timerStartTime = startTime; }
+            // No need to set startTime dataset here, it's handled when loading/moving
 
             const contentDiv = document.createElement('div'); contentDiv.className = 'task-content';
             const textSpan = document.createElement('span'); textSpan.className = 'task-text'; textSpan.textContent = text;
@@ -430,7 +445,7 @@
             });
             contentDiv.appendChild(labelsDiv);
             const timerAreaDiv = document.createElement('div'); timerAreaDiv.className = 'task-timer-area';
-            const timerDiv = document.createElement('div'); timerDiv.className = 'task-timer'; timerDiv.style.display = 'none';
+            const timerDiv = document.createElement('div'); timerDiv.className = 'task-timer'; timerDiv.style.display = 'none'; // Start hidden
             timerAreaDiv.appendChild(timerDiv);
             contentDiv.appendChild(timerAreaDiv);
             task.appendChild(contentDiv);
@@ -442,7 +457,12 @@
             const deleteBtn = document.createElement('button'); deleteBtn.className = 'task-action-btn delete-btn'; deleteBtn.innerHTML = '<i class="fas fa-trash-alt fa-xs"></i>'; deleteBtn.title = "Delete task"; deleteBtn.setAttribute('aria-label', 'Delete task');
             deleteBtn.addEventListener('click', (e) => {
                 e.stopPropagation(); const currentText = task.querySelector('.task-text').textContent;
-                showConfirmationModal(`Delete task: "${currentText}"?`, () => { stopTaskTimerInterval(task); task.remove(); saveTasks(); });
+                showConfirmationModal(`Delete task: "${currentText}"?`, () => {
+                    stopTaskTimerInterval(task); // Ensure timer stops if deleted from In Progress
+                    task.remove();
+                    updateBoardState(); // Update spinner/glow
+                    saveTasks(); // Save after removal
+                });
             });
             actionsDiv.appendChild(deleteBtn);
             task.appendChild(actionsDiv);
@@ -479,7 +499,10 @@
                 taskElement.dataset.labels = JSON.stringify(newLabels);
                 labelsDiv.innerHTML = ''; newLabels.forEach(label => { const labelSpan = document.createElement('span'); labelSpan.className = 'task-label'; labelSpan.textContent = label; labelsDiv.appendChild(labelSpan); });
                 contentDiv.removeChild(editContainer); textSpan.style.display = ''; labelsDiv.style.display = 'flex'; if(timerArea) timerArea.style.display = 'flex';
-                if ((newText && newText !== currentText) || (JSON.stringify(newLabels) !== JSON.stringify(currentLabels))) { saveTasks(); }
+                if ((newText && newText !== currentText) || (JSON.stringify(newLabels) !== JSON.stringify(currentLabels))) {
+                     saveTasks(); // Save only if changed
+                     // No need to call updateBoardState here, saveTasks does it
+                }
             };
             let saved = false; const handleSave = () => { if (!saved) { saved = true; saveEdit(); } };
             const handleCancel = () => { if (!saved) { saved = true; contentDiv.removeChild(editContainer); textSpan.style.display = ''; labelsDiv.style.display = 'flex'; if(timerArea) timerArea.style.display = 'flex'; } };
@@ -495,8 +518,9 @@
             const labels = labelText.split(',').map(label => label.trim()).filter(label => label !== '');
             const taskData = { id: `task-${Date.now()}`, text: taskText, labels: labels };
             const newTask = createTaskElement(taskData);
-            document.getElementById('todo').querySelector('.tasks-container').appendChild(newTask);
-            newTaskInput.value = ''; newTaskLabels.value = ''; saveTasks();
+            todoTasksContainer.appendChild(newTask); // Use specific container
+            newTaskInput.value = ''; newTaskLabels.value = '';
+            saveTasks(); // This will also trigger updateBoardState
         };
 
         // --- Drag and Drop Event Handlers ---
@@ -504,7 +528,7 @@
             initAudio();
             if (e.target.querySelector('input:focus') || e.target.querySelector('.editing-input')) { e.preventDefault(); return; }
             draggedItem = e.target; sourceColumnId = draggedItem.closest('.kanban-column').id;
-            setTimeout(() => { e.target.classList.add('dragging'); }, 0);
+            setTimeout(() => { if(draggedItem) draggedItem.classList.add('dragging'); }, 0); // Check if draggedItem still exists
             e.dataTransfer.effectAllowed = 'move';
             try { e.dataTransfer.setData('text/plain', e.target.id); } catch (error) { console.error("Error setting drag data:", error); }
         }
@@ -524,33 +548,79 @@
         }
         function handleDragLeave(e) { /* ... (no changes) ... */
             const column = e.currentTarget.closest('.kanban-column');
-            if (!column.contains(e.relatedTarget)) { column.classList.remove('drag-over'); }
+            // Check if the relatedTarget (where the mouse is going) is outside the current column
+            if (!column || !column.contains(e.relatedTarget)) {
+                 if(column) column.classList.remove('drag-over');
+            }
         }
-        function handleDrop(e) { /* ... (no changes) ... */
+        function handleDrop(e) {
             e.preventDefault();
-            const dropZoneContainer = e.currentTarget; const dropZoneColumn = dropZoneContainer.closest('.kanban-column');
+            const dropZoneContainer = e.currentTarget;
+            const dropZoneColumn = dropZoneContainer.closest('.kanban-column');
+            if (!draggedItem || !dropZoneContainer.classList.contains('tasks-container') || !dropZoneColumn) {
+                if (draggedItem) draggedItem.classList.remove('dragging');
+                draggedItem = null; sourceColumnId = null;
+                columns.forEach(col => col.classList.remove('drag-over'));
+                return;
+            }
+
             const destinationColumnId = dropZoneColumn.id;
-            if (!draggedItem || !dropZoneContainer.classList.contains('tasks-container')) {
-                if (draggedItem) draggedItem.classList.remove('dragging'); draggedItem = null; sourceColumnId = null; return;
+            const wasInProgress = sourceColumnId === 'inprogress';
+            const willBeInProgress = destinationColumnId === 'inprogress';
+            const willBeInDone = destinationColumnId === 'done';
+            const willBeInTodo = destinationColumnId === 'todo';
+
+            // --- Timer Logic ---
+            if (wasInProgress && !willBeInProgress) {
+                // Moving OUT of In Progress: Pause timer, store elapsed time
+                pauseWorkTimer(draggedItem);
             }
-            const wasInProgress = sourceColumnId === 'inprogress'; const willBeInProgress = destinationColumnId === 'inprogress'; const willBeInDone = destinationColumnId === 'done';
-            if (wasInProgress && !willBeInProgress) { pauseWorkTimer(draggedItem); }
             if (!wasInProgress && willBeInProgress) {
-                 const newWorkStartTime = Date.now(); startTaskTimerInterval(draggedItem, newWorkStartTime);
-                 const timerDiv = draggedItem.querySelector('.task-timer'); if(timerDiv && timerDiv.innerHTML.includes('Total:')) { timerDiv.innerHTML = ''; timerDiv.style.display = 'none'; }
+                // Moving INTO In Progress: Start timer (or restart if paused)
+                const newWorkStartTime = Date.now();
+                startTaskTimerInterval(draggedItem, newWorkStartTime);
+                // Clear any "Total:" display if moving back from Done
+                const timerDiv = draggedItem.querySelector('.task-timer');
+                if (timerDiv && timerDiv.innerHTML.includes('Total:')) {
+                    timerDiv.innerHTML = ''; // Clear it, display will update with stopwatch
+                    timerDiv.style.display = 'flex'; // Ensure it's visible
+                }
             }
-             if (willBeInDone) {
-                 displayTotalTaskTime(draggedItem, parseInt(draggedItem.dataset.totalTime || '0', 10));
-                 playTaskCompleteSound(); triggerConfetti();
-             }
-             if (destinationColumnId === 'todo') {
-                 const timerDiv = draggedItem.querySelector('.task-timer'); if(timerDiv) { timerDiv.innerHTML = ''; timerDiv.style.display = 'none'; }
-                 draggedItem.classList.remove('is-active');
-             }
+
+            // --- Display Logic ---
+            if (willBeInDone) {
+                // Moving INTO Done: Display total time, play sound, confetti
+                const totalTime = parseInt(draggedItem.dataset.totalTime || '0', 10);
+                displayTotalTaskTime(draggedItem, totalTime);
+                playTaskCompleteSound();
+                triggerConfetti();
+            } else if (willBeInTodo) {
+                // Moving INTO To Do: Clear timer display and active state
+                const timerDiv = draggedItem.querySelector('.task-timer');
+                if (timerDiv) {
+                    timerDiv.innerHTML = '';
+                    timerDiv.style.display = 'none';
+                }
+                draggedItem.classList.remove('is-active');
+                // Reset total time if moving back to To Do? Optional, depends on desired logic.
+                // draggedItem.dataset.totalTime = '0';
+            } else if (willBeInProgress && !wasInProgress) {
+                 // Moving INTO In Progress (from ToDo/Done): Timer started above, ensure display is correct
+                 const startTime = parseInt(draggedItem.dataset.timerStartTime, 10);
+                 updateTaskTimerDisplay(draggedItem, startTime); // Initial display update
+            }
+
+
+            // --- DOM Manipulation ---
             const afterElement = getDragAfterElement(dropZoneContainer, e.clientY);
-            if (afterElement == null) dropZoneContainer.appendChild(draggedItem); else dropZoneContainer.insertBefore(draggedItem, afterElement);
+            if (afterElement == null) {
+                dropZoneContainer.appendChild(draggedItem);
+            } else {
+                dropZoneContainer.insertBefore(draggedItem, afterElement);
+            }
+
             dropZoneColumn.classList.remove('drag-over');
-            saveTasks();
+            saveTasks(); // Save state and update spinner/glow
         }
         /** Finds element to insert before based on Y-coordinate. */
         function getDragAfterElement(container, y) { /* ... (no changes) ... */
@@ -563,9 +633,13 @@
 
         // --- Other Event Handlers ---
         const triggerConfetti = () => { /* ... (no changes) ... */ myConfetti({ particleCount: 120, spread: 75, origin: { y: 0.6 }, zIndex: 10000, gravity: 0.8 }); };
-        const handleClearDone = () => { /* ... (no changes) ... */
-             const doneTasksContainer = document.getElementById('done').querySelector('.tasks-container');
-             if (doneTasksContainer.children.length > 0) { showConfirmationModal("Clear all tasks from the 'Done' column?", () => { doneTasksContainer.innerHTML = ''; saveTasks(); }); }
+        const handleClearDone = () => {
+             if (doneTasksContainer.children.length > 0) {
+                 showConfirmationModal("Clear all tasks from the 'Done' column?", () => {
+                     doneTasksContainer.innerHTML = '';
+                     saveTasks(); // Save and update board state
+                 });
+             }
         };
 
         // --- Confirmation Modal ---
@@ -606,7 +680,9 @@
                     showConfirmationModal("Importing data will overwrite the current board. Are you sure?", () => {
                         tasksContainers.forEach(container => container.innerHTML = '');
                         Object.values(activeTaskTimers).forEach(clearInterval); for (const key in activeTaskTimers) { delete activeTaskTimers[key]; }
-                        loadTasksFromData(importedData); saveTasks(); alert("Data imported successfully!");
+                        loadTasksFromData(importedData);
+                        saveTasks(); // Save the newly loaded data and update UI state
+                        alert("Data imported successfully!");
                     });
                 } catch (error) { console.error("Error importing data:", error); alert(`Failed to import data: ${error.message}`); }
                 finally { event.target.value = null; }
@@ -618,7 +694,37 @@
         // --- Local Storage Persistence ---
         const POMODORO_SETTINGS_KEY = 'pomodoroSettings'; // Key for settings
 
-        const saveTasks = () => { /* ... (no changes) ... */
+        // --- NEW: Functions to Update Board Visual State ---
+
+        /** Updates the In Progress spinner animation based on tasks present. */
+        const updateSpinnerAnimation = () => {
+            if (inprogressSpinner) {
+                const hasTasks = inprogressTasksContainer.children.length > 0;
+                inprogressSpinner.classList.toggle('fa-spin', hasTasks);
+            }
+        };
+
+        /** Updates the Done column glow effect based on task distribution. */
+        const updateDoneGlow = () => {
+            if (doneColumn) {
+                const todoEmpty = todoTasksContainer.children.length === 0;
+                const inprogressEmpty = inprogressTasksContainer.children.length === 0;
+                const doneHasTasks = doneTasksContainer.children.length > 0;
+
+                // Glow only if ToDo and InProgress are empty, and Done has tasks
+                doneColumn.classList.toggle('done-glow', todoEmpty && inprogressEmpty && doneHasTasks);
+            }
+        };
+
+        /** Central function to update dynamic visual states */
+        const updateBoardState = () => {
+            updateSpinnerAnimation();
+            updateDoneGlow();
+        }
+
+        // --- Modified Save/Load Functions ---
+
+        const saveTasks = () => {
             const tasksData = {};
             columns.forEach(column => {
                 const columnId = column.id; tasksData[columnId] = [];
@@ -635,10 +741,13 @@
             });
             try { localStorage.setItem('kanbanTasks', JSON.stringify(tasksData)); }
             catch (error) { console.error("Error saving tasks to localStorage:", error); }
+
+            // Update visual state AFTER saving
+            updateBoardState();
         };
 
         /** Loads tasks from a data object (used by initial load and import). */
-        const loadTasksFromData = (tasksData) => { /* ... (no changes) ... */
+        const loadTasksFromData = (tasksData) => {
              Object.keys(tasksData).forEach(columnId => {
                  const columnElement = document.getElementById(columnId);
                  if (columnElement) {
@@ -647,23 +756,50 @@
                          if(taskData && taskData.id && typeof taskData.text === 'string') {
                              taskData.labels = Array.isArray(taskData.labels) ? taskData.labels : [];
                              const taskElement = createTaskElement(taskData); tasksContainer.appendChild(taskElement);
-                             if (columnId === 'inprogress' && taskData.startTime) { startTaskTimerInterval(taskElement, taskData.startTime); }
-                             else if (columnId === 'done' && taskData.totalTime >= 0) { displayTotalTaskTime(taskElement, taskData.totalTime); }
-                             else { const timerDiv = taskElement.querySelector('.task-timer'); if(timerDiv) timerDiv.style.display = 'none'; }
+
+                             // Restore state based on column
+                             if (columnId === 'inprogress') {
+                                 if (taskData.startTime) {
+                                     // Calculate elapsed time since page was closed
+                                     const elapsedSinceLoad = Date.now() - taskData.startTime;
+                                     const previousTotal = taskData.totalTime || 0;
+                                     // Decide how to handle time passed while closed.
+                                     // Option 1: Resume timer, adding elapsed time to total when paused/moved.
+                                     startTaskTimerInterval(taskElement, taskData.startTime);
+                                     // Option 2: Add elapsed time immediately (timer shows total time since original start)
+                                     // taskElement.dataset.totalTime = previousTotal + elapsedSinceLoad;
+                                     // startTaskTimerInterval(taskElement, taskData.startTime); // Still need interval
+                                     // Option 3: Just restore totalTime and don't restart timer automatically
+                                     // displayTotalTaskTime(taskElement, previousTotal);
+                                     // delete taskElement.dataset.timerStartTime; // Remove start time if not auto-restarting
+                                 } else {
+                                     // Task was in progress but timer wasn't running (maybe paused before close?)
+                                     displayTotalTaskTime(taskElement, taskData.totalTime || 0); // Show paused time
+                                 }
+                             } else if (columnId === 'done') {
+                                 displayTotalTaskTime(taskElement, taskData.totalTime || 0);
+                             } else { // To Do
+                                 const timerDiv = taskElement.querySelector('.task-timer');
+                                 if(timerDiv) timerDiv.style.display = 'none';
+                             }
                          } else { console.warn("Skipping invalid task data during load/import:", taskData); }
                      });
                  }
              });
+             // Update visual state after loading all tasks
+             updateBoardState();
         };
 
         /** Loads tasks from localStorage on initial page load. */
-        const loadTasks = () => { /* ... (no changes) ... */
+        const loadTasks = () => {
              Object.values(activeTaskTimers).forEach(clearInterval); for (const key in activeTaskTimers) { delete activeTaskTimers[key]; }
              let savedTasksJson; try { savedTasksJson = localStorage.getItem('kanbanTasks'); } catch (error) { console.error("Error reading tasks from localStorage:", error); return; }
              if (savedTasksJson) {
                  try { const tasksData = JSON.parse(savedTasksJson); loadTasksFromData(tasksData); }
-                 catch (error) { console.error("Error parsing saved tasks JSON:", error); }
+                 catch (error) { console.error("Error parsing saved tasks JSON:", error); localStorage.removeItem('kanbanTasks'); /* Clear corrupted data */ }
              }
+             // Ensure board state is correct even if no tasks were loaded
+             updateBoardState();
         };
 
         /** Loads Pomodoro settings from localStorage. */
@@ -682,7 +818,8 @@
                 console.error("Error loading Pomodoro settings:", error);
                 currentWorkMins = DEFAULT_WORK_MINS; currentShortBreakMins = DEFAULT_SHORT_BREAK_MINS; currentLongBreakMins = DEFAULT_LONG_BREAK_MINS;
             }
-            resetPomodoroTimerTime(false); // Use the function that doesn't force state
+            // Reset timer display based on loaded settings, but don't force state yet
+            resetPomodoroTimerTime(false);
         };
 
         /** Saves Pomodoro settings to localStorage. */
@@ -701,7 +838,7 @@
              }
              currentWorkMins = newWorkMins; currentShortBreakMins = newShortBreakMins; currentLongBreakMins = newLongBreakMins;
              savePomodoroSettings({ work: currentWorkMins, shortBreak: currentShortBreakMins, longBreak: currentLongBreakMins });
-             handlePomodoroReset(); // Use the reset handler which forces WORK state
+             handlePomodoroReset(); // Use the reset handler which forces WORK state and updates display
              pomodoroSettingsDiv.classList.remove('active');
              alert("Pomodoro settings saved!");
         };
@@ -709,13 +846,16 @@
 
         // --- Event Listener Setup ---
         document.addEventListener('DOMContentLoaded', () => {
-            loadPomodoroSettings();
-            loadTasks();
-            handlePomodoroReset(); // Call the handler to ensure initial state is WORK
+            loadPomodoroSettings(); // Load settings first
+            loadTasks();           // Load tasks and update board state
+            handlePomodoroReset(); // Set initial Pomodoro state to WORK & update display
 
+            // Init audio on first interaction
             document.body.addEventListener('click', initAudio, { once: true });
             document.body.addEventListener('keypress', initAudio, { once: true });
             document.body.addEventListener('dragstart', initAudio, { once: true });
+
+            // Keyboard shortcut for new task
             document.addEventListener('keydown', (e) => { if (e.altKey && e.key.toLowerCase() === 'n') { e.preventDefault(); newTaskInput.focus(); } });
         });
         addTaskBtn.addEventListener('click', addTask);
@@ -731,7 +871,7 @@
         confirmationModal.addEventListener('click', (e) => { if (e.target === confirmationModal) hideConfirmationModal(); });
         pomodoroStartBtn.addEventListener('click', startPomodoro);
         pomodoroPauseBtn.addEventListener('click', pausePomodoro);
-        pomodoroResetBtn.addEventListener('click', handlePomodoroReset); // Use the specific handler
+        pomodoroResetBtn.addEventListener('click', handlePomodoroReset);
         exportDataBtn.addEventListener('click', exportData);
         importDataInput.addEventListener('change', handleImportData);
         // Pomodoro Settings Listeners
