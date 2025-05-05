@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kanban Tracker with Pomodoro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Base styling */
+        html, body {
+            height: 100%;
+            font-family: 'Nunito', sans-serif; /* Use Nunito font */
+            scroll-behavior: smooth;
+        }
+        body {
+            background-color: #f8fafc; /* slate-50 */
+        }
+
+        /* Pomodoro Timer Panel */
+        .pomodoro-panel { background-color: white; border-radius: 0.5rem; padding: 1rem 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); border: 1px solid #e5e7eb; display: flex; flex-direction: column; align-items: center; gap: 0.75rem; }
+        @media (min-width: 768px) { .pomodoro-panel { flex-direction: row; justify-content: space-between; } }
+        .pomodoro-display { font-size: 2.25rem; font-weight: 700; color: #1f2937; font-family: 'Menlo', 'Monaco', 'Consolas', "Courier New", monospace; line-height: 1; }
+        .pomodoro-status { font-size: 0.875rem; font-weight: 600; padding: 0.25rem 0.75rem; border-radius: 9999px; text-transform: uppercase; letter-spacing: 0.05em; }
+        .pomodoro-status.work { background-color: #fef3c7; color: #b45309; } /* amber-100, amber-700 */
+        .pomodoro-status.break { background-color: #dcfce7; color: #166534; } /* green-100, green-700 */
+        .pomodoro-controls { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; }
+        .pomodoro-controls button { padding: 0.5rem 1rem; font-size: 0.875rem; }
+        .pomodoro-controls button i { margin-right: 0.375rem; }
+        .pomodoro-controls button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        /* Kanban Column Styling */
+        .kanban-column { min-height: 350px; display: flex; flex-direction: column; transition: background-color 0.2s ease; border-radius: 0.5rem; box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); overflow: hidden; }
+        .column-header { padding: 0.75rem 1rem; border-bottom-width: 1px; font-weight: 700; font-size: 1rem; display: flex; align-items: center; }
+        .tasks-container { flex-grow: 1; padding: 0.75rem; overflow-y: auto; }
+        .tasks-container > .kanban-task + .kanban-task { margin-top: 0.75rem; }
+
+        /* Task Card Styling (Resized) */
+        .kanban-task { cursor: grab; transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease; position: relative; padding: 0.625rem 2.25rem 0.625rem 1rem; border-radius: 0.375rem; background-color: white; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.07); display: flex; align-items: start; border-left: 3px solid #cbd5e1; }
+        .kanban-task:hover { box-shadow: 0 4px 8px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06); border-left-color: #94a3b8; }
+        .kanban-task:hover .task-actions { opacity: 1; }
+        .kanban-task:active { cursor: grabbing; transform: scale(1.02); box-shadow: 0 8px 12px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); }
+        .dragging { opacity: 0.7; transform: rotate(2deg); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); }
+        .drag-over { background-color: rgba(100, 116, 139, 0.06); }
+
+        /* Task Content (Text + Timer) */
+        .task-content { display: flex; flex-direction: column; flex-grow: 1; margin-right: 0.25rem; word-break: break-word; }
+        .task-text { line-height: 1.4; color: #374151; font-size: 0.9rem; }
+        .task-timer-area { margin-top: 0.25rem; font-size: 0.7rem; color: #6b7280; font-family: 'Menlo', 'Monaco', 'Consolas', "Courier New", monospace; min-height: 1em; display: flex; flex-direction: column; gap: 0.125rem; }
+        .task-timer { display: flex; align-items: center; }
+        .task-timer i { margin-right: 0.25rem; color: #9ca3af; flex-shrink: 0; }
+
+        /* Task Action Buttons (Resized) */
+        .task-actions { position: absolute; top: 0.375rem; right: 0.375rem; display: flex; flex-direction: column; gap: 0.25rem; opacity: 0.3; transition: opacity 0.2s ease-in-out; }
+        .kanban-task:hover .task-actions { opacity: 1; }
+        .task-action-btn { background-color: #f9fafb; border: 1px solid #e5e7eb; cursor: pointer; padding: 0.125rem; color: #6b7280; border-radius: 9999px; transition: all 0.15s ease-in-out; line-height: 1; width: 1.5rem; height: 1.5rem; display: flex; align-items: center; justify-content: center; box-shadow: none; }
+        .task-action-btn i { font-size: 0.65rem; }
+        .task-action-btn:hover { background-color: #f3f4f6; color: #1f2937; border-color: #d1d5db; transform: scale(1.1); box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); }
+        .task-action-btn.delete-btn:hover { background-color: #fee2e2; color: #ef4444; border-color: #fecaca; }
+        .task-action-btn.edit-btn:hover { background-color: #dbeafe; color: #3b82f6; border-color: #bfdbfe; }
+        .task-action-btn:active { transform: scale(0.95); filter: brightness(0.95); }
+
+        /* Inline Editing */
+        .editing-input { padding: 0.25rem 0.375rem; border: 1px solid #3b82f6; border-radius: 0.25rem; outline: none; font-size: 0.9rem; font-family: inherit; flex-grow: 1; box-shadow: inset 0 1px 2px rgba(0,0,0,0.05); }
+
+        /* Modal */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.6); display: flex; justify-content: center; align-items: center; z-index: 10000; opacity: 0; visibility: hidden; transition: opacity 0.2s ease, visibility 0.2s ease; }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .modal-content { background-color: white; padding: 1.5rem; border-radius: 0.5rem; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); max-width: 400px; width: 90%; text-align: center; transform: scale(0.95); transition: transform 0.2s ease; }
+        .modal-overlay.active .modal-content { transform: scale(1); }
+
+        /* Custom Scrollbar */
+        .tasks-container::-webkit-scrollbar { width: 6px; }
+        .tasks-container::-webkit-scrollbar-track { background: transparent; }
+        .tasks-container::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 10px; }
+        .tasks-container::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
+
+        /* Button Styling */
+        .btn { display: inline-flex; align-items: center; justify-content: center; padding: 0.625rem 1.25rem; border-radius: 0.375rem; font-weight: 600; transition: background-color 0.2s, box-shadow 0.2s, transform 0.1s, opacity 0.2s; border: 1px solid transparent; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); cursor: pointer; }
+        .btn:active { transform: scale(0.98); }
+        .btn-primary { background-color: #2563eb; color: white; border-color: #2563eb; }
+        .btn-primary:hover:not(:disabled) { background-color: #1d4ed8; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
+        .btn-danger { background-color: #dc2626; color: white; border-color: #dc2626; }
+        .btn-danger:hover:not(:disabled) { background-color: #b91c1c; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
+        .btn-secondary { background-color: #e5e7eb; color: #374151; border-color: #d1d5db; }
+        .btn-secondary:hover:not(:disabled) { background-color: #d1d5db; border-color: #9ca3af; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
+        .btn-clear { padding: 0.25rem 0.5rem; font-size: 0.75rem; color: #dc2626; background-color: transparent; border: none; box-shadow: none; font-weight: 500; border-radius: 0.25rem; transition: background-color 0.2s, color 0.2s; }
+        .btn-clear:hover { background-color: #fee2e2; color: #b91c1c; }
+        .btn i { margin-right: 0.5rem; }
+
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="max-w-7xl mx-auto">
+        <div class="pomodoro-panel">
+             <div class="flex items-center gap-4">
+                 <span id="pomodoro-display" class="pomodoro-display">25:00</span>
+                 <span id="pomodoro-status" class="pomodoro-status work">Work</span>
+             </div>
+             <div class="pomodoro-controls">
+                 <button id="pomodoro-start" class="btn btn-primary btn-sm"><i class="fas fa-play"></i>Start</button>
+                 <button id="pomodoro-pause" class="btn btn-secondary btn-sm" style="display: none;"><i class="fas fa-pause"></i>Pause</button>
+                 <button id="pomodoro-reset" class="btn btn-secondary btn-sm"><i class="fas fa-redo"></i>Reset</button>
+             </div>
+         </div>
+        <div class="mb-6 md:mb-8 bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+            <h2 class="text-lg font-semibold mb-3 text-gray-700">Add New Task</h2>
+            <div class="flex flex-col sm:flex-row gap-3">
+                <input type="text" id="newTaskInput" placeholder="Enter task description..." class="flex-grow p-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition shadow-sm">
+                <button id="addTaskBtn" class="btn btn-primary"><i class="fas fa-plus fa-sm"></i>Add Task</button>
+            </div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+            <div id="todo" class="kanban-column bg-blue-50">
+                <h2 class="column-header text-blue-800 border-blue-200"><i class="fas fa-list-ul mr-2 text-blue-500"></i>To Do</h2>
+                <div class="tasks-container"></div>
+            </div>
+            <div id="inprogress" class="kanban-column bg-yellow-50">
+                <h2 class="column-header text-yellow-800 border-yellow-200"><i class="fas fa-spinner fa-spin mr-2 text-yellow-600"></i>In Progress</h2>
+                <div class="tasks-container"></div>
+            </div>
+            <div id="done" class="kanban-column bg-green-50">
+                 <div class="column-header flex justify-between items-center text-green-800 border-green-200">
+                    <span><i class="fas fa-check-circle mr-2 text-green-600"></i>Done</span>
+                    <button id="clearDoneBtn" title="Clear all done tasks" class="btn-clear"><i class="fas fa-trash-alt mr-1"></i> Clear All</button>
+                </div>
+                <div class="tasks-container"></div>
+            </div>
+        </div>
+    </div>
+
+    <canvas id="confettiCanvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999;"></canvas>
+
+    <div id="confirmationModal" class="modal-overlay">
+        <div class="modal-content">
+            <p id="modalMessage" class="mb-5 text-gray-700 text-lg">Are you sure?</p>
+            <div class="flex justify-center gap-4">
+                <button id="confirmBtn" class="btn btn-danger">Confirm</button>
+                <button id="cancelBtn" class="btn btn-secondary">Cancel</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        // --- DOM Element Selection ---
+        const newTaskInput = document.getElementById('newTaskInput');
+        const addTaskBtn = document.getElementById('addTaskBtn');
+        const columns = document.querySelectorAll('.kanban-column');
+        const tasksContainers = document.querySelectorAll('.tasks-container');
+        const clearDoneBtn = document.getElementById('clearDoneBtn');
+        const confettiCanvas = document.getElementById('confettiCanvas');
+        const confirmationModal = document.getElementById('confirmationModal');
+        const modalMessage = document.getElementById('modalMessage');
+        const confirmBtn = document.getElementById('confirmBtn');
+        const cancelBtn = document.getElementById('cancelBtn');
+        const pomodoroDisplay = document.getElementById('pomodoro-display');
+        const pomodoroStatus = document.getElementById('pomodoro-status');
+        const pomodoroStartBtn = document.getElementById('pomodoro-start');
+        const pomodoroPauseBtn = document.getElementById('pomodoro-pause');
+        const pomodoroResetBtn = document.getElementById('pomodoro-reset');
+
+        // --- Global Variables & Instances ---
+        const myConfetti = confetti.create(confettiCanvas, { resize: true, useWorker: true });
+        const activeTaskTimers = {}; // { taskId: intervalId } for work timers
+        let draggedItem = null;
+        let sourceColumnId = null;
+        let confirmCallback = null;
+        // Pomodoro Timer
+        const POMODORO_STATES = { WORK: 'Work', SHORT_BREAK: 'Break', LONG_BREAK: 'Break' };
+        const WORK_MINS = 25; const SHORT_BREAK_MINS = 5; const LONG_BREAK_MINS = 15;
+        let pomodoroIntervalId = null; let pomodoroState = POMODORO_STATES.WORK;
+        let pomodoroTimeLeft = WORK_MINS * 60; let pomodoroCycles = 0;
+
+        // --- Helper Functions ---
+
+        /** Formats seconds into MM:SS string. */
+        const formatPomodoroTime = (totalSeconds) => {
+            const minutes = Math.floor(totalSeconds / 60); const seconds = totalSeconds % 60;
+            return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        };
+        /** Updates the Pomodoro timer display in the UI. */
+        const updatePomodoroDisplay = () => {
+            pomodoroDisplay.textContent = formatPomodoroTime(pomodoroTimeLeft);
+            document.title = `${formatPomodoroTime(pomodoroTimeLeft)} - ${pomodoroState} | Kanban`;
+        };
+        /** Updates the Pomodoro status indicator (Work/Break). */
+        const updatePomodoroStatus = () => {
+            pomodoroStatus.textContent = pomodoroState;
+            pomodoroStatus.className = `pomodoro-status ${pomodoroState === POMODORO_STATES.WORK ? 'work' : 'break'}`;
+        };
+
+        /**
+         * Enables/disables Pomodoro control buttons based on timer state.
+         * @param {boolean} isRunning - True if the timer interval is active.
+         */
+        const setPomodoroControlsState = (isRunning) => {
+            pomodoroStartBtn.disabled = isRunning;
+            pomodoroPauseBtn.disabled = !isRunning; // Pause is enabled only when running
+            pomodoroResetBtn.disabled = isRunning; // Reset is disabled when running
+        };
+
+        /** Resets the Pomodoro timer to the start of the current state. */
+        const resetPomodoroTimer = () => {
+            clearInterval(pomodoroIntervalId); pomodoroIntervalId = null;
+            switch (pomodoroState) {
+                case POMODORO_STATES.WORK: pomodoroTimeLeft = WORK_MINS * 60; break;
+                case POMODORO_STATES.SHORT_BREAK: pomodoroTimeLeft = SHORT_BREAK_MINS * 60; break;
+                case POMODORO_STATES.LONG_BREAK: pomodoroTimeLeft = LONG_BREAK_MINS * 60; break;
+            }
+            updatePomodoroDisplay(); updatePomodoroStatus();
+            pomodoroStartBtn.style.display = 'inline-flex'; pomodoroPauseBtn.style.display = 'none';
+            setPomodoroControlsState(false); // Set controls for paused/stopped state
+            document.title = "Kanban Tracker with Pomodoro";
+        };
+        /** Switches to the next Pomodoro state. */
+        const nextPomodoroState = () => {
+            if (pomodoroState === POMODORO_STATES.WORK) {
+                pomodoroCycles++; pomodoroState = (pomodoroCycles % 4 === 0) ? POMODORO_STATES.LONG_BREAK : POMODORO_STATES.SHORT_BREAK;
+            } else { pomodoroState = POMODORO_STATES.WORK; }
+            resetPomodoroTimer();
+        };
+        /** Starts the Pomodoro countdown. */
+        const startPomodoro = () => {
+            if (pomodoroIntervalId) return;
+            pomodoroStartBtn.style.display = 'none'; pomodoroPauseBtn.style.display = 'inline-flex';
+            setPomodoroControlsState(true); // Set controls for running state
+
+            pomodoroIntervalId = setInterval(() => {
+                pomodoroTimeLeft--; updatePomodoroDisplay();
+                if (pomodoroTimeLeft <= 0) {
+                    clearInterval(pomodoroIntervalId); pomodoroIntervalId = null; nextPomodoroState();
+                    // Controls are reset in nextPomodoroState via resetPomodoroTimer
+                }
+            }, 1000);
+        };
+        /** Pauses the Pomodoro countdown. */
+        const pausePomodoro = () => {
+            clearInterval(pomodoroIntervalId); pomodoroIntervalId = null;
+            pomodoroStartBtn.style.display = 'inline-flex'; pomodoroPauseBtn.style.display = 'none';
+            setPomodoroControlsState(false); // Set controls for paused state
+        };
+
+        /** Formats task timer milliseconds into a D:H:M:S string. */
+        const formatTaskTime = (ms) => {
+            if (ms === null || ms === undefined || ms < 0) return '';
+            let s = Math.floor(ms / 1000); let m = Math.floor(s / 60); let h = Math.floor(m / 60); let d = Math.floor(h / 24);
+            s %= 60; m %= 60; h %= 24; let p = [];
+            if (d > 0) p.push(`${d}D`); if (h > 0 || d > 0) p.push(`${h}H`); if (m > 0 || h > 0 || d > 0) p.push(`${m}m`); p.push(`${s}s`);
+            return p.join(':');
+        };
+
+        // --- Task Work Timer Functions ---
+        const updateTaskTimerDisplay = (taskElement, startTime) => {
+            const timerDiv = taskElement.querySelector('.task-timer');
+            if (!timerDiv || !startTime) return;
+            const elapsed = Date.now() - startTime;
+            timerDiv.innerHTML = `<i class="fas fa-stopwatch fa-xs"></i> ${formatTaskTime(elapsed)}`;
+            timerDiv.style.display = 'flex';
+        };
+        const startTaskTimerInterval = (taskElement, startTime) => {
+            const taskId = taskElement.id; stopTaskTimerInterval(taskElement);
+            updateTaskTimerDisplay(taskElement, startTime);
+            activeTaskTimers[taskId] = setInterval(() => updateTaskTimerDisplay(taskElement, startTime), 1000);
+            taskElement.dataset.timerStartTime = startTime;
+        };
+        const stopTaskTimerInterval = (taskElement) => {
+            const taskId = taskElement.id;
+            if (activeTaskTimers[taskId]) { clearInterval(activeTaskTimers[taskId]); delete activeTaskTimers[taskId]; }
+        };
+        const displayTotalTaskTime = (taskElement, totalTimeMs) => {
+             const timerDiv = taskElement.querySelector('.task-timer');
+             if (timerDiv) {
+                 if (totalTimeMs !== null && totalTimeMs >= 0) {
+                     timerDiv.innerHTML = `<i class="fas fa-check-circle fa-xs text-green-600"></i> Total: ${formatTaskTime(totalTimeMs)}`;
+                     timerDiv.style.display = 'flex';
+                 } else {
+                     timerDiv.innerHTML = ''; timerDiv.style.display = 'none';
+                 }
+             }
+        };
+        const pauseWorkTimer = (taskElement) => {
+            const startTime = taskElement.dataset.timerStartTime ? parseInt(taskElement.dataset.timerStartTime, 10) : null;
+            if (startTime) {
+                const elapsed = Date.now() - startTime;
+                let currentTotalTime = parseInt(taskElement.dataset.totalTime || '0', 10);
+                taskElement.dataset.totalTime = currentTotalTime + elapsed;
+                delete taskElement.dataset.timerStartTime;
+            }
+            stopTaskTimerInterval(taskElement);
+             const timerDiv = taskElement.querySelector('.task-timer');
+             if(timerDiv) timerDiv.style.display = 'none';
+        };
+
+        // --- Task Element Creation & Management ---
+        const createTaskElement = (taskData) => {
+            const { id, text, startTime = null, totalTime = 0 } = taskData;
+            const task = document.createElement('div');
+            task.className = 'kanban-task'; task.draggable = true;
+            task.id = id || `task-${Date.now()}`;
+            task.dataset.totalTime = totalTime || 0;
+            if (startTime) { task.dataset.timerStartTime = startTime; }
+
+            const contentDiv = document.createElement('div'); contentDiv.className = 'task-content';
+            const textSpan = document.createElement('span'); textSpan.className = 'task-text'; textSpan.textContent = text;
+            contentDiv.appendChild(textSpan);
+            const timerAreaDiv = document.createElement('div'); timerAreaDiv.className = 'task-timer-area';
+            const timerDiv = document.createElement('div'); timerDiv.className = 'task-timer'; timerDiv.style.display = 'none';
+            timerAreaDiv.appendChild(timerDiv);
+            contentDiv.appendChild(timerAreaDiv);
+            task.appendChild(contentDiv);
+
+            const actionsDiv = document.createElement('div'); actionsDiv.className = 'task-actions';
+            const editBtn = document.createElement('button'); editBtn.className = 'task-action-btn edit-btn'; editBtn.innerHTML = '<i class="fas fa-pencil-alt fa-xs"></i>'; editBtn.title = "Edit task";
+            editBtn.addEventListener('click', (e) => { e.stopPropagation(); enableEditing(task, textSpan); });
+            actionsDiv.appendChild(editBtn);
+            const deleteBtn = document.createElement('button'); deleteBtn.className = 'task-action-btn delete-btn'; deleteBtn.innerHTML = '<i class="fas fa-trash-alt fa-xs"></i>'; deleteBtn.title = "Delete task";
+            deleteBtn.addEventListener('click', (e) => {
+                e.stopPropagation(); const currentText = task.querySelector('.task-text').textContent;
+                showConfirmationModal(`Delete task: "${currentText}"?`, () => { stopTaskTimerInterval(task); task.remove(); saveTasks(); });
+            });
+            actionsDiv.appendChild(deleteBtn);
+            task.appendChild(actionsDiv);
+
+            task.addEventListener('dragstart', handleDragStart); task.addEventListener('dragend', handleDragEnd);
+            return task;
+        };
+
+        /** Enables inline editing for a task's text. */
+        const enableEditing = (taskElement, textSpan) => {
+            const currentText = textSpan.textContent;
+            const input = document.createElement('input'); input.type = 'text'; input.value = currentText; input.className = 'editing-input';
+            const timerArea = taskElement.querySelector('.task-timer-area'); if(timerArea) timerArea.style.display = 'none';
+            const contentDiv = taskElement.querySelector('.task-content'); contentDiv.replaceChild(input, textSpan); input.select();
+            const saveEdit = () => {
+                const newText = input.value.trim(); contentDiv.replaceChild(textSpan, input); if(timerArea) timerArea.style.display = 'flex';
+                if (newText && newText !== currentText) { textSpan.textContent = newText; saveTasks(); }
+                else { textSpan.textContent = currentText; }
+            };
+            input.addEventListener('blur', saveEdit, { once: true });
+            input.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') { input.blur(); }
+                else if (e.key === 'Escape') {
+                    contentDiv.replaceChild(textSpan, input); textSpan.textContent = currentText; if(timerArea) timerArea.style.display = 'flex';
+                    input.removeEventListener('blur', saveEdit);
+                }
+            });
+        };
+
+        /** Adds a new task to the 'To Do' column. */
+        const addTask = () => {
+            const taskText = newTaskInput.value.trim(); if (taskText === '') { newTaskInput.focus(); return; }
+            const taskData = { id: `task-${Date.now()}`, text: taskText };
+            const newTask = createTaskElement(taskData);
+            document.getElementById('todo').querySelector('.tasks-container').appendChild(newTask);
+            newTaskInput.value = ''; saveTasks();
+        };
+
+        // --- Drag and Drop Event Handlers ---
+        function handleDragStart(e) {
+            if (e.target.querySelector('input:focus') || e.target.querySelector('.editing-input')) { e.preventDefault(); return; }
+            draggedItem = e.target; sourceColumnId = draggedItem.closest('.kanban-column').id;
+            setTimeout(() => { e.target.classList.add('dragging'); }, 0);
+            e.dataTransfer.effectAllowed = 'move';
+            try { e.dataTransfer.setData('text/plain', e.target.id); } catch (error) { console.error("Error setting drag data:", error); }
+        }
+        function handleDragEnd(e) {
+            setTimeout(() => {
+                if (draggedItem) { draggedItem.classList.remove('dragging'); }
+                draggedItem = null; sourceColumnId = null; columns.forEach(col => col.classList.remove('drag-over'));
+            }, 0);
+        }
+        function handleDragOver(e) {
+            e.preventDefault(); e.dataTransfer.dropEffect = 'move';
+            const targetColumn = e.currentTarget.closest('.kanban-column');
+            columns.forEach(col => { col.classList.toggle('drag-over', col === targetColumn); });
+        }
+        function handleDragEnter(e) {
+             e.preventDefault(); e.currentTarget.closest('.kanban-column').classList.add('drag-over');
+        }
+        function handleDragLeave(e) {
+            const column = e.currentTarget.closest('.kanban-column');
+            if (!column.contains(e.relatedTarget)) { column.classList.remove('drag-over'); }
+        }
+        function handleDrop(e) {
+            e.preventDefault();
+            const dropZoneContainer = e.currentTarget; const dropZoneColumn = dropZoneContainer.closest('.kanban-column');
+            const destinationColumnId = dropZoneColumn.id;
+            if (!draggedItem || !dropZoneContainer.classList.contains('tasks-container')) {
+                if (draggedItem) draggedItem.classList.remove('dragging'); draggedItem = null; sourceColumnId = null; return;
+            }
+            const wasInProgress = sourceColumnId === 'inprogress'; const willBeInProgress = destinationColumnId === 'inprogress'; const willBeInDone = destinationColumnId === 'done';
+            if (wasInProgress && !willBeInProgress) { pauseWorkTimer(draggedItem); }
+            if (!wasInProgress && willBeInProgress) {
+                 const newWorkStartTime = Date.now(); startTaskTimerInterval(draggedItem, newWorkStartTime);
+                 const timerDiv = draggedItem.querySelector('.task-timer'); if(timerDiv && timerDiv.innerHTML.includes('Total:')) { timerDiv.innerHTML = ''; timerDiv.style.display = 'none'; }
+            }
+             if (willBeInDone) { displayTotalTaskTime(draggedItem, parseInt(draggedItem.dataset.totalTime || '0', 10)); }
+             if (destinationColumnId === 'todo') { const timerDiv = draggedItem.querySelector('.task-timer'); if(timerDiv) { timerDiv.innerHTML = ''; timerDiv.style.display = 'none'; } }
+            const afterElement = getDragAfterElement(dropZoneContainer, e.clientY);
+            if (afterElement == null) dropZoneContainer.appendChild(draggedItem); else dropZoneContainer.insertBefore(draggedItem, afterElement);
+            if (willBeInDone && sourceColumnId !== 'done') triggerConfetti();
+            dropZoneColumn.classList.remove('drag-over'); saveTasks();
+        }
+        /** Finds element to insert before based on Y-coordinate. */
+        function getDragAfterElement(container, y) {
+            const draggableElements = [...container.querySelectorAll('.kanban-task:not(.dragging)')];
+            return draggableElements.reduce((closest, child) => {
+                const box = child.getBoundingClientRect(); const offset = y - box.top - box.height / 2;
+                if (offset < 0 && offset > closest.offset) { return { offset: offset, element: child }; } else { return closest; }
+            }, { offset: Number.NEGATIVE_INFINITY }).element;
+        }
+
+        // --- Other Event Handlers ---
+        const triggerConfetti = () => { myConfetti({ particleCount: 120, spread: 75, origin: { y: 0.6 }, zIndex: 10000, gravity: 0.8 }); };
+        const handleClearDone = () => {
+             const doneTasksContainer = document.getElementById('done').querySelector('.tasks-container');
+             if (doneTasksContainer.children.length > 0) { showConfirmationModal("Clear all tasks from the 'Done' column?", () => { doneTasksContainer.innerHTML = ''; saveTasks(); }); }
+        };
+
+        // --- Confirmation Modal ---
+        function showConfirmationModal(message, callback) { modalMessage.textContent = message; confirmCallback = callback; confirmationModal.classList.add('active'); }
+        function hideConfirmationModal() { confirmationModal.classList.remove('active'); confirmCallback = null; }
+
+        // --- Local Storage Persistence ---
+        const saveTasks = () => {
+            const tasksData = {};
+            columns.forEach(column => {
+                const columnId = column.id; tasksData[columnId] = [];
+                column.querySelectorAll('.kanban-task').forEach(task => {
+                    const textSpan = task.querySelector('.task-text');
+                    if (textSpan) {
+                        tasksData[columnId].push({
+                            id: task.id, text: textSpan.textContent,
+                            startTime: task.dataset.timerStartTime ? parseInt(task.dataset.timerStartTime, 10) : null,
+                            totalTime: parseInt(task.dataset.totalTime || '0', 10)
+                        });
+                    }
+                });
+            });
+            try { localStorage.setItem('kanbanTasks', JSON.stringify(tasksData)); }
+            catch (error) { console.error("Error saving tasks to localStorage:", error); }
+        };
+        const loadTasks = () => {
+             Object.values(activeTaskTimers).forEach(clearInterval); for (const key in activeTaskTimers) { delete activeTaskTimers[key]; }
+             let savedTasksJson; try { savedTasksJson = localStorage.getItem('kanbanTasks'); } catch (error) { console.error("Error reading tasks from localStorage:", error); return; }
+             if (savedTasksJson) {
+                 try {
+                     const tasksData = JSON.parse(savedTasksJson);
+                     Object.keys(tasksData).forEach(columnId => {
+                         const columnElement = document.getElementById(columnId);
+                         if (columnElement) {
+                             const tasksContainer = columnElement.querySelector('.tasks-container');
+                             tasksData[columnId].forEach(taskData => {
+                                 if(taskData && taskData.id && typeof taskData.text === 'string') {
+                                     const taskElement = createTaskElement(taskData); tasksContainer.appendChild(taskElement);
+                                     if (columnId === 'inprogress' && taskData.startTime) { startTaskTimerInterval(taskElement, taskData.startTime); }
+                                     else if (columnId === 'done' && taskData.totalTime >= 0) { displayTotalTaskTime(taskElement, taskData.totalTime); }
+                                     else { const timerDiv = taskElement.querySelector('.task-timer'); if(timerDiv) timerDiv.style.display = 'none'; }
+                                 } else { console.warn("Skipping invalid task data:", taskData); }
+                             });
+                         }
+                     });
+                 } catch (error) { console.error("Error parsing saved tasks JSON:", error); }
+             }
+        };
+
+        // --- Event Listener Setup ---
+        document.addEventListener('DOMContentLoaded', () => { loadTasks(); resetPomodoroTimer(); });
+        addTaskBtn.addEventListener('click', addTask);
+        newTaskInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') addTask(); });
+        clearDoneBtn.addEventListener('click', handleClearDone);
+        tasksContainers.forEach(container => {
+            container.addEventListener('dragover', handleDragOver); container.addEventListener('dragenter', handleDragEnter);
+            container.addEventListener('dragleave', handleDragLeave); container.addEventListener('drop', handleDrop);
+        });
+        confirmBtn.addEventListener('click', () => { if (typeof confirmCallback === 'function') { try { confirmCallback(); } catch (error) { console.error("Error executing confirmation callback:", error); } } hideConfirmationModal(); });
+        cancelBtn.addEventListener('click', hideConfirmationModal);
+        confirmationModal.addEventListener('click', (e) => { if (e.target === confirmationModal) hideConfirmationModal(); });
+        pomodoroStartBtn.addEventListener('click', startPomodoro);
+        pomodoroPauseBtn.addEventListener('click', pausePomodoro);
+        pomodoroResetBtn.addEventListener('click', resetPomodoroTimer);
+
+    </script>
+
+</body>
+</html>
