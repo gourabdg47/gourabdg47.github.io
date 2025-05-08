@@ -184,7 +184,41 @@
                  padding: 6rem 1.5rem; /* md:py-24 equivalent */
              }
          }
+         
+        /* Download counter styling */
+        .download-counter {
+            background-color: rgba(0, 121, 107, 0.1);
+            border-radius: 0.5rem;
+            padding: 0.5rem 1rem;
+            margin-top: 1rem;
+            display: inline-block;
+            font-weight: 600;
+            color: var(--color-accent);
+        }
 
+        /* Admin panel styling */
+        #admin-panel {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: white;
+            border: 1px solid var(--color-border);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+            display: none;
+        }
+        
+        #admin-panel h3 {
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+            color: var(--color-accent);
+        }
+        
+        .admin-stat {
+            margin-bottom: 0.5rem;
+        }
 
     </style>
 </head>
@@ -197,7 +231,7 @@
                 <a href="#features" class="hover:text-[var(--color-accent)]">What it Does</a>
                 <a href="#screenshots" class="hover:text-[var(--color-accent)]">See it Work</a>
                 <a href="#contribute" class="hover:text-[var(--color-accent)]">Open Source</a>
-                <a href="#download" class="btn btn-primary text-xs sm:text-sm">Get Started (Windows)</a>
+                <a href="#download" class="btn btn-primary text-xs sm:text-sm download-btn">Get Started (Windows)</a>
             </nav>
         </div>
     </header>
@@ -211,7 +245,7 @@
         </p>
         <div>
             <a href="#features" class="btn btn-primary text-base sm:text-lg mr-2 sm:mr-4 mb-2 sm:mb-0">Explore How</a>
-            <a href="#download" class="btn btn-secondary text-base sm:text-lg">Download for Windows</a>
+            <a href="#download" class="btn btn-secondary text-base sm:text-lg download-btn">Download for Windows</a>
         </div>
          <p class="mt-6 text-sm text-[var(--color-text-secondary)]">(Currently available for Windows operating systems only)</p>
     </main>
@@ -348,7 +382,7 @@
 
                 <div class="card">
                     <h3 class="text-2xl font-semibold mb-4 text-center text-[var(--color-accent)]">Join In: Build and Run from Source (Windows)</h3>
-                    <p class="mb-4">Curious about how it works or want to contribute? Here’s how to get started on Windows:</p>
+                    <p class="mb-4">Curious about how it works or want to contribute? Here's how to get started on Windows:</p>
                     <ol class="list-decimal list-inside space-y-3 mb-4">
                         <li>**Essentials First:**
                              <ul class="list-disc list-inside pl-6 mt-1">
@@ -384,9 +418,12 @@
             <p class="text-xl mb-8 max-w-2xl mx-auto text-[var(--color-text-secondary)]">
                 Take a step towards a calmer, more focused digital experience on your Windows PC. Download FocusTime today.
             </p>
-            <a href="https://raw.githubusercontent.com/gourabdg47/FocusTime/master/bin/Executable/FocusTime.zip" class="btn btn-primary btn-large text-xl">
+            <a href="https://raw.githubusercontent.com/gourabdg47/FocusTime/master/bin/Executable/FocusTime.zip" class="btn btn-primary btn-large text-xl download-btn" id="main-download-btn">
                 Download FocusTime for Windows
             </a>
+            <div class="download-counter mt-4">
+                <span id="download-count">0</span> people have downloaded FocusTime
+            </div>
         </div>
     </section>
 
@@ -395,10 +432,101 @@
             <p class="text-sm mt-1">A tool to help you gently reclaim your attention.</p>
         </div>
     </footer>
+    
+    <!-- Admin Panel (Hidden by default) -->
+    <div id="admin-panel">
+        <h3>Download Statistics</h3>
+        <div class="admin-stat">Total Downloads: <span id="admin-download-count">0</span></div>
+        <div class="admin-stat">Last Download: <span id="admin-last-download">Never</span></div>
+        <button id="reset-counter" class="btn btn-secondary text-xs">Reset Counter</button>
+    </div>
 
     <script>
         // Set current year in footer
         document.getElementById('currentYear').textContent = new Date().getFullYear();
+        
+        // Download tracking functionality
+        let downloadCount = 0;
+        
+        // Check if count exists in localStorage
+        if (localStorage.getItem('focusTimeDownloads')) {
+            downloadCount = parseInt(localStorage.getItem('focusTimeDownloads'));
+            document.getElementById('download-count').textContent = downloadCount;
+            
+            // Update admin panel if it exists
+            if (document.getElementById('admin-download-count')) {
+                document.getElementById('admin-download-count').textContent = downloadCount;
+            }
+        }
+        
+        // Add click event to all download buttons
+        const downloadButtons = document.querySelectorAll('.download-btn');
+        downloadButtons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                // Only count if it's a direct download link
+                if (this.getAttribute('href').includes('FocusTime.zip')) {
+                    // Increment counter
+                    downloadCount++;
+                    
+                    // Save to localStorage
+                    localStorage.setItem('focusTimeDownloads', downloadCount);
+                    
+                    // Update displayed count
+                    document.getElementById('download-count').textContent = downloadCount;
+                    
+                    // Update admin panel if it exists
+                    if (document.getElementById('admin-download-count')) {
+                        document.getElementById('admin-download-count').textContent = downloadCount;
+                    }
+                    
+                    // Update last download time
+                    const now = new Date();
+                    const formattedDate = now.toLocaleString();
+                    localStorage.setItem('focusTimeLastDownload', formattedDate);
+                    
+                    if (document.getElementById('admin-last-download')) {
+                        document.getElementById('admin-last-download').textContent = formattedDate;
+                    }
+                    
+                    // Track the download event in Google Analytics
+                    if (typeof gtag === 'function') {
+                        gtag('event', 'download', {
+                            'event_category': 'engagement',
+                            'event_label': 'FocusTime Windows Download'
+                        });
+                    }
+                }
+            });
+        });
+        
+        // Admin panel toggle (press 'Ctrl+Alt+A' to toggle)
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.altKey && e.key === 'a') {
+                const adminPanel = document.getElementById('admin-panel');
+                if (adminPanel.style.display === 'none' || !adminPanel.style.display) {
+                    adminPanel.style.display = 'block';
+                    
+                    // Update admin panel values
+                    document.getElementById('admin-download-count').textContent = downloadCount;
+                    
+                    const lastDownload = localStorage.getItem('focusTimeLastDownload') || 'Never';
+                    document.getElementById('admin-last-download').textContent = lastDownload;
+                } else {
+                    adminPanel.style.display = 'none';
+                }
+            }
+        });
+        
+        // Reset counter button
+        if (document.getElementById('reset-counter')) {
+            document.getElementById('reset-counter').addEventListener('click', function() {
+                downloadCount = 0;
+                localStorage.setItem('focusTimeDownloads', 0);
+                document.getElementById('download-count').textContent = '0';
+                document.getElementById('admin-download-count').textContent = '0';
+                alert('Download counter has been reset to zero.');
+            });
+        }
 
         // Simple background particle animation
         const canvas = document.getElementById('bg-animation');
@@ -433,31 +561,29 @@
                 if (this.x + this.radius > canvas.width || this.x - this.radius < 0) {
                     this.dx = -this.dx;
                 }
-                if (this.y + this.radius > canvas.height || this.y - this.radius < 0) {
+                if (this.y + this.radius > canvas.height || 
+                    this.y - this.radius < 0) {
                     this.dy = -this.dy;
                 }
+
                 this.x += this.dx;
                 this.y += this.dy;
+
                 this.draw();
             }
         }
 
-        function initParticles() {
+        function createParticles() {
             particles = [];
-            // Adjust particle density for subtlety and performance
-            let numberOfParticles = Math.floor((canvas.width * canvas.height) / 40000);
-            if (canvas.width < 768) { // Fewer particles on smaller screens
-                 numberOfParticles = Math.floor((canvas.width * canvas.height) / 60000);
-            }
-             numberOfParticles = Math.min(numberOfParticles, 30); // Cap the max number
-             numberOfParticles = Math.max(numberOfParticles, 5); // Ensure a minimum
-
-            for (let i = 0; i < numberOfParticles; i++) {
-                const radius = Math.random() * 1 + 0.3; // Even smaller radius for more subtlety
-                const x = Math.random() * canvas.width; // Allow particles anywhere initially
-                const y = Math.random() * canvas.height;
-                const dx = (Math.random() - 0.5) * 0.15; // Even slower speed
-                const dy = (Math.random() - 0.5) * 0.15; // Even slower speed
+            const particleCount = Math.floor(canvas.width * canvas.height / 20000); // Adjust density based on screen size
+            
+            for (let i = 0; i < particleCount; i++) {
+                const radius = Math.random() * 3 + 1;
+                const x = Math.random() * (canvas.width - radius * 2) + radius;
+                const y = Math.random() * (canvas.height - radius * 2) + radius;
+                const dx = (Math.random() - 0.5) * 0.5; // Slow horizontal movement
+                const dy = (Math.random() - 0.5) * 0.5; // Slow vertical movement
+                
                 particles.push(new Particle(x, y, radius, dx, dy));
             }
         }
@@ -465,39 +591,54 @@
         function animate() {
             requestAnimationFrame(animate);
             ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
             particles.forEach(particle => {
                 particle.update();
             });
+
+            // Connect particles with lines if they are close enough
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance < 100) { // Maximum distance for connection
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(77, 182, 172, ${0.05 * (1 - distance/100)})`; // Fade based on distance
+                        ctx.lineWidth = 0.5;
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
         }
 
-        // Debounce resize to avoid performance issues and re-init particles
-        let resizeTimeout;
-        window.addEventListener('resize', () => {
-            clearTimeout(resizeTimeout);
-            resizeTimeout = setTimeout(() => {
-                resizeCanvas();
-                initParticles();
-            }, 250); // Debounce time
+        // Initialize canvas and animation
+        window.addEventListener('resize', function() {
+            resizeCanvas();
+            createParticles();
         });
 
-        // Initial setup
-        resizeCanvas(); // Call initially to set canvas size
-        initParticles();
+        // Run on page load
+        resizeCanvas();
+        createParticles();
         animate();
 
         // Smooth scroll for navigation links
-        document.querySelectorAll('nav a[href^="#"], main a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                const hrefAttribute = this.getAttribute('href');
-                if (hrefAttribute.startsWith("#") && hrefAttribute.length > 1) { // Check it's not just '#'
-                     e.preventDefault();
-                     const targetElement = document.querySelector(hrefAttribute);
-                     if (targetElement) {
-                         targetElement.scrollIntoView({
-                             behavior: 'smooth',
-                              block: 'start' // Scroll to the top of the section
-                         });
-                     }
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80, // Offset for fixed header
+                        behavior: 'smooth'
+                    });
                 }
             });
         });
