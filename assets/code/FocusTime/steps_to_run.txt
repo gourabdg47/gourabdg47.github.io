@@ -1,0 +1,6 @@
+1st time : dotnet new winforms
+app code : Program.cs
+
+dotnet build
+dotnet run
+dotnet publish --configuration Release --runtime win-x64 --self-contained true

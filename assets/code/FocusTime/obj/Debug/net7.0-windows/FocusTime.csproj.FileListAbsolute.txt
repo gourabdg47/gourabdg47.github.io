@@ -1,0 +1,14 @@
+C:\Users\Shamik\Desktop\MyThings\CODE\FocusTime\bin\Debug\net7.0-windows\FocusTime.exe
+C:\Users\Shamik\Desktop\MyThings\CODE\FocusTime\bin\Debug\net7.0-windows\FocusTime.deps.json
+C:\Users\Shamik\Desktop\MyThings\CODE\FocusTime\bin\Debug\net7.0-windows\FocusTime.runtimeconfig.json
+C:\Users\Shamik\Desktop\MyThings\CODE\FocusTime\bin\Debug\net7.0-windows\FocusTime.dll
+C:\Users\Shamik\Desktop\MyThings\CODE\FocusTime\bin\Debug\net7.0-windows\FocusTime.pdb
+C:\Users\Shamik\Desktop\MyThings\CODE\FocusTime\obj\Debug\net7.0-windows\FocusTime.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Shamik\Desktop\MyThings\CODE\FocusTime\obj\Debug\net7.0-windows\FocusTime.AssemblyInfoInputs.cache
+C:\Users\Shamik\Desktop\MyThings\CODE\FocusTime\obj\Debug\net7.0-windows\FocusTime.AssemblyInfo.cs
+C:\Users\Shamik\Desktop\MyThings\CODE\FocusTime\obj\Debug\net7.0-windows\FocusTime.csproj.CoreCompileInputs.cache
+C:\Users\Shamik\Desktop\MyThings\CODE\FocusTime\obj\Debug\net7.0-windows\FocusTime.dll
+C:\Users\Shamik\Desktop\MyThings\CODE\FocusTime\obj\Debug\net7.0-windows\refint\FocusTime.dll
+C:\Users\Shamik\Desktop\MyThings\CODE\FocusTime\obj\Debug\net7.0-windows\FocusTime.pdb
+C:\Users\Shamik\Desktop\MyThings\CODE\FocusTime\obj\Debug\net7.0-windows\FocusTime.genruntimeconfig.cache
+C:\Users\Shamik\Desktop\MyThings\CODE\FocusTime\obj\Debug\net7.0-windows\ref\FocusTime.dll

@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FocusTime - Master Your Attention on Windows</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Custom styles for the page */
+        body {
+            font-family: 'Nunito', sans-serif; /* Updated font */
+            background-color: #FFFBF0; /* A very light, warm cream */
+            color: #4A3B31; /* Warm, dark brown for text */
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+
+        /* Background animation canvas */
+        #bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Behind all content */
+            pointer-events: none; /* Allow clicks to pass through */
+        }
+
+        /* Section header styling */
+        .section-header {
+            font-size: 2.25rem; /* 36px */
+            font-weight: 600;
+            margin-bottom: 1.5rem; /* 24px */
+            color: #785A4F; /* Muted, warm brown */
+            text-align: center;
+        }
+
+        /* Button styling */
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem; /* 12px 24px */
+            border-radius: 0.5rem; /* 8px */
+            font-weight: 600; /* Nunito often looks better a bit bolder for buttons */
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background-color: #FDBA74; /* Warm orange-peach */
+            color: #4A3B31; /* Dark brown text for contrast */
+        }
+
+        .btn-primary:hover {
+            background-color: #F97316; /* Darker orange on hover */
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: #785A4F; /* Muted brown */
+            border: 2px solid #FDBA74; /* Warm orange-peach border */
+        }
+
+        .btn-secondary:hover {
+            background-color: #FEF3C7; /* Very light amber on hover */
+            color: #4A3B31;
+        }
+
+        /* Card styling for screenshots and instructions */
+        .card {
+            background-color: #FFFAF0; /* Slightly off-white cream */
+            border-radius: 0.75rem; /* 12px */
+            padding: 1.5rem; /* 24px */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Navigation link styling */
+        nav a {
+            transition: color 0.3s ease;
+            font-weight: 500; /* Adjusted for Nunito */
+        }
+        nav a:hover {
+            color: #F97316; /* Darker orange on hover for nav links */
+        }
+
+        /* Code block styling */
+        pre {
+            background-color: #FDFBF5; /* Very light cream, slightly different from card */
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            border: 1px solid #FDE68A; /* Light amber border */
+            color: #57534E; /* Stone color for code text */
+            font-size: 0.875rem; /* Smaller font for code blocks */
+        }
+        code {
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .feature-list li {
+            padding-left: 1.5em; /* Indent list items */
+            position: relative;
+        }
+        .feature-list li::before {
+            content: "✓"; /* Checkmark or other desired marker */
+            position: absolute;
+            left: 0;
+            color: #FDBA74; /* Warm orange-peach for marker */
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+<body class="antialiased">
+    <canvas id="bg-animation"></canvas>
+
+    <header class="py-6 sticky top-0 z-50 bg-opacity-80 backdrop-blur-md" style="background-color: rgba(255, 251, 240, 0.8);">
+        <div class="container mx-auto px-6 flex flex-wrap justify-between items-center">
+            <a href="#" class="text-3xl font-bold text-[#D97706] mb-2 sm:mb-0">FocusTime</a>
+            <nav class="space-x-4 sm:space-x-6 text-sm sm:text-base">
+                <a href="#features" class="hover:text-[#F97316]">Core Features</a>
+                <a href="#screenshots" class="hover:text-[#F97316]">Screenshots</a>
+                <a href="#contribute" class="hover:text-[#F97316]">Contribute</a>
+                <a href="#download" class="btn btn-primary text-xs sm:text-sm">Download (Windows)</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-16 md:py-24 text-center">
+        <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 leading-tight text-[#D97706]">
+            Find Your Flow. Master Your Focus on Windows.
+        </h1>
+        <p class="text-lg sm:text-xl md:text-2xl mb-10 text-[#785A4F] max-w-3xl mx-auto">
+            FocusTime is a simple yet powerful Windows application designed to help you minimize distractions and dedicate time to what truly matters.
+        </p>
+        <div>
+            <a href="#features" class="btn btn-primary text-base sm:text-lg mr-2 sm:mr-4 mb-2 sm:mb-0">Learn More</a>
+            <a href="#download" class="btn btn-secondary text-base sm:text-lg">Get FocusTime for Windows</a>
+        </div>
+         <p class="mt-6 text-sm text-[#785A4F]">(Currently available for Windows operating systems only)</p>
+    </main>
+
+    <section id="features" class="py-16 md:py-24 bg-[#FFFAF0]">
+        <div class="container mx-auto px-6">
+            <h2 class="section-header">Core Features of FocusTime</h2>
+            <div class="max-w-4xl mx-auto text-lg space-y-10 text-[#57534E]">
+                <div>
+                    <h3 class="text-2xl font-semibold mb-3 text-[#D97706]">Tailored Focus Sessions</h3>
+                    <p class="mb-4">
+                        Initiate focused work periods by selecting essential applications and setting a timer. FocusTime then helps you stay on course by managing other applications based on your chosen settings.
+                    </p>
+                    <ul class="list-none space-y-2 feature-list">
+                        <li><strong>Application Selection:</strong> Choose which apps are vital for your current task.</li>
+                        <li><strong>Timed Sessions:</strong> Define the length of your focus period.</li>
+                        <li><strong>Motivational Quotes:</strong> A gentle stream of inspiration in the footer to keep you going.</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-2xl font-semibold mb-3 text-[#D97706]">Thematic Focus Modes</h3>
+                    <p class="mb-4">
+                        Choose a mode that matches your current discipline level and task demands:
+                    </p>
+                    <ul class="list-none space-y-3 feature-list">
+                        <li><strong>Ember (Beginner):</strong> "Start the fire." A gentle mode for building momentum. You can stop the session anytime.</li>
+                        <li><strong>Forge (Intermediate):</strong> "Shape yourself through action." A structured mode where sessions cannot be stopped until the timer ends. Focus apps are minimized at the start to help you dive in.</li>
+                        <li><strong>Obsidian (Advanced):</strong> "No excuses. Just results." For peak discipline. Sessions are non-stoppable, default to 120 minutes, and focus apps are minimized to ensure deep work.</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-2xl font-semibold mb-3 text-[#D97706]">Smart Application Blocking</h3>
+                    <p class="mb-4">
+                        Control how FocusTime handles non-essential applications during your sessions:
+                    </p>
+                    <ul class="list-none space-y-2 feature-list">
+                        <li><strong>Gentle Mode:</strong> Minimizes distracting applications if they come to the foreground.</li>
+                        <li><strong>Moderate Mode:</strong> Minimizes distracting apps and automatically brings one of your chosen focus apps back to the foreground.</li>
+                        <li><strong>Strict Mode:</strong> Closes distracting applications if they attempt to take focus.</li>
+                        <li><strong>App Whitelisting:</strong> Specify applications (e.g., 'explorer.exe', your music player) that should never be blocked, regardless of the mode.</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-2xl font-semibold mb-3 text-[#D97706]">Health & Wellbeing Reminders</h3>
+                    <p class="mb-4">
+                        Optional, timely notifications to encourage healthy habits during long focus sessions:
+                    </p>
+                    <ul class="list-none space-y-2 feature-list">
+                        <li><strong>Eye Strain:</strong> Every 20 minutes, a reminder to look away (20-20-20 rule).</li>
+                        <li><strong>Movement:</strong> Every 30 minutes, a nudge to stand up and stretch.</li>
+                        <li><strong>Hydration:</strong> Every 45 minutes, a prompt to drink water.</li>
+                    </ul>
+                </div>
+
+                 <div>
+                    <h3 class="text-2xl font-semibold mb-3 text-[#D97706]">User-Friendly Settings & Operation</h3>
+                    <ul class="list-none space-y-2 feature-list">
+                        <li><strong>Minimize to Tray:</strong> Keep FocusTime running unobtrusively in the system tray.</li>
+                        <li><strong>Notifications:</strong> Get informed about session starts, ends, and health reminders.</li>
+                        <li><strong>Persistent Settings:</strong> Your preferences are saved for future sessions.</li>
+                        <li><strong>Performance Tuning:</strong> Adjust the blocking check interval if needed.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="mt-12 max-w-4xl mx-auto text-lg text-left md:text-center space-y-6 text-[#57534E]">
+                 <h3 class="text-2xl font-semibold pt-6 text-[#785A4F]">How FocusTime Can Help, Especially with ADHD:</h3>
+                <p>
+                    Individuals with ADHD often face challenges with sustained attention, impulsivity, and time management. FocusTime aims to provide structured support on your Windows PC:
+                </p>
+                <ul class="list-disc list-inside space-y-3 pl-4 md:pl-0">
+                    <li>
+                        <strong>Reduces Digital Distractions:</strong> By actively managing application access, it minimizes the external digital stimuli that can easily derail focus on your Windows desktop.
+                    </li>
+                    <li>
+                        <strong>Encourages Structured Work Intervals:</strong> The timer and distinct focus modes promote working in defined blocks, aiding task initiation and completion.
+                    </li>
+                    <li>
+                        <strong>Establishes Clear Digital Boundaries:</strong> The progressive Focus Modes (Ember, Forge, Obsidian) allow users to choose appropriate restriction levels, helping to build discipline.
+                    </li>
+                    <li>
+                        <strong>Provides Visual Time Cues:</strong> The prominent countdown timer aids in time perception and offers motivation to stay engaged.
+                    </li>
+                    <li>
+                        <strong>Minimizes Task Switching:</strong> By making it harder to impulsively switch to non-focus apps, FocusTime helps reduce cognitive friction.
+                    </li>
+                </ul>
+                <p>
+                    FocusTime is a supportive tool designed to help manage your digital environment on Windows more effectively and cultivate better focus habits.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section id="screenshots" class="py-16 md:py-24">
+        <div class="container mx-auto px-6">
+            <h2 class="section-header">See FocusTime in Action</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="card">
+                    <img src="FocusTime/Screenshots/resized/main.png" alt="FocusTime Main Interface on Windows" class="rounded-md mb-4 w-full h-auto object-cover aspect-video">
+                    <h3 class="text-xl font-semibold mb-2 text-[#D97706]">Main Interface</h3>
+                    <p class="text-[#57534E]">Clean and simple: select apps, set your time, and start your session.</p>
+                </div>
+                <div class="card">
+                    <img src="FocusTime/Screenshots/resized/running.png" alt="FocusTime Session Running on Windows" class="rounded-md mb-4 w-full h-auto object-cover aspect-video">
+                    <h3 class="text-xl font-semibold mb-2 text-[#D97706]">Session in Progress</h3>
+                    <p class="text-[#57534E]">The timer keeps you aware, while distractions are kept at bay.</p>
+                </div>
+                <div class="card">
+                    <img src="FocusTime/Screenshots/resized/settings.png" alt="FocusTime Settings Panel on Windows" class="rounded-md mb-4 w-full h-auto object-cover aspect-video">
+                    <h3 class="text-xl font-semibold mb-2 text-[#D97706]">Customizable Settings</h3>
+                    <p class="text-[#57534E]">Tailor blocking, whitelisting, focus modes, and reminders to your needs.</p>
+                </div>
+            </div>
+             <p class="text-center mt-8 text-sm text-[#785A4F]">(Illustrative placeholders. Actual app screenshots will show the Windows UI.)</p>
+        </div>
+    </section>
+
+    <section id="contribute" class="py-16 md:py-24 bg-[#FFFAF0]">
+        <div class="container mx-auto px-6">
+            <h2 class="section-header">Open Source & Community</h2>
+            <div class="max-w-3xl mx-auto text-lg text-[#57534E] space-y-8">
+                <div class="card text-center">
+                    <p class="mb-4">
+                        FocusTime is an open-source project for Windows. We believe in transparency and the power of community contributions.
+                    </p>
+                    <a href="https://github.com/yourusername/focustime" target="_blank" class="btn btn-primary">
+                        View Code on GitHub
+                    </a>
+                     <p class="mt-2 text-sm">(Replace 'yourusername/focustime' with your actual GitHub repo link)</p>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-2xl font-semibold mb-4 text-center text-[#D97706]">Build and Run from Source (Windows)</h3>
+                    <p class="mb-4">Want to tinker with the code or contribute? Here’s how to get started on Windows:</p>
+                    <ol class="list-decimal list-inside space-y-3 mb-4">
+                        <li>**Prerequisites:**
+                            <ul class="list-disc list-inside pl-6 mt-1">
+                                <li>Windows Operating System.</li>
+                                <li>Visual Studio (e.g., 2019, 2022) with the ".NET desktop development" workload installed.</li>
+                                <li>Git for Windows (or any Git client).</li>
+                            </ul>
+                        </li>
+                        <li>Clone the repository:
+                            <pre><code class="language-bash">git clone https://github.com/yourusername/focustime.git</code></pre>
+                        </li>
+                        <li>Navigate to the project directory:
+                            <pre><code class="language-bash">cd focustime</code></pre>
+                        </li>
+                        <li>Open the solution file (e.g., `FocusTime.sln`) in Visual Studio.</li>
+                        <li>Restore NuGet packages (Visual Studio usually does this automatically, or right-click the solution in Solution Explorer and select "Restore NuGet Packages").</li>
+                        <li>Build the solution (Build > Build Solution or `Ctrl+Shift+B`).</li>
+                        <li>Run the application from Visual Studio (Start > Start Debugging or `F5`). The executable will typically be found in a `bin/Debug` or `bin/Release` subfolder within the project directory.</li>
+                    </ol>
+                    <p class="text-sm text-center text-[#785A4F]">
+                        (Make sure these instructions match your project's specific setup.)
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="download" class="py-16 md:py-24">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="section-header">Get FocusTime for Windows</h2>
+            <p class="text-xl mb-8 max-w-2xl mx-auto text-[#57534E]">
+                Ready to take control of your attention on your Windows PC? Download the latest version of FocusTime.
+            </p>
+            <a href="https://github.com/yourusername/focustime/releases/latest/download/FocusTime.exe" class="btn btn-primary btn-large text-xl">
+                Download FocusTime.exe
+            </a>
+            <p class="mt-4 text-sm text-[#785A4F]">
+                (This link should point to your actual .exe file on GitHub Releases for Windows. Replace placeholder.) <br/>
+                FocusTime is designed for Windows systems.
+            </p>
+        </div>
+    </section>
+
+    <footer class="py-8 border-t border-[#FDE68A]" style="background-color: #FFFBF0;">
+        <div class="container mx-auto px-6 text-center text-[#785A4F]">
+            <p>&copy; <span id="currentYear"></span> FocusTime Project. Open Source with Love for Windows Users.</p>
+            <p class="text-sm mt-1">A tool to help you reclaim your attention.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Set current year in footer
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        // Simple background particle animation
+        const canvas = document.getElementById('bg-animation');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        
+        const particleColor = 'rgba(253, 186, 116, 0.2)'; // Warm orange-peach, semi-transparent
+
+        class Particle {
+            constructor(x, y, radius, dx, dy) {
+                this.x = x;
+                this.y = y;
+                this.radius = radius;
+                this.dx = dx;
+                this.dy = dy;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+                ctx.fillStyle = particleColor;
+                ctx.fill();
+            }
+
+            update() {
+                if (this.x + this.radius > canvas.width || this.x - this.radius < 0) {
+                    this.dx = -this.dx;
+                }
+                if (this.y + this.radius > canvas.height || this.y - this.radius < 0) {
+                    this.dy = -this.dy;
+                }
+                this.x += this.dx;
+                this.y += this.dy;
+                this.draw();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            // Adjust particle density based on screen size, aiming for subtlety
+            let numberOfParticles = Math.floor((canvas.width * canvas.height) / 30000); 
+            if (canvas.width < 768) { // Fewer particles on smaller screens
+                 numberOfParticles = Math.floor((canvas.width * canvas.height) / 40000);
+            }
+            if (numberOfParticles < 8) numberOfParticles = 8; 
+            if (numberOfParticles > 40) numberOfParticles = 40; 
+
+            for (let i = 0; i < numberOfParticles; i++) {
+                const radius = Math.random() * 1.5 + 0.5; // Even smaller radius for more subtlety
+                const x = Math.random() * (canvas.width - radius * 2) + radius;
+                const y = Math.random() * (canvas.height - radius * 2) + radius;
+                const dx = (Math.random() - 0.5) * 0.2; // Slower speed
+                const dy = (Math.random() - 0.5) * 0.2; // Slower speed
+                particles.push(new Particle(x, y, radius, dx, dy));
+            }
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(particle => {
+                particle.update();
+            });
+        }
+        
+        // Debounce resize to avoid performance issues and re-init particles
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                resizeCanvas();
+                initParticles(); 
+            }, 250);
+        });
+        
+        // Initial setup
+        resizeCanvas(); // Call initially to set canvas size
+        initParticles();
+        animate();
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('nav a[href^="#"], main a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const hrefAttribute = this.getAttribute('href');
+                if (hrefAttribute.startsWith("#")) {
+                     e.preventDefault();
+                     const targetElement = document.querySelector(hrefAttribute);
+                     if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                     }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
