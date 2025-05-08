@@ -1,0 +1,1707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wartime Wiki - State of Emergency During War in India</title>
+
+    <style>
+        /* Base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Calming color palette */
+        :root {
+            --primary-color: #1a237e;
+            --secondary-color: #4caf50;
+            --accent-color: #ff9800;
+            --background-color: #f5f7fa;
+            --text-color: #2c3e50;
+            --card-background: #ffffff;
+            --calm-blue: #e3f2fd;
+            --calm-green: #e8f5e9;
+            --calm-orange: #fff3e0;
+            --light-bg: #f0f0f0; /* Added for tab button active state */
+        }
+
+        html {
+             scroll-behavior: smooth; /* Enable smooth scrolling */
+        }
+
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Moved font-family here for consistency */
+            display: flex;
+            min-height: 100vh;
+            transition: padding-left 0.3s ease-in-out; /* For main content shift */
+        }
+
+        /* Enhanced Emergency Alert Styles */
+        .emergency-alert {
+            background: linear-gradient(135deg, #1a237e 0%, #3949ab 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .alert-disclaimer {
+            margin-top: 15px;
+            padding: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 0.9em;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .last-update {
+            font-size: 0.8em;
+            margin-top: 5px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .official-link {
+            background-color: #4caf50 !important; /* Ensure specificity */
+        }
+
+        .official-link:hover {
+            background-color: #388e3c !important; /* Ensure specificity */
+        }
+
+        .alert-header {
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .alert-header h3 {
+            margin: 0;
+            font-size: 1.2em;
+        }
+        .alert-header .last-update { /* Specific styling for last update in header */
+            margin-left: auto; /* Pushes it to the right */
+            font-size: 0.8em;
+            color: rgba(255,255,255,0.7);
+        }
+
+
+        .alert-content {
+            padding: 20px;
+        }
+
+        .alert-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
+        }
+
+        .alert-button {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: background 0.3s;
+            text-decoration: none; /* For <a> tags styled as buttons */
+        }
+
+        .alert-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Quick Action Guide Styles */
+        .quick-actions {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .quick-actions h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        .quick-actions h3 i {
+            margin-right: 8px;
+            color: var(--accent-color);
+        }
+
+        .action-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .action-card {
+            background: #f5f5f5;
+            border-radius: 6px;
+            padding: 15px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid #e0e0e0;
+        }
+
+        .action-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .action-card i {
+            font-size: 24px;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .action-card h4 {
+            margin: 10px 0;
+            color: #333;
+            font-size: 1em;
+        }
+
+        .action-card a {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.9em;
+            cursor: pointer; /* Make it clear it's clickable */
+        }
+
+        .action-card a:hover {
+            text-decoration: underline;
+        }
+
+        /* Emergency Alert Status Colors */
+        .emergency-alert.status-normal { /* Renamed from .normal for clarity */
+            background: linear-gradient(135deg, #1a237e 0%, #3949ab 100%);
+        }
+
+        .emergency-alert.status-elevated { /* Renamed from .elevated */
+            background: linear-gradient(135deg, #e65100 0%, #ff9800 100%);
+        }
+
+        .emergency-alert.status-high { /* Renamed from .high */
+            background: linear-gradient(135deg, #b71c1c 0%, #f44336 100%);
+        }
+
+        /* Online Status Indicator */
+        .online-status {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        body:not(.offline) .online-status {
+            background-color: #4caf50;
+            color: white;
+        }
+
+        body.offline .online-status {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .sidebar {
+            width: 250px; /* Default expanded width */
+            background-color: #1a237e; /* Dark Blue */
+            color: white;
+            padding: 20px 0;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            overflow-y: auto;
+            z-index: 1000;
+            transition: width 0.3s ease-in-out; /* Smooth transition for width */
+        }
+
+        .logo {
+            text-align: center;
+            padding: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 20px;
+        }
+
+        .logo img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            transition: width 0.3s ease-in-out, height 0.3s ease-in-out;
+            background-color: var(--accent-color); /* Placeholder background */
+            object-fit: cover; /* Ensures image covers the area */
+        }
+
+        .logo h2 {
+            margin-top: 10px;
+            font-size: 18px;
+            white-space: nowrap; /* Prevent wrapping */
+            overflow: hidden; /* Hide text if it overflows during transition */
+        }
+
+        .menu {
+            list-style: none;
+        }
+
+        .menu-item {
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s, border-left-color 0.3s;
+            display: flex;
+            align-items: center;
+            position: relative;
+            white-space: nowrap; /* Prevent wrapping of text */
+            overflow: hidden; /* Hide text if it overflows during transition */
+        }
+
+        .menu-item:hover {
+            background-color: #283593;
+        }
+
+        .menu-item.active {
+            background-color: #3949ab;
+            border-left: 4px solid #ff9800;
+        }
+
+        .menu-item i {
+            margin-right: 10px;
+            font-size: 18px;
+            width: 20px;
+            text-align: center;
+            transition: margin-right 0.3s ease-in-out;
+        }
+        .menu-item span {
+            transition: opacity 0.2s ease-in-out; /* Smooth fade for text */
+        }
+
+
+        .main-content {
+            flex: 1;
+            margin-left: 250px; /* Default margin for expanded sidebar */
+            padding: 20px;
+            transition: margin-left 0.3s ease-in-out; /* Smooth transition for margin */
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        
+        #sidebar-toggle { /* Sidebar Toggle Button Style */
+            background: none;
+            border: none;
+            color: #1a237e;
+            font-size: 22px;
+            cursor: pointer;
+            padding: 5px 10px;
+            margin-right: 10px;
+            line-height: 1;
+        }
+
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background-color: #f1f1f1;
+            padding: 8px 15px;
+            border-radius: 30px;
+            width: 300px;
+            flex-grow: 1; /* Allow search bar to take available space if needed */
+            min-width: 200px; /* Minimum width for search bar */
+            margin-left: 10px; /* Space from toggle */
+        }
+
+        .search-bar input {
+            border: none;
+            background: transparent;
+            outline: none;
+            width: 100%;
+            margin-left: 10px;
+        }
+
+        .user-actions {
+            display: flex; /* Added to align buttons */
+            align-items: center; /* Added for vertical alignment */
+        }
+
+        .user-actions button {
+            background-color: #ff9800;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 10px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        .user-actions button:hover {
+            background-color: #e68a00;
+        }
+         .user-actions button i {
+            margin-right: 5px;
+        }
+
+        .info-banner {
+            background-color: #e3f2fd;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            border-left: 4px solid #2196f3;
+        }
+        .info-banner h3 {
+            color: #1565c0;
+            margin-bottom: 10px;
+             display: flex;
+            align-items: center;
+        }
+        .info-banner h3 i{
+            margin-right: 8px;
+        }
+
+
+        .content-section {
+            background-color: white;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .content-section h2 { /* Main title for a tab, e.g., "Legal Rights of Citizens..." */
+            color: #1a237e;
+            margin-bottom: 20px; /* Increased margin */
+            padding-bottom: 15px; /* Increased padding */
+            border-bottom: 2px solid var(--primary-color); /* More prominent border */
+            font-size: 1.6em; /* Slightly larger */
+        }
+         .content-section h3 { /* General h3 styling within content sections */
+            color: var(--primary-color);
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 1.3em; /* Slightly larger for sub-topics */
+        }
+
+
+        .content-section p {
+            line-height: 1.7; /* Increased line height for better readability */
+            margin-bottom: 15px;
+            color: #333;
+            font-size: 1em; /* Standard paragraph size */
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .info-card {
+            background-color: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            padding: 20px;
+            transition: box-shadow 0.3s;
+        }
+        .info-card:hover {
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        .info-card h3 {
+            color: #1a237e;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            font-size: 1.1em;
+        }
+
+        .info-card h3 i {
+            margin-right: 10px;
+            color: #ff9800;
+        }
+
+        .info-card p {
+            line-height: 1.5;
+            font-size: 0.9em;
+            color: #444;
+        }
+
+        .important-list {
+            list-style-type: none;
+            margin-left: 0;
+            padding-left: 0; /* Reset padding */
+        }
+
+        .important-list li {
+            padding: 12px 0; /* Increased vertical padding */
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: flex-start;
+            font-size: 0.95em;
+            color: #333;
+            line-height: 1.6; /* Improved line height for list items */
+        }
+
+        .important-list li:last-child {
+            border-bottom: none;
+        }
+
+        .important-list li i {
+            margin-right: 12px;
+            color: #1a237e;
+            margin-top: 5px; /* Adjusted for better vertical alignment with text */
+            font-size: 16px;
+            width: 18px;
+            text-align: center;
+            flex-shrink: 0; /* Prevent icon from shrinking */
+        }
+        .important-list li i.fa-times-circle {
+            color: #c62828;
+        }
+         .important-list li i.fa-check-circle, .important-list li i.fa-check {
+            color: #2e7d32;
+        }
+
+        /* Styles specific to Legal Rights Page for better readability */
+        #legal-rights-content .content-section {
+            padding: 25px; /* More padding for the main container */
+        }
+
+        .legal-subsection {
+            background-color: var(--card-background);
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            padding: 20px;
+            margin-bottom: 25px; /* Space between subsections */
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        #legal-rights-content .legal-subsection h3 {
+            color: var(--primary-color);
+            font-size: 1.25em; /* Consistent heading size for subsections */
+            margin-top: 0; /* Remove top margin if it's the first element in card */
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--accent-color); /* Accent border for subsection titles */
+            display: flex;
+            align-items: center;
+        }
+        #legal-rights-content .legal-subsection h3 i {
+            margin-right: 10px; /* Space for icon if present */
+            color: var(--accent-color); /* Icon color matching border */
+        }
+
+        #legal-rights-content .legal-subsection p {
+            font-size: 0.95em;
+            line-height: 1.7;
+            margin-bottom: 12px;
+        }
+        #legal-rights-content .legal-subsection .important-list li {
+            padding: 10px 5px; /* Slightly adjusted padding for list items within legal subsections */
+            font-size: 0.9em;
+        }
+        #legal-rights-content .legal-subsection .info-banner { /* For the disclaimer at the bottom */
+            margin-top: 20px;
+            margin-bottom: 0; /* No bottom margin if it's the last element */
+        }
+
+
+        .footer {
+            background-color: #e0e0e0;
+            padding: 20px;
+            text-align: center;
+            font-size: 14px;
+            color: #555;
+            border-top: 1px solid #ccc;
+            margin-top: 30px;
+            border-radius: 4px;
+        }
+
+        .tab-content {
+            display: none; 
+        }
+
+        .tab-content.active {
+            display: block; 
+        }
+        
+        #emergency-wiki-content.tab-content.active { 
+            display: block;
+        }
+
+
+        .tab-buttons { 
+            display: flex;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+            padding: 5px;
+        }
+
+        .tab-btn { 
+            background-color: transparent;
+            border: none;
+            padding: 10px 18px;
+            margin-right: 5px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-weight: 500;
+            color: #333;
+            border-bottom: 3px solid transparent;
+            transition: color 0.3s, background-color 0.3s, border-bottom-color 0.3s;
+            white-space: nowrap;
+        }
+        .tab-btn:last-child {
+            margin-right: 0;
+        }
+        .tab-btn:hover {
+            background-color: #e0e0e0;
+            color: var(--primary-color);
+        }
+
+        .tab-btn.active {
+            background-color: var(--light-bg); 
+            color: var(--primary-color);
+            border-bottom: 3px solid var(--accent-color);
+        }
+        .subtab { 
+            display: none;
+        }
+        .subtab.active {
+            display: block;
+        }
+
+
+        .notification-count {
+            background-color: #f44336;
+            color: white;
+            border-radius: 50%;
+            min-width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: auto;
+            margin-right: 5px;
+            padding: 0 5px;
+            transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+        }
+
+        .duties-section, .protocols-section, .faq-item {
+            margin-bottom: 30px;
+        }
+        .duties-section h3, .protocols-section h3, .faq-item h3 {
+            color: #1a237e;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            font-size: 1.2em;
+            padding-bottom: 5px;
+            border-bottom: 1px dashed #e0e0e0;
+        }
+        .duties-section h3 i, .protocols-section h3 i, .faq-item h3 i {
+            margin-right: 12px;
+            color: #ff9800;
+            font-size: 22px;
+        }
+        .faq-item p {
+            margin-left: 34px; 
+            line-height: 1.6;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        /* Collapsed Sidebar Styles */
+        body.sidebar-collapsed .sidebar {
+            width: 70px;
+        }
+        body.sidebar-collapsed .sidebar .logo img {
+            width: 40px; 
+            height: 40px;
+        }
+        body.sidebar-collapsed .sidebar .logo h2,
+        body.sidebar-collapsed .sidebar .menu-item span {
+            display: none; 
+            opacity: 0;
+        }
+        body.sidebar-collapsed .sidebar .menu-item {
+            justify-content: center; 
+            padding-left: 10px; 
+            padding-right: 10px;
+        }
+        body.sidebar-collapsed .sidebar .menu-item i {
+            margin-right: 0; 
+        }
+        body.sidebar-collapsed .sidebar .menu-item.active {
+            border-left: 4px solid transparent; 
+            background-color: #283593;
+        }
+        body.sidebar-collapsed .sidebar .menu-item .notification-count {
+           display: none; 
+        }
+        body.sidebar-collapsed .main-content {
+            margin-left: 70px;
+        }
+
+        /* Search specific styles */
+        .search-highlight {
+            background-color: yellow;
+            color: #333; 
+            font-weight: bold;
+            padding: 0.5px 1px; 
+            border-radius: 2px;
+        }
+
+        #no-results-message {
+            padding: 20px;
+            text-align: center;
+            font-size: 1.2em;
+            color: var(--text-color);
+            background-color: var(--card-background);
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            margin: 20px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+
+        /* Responsive design adjustments */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .search-bar {
+                width: 100%;
+                margin-bottom: 10px;
+                margin-left: 0; 
+            }
+             #sidebar-toggle {
+                align-self: flex-start; 
+                margin-bottom: 10px; 
+            }
+            .user-actions {
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+            }
+            .user-actions button {
+                flex-grow: 1;
+                margin-left: 5px;
+            }
+            .user-actions button:first-child {
+                margin-left: 0;
+            }
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+            .tab-buttons {
+                padding: 5px 0;
+            }
+            body:not(.sidebar-manual-toggle) .sidebar { 
+                 width: 0; 
+            }
+            body:not(.sidebar-manual-toggle) .main-content {
+                 margin-left: 0; 
+            }
+            body.sidebar-collapsed .main-content {
+                 margin-left: 70px; 
+            }
+            body:not(.sidebar-collapsed) .sidebar {
+                width: 250px; 
+            }
+             body:not(.sidebar-collapsed) .main-content {
+                margin-left: 250px;
+            }
+             body.sidebar-collapsed .main-content {
+                margin-left: 70px; 
+            }
+             @media (max-width: 480px) {
+                 body.sidebar-collapsed .main-content {
+                    margin-left: 0; 
+                }
+                body.sidebar-collapsed .sidebar {
+                    width: 0; 
+                }
+            }
+        }
+         @media (max-width: 480px) {
+            .user-actions {
+                flex-direction: column;
+            }
+            .user-actions button {
+                margin-left: 0;
+                margin-bottom: 5px;
+                width: 100%; 
+            }
+            .user-actions button:last-child{
+                margin-bottom: 0;
+            }
+            .search-bar {
+                padding: 6px 12px;
+            }
+            .header {
+                padding: 10px 15px;
+            }
+            .main-content {
+                 padding: 10px; 
+            }
+            .alert-actions {
+                flex-direction: column;
+            }
+            .alert-actions .alert-button {
+                width: 100%; 
+                margin-bottom: 5px;
+            }
+            .alert-actions .alert-button:last-child {
+                margin-bottom: 0;
+            }
+            .action-grid {
+                grid-template-columns: 1fr; 
+            }
+        }
+    </style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">
+            <img src="https://placehold.co/60x60/FFA500/1A237E?text=WW" alt="Wartime Wiki Logo" onerror="this.src='https://placehold.co/60x60/cccccc/333333?text=Logo'; this.alt='Error loading logo'">
+            <h2>Wartime Wiki</h2>
+        </div>
+        <ul class="menu">
+            <li class="menu-item active" data-target="emergency-wiki">
+                <i class="fas fa-exclamation-triangle"></i>
+                <span>Emergency Info</span>
+            </li>
+            <li class="menu-item" data-target="civilian-duties">
+                <i class="fas fa-users"></i>
+                <span>Civilian Duties</span>
+            </li>
+            <li class="menu-item" data-target="safety-protocols">
+                <i class="fas fa-shield-alt"></i>
+                <span>Safety Protocols</span>
+            </li>
+            <li class="menu-item" data-target="resources">
+                <i class="fas fa-box-open"></i>
+                <span>Essential Resources</span>
+            </li>
+            <li class="menu-item" data-target="helplines">
+                <i class="fas fa-phone-alt"></i>
+                <span>Emergency Helplines</span>
+            </li>
+            <li class="menu-item" data-target="legal-rights">
+                <i class="fas fa-gavel"></i>
+                <span>Legal Rights</span>
+            </li>
+            <li class="menu-item" data-target="faq">
+                <i class="fas fa-question-circle"></i>
+                <span>FAQ</span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <button id="sidebar-toggle" title="Toggle Sidebar">
+                <i class="fas fa-bars"></i> 
+            </button>
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search wartime information...">
+            </div>
+            <div class="user-actions">
+                <button id="language-toggle"><i class="fas fa-language"></i> हिंदी</button>
+                <button id="emergency-contact"><i class="fas fa-phone"></i> Helpline</button>
+            </div>
+        </div>
+
+        <div id="no-results-message" style="display:none;">No results found for your search.</div>
+
+        <div id="emergency-wiki-content" class="tab-content active">
+            <div class="emergency-alert status-normal" id="emergency-alert"> 
+                <div class="alert-header">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <h3>Emergency Status: <span id="alert-status">NORMAL</span></h3>
+                    <p class="last-update" id="last-update-time"></p>
+                </div>
+                <div class="alert-content">
+                    <p id="alert-message">This is an educational resource about emergency procedures during wartime. The information provided here is for general guidance and preparedness. Always follow official government directives during actual emergencies.</p>
+                    <div class="alert-actions">
+                        <button onclick="enableNotifications()" class="alert-button" title="Enable browser notifications for important updates">
+                            <i class="fas fa-bell"></i> Enable Alerts
+                        </button>
+                        <button onclick="downloadOfflineContent()" class="alert-button" title="Save this page for offline access">
+                            <i class="fas fa-download"></i> Save Offline
+                        </button>
+                        <a href="https://www.mha.gov.in/" target="_blank" rel="noopener noreferrer" class="alert-button official-link" title="Visit Ministry of Home Affairs official website">
+                            <i class="fas fa-external-link-alt"></i> Official Updates
+                        </a>
+                    </div>
+                    <div class="alert-disclaimer">
+                        <small><i class="fas fa-info-circle"></i> This is an educational resource. For real emergencies, always rely on official government channels and emergency services.</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quick-actions">
+                <h3><i class="fas fa-bolt"></i> Quick Action Guide</h3>
+                <div class="action-grid">
+                    <div class="action-card">
+                        <i class="fas fa-running"></i>
+                        <h4>Evacuation</h4>
+                        <a href="#evacuation-guide">View Routes</a>
+                    </div>
+                    <div class="action-card">
+                        <i class="fas fa-first-aid"></i>
+                        <h4>Emergency Kit</h4>
+                        <a href="#emergency-kit">Checklist</a>
+                    </div>
+                    <div class="action-card">
+                        <i class="fas fa-phone-alt"></i>
+                        <h4>Local Helplines</h4>
+                        <a href="#helplines">Contact Now</a>
+                    </div>
+                    <div class="action-card">
+                        <i class="fas fa-hands-helping"></i>
+                        <h4>Community Help</h4>
+                        <a href="#volunteer">Join/Request</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-banner">
+                <h3><i class="fas fa-info-circle"></i> About State of Emergency</h3>
+                <p>A state of emergency grants special powers to the government to handle critical situations like war. This wiki explains the potential changes and citizen responsibilities during such periods as per the Constitution of India.</p>
+            </div>
+
+            <div class="content-section">
+                <h2>State of Emergency During War in India</h2>
+                <p>Under Article 352 of the Constitution of India, the President has the power to declare a National Emergency if the security of India or any part of its territory is threatened by war, external aggression, or armed rebellion. This page details the changes that occur when such an emergency is declared.</p>
+                
+                <div class="tab-buttons">
+                    <button class="tab-btn active" data-subtab="constitutional">Constitutional Changes</button>
+                    <button class="tab-btn" data-subtab="government">Government Powers</button>
+                    <button class="tab-btn" data-subtab="citizens">Citizen Impact</button>
+                    <button class="tab-btn" data-subtab="restrictions">Restrictions</button>
+                </div>
+                
+                <div id="constitutional-subtab" class="subtab active">
+                    <h3>Constitutional Changes During Emergency</h3>
+                    <p>When a Proclamation of Emergency is issued under Article 352 due to war or external aggression:</p>
+                    <ul class="important-list">
+                        <li><i class="fas fa-landmark"></i> The federal structure of the Constitution can transform into a unitary one, effectively.</li>
+                        <li><i class="fas fa-directions"></i> The Union government becomes empowered to give executive directions to any state on any matter.</li>
+                        <li><i class="fas fa-scroll"></i> Parliament can make laws on subjects that are normally in the State List (List II of the Seventh Schedule).</li>
+                        <li><i class="fas fa-coins"></i> The President can modify the provisions regarding the distribution of revenues between the Union and the States.</li>
+                        <li><i class="fas fa-ban"></i> Fundamental Rights under Article 19 (freedoms of speech, assembly, movement, etc.) are automatically suspended (Article 358).</li>
+                        <li><i class="fas fa-gavel"></i> The President may by order suspend the right to move courts for enforcement of other Fundamental Rights (except Articles 20 and 21) (Article 359).</li>
+                    </ul>
+                </div>
+                
+                <div id="government-subtab" class="subtab">
+                    <h3>Enhanced Government Powers</h3>
+                    <p>During a national emergency, the government assumes extraordinary powers to manage the crisis:</p>
+                    <ul class="important-list">
+                        <li><i class="fas fa-chess-king"></i> The Union Executive's power extends to giving directions to any state as to the manner in which its executive power is to be exercised.</li>
+                        <li><i class="fas fa-file-alt"></i> Parliament gains the power to legislate on matters in the State List.</li>
+                        <li><i class="fas fa-money-bill-wave"></i> The President can alter the financial arrangements between the Union and States.</li>
+                        <li><i class="fas fa-microphone-slash"></i> The government can impose censorship on media and communications to maintain public order and national security.</li>
+                        <li><i class="fas fa-balance-scale-right"></i> Special courts or tribunals may be established for speedy trials related to emergency provisions or national security.</li>
+                        <li><i class="fas fa-user-shield"></i> Military and paramilitary forces may be granted additional powers for security operations and maintaining order.</li>
+                         <li><i class="fas fa-industry"></i> Control over production, supply, and distribution of essential commodities may be instituted.</li>
+                    </ul>
+                </div>
+                
+                <div id="citizens-subtab" class="subtab">
+                    <h3>Impact on Citizens</h3>
+                    <p>During a war emergency, citizens will experience several changes affecting daily life and civil liberties:</p>
+                    <ul class="important-list">
+                        <li><i class="fas fa-comments-slash"></i> Restriction or suspension of certain Fundamental Rights, particularly those under Article 19 (freedom of speech, assembly, movement).</li>
+                        <li><i class="fas fa-route"></i> Freedom of movement may be severely restricted, especially in border areas or sensitive zones.</li>
+                        <li><i class="fas fa-moon"></i> Curfews may be imposed in specific regions to maintain order and safety.</li>
+                        <li><i class="fas fa-hands-helping"></i> Citizens may be called upon or required by law to assist authorities in civil defence or emergency management tasks.</li>
+                        <li><i class="fas fa-shopping-cart"></i> Rationing of essential commodities (food, fuel, etc.) might be implemented to ensure equitable distribution.</li>
+                        <li><i class="fas fa-users-slash"></i> Public gatherings, protests, or assemblies may be restricted or prohibited.</li>
+                        <li><i class="fas fa-id-card"></i> Increased security checks and identity verification will be common. Always carry valid ID.</li>
+                    </ul>
+                </div>
+                
+                <div id="restrictions-subtab" class="subtab">
+                    <h3>Key Restrictions and Regulations</h3>
+                    <p>The following specific restrictions and regulations may be imposed during a war emergency:</p>
+                    <ul class="important-list">
+                        <li><i class="fas fa-lightbulb-slash"></i> Blackout regulations in vulnerable cities/towns to prevent enemy targeting.</li>
+                        <li><i class="fas fa-camera-retro"></i> Strict restrictions on photography or videography, especially of military installations, critical infrastructure, and troop movements.</li>
+                        <li><i class="fas fa-truck"></i> Control over transportation networks (road, rail, air, sea) and possible requisitioning of private vehicles or property for emergency use.</li>
+                        <li><i class="fas fa-house-user"></i> Evacuation orders for populations in high-risk areas or conflict zones. </li>
+                        <li><i class="fas fa-broadcast-tower"></i> Restrictions on the use of certain communication devices or frequencies in specific areas.</li>
+                        <li><i class="fas fa-map-marked-alt"></i> Declaration of certain areas as "prohibited" or "restricted" zones with controlled access.</li>
+                        <li><i class="fas fa-newspaper"></i> Control over publication and dissemination of information to prevent panic or spread of misinformation.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3><i class="fas fa-gavel"></i> Legal Framework</h3>
+                    <p>The constitutional provisions for National Emergency are detailed in Part XVIII, Articles 352 to 360. Article 352 specifically deals with emergency due to war, external aggression, or armed rebellion.</p>
+                    <p><strong>Duration:</strong> An emergency proclamation must be approved by both Houses of Parliament within one month. Once approved, it can remain in force for six months at a time, requiring parliamentary approval for each extension.</p>
+                </div>
+                <div class="info-card">
+                    <h3><i class="fas fa-history"></i> Historical Context</h3>
+                    <p>India has declared National Emergency under Article 352 on grounds of "external aggression" or "war" twice:</p>
+                    <p><strong>1962:</strong> During the Indo-China war (Oct 1962 - Jan 1968)<br>
+                        <strong>1971:</strong> During the Indo-Pakistan war (Dec 1971 - Mar 1977)<br>
+                        (A third emergency in 1975 was on grounds of "internal disturbance".)</p>
+                    <p>Each instance led to different implementations of emergency powers based on the prevailing circumstances.</p>
+                </div>
+                <div class="info-card">
+                    <h3><i class="fas fa-balance-scale"></i> Judicial Review</h3>
+                    <p>The proclamation of a National Emergency is subject to judicial review. The Supreme Court can examine if the declaration was made on grounds that are wholly extraneous or irrelevant, or if it is mala fide. The 44th Amendment Act, 1978, introduced safeguards to prevent misuse of these powers.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="civilian-duties-content" class="tab-content">
+            <div class="content-section">
+                <h2>Civilian Responsibilities During Emergency</h2>
+                <p>During a state of emergency due to war, civilians play a crucial role in national resilience, maintaining public order, and supporting defence efforts. Your cooperation and responsible actions are vital.</p>
+                
+                <div class="duties-section">
+                    <h3><i class="fas fa-clipboard-check"></i> Mandatory Responsibilities & Compliance</h3>
+                    <ul class="important-list">
+                        <li><i class="fas fa-check"></i> Comply strictly with all evacuation orders and relocation instructions issued by authorities.</li>
+                        <li><i class="fas fa-check"></i> Adhere to blackout/dim-out protocols and light discipline in designated areas to ensure safety.</li>
+                        <li><i class="fas fa-check"></i> Carry valid identification documents at all times and present them when requested by security or government officials.</li>
+                        <li><i class="fas fa-check"></i> Report suspicious activities, unidentified objects, or individuals to the nearest police station or designated security personnel immediately. Use helpline numbers.</li>
+                        <li><i class="fas fa-check"></i> Adhere to any rationing systems or restrictions imposed on essential commodities (food, water, fuel).</li>
+                        <li><i class="fas fa-check"></i> Observe curfew timings and movement restrictions without fail. Do not venture out unless absolutely necessary and permitted.</li>
+                        <li><i class="fas fa-check"></i> Follow public health advisories and sanitation guidelines to prevent disease outbreaks.</li>
+                    </ul>
+                </div>
+                
+                <div class="duties-section">
+                    <h3 id="volunteer"><i class="fas fa-hands-helping"></i> Voluntary Contributions & Support</h3>
+                    <ul class="important-list">
+                        <li><i class="fas fa-check"></i> If able and trained, volunteer for recognized civil defence, first aid, or community emergency response teams.</li>
+                        <li><i class="fas fa-check"></i> Donate blood if there is a call from authorized blood banks, provided you are healthy.</li>
+                        <li><i class="fas fa-check"></i> Assist elderly, disabled persons, children, and vulnerable members of your community. Share resources if possible.</li>
+                        <li><i class="fas fa-check"></i> Combat rumors and misinformation. Share only verified information from official sources.</li>
+                        <li><i class="fas fa-check"></i> Conserve essential resources like water, food, electricity, and fuel. Avoid wastage.</li>
+                        <li><i class="fas fa-check"></i> Maintain personal and community hygiene to prevent spread of diseases.</li>
+                        <li><i class="fas fa-check"></i> Maintain morale and encourage a spirit of unity and cooperation in your community.</li>
+                    </ul>
+                </div>
+                
+                <div class="duties-section">
+                    <h3><i class="fas fa-exclamation-triangle"></i> Prohibited Activities & Cautions</h3>
+                    <ul class="important-list">
+                        <li><i class="fas fa-times-circle"></i> Do NOT spread rumors, unverified news, or panic-inducing information via any medium.</li>
+                        <li><i class="fas fa-times-circle"></i> Do NOT hoard essential supplies beyond reasonable personal needs. This creates artificial scarcity.</li>
+                        <li><i class="fas fa-times-circle"></i> Do NOT photograph or share images/videos of military installations, troop movements, damaged areas, or security operations.</li>
+                        <li><i class="fas fa-times-circle"></i> Do NOT organize or participate in unauthorized public gatherings or protests that could disrupt public order.</li>
+                        <li><i class="fas fa-times-circle"></i> Do NOT interfere with the duties of emergency services personnel, defence forces, or government officials.</li>
+                        <li><i class="fas fa-times-circle"></i> Do NOT use communication networks for frivolous purposes if there are appeals to keep lines free for emergencies.</li>
+                        <li><i class="fas fa-times-circle"></i> Do NOT attempt to approach or handle suspicious objects; report them to authorities from a safe distance.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="safety-protocols-content" class="tab-content">
+            <div class="content-section">
+                <h2>Safety Protocols During Wartime Emergency</h2>
+                <p>These protocols are designed to enhance public safety during wartime emergencies. Familiarize yourself and your family with these procedures to protect yourselves and your community. Always follow official instructions from authorities.</p>
+                
+                <div class="protocols-section">
+                    <h3><i class="fas fa-home-user"></i> At Home: Shelter & Preparedness</h3>
+                    <ul class="important-list">
+                        <li><i class="fas fa-check-circle"></i> Identify the safest area in your home (e.g., basement, internal room with no windows, under sturdy furniture) to use as a temporary shelter.</li>
+                        <li><i class="fas fa-check-circle"></i> Prepare blackout materials (thick dark cloth, cardboard) for windows to prevent light from escaping at night.</li>
+                        <li><i class="fas fa-check-circle"></i> Maintain a well-stocked emergency kit with essentials for at least 7-14 days (see 'Essential Resources' section).</li>
+                        <li><i class="fas fa-check-circle"></i> Keep a battery-powered or hand-crank radio tuned to official broadcast channels for updates and instructions.</li>
+                        <li><i class="fas fa-check-circle"></i> Develop and practice a family emergency plan, including evacuation routes and an out-of-state contact person.</li>
+                        <li><i class="fas fa-check-circle"></i> Know how to turn off main utilities (gas, water, electricity) if instructed by authorities.</li>
+                         <li><i class="fas fa-check-circle"></i> Secure any loose objects outside your home that could become projectiles in blasts or high winds.</li>
+                    </ul>
+                </div>
+                
+                <div class="protocols-section">
+                     <h3 id="evacuation-guide"><i class="fas fa-street-view"></i> In Public Spaces & Evacuation</h3>
+                    <ul class="important-list">
+                        <li><i class="fas fa-check-circle"></i> Be aware of your surroundings. Know the location of nearby public shelters or safe zones if announced.</li>
+                        <li><i class="fas fa-check-circle"></i> If an evacuation order is given, follow designated routes and instructions calmly and quickly. Assist those who need help.</li>
+                        <li><i class="fas fa-check-circle"></i> Cooperate fully with instructions from police, civil defence, and military personnel.</li>
+                        <li><i class="fas fa-check-circle"></i> Avoid crowded areas, protest sites, or potential targets when alerts are active, unless instructed otherwise.</li>
+                        <li><i class="fas fa-check-circle"></i> Report unattended bags, packages, or suspicious vehicles immediately to authorities from a safe distance. Do not touch them.</li>
+                        <li><i class="fas fa-check-circle"></i> If caught in a blast or attack, "Drop, Cover, and Hold On." Drop to the ground, take cover under a sturdy object, and hold on. Protect your head and neck.</li>
+                    </ul>
+                </div>
+                
+                <div class="protocols-section">
+                    <h3><i class="fas fa-plane-slash"></i> During Air Raids or Bombing Alerts (If Applicable)</h3>
+                    <ul class="important-list">
+                        <li><i class="fas fa-check-circle"></i> Upon hearing air raid sirens or official warnings, seek designated shelter immediately (public shelter, home shelter).</li>
+                        <li><i class="fas fa-check-circle"></i> If indoors, stay away from windows, glass doors, and outer walls. Move to the pre-identified safest spot.</li>
+                        <li><i class="fas fa-check-circle"></i> If outdoors, lie flat in the nearest ditch, culvert, or depression, and cover your head with your arms. Avoid open fields or direct lines of sight to potential impact.</li>
+                        <li><i class="fas fa-check-circle"></i> Remain in shelter until the "all-clear" signal is given by authorities. Do not assume it's safe based on a lull.</li>
+                        <li><i class="fas fa-check-circle"></i> Keep your emergency kit accessible if you need to move to a shelter.</li>
+                        <li><i class="fas fa-check-circle"></i> After an attack, be cautious of debris, fallen power lines, and unstable structures. Listen for official guidance before moving.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="resources-content" class="tab-content">
+            <div class="content-section">
+                <h2>Essential Resources and Preparedness</h2>
+                <p>During a wartime emergency, access to essential resources may be disrupted. It is crucial to be prepared. Aim to have enough supplies for each person in your household for a minimum of 7 days, ideally 14 days if possible.</p>
+                
+                <div class="info-grid">
+                    <div class="info-card">
+                        <h3><i class="fas fa-tint"></i> Water</h3>
+                        <p>Store at least 3-4 litres of safe drinking water per person per day. Use clean, food-grade containers. Consider water purification tablets or a portable water filter. Don't forget water for sanitation.</p>
+                    </div>
+                    <div class="info-card">
+                        <h3><i class="fas fa-utensils"></i> Food</h3>
+                        <p>Stock non-perishable, easy-to-prepare food items. Focus on canned goods (fruits, vegetables, meats, fish), dried foods (dal, rice, pasta), energy bars, biscuits, nuts, and powdered milk. Ensure you have a manual can opener and cooking fuel if needed (e.g., portable stove).</p>
+                    </div>
+                    <div class="info-card">
+                        <h3><i class="fas fa-briefcase-medical"></i> Medical & First Aid</h3>
+                        <p>Maintain a comprehensive first-aid kit. Include essential prescription medications (at least a 1-month supply), pain relievers, fever reducers, antiseptic solution/wipes, bandages, gauze, adhesive tape, thermometer, and any specific medical supplies for family members.</p>
+                    </div>
+                    <div class="info-card">
+                        <h3><i class="fas fa-lightbulb"></i> Light & Power</h3>
+                        <p>Have flashlights with extra batteries for every family member. Consider LED lamps or emergency lanterns. Keep power banks fully charged for mobile phones and other small devices. Candles can be a fire hazard; use with extreme caution.</p>
+                    </div>
+                    <div class="info-card">
+                        <h3><i class="fas fa-broadcast-tower"></i> Communication</h3>
+                        <p>Keep a battery-powered or hand-crank AM/FM radio for official broadcasts and updates. Ensure mobile phones are charged. Have a written list of important emergency contacts and a pre-determined family communication plan (e.g., out-of-state contact).</p>
+                    </div>
+                    <div class="info-card">
+                        <h3><i class="fas fa-toilet-paper"></i> Sanitation & Hygiene</h3>
+                        <p>Stock toilet paper, soap, hand sanitizer, toothbrushes/paste, feminine hygiene products, and garbage bags with plastic ties for waste disposal. Disinfectant wipes or solution are also important.</p>
+                    </div>
+                    <div class="info-card">
+                        <h3><i class="fas fa-id-card-alt"></i> Important Documents</h3>
+                        <p>Keep copies of important documents (Aadhaar card, ration card, voter ID, insurance papers, medical records, property deeds, bank account details) in a waterproof, portable container or bag. Consider digital copies on a secure USB drive or cloud storage (if accessible).</p>
+                    </div>
+                     <div class="info-card">
+                        <h3><i class="fas fa-toolbox"></i> Tools & Supplies</h3>
+                        <p>A multi-purpose tool, duct tape, plastic sheeting (for sealing windows or creating shelter), whistle to signal for help, sturdy shoes, rain gear, blankets or sleeping bags, and some cash in small denominations.</p>
+                    </div>
+                </div>
+                 <h3 id="emergency-kit" style="margin-top: 30px; color: #1a237e;"><i class="fas fa-suitcase-rolling" style="color: #ff9800; margin-right: 10px;"></i> Go-Bag / Emergency Kit Checklist Highlights</h3>
+                <ul class="important-list">
+                    <li><i class="fas fa-check"></i> Water and non-perishable food (3-day supply for a go-bag, more for home kit)</li>
+                    <li><i class="fas fa-check"></i> Battery-powered/hand-crank radio & flashlight (with extra batteries)</li>
+                    <li><i class="fas fa-check"></i> Comprehensive First Aid Kit & personal medications</li>
+                    <li><i class="fas fa-check"></i> Whistle, dust mask, plastic sheeting, duct tape</li>
+                    <li><i class="fas fa-check"></i> Sanitation items (hand sanitizer, wipes, toilet paper)</li>
+                    <li><i class="fas fa-check"></i> Multi-tool, local maps, mobile phone with power bank</li>
+                    <li><i class="fas fa-check"></i> Copies of important documents and cash</li>
+                    <li><i class="fas fa-check"></i> Sleeping bag or warm blanket, change of clothes</li>
+                    <li><i class="fas fa-check"></i> Special needs items (infant supplies, pet supplies, elder care items)</li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="helplines-content" class="tab-content">
+             <div id="helplines" class="content-section">
+                <h2>Emergency Helplines - India</h2>
+                <p>In any emergency, dial these numbers for assistance. It's advisable to also save local district/city specific helpline numbers. During specific crisis, new helplines might be announced by the government.</p>
+                <ul class="important-list">
+                    <li><i class="fas fa-phone-volume"></i> <strong>National Emergency Number (Single Number for all Emergencies):</strong> 112</li>
+                    <li><i class="fas fa-user-shield"></i> <strong>Police:</strong> 100</li>
+                    <li><i class="fas fa-fire-extinguisher"></i> <strong>Fire Services:</strong> 101</li>
+                    <li><i class="fas fa-ambulance"></i> <strong>Ambulance:</strong> 102 / 108</li>
+                    <li><i class="fas fa-house-damage"></i> <strong>National Disaster Management Authority (NDMA) Helpline:</strong> 1078</li>
+                    <li><i class="fas fa-cloud-sun-rain"></i> <strong>Central Relief Commissioner (For Natural Disasters):</strong> 1070</li>
+                    <li><i class="fas fa-female"></i> <strong>Women Helpline (Domestic Abuse / General):</strong> 1091 / 181</li>
+                    <li><i class="fas fa-child"></i> <strong>Child Helpline India:</strong> 1098</li>
+                    <li><i class="fas fa-user-clock"></i> <strong>Senior Citizen Helpline (Elderline - National):</strong> 14567</li>
+                    <li><i class="fas fa-brain"></i> <strong>Mental Health Helpline (KIRAN - Ministry of Social Justice and Empowerment):</strong> 1800-599-0019</li>
+                    <li><i class="fas fa-road"></i> <strong>National Highways Helpline (Road Accidents, etc.):</strong> 1033</li>
+                    <li><i class="fas fa-train"></i> <strong>Railway Enquiry / Security Helpline:</strong> 139 / 182</li>
+                    <li><i class="fab fa-whatsapp"></i> <strong>MyGov WhatsApp Helpdesk (for verified Government information):</strong> +91 9013151515 (Save number and send 'Namaste' or 'Hi')</li>
+                </ul>
+                <div class="info-banner" style="margin-top: 20px; background-color: #fff9c4; border-left-color: #fbc02d;">
+                    <h3 style="color: #f57f17;"><i class="fas fa-exclamation-triangle"></i> Important Notes:</h3>
+                    <p style="color: #3e2723;">Service availability for some numbers may vary by telecom operator or region. <strong>Always try 112 first</strong> as it's the integrated emergency number. During wartime or specific crises, the government may announce special dedicated helplines. Stay tuned to official broadcasts (Radio, TV, Government websites) for the most current information.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="legal-rights-content" class="tab-content">
+            <div class="content-section"> <h2>Legal Rights of Citizens During a National Emergency</h2>
+                <p>Understanding your legal rights during a National Emergency (declared under Article 352 of the Constitution due to war or external aggression) is crucial. While the government is granted enhanced powers to manage the crisis, certain fundamental rights remain protected, and constitutional safeguards exist.</p>
+
+                <div class="legal-subsection">
+                    <h3><i class="fas fa-gavel"></i> Status of Fundamental Rights</h3>
+                    <ul class="important-list">
+                        <li><i class="fas fa-lock"></i> <strong>Suspension of Article 19:</strong> When a National Emergency is declared on the grounds of war or external aggression, the six fundamental rights under Article 19 (freedom of speech and expression, assembly, association, movement, residence, and profession) are automatically suspended (as per Article 358). This suspension applies for the duration of the emergency.</li>
+                        <li><i class="fas fa-shield-alt"></i> <strong>Articles 20 and 21 Remain Protected:</strong> Crucially, the Fundamental Rights under Article 20 (Protection in respect of conviction for offences) and Article 21 (Protection of life and personal liberty) <strong>cannot be suspended</strong> even during a National Emergency. This vital safeguard was affirmed by the 44th Amendment Act, 1978. Citizens can approach the courts (Supreme Court under Article 32, High Courts under Article 226) if these two rights are violated.</li>
+                        <li><i class="fas fa-scroll"></i> <strong>Suspension of Other Fundamental Rights (Article 359):</strong> The President may, by a separate order, suspend the right to move any court for the enforcement of other Fundamental Rights (except Articles 20 and 21) as specified in that Presidential order. Such an order must be laid before each House of Parliament for approval. The specific rights whose enforcement is suspended can vary.</li>
+                    </ul>
+                </div>
+
+                <div class="legal-subsection">
+                    <h3><i class="fas fa-landmark"></i> Changes in Executive and Legislative Powers</h3>
+                    <ul class="important-list">
+                        <li><i class="fas fa-directions"></i> <strong>Extension of Union's Executive Powers:</strong> The executive power of the Union (Central Government) extends to giving directions to any State as to the manner in which its executive power is to be exercised.</li>
+                        <li><i class="fas fa-file-signature"></i> <strong>Parliamentary Legislative Powers:</strong> Parliament becomes empowered to make laws on any subject mentioned in the State List (which is normally under the exclusive domain of State Legislatures). Such laws made by Parliament on State subjects will cease to have effect six months after the emergency has ceased to operate, to the extent of their incompetency.</li>
+                        <li><i class="fas fa-money-check-alt"></i> <strong>Modification of Financial Provisions:</strong> The President can modify the constitutional distribution of revenues between the Centre and the States.</li>
+                    </ul>
+                </div>
+                
+                <div class="legal-subsection">
+                    <h3><i class="fas fa-balance-scale"></i> Safeguards and Judicial Oversight</h3>
+                    <ul class="important-list">
+                        <li><i class="fas fa-stamp"></i> <strong>Parliamentary Approval:</strong> A Proclamation of Emergency must be approved by resolutions of both Houses of Parliament (Lok Sabha and Rajya Sabha) by a special majority within one month from the date of its issue. If approved, it continues for six months and can be extended for six months at a time indefinitely, but each extension requires fresh parliamentary approval.</li>
+                        <li><i class="fas fa-feather-alt"></i> <strong>Written Recommendation from Cabinet:</strong> The President can declare an emergency only on the basis of a written recommendation from the Union Cabinet (not just the Prime Minister).</li>
+                        <li><i class="fas fa-search-dollar"></i> <strong>Judicial Review:</strong> The proclamation of emergency is not immune from judicial review. It can be challenged in court on grounds of mala fides (bad faith) or if the declaration was based on wholly extraneous and irrelevant facts or is absurd or perverse.</li>
+                        <li><i class="fas fa-undo"></i> <strong>Revocation of Proclamation:</strong> The President can revoke the emergency at any time by a subsequent proclamation. A proclamation of emergency may also be revoked if the Lok Sabha passes a resolution disapproving its continuance.</li>
+                    </ul>
+                </div>
+
+                <div class="legal-subsection">
+                    <h3><i class="fas fa-user-lock"></i> Preventive Detention</h3>
+                    <p>During an emergency, the government may make laws related to preventive detention. However, Article 22 of the Constitution provides safeguards for persons under preventive detention, such as the right to be informed of the grounds of detention (unless disclosure is against public interest) and the right to make a representation against the detention order. The case must generally be referred to an Advisory Board within a specified period.</p>
+                </div>
+
+                <div class="info-banner" style="margin-top: 20px; background-color: #e8f5e9; border-left-color: #4caf50;">
+                    <h3 style="color: #2e7d32;"><i class="fas fa-info-circle"></i> Disclaimer:</h3>
+                    <p style="color: #1b5e20;">This information is for general understanding and educational purposes only. It is not a substitute for legal advice. Specific laws, ordinances, and government orders issued during an actual emergency must be consulted. Always rely on official government communications and seek legal counsel if needed.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="faq-content" class="tab-content">
+            <div class="content-section">
+                <h2>Frequently Asked Questions (FAQ) - Wartime Emergency</h2>
+                <p>This section addresses common questions citizens may have during a state of emergency declared due to war or external aggression, based on constitutional provisions and general preparedness principles.</p>
+
+                <div class="faq-item">
+                    <h3><i class="fas fa-question-circle"></i> What is a 'National Emergency' in the context of war?</h3>
+                    <p>A National Emergency under Article 352 of the Indian Constitution is a formal declaration by the President when the security of India (or a part of it) is threatened by war, external aggression, or armed rebellion. This empowers the central government with extraordinary powers to manage the crisis, which may include temporary modifications to the federal structure and restrictions on certain fundamental rights to protect the nation.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3><i class="fas fa-bullhorn"></i> How will I be officially informed if a National Emergency is declared?</h3>
+                    <p>Official announcements will be made through government-controlled media channels such as All India Radio (AIR), Doordarshan (DD National), the Press Information Bureau (PIB), official government websites (e.g., MHA, PMO), and possibly through SMS alerts or public address systems. It is crucial to rely only on these verified sources.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3><i class="fas fa-running"></i> What are the immediate actions I should take if an emergency is announced?</h3>
+                    <p><strong>1. Stay Calm:</strong> Avoid panic. <br><strong>2. Seek Official Information:</strong> Tune into official news channels. <br><strong>3. Ensure Family Safety:</strong> Check on your family members and review your family emergency plan. <br><strong>4. Prepare Your Kit:</strong> Ensure your emergency supply kit is accessible. <br><strong>5. Follow Instructions:</strong> Adhere strictly to directives from government authorities regarding safety, movement, and resource use. <br><strong>6. Avoid Rumors:</strong> Do not spread unverified information.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3><i class="fas fa-school"></i> Will schools, colleges, and offices remain open?</h3>
+                    <p>Decisions regarding the operation of educational institutions, government offices, and private businesses will be made by the government based on the severity and nature of the emergency. Essential services (healthcare, police, fire, utilities) will likely continue, possibly with modifications. Follow official announcements for specific instructions.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3><i class="fas fa-user-shield"></i> How can I get reliable information and combat misinformation?</h3>
+                    <p>Exclusively rely on official government sources (AIR, Doordarshan, PIB, MyGov, official ministry websites and their social media handles). Critically evaluate information from other sources, especially social media. Do not forward messages or news without verifying their authenticity from official channels. Report misinformation to authorities if possible.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h3><i class="fas fa-shopping-basket"></i> What should I do about essential supplies like food, water, and medicines?</h3>
+                    <p>It is always advisable to have a personal emergency kit with essential supplies for at least 7-14 days (see 'Essential Resources' section). During an emergency, the government may take steps to ensure the availability of essential commodities, possibly through regulated distribution or rationing. Avoid hoarding and follow official guidelines on stocking and usage.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h3><i class="fas fa-traffic-light"></i> Will my travel and movement be restricted?</h3>
+                    <p>Yes, it is highly probable. Travel restrictions, including curfews, limitations on inter-city or inter-state movement, and control over public transport, may be imposed for security reasons, to facilitate emergency operations, or to manage resources. Always check official advisories before planning any travel.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3><i class="fas fa-first-aid"></i> What if I or a family member needs urgent medical attention?</h3>
+                    <p>Emergency medical services and hospitals will continue to function, though they may be under significant strain. Use emergency helpline numbers (e.g., 112, 102, 108) for urgent medical needs. If possible, inform the dispatcher if the medical emergency is related to the ongoing crisis situation (e.g., injury due to attack).</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3><i class="fas fa-hands-helping"></i> How can I contribute or help as a citizen during a wartime emergency?</h3>
+                    <p>The primary contribution is to follow all laws and instructions from authorities. Beyond that, you can: volunteer with recognized civil defence or authorized aid organizations if calls are made for volunteers; conserve resources; help vulnerable neighbours; maintain community harmony; donate blood if fit and when required by official agencies; and importantly, stay informed and counter misinformation.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h3><i class="fas fa-wifi"></i> Will I be able to use my phone and the internet?</h3>
+                    <p>While authorities will try to maintain communication networks, they might face disruptions due to damage, high traffic, or deliberate restrictions for security reasons. Use communication services judiciously for essential purposes. The government may issue specific guidelines or temporarily restrict certain services to prevent misuse, manage network load, or for operational security.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h3><i class="fas fa-balance-scale-left"></i> What happens to my Fundamental Rights during such an emergency?</h3>
+                    <p>As explained in the 'Legal Rights' section, the six freedoms under Article 19 (like freedom of speech, assembly, movement) are automatically suspended during an emergency declared on grounds of war or external aggression. However, the Right to Life and Personal Liberty (Article 21) and Protection in Respect of Conviction for Offences (Article 20) remain enforceable and cannot be suspended. The enforcement of other fundamental rights may be suspended by a Presidential order.</p>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="footer">
+             <p>&copy; Wartime Wiki (Illustrative Informational Resource) | Last updated: <span id="footer-last-updated">May 9, 2025</span></p>
+            <p>In case of an actual emergency, always rely on official government channels and helplines. National Emergency Number: 112</p>
+        </div>
+    </div>
+    <div id="custom-alert-box" style="display:none; position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background-color: #333; color: white; padding: 15px 25px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 2000; text-align: center;">
+        <p id="custom-alert-message" style="margin: 0 0 10px 0;"></p>
+        <button id="custom-alert-ok" style="background-color: var(--accent-color); color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer;">OK</button>
+    </div>
+
+
+    <script>
+        // Custom alert function
+        function showCustomAlert(message) {
+            const alertBox = document.getElementById('custom-alert-box');
+            const alertMessage = document.getElementById('custom-alert-message');
+            const alertOkBtn = document.getElementById('custom-alert-ok');
+
+            alertMessage.textContent = message;
+            alertBox.style.display = 'block';
+
+            alertOkBtn.onclick = function() {
+                alertBox.style.display = 'none';
+            };
+        }
+
+
+        // Emergency Alert Status Management
+        function updateEmergencyStatus(status, message) {
+            const alertStatusEl = document.getElementById('alert-status');
+            const alertMessageEl = document.getElementById('alert-message');
+            const alertElement = document.getElementById('emergency-alert');
+
+            if (alertStatusEl && alertMessageEl && alertElement) {
+                alertStatusEl.textContent = status.toUpperCase();
+                alertMessageEl.textContent = message;
+
+                alertElement.classList.remove('status-normal', 'status-elevated', 'status-high');
+                alertElement.classList.add(`status-${status.toLowerCase()}`);
+
+                const lastUpdate = new Date().toLocaleString('en-IN', {
+                    timeZone: 'Asia/Kolkata',
+                    day: 'numeric', month: 'long', year: 'numeric',
+                    hour: 'numeric', minute: '2-digit', hour12: true
+                });
+                const updateTimeElement = document.getElementById('last-update-time');
+                if (updateTimeElement) {
+                    updateTimeElement.textContent = `Last Updated: ${lastUpdate}`;
+                }
+                const footerUpdateTime = document.getElementById('footer-last-updated');
+                if (footerUpdateTime) {
+                    footerUpdateTime.textContent = new Date().toLocaleDateString('en-IN', {day:'numeric', month: 'long', year: 'numeric'});
+                }
+            }
+        }
+
+        // Enable Browser Notifications
+        async function enableNotifications() {
+            try {
+                if (!("Notification" in window)) {
+                    showCustomAlert("This browser does not support desktop notification.");
+                    return;
+                }
+                const permission = await Notification.requestPermission();
+                if (permission === 'granted') {
+                    showCustomAlert('Emergency notifications enabled! You will receive updates about important changes.');
+                } else {
+                    showCustomAlert('Please enable notifications in your browser settings to receive emergency updates.');
+                }
+            } catch (error) {
+                console.error('Error enabling notifications:', error);
+                showCustomAlert('Failed to enable notifications. Please check browser permissions or try again.');
+            }
+        }
+
+        // Save Content for Offline Access (Simplified)
+        function downloadOfflineContent() {
+            if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+                showCustomAlert('Content is being prepared for offline access. Key information will be available if you lose connection.');
+            } else {
+                showCustomAlert('Offline access features are limited or not fully supported in your browser, or the service worker is not active. Try reloading the page.');
+            }
+        }
+
+        // Check Online Status and Update UI
+        function updateOnlineStatusIndicator() {
+            const onlineStatusDiv = document.querySelector('.online-status');
+            if (onlineStatusDiv) { 
+                if (navigator.onLine) {
+                    onlineStatusDiv.textContent = 'Online';
+                    onlineStatusDiv.style.backgroundColor = '#4caf50'; 
+                    document.body.classList.remove('offline');
+                } else {
+                    onlineStatusDiv.textContent = 'Offline';
+                    onlineStatusDiv.style.backgroundColor = '#f44336'; 
+                    document.body.classList.add('offline');
+                }
+            } else { 
+                const statusIndicator = document.createElement('div');
+                statusIndicator.className = 'online-status';
+                document.body.appendChild(statusIndicator);
+                updateOnlineStatusIndicator();
+            }
+        }
+
+
+        window.addEventListener('online', updateOnlineStatusIndicator);
+        window.addEventListener('offline', updateOnlineStatusIndicator);
+
+
+        // Register Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js') 
+                    .then(registration => {
+                        console.log('ServiceWorker registration successful, scope is:', registration.scope);
+                    })
+                    .catch(err => {
+                        console.log('ServiceWorker registration failed: ', err);
+                    });
+            });
+        }
+        
+        // Search Functionality
+        let allSearchableElements = []; 
+
+        function highlightTextInElement(element, query) {
+            const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT, null, false);
+            let node;
+            const queryLower = query.toLowerCase(); 
+            const nodesToModify = []; 
+
+            while (node = walker.nextNode()) {
+                const text = node.nodeValue;
+                const textLower = text.toLowerCase();
+                if (textLower.includes(queryLower)) {
+                    if (node.parentNode && node.parentNode.classList && node.parentNode.classList.contains('search-highlight')) {
+                        continue;
+                    }
+                    nodesToModify.push({node: node, text: text});
+                }
+            }
+
+            nodesToModify.forEach(item => {
+                const { node, text } = item;
+                const parent = node.parentNode;
+                if (!parent || parent.nodeName === 'SCRIPT' || parent.nodeName === 'STYLE') return;
+
+                const fragment = document.createDocumentFragment();
+                let lastIndex = 0;
+                const regex = new RegExp(query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+                let match;
+
+                while ((match = regex.exec(text)) !== null) {
+                    if (match.index > lastIndex) {
+                        fragment.appendChild(document.createTextNode(text.substring(lastIndex, match.index)));
+                    }
+                    const span = document.createElement('span');
+                    span.className = 'search-highlight';
+                    span.textContent = match[0]; 
+                    fragment.appendChild(span);
+                    lastIndex = regex.lastIndex;
+                }
+                if (lastIndex < text.length) {
+                    fragment.appendChild(document.createTextNode(text.substring(lastIndex)));
+                }
+                
+                if (fragment.childNodes.length > 0) {
+                     parent.replaceChild(fragment, node);
+                }
+            });
+        }
+
+        function clearHighlights() {
+            const highlights = document.querySelectorAll('span.search-highlight');
+            highlights.forEach(span => {
+                const parent = span.parentNode;
+                if (parent) {
+                    parent.insertBefore(document.createTextNode(span.textContent), span);
+                    parent.removeChild(span);
+                    parent.normalize(); 
+                }
+            });
+        }
+        
+        function handleSearch() {
+            const searchInput = document.querySelector('.search-bar input');
+            const noResultsMessage = document.getElementById('no-results-message');
+            const query = searchInput.value.trim().toLowerCase();
+
+            clearHighlights(); 
+            noResultsMessage.style.display = 'none'; 
+
+            if (query === '') {
+                 const initialActiveMenuItem = document.querySelector('.sidebar .menu-item.active');
+                 if (initialActiveMenuItem) {
+                    initialActiveMenuItem.click(); 
+                 }
+                return;
+            }
+
+            let firstMatchElement = null;
+            let overallResultsFound = false;
+
+            allSearchableElements.forEach(element => {
+                const text = element.textContent.toLowerCase();
+                if (text.includes(query)) {
+                    highlightTextInElement(element, query); 
+                    overallResultsFound = true;
+                    if (!firstMatchElement) {
+                        firstMatchElement = element;
+                    }
+                }
+            });
+
+            if (overallResultsFound) {
+                if (firstMatchElement) {
+                    const parentTabContent = firstMatchElement.closest('.tab-content');
+                    if (parentTabContent) {
+                        if (!parentTabContent.classList.contains('active')) {
+                            const targetMenuId = parentTabContent.id.replace('-content', '');
+                            const correspondingMenuItem = document.querySelector(`.menu-item[data-target="${targetMenuId}"]`);
+                            if (correspondingMenuItem) {
+                                correspondingMenuItem.click(); 
+                            }
+                        }
+                        setTimeout(() => {
+                           firstMatchElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        }, 100); 
+                    } else {
+                         firstMatchElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                }
+            } else {
+                noResultsMessage.style.display = 'block'; 
+            }
+        }
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded, initializing menu, sidebar, and search...');
+
+            updateEmergencyStatus('NORMAL', 'This is an educational resource about emergency procedures during wartime. Always follow official government directives during actual emergencies.');
+            updateOnlineStatusIndicator(); 
+
+            const menuItems = document.querySelectorAll('.sidebar .menu-item');
+            const tabContents = document.querySelectorAll('.main-content .tab-content'); 
+            const sidebarToggleBtn = document.getElementById('sidebar-toggle');
+            const bodyElement = document.body;
+            const searchInput = document.querySelector('.search-bar input'); 
+            const quickActionLinks = document.querySelectorAll('.quick-actions .action-card a'); // Select quick action links
+
+            allSearchableElements = document.querySelectorAll(
+                '.tab-content h2, .tab-content h3, .tab-content h4, .tab-content p, .tab-content li, ' +
+                '.info-card p, .info-card h3, .faq-item p, .faq-item h3, .action-card h4, .alert-content p, .alert-disclaimer small'
+            );
+            
+            if (searchInput) {
+                searchInput.addEventListener('input', handleSearch); 
+                searchInput.addEventListener('keyup', function(e) {
+                    if (e.key === 'Enter') {
+                        handleSearch();
+                    }
+                });
+            }
+
+
+            menuItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    if (searchInput.value.trim() !== '') {
+                        clearHighlights();
+                        document.getElementById('no-results-message').style.display = 'none';
+                    }
+
+                    const currentActiveItem = document.querySelector('.sidebar .menu-item.active');
+                    if (currentActiveItem) {
+                        currentActiveItem.classList.remove('active');
+                    }
+                    this.classList.add('active');
+
+                    const currentActiveTab = document.querySelector('.main-content .tab-content.active');
+                    if (currentActiveTab) {
+                        currentActiveTab.classList.remove('active');
+                        currentActiveTab.style.display = 'none'; 
+                    }
+                    
+                    const targetId = this.getAttribute('data-target');
+                    const targetContent = document.getElementById(targetId + '-content');
+
+                    if (targetContent) {
+                        targetContent.style.display = 'block'; 
+                        setTimeout(() => {
+                            targetContent.classList.add('active');
+                        }, 10); 
+                        window.scrollTo(0, 0); 
+                    } else {
+                        console.error('Target content not found for menu item:', targetId);
+                    }
+
+                    if (window.innerWidth <= 768 && !bodyElement.classList.contains('sidebar-collapsed')) {
+                        bodyElement.classList.add('sidebar-collapsed');
+                        updateToggleIcon(); 
+                    }
+                });
+            });
+
+            function updateToggleIcon() {
+                if (sidebarToggleBtn) {
+                    const iconElement = sidebarToggleBtn.querySelector('i');
+                    if (bodyElement.classList.contains('sidebar-collapsed')) {
+                        iconElement.classList.remove('fa-times');
+                        iconElement.classList.add('fa-bars');
+                        sidebarToggleBtn.setAttribute('title', 'Open Sidebar');
+                    } else {
+                        iconElement.classList.remove('fa-bars');
+                        iconElement.classList.add('fa-times');
+                        sidebarToggleBtn.setAttribute('title', 'Close Sidebar');
+                    }
+                }
+            }
+            
+            if (window.innerWidth <= 768) {
+                bodyElement.classList.add('sidebar-collapsed');
+            }
+            updateToggleIcon(); 
+
+            if (sidebarToggleBtn) {
+                sidebarToggleBtn.addEventListener('click', function() {
+                    bodyElement.classList.toggle('sidebar-collapsed');
+                    bodyElement.classList.add('sidebar-manual-toggle'); 
+                    updateToggleIcon();
+                });
+            }
+            
+            const emergencyWikiContent = document.getElementById('emergency-wiki-content');
+            if (emergencyWikiContent) {
+                const subTabBtns = emergencyWikiContent.querySelectorAll('.tab-buttons .tab-btn');
+                const subTabContents = emergencyWikiContent.querySelectorAll('.subtab');
+
+                subTabBtns.forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        subTabBtns.forEach(b => b.classList.remove('active'));
+                        this.classList.add('active');
+                        
+                        subTabContents.forEach(tab => tab.classList.remove('active')); 
+                        
+                        const targetSubtabId = this.getAttribute('data-subtab') + '-subtab';
+                        const targetSubtab = emergencyWikiContent.querySelector('#' + targetSubtabId);
+
+                        if (targetSubtab) {
+                            targetSubtab.classList.add('active'); 
+                        } else {
+                            console.error('Target sub-tab content not found:', targetSubtabId);
+                        }
+                    });
+                });
+            }
+
+            const languageToggleBtn = document.getElementById('language-toggle');
+            if (languageToggleBtn) {
+                languageToggleBtn.addEventListener('click', function() {
+                    const currentText = this.textContent.trim();
+                    if (currentText.includes('हिंदी')) {
+                        this.innerHTML = '<i class="fas fa-language"></i> English';
+                        showCustomAlert('Language feature is illustrative. Content would change to Hindi.');
+                    } else {
+                        this.innerHTML = '<i class="fas fa-language"></i> हिंदी';
+                        showCustomAlert('Language feature is illustrative. Content would change to English.');
+                    }
+                });
+            }
+            
+            const emergencyContactBtn = document.getElementById('emergency-contact');
+            if (emergencyContactBtn) {
+                emergencyContactBtn.addEventListener('click', function() {
+                    const helplinesMenuItem = document.querySelector('.menu-item[data-target="helplines"]');
+                    if (helplinesMenuItem) {
+                        helplinesMenuItem.click(); 
+                    }
+                });
+            }
+
+            // Quick Action Guide Link Handler
+            quickActionLinks.forEach(link => {
+                link.addEventListener('click', function(event) {
+                    event.preventDefault(); // Stop default anchor behavior
+                    const targetId = this.getAttribute('href').substring(1); // Get ID like 'emergency-kit'
+                    const targetElement = document.getElementById(targetId);
+
+                    if (targetElement) {
+                        const parentTab = targetElement.closest('.tab-content');
+                        
+                        if (parentTab && !parentTab.classList.contains('active')) {
+                            // Target is on an inactive tab
+                            const targetMenuData = parentTab.id.replace('-content', '');
+                            const menuItemToClick = document.querySelector(`.menu-item[data-target="${targetMenuData}"]`);
+                            if (menuItemToClick) {
+                                menuItemToClick.click(); // Switch tab
+                                // Wait for tab switch before scrolling
+                                setTimeout(() => {
+                                    targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                                }, 150); // Adjust delay if needed
+                            } else {
+                                console.error("Could not find menu item for tab:", targetMenuData);
+                            }
+                        } else if (parentTab) {
+                            // Target is on the currently active tab
+                            targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        } else {
+                             console.error("Target element", targetId, "is not within a .tab-content");
+                        }
+                    } else {
+                        console.error("Target element not found for Quick Action:", targetId);
+                        showCustomAlert(`The section for "${targetId.replace('-', ' ')}" could not be found.`);
+                    }
+                });
+            });
+
+
+            const initialActiveMenuItem = document.querySelector('.sidebar .menu-item.active');
+            if (initialActiveMenuItem) {
+                const targetId = initialActiveMenuItem.getAttribute('data-target');
+                const targetContent = document.getElementById(targetId + '-content');
+                if (targetContent) {
+                    tabContents.forEach(tc => { 
+                        tc.style.display = 'none';
+                        tc.classList.remove('active');
+                    });
+                    targetContent.style.display = 'block'; 
+                    targetContent.classList.add('active');
+                }
+            }
+        });
+    </script>
+</body>
+</html>
