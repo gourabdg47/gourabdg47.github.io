@@ -41,15 +41,68 @@
             transition: padding-left 0.3s ease-in-out; /* For main content shift */
         }
 
-        /* Enhanced Emergency Alert Styles */
-        .emergency-alert {
-            background: linear-gradient(135deg, #1a237e 0%, #3949ab 100%);
-            color: white;
-            padding: 20px;
+        /* Enhanced Emergency Alert Styles (Removed as requested) */
+
+        /* Official Links Section Styles */
+        .official-links-section {
+            background-color: var(--card-background);
             border-radius: 8px;
+            padding: 20px;
             margin-bottom: 20px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid var(--primary-color);
         }
+        .official-links-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 1.4em;
+            display: flex;
+            align-items: center;
+        }
+         .official-links-section h2 i {
+            margin-right: 10px;
+            color: var(--accent-color);
+         }
+
+        .link-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* Adjust minmax for button size */
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .official-link-button {
+            display: flex;
+            align-items: center;
+            justify-content: center; /* Center content */
+            gap: 8px;
+            padding: 12px 15px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.3s, transform 0.2s;
+            text-align: center;
+            border: 1px solid transparent; /* Base border */
+        }
+        .official-link-button i {
+            font-size: 1.1em;
+        }
+
+        /* Specific button styles */
+        .link-mha { background-color: #3f51b5; color: white; border-color: #303f9f; }
+        .link-mha:hover { background-color: #303f9f; transform: translateY(-2px); }
+
+        .link-ndma { background-color: #ff9800; color: white; border-color: #f57c00; }
+        .link-ndma:hover { background-color: #f57c00; transform: translateY(-2px); }
+
+        .link-pib { background-color: #009688; color: white; border-color: #00796b; }
+        .link-pib:hover { background-color: #00796b; transform: translateY(-2px); }
+
+        .link-mygov { background-color: #e91e63; color: white; border-color: #c2185b; }
+        .link-mygov:hover { background-color: #c2185b; transform: translateY(-2px); }
+
 
         .alert-disclaimer {
             margin-top: 15px;
@@ -63,62 +116,6 @@
             font-size: 0.8em;
             margin-top: 5px;
             color: rgba(255, 255, 255, 0.8);
-        }
-
-        .official-link {
-            background-color: #4caf50 !important; /* Ensure specificity */
-        }
-
-        .official-link:hover {
-            background-color: #388e3c !important; /* Ensure specificity */
-        }
-
-        .alert-header {
-            padding: 15px 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .alert-header h3 {
-            margin: 0;
-            font-size: 1.2em;
-        }
-        .alert-header .last-update { /* Specific styling for last update in header */
-            margin-left: auto; /* Pushes it to the right */
-            font-size: 0.8em;
-            color: rgba(255,255,255,0.7);
-        }
-
-
-        .alert-content {
-            padding: 20px;
-        }
-
-        .alert-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-            flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
-        }
-
-        .alert-button {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: white;
-            padding: 8px 15px;
-            border-radius: 4px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            transition: background 0.3s;
-            text-decoration: none; /* For <a> tags styled as buttons */
-        }
-
-        .alert-button:hover {
-            background: rgba(255, 255, 255, 0.2);
         }
 
         /* Quick Action Guide Styles */
@@ -183,19 +180,6 @@
 
         .action-card a:hover {
             text-decoration: underline;
-        }
-
-        /* Emergency Alert Status Colors */
-        .emergency-alert.status-normal { /* Renamed from .normal for clarity */
-            background: linear-gradient(135deg, #1a237e 0%, #3949ab 100%);
-        }
-
-        .emergency-alert.status-elevated { /* Renamed from .elevated */
-            background: linear-gradient(135deg, #e65100 0%, #ff9800 100%);
-        }
-
-        .emergency-alert.status-high { /* Renamed from .high */
-            background: linear-gradient(135deg, #b71c1c 0%, #f44336 100%);
         }
 
         /* Online Status Indicator */
@@ -721,7 +705,7 @@
             .user-actions button:first-child {
                 margin-left: 0;
             }
-            .info-grid {
+            .info-grid, .link-grid { /* Apply to official links grid too */
                 grid-template-columns: 1fr;
             }
             .tab-buttons {
@@ -785,7 +769,7 @@
             .alert-actions .alert-button:last-child {
                 margin-bottom: 0;
             }
-            .action-grid {
+            .action-grid, .link-grid { /* Apply to official links grid too */
                 grid-template-columns: 1fr; 
             }
         }
@@ -796,36 +780,36 @@
     <div class="sidebar">
         <div class="logo">
             <img src="https://placehold.co/60x60/FFA500/1A237E?text=WW" alt="Wartime Wiki Logo" onerror="this.src='https://placehold.co/60x60/cccccc/333333?text=Logo'; this.alt='Error loading logo'">
-            <h2>Wartime Wiki</h2>
+            <h2 data-translate-key="wikiTitle">Wartime Wiki</h2>
         </div>
         <ul class="menu">
             <li class="menu-item active" data-target="emergency-wiki">
                 <i class="fas fa-exclamation-triangle"></i>
-                <span>Emergency Info</span>
+                <span data-translate-key="menuEmergencyInfo">Emergency Info</span>
             </li>
             <li class="menu-item" data-target="civilian-duties">
                 <i class="fas fa-users"></i>
-                <span>Civilian Duties</span>
+                <span data-translate-key="menuCivilianDuties">Civilian Duties</span>
             </li>
             <li class="menu-item" data-target="safety-protocols">
                 <i class="fas fa-shield-alt"></i>
-                <span>Safety Protocols</span>
+                <span data-translate-key="menuSafetyProtocols">Safety Protocols</span>
             </li>
             <li class="menu-item" data-target="resources">
                 <i class="fas fa-box-open"></i>
-                <span>Essential Resources</span>
+                <span data-translate-key="menuResources">Essential Resources</span>
             </li>
             <li class="menu-item" data-target="helplines">
                 <i class="fas fa-phone-alt"></i>
-                <span>Emergency Helplines</span>
+                <span data-translate-key="menuHelplines">Emergency Helplines</span>
             </li>
             <li class="menu-item" data-target="legal-rights">
                 <i class="fas fa-gavel"></i>
-                <span>Legal Rights</span>
+                <span data-translate-key="menuLegalRights">Legal Rights</span>
             </li>
             <li class="menu-item" data-target="faq">
                 <i class="fas fa-question-circle"></i>
-                <span>FAQ</span>
+                <span data-translate-key="menuFaq">FAQ</span>
             </li>
         </ul>
     </div>
@@ -837,142 +821,135 @@
             </button>
             <div class="search-bar">
                 <i class="fas fa-search"></i>
-                <input type="text" placeholder="Search wartime information...">
+                <input type="text" placeholder="Search wartime information..." data-translate-key="searchPlaceholder" data-translate-attr="placeholder">
             </div>
             <div class="user-actions">
-                <button id="language-toggle"><i class="fas fa-language"></i> हिंदी</button>
-                <button id="emergency-contact"><i class="fas fa-phone"></i> Helpline</button>
+                <button id="language-toggle"><i class="fas fa-language"></i> <span data-translate-key="langBtnHindi">हिंदी</span></button>
+                <button id="emergency-contact"><i class="fas fa-phone"></i> <span data-translate-key="helplineBtn">Helpline</span></button>
             </div>
         </div>
 
         <div id="no-results-message" style="display:none;">No results found for your search.</div>
 
         <div id="emergency-wiki-content" class="tab-content active">
-            <div class="emergency-alert status-normal" id="emergency-alert"> 
-                <div class="alert-header">
-                    <i class="fas fa-exclamation-triangle"></i>
-                    <h3>Emergency Status: <span id="alert-status">NORMAL</span></h3>
-                    <p class="last-update" id="last-update-time"></p>
-                </div>
-                <div class="alert-content">
-                    <p id="alert-message">This is an educational resource about emergency procedures during wartime. The information provided here is for general guidance and preparedness. Always follow official government directives during actual emergencies.</p>
-                    <div class="alert-actions">
-                        <button onclick="enableNotifications()" class="alert-button" title="Enable browser notifications for important updates">
-                            <i class="fas fa-bell"></i> Enable Alerts
-                        </button>
-                        <button onclick="downloadOfflineContent()" class="alert-button" title="Save this page for offline access">
-                            <i class="fas fa-download"></i> Save Offline
-                        </button>
-                        <a href="https://www.mha.gov.in/" target="_blank" rel="noopener noreferrer" class="alert-button official-link" title="Visit Ministry of Home Affairs official website">
-                            <i class="fas fa-external-link-alt"></i> Official Updates
-                        </a>
-                    </div>
-                    <div class="alert-disclaimer">
-                        <small><i class="fas fa-info-circle"></i> This is an educational resource. For real emergencies, always rely on official government channels and emergency services.</small>
-                    </div>
+            <div class="official-links-section">
+                <h2 data-translate-key="officialLinksTitle"><i class="fas fa-landmark"></i> Official Government Resources</h2>
+                <p data-translate-key="officialLinksDesc">For the latest official updates and information during an emergency, please refer to these government websites:</p>
+                <div class="link-grid">
+                    <a href="https://www.mha.gov.in/" target="_blank" rel="noopener noreferrer" class="official-link-button link-mha" title="Visit Ministry of Home Affairs website">
+                        <i class="fas fa-home"></i> <span data-translate-key="linkMHA">Ministry of Home Affairs (MHA)</span>
+                    </a>
+                    <a href="https://ndma.gov.in/" target="_blank" rel="noopener noreferrer" class="official-link-button link-ndma" title="Visit National Disaster Management Authority website">
+                        <i class="fas fa-house-damage"></i> <span data-translate-key="linkNDMA">NDMA</span>
+                    </a>
+                     <a href="https://pib.gov.in/" target="_blank" rel="noopener noreferrer" class="official-link-button link-pib" title="Visit Press Information Bureau website">
+                        <i class="fas fa-newspaper"></i> <span data-translate-key="linkPIB">Press Information Bureau (PIB)</span>
+                    </a>
+                    <a href="https://www.mygov.in/" target="_blank" rel="noopener noreferrer" class="official-link-button link-mygov" title="Visit MyGov India website">
+                        <i class="fas fa-users"></i> <span data-translate-key="linkMyGov">MyGov India</span>
+                    </a>
                 </div>
             </div>
-
             <div class="quick-actions">
-                <h3><i class="fas fa-bolt"></i> Quick Action Guide</h3>
+                <h3><i class="fas fa-bolt"></i> <span data-translate-key="quickActionTitle">Quick Action Guide</span></h3>
                 <div class="action-grid">
                     <div class="action-card">
                         <i class="fas fa-running"></i>
-                        <h4>Evacuation</h4>
-                        <a href="#evacuation-guide">View Routes</a>
+                        <h4 data-translate-key="quickActionEvacuation">Evacuation</h4>
+                        <a href="#evacuation-guide" data-translate-key="quickActionViewRoutes">View Routes</a>
                     </div>
                     <div class="action-card">
                         <i class="fas fa-first-aid"></i>
-                        <h4>Emergency Kit</h4>
-                        <a href="#emergency-kit">Checklist</a>
+                        <h4 data-translate-key="quickActionKit">Emergency Kit</h4>
+                        <a href="#emergency-kit" data-translate-key="quickActionChecklist">Checklist</a>
                     </div>
                     <div class="action-card">
                         <i class="fas fa-phone-alt"></i>
-                        <h4>Local Helplines</h4>
-                        <a href="#helplines">Contact Now</a>
+                        <h4 data-translate-key="quickActionHelplines">Local Helplines</h4>
+                        <a href="#helplines" data-translate-key="quickActionContact">Contact Now</a>
                     </div>
                     <div class="action-card">
                         <i class="fas fa-hands-helping"></i>
-                        <h4>Community Help</h4>
-                        <a href="#volunteer">Join/Request</a>
+                        <h4 data-translate-key="quickActionCommunity">Community Help</h4>
+                        <a href="#volunteer" data-translate-key="quickActionJoin">Join/Request</a>
                     </div>
                 </div>
             </div>
 
             <div class="info-banner">
-                <h3><i class="fas fa-info-circle"></i> About State of Emergency</h3>
-                <p>A state of emergency grants special powers to the government to handle critical situations like war. This wiki explains the potential changes and citizen responsibilities during such periods as per the Constitution of India.</p>
+                <h3><i class="fas fa-info-circle"></i> <span data-translate-key="aboutEmergencyTitle">About State of Emergency</span></h3>
+                <p data-translate-key="aboutEmergencyDesc">A state of emergency grants special powers to the government to handle critical situations like war. This wiki explains the potential changes and citizen responsibilities during such periods as per the Constitution of India.</p>
             </div>
 
             <div class="content-section">
-                <h2>State of Emergency During War in India</h2>
-                <p>Under Article 352 of the Constitution of India, the President has the power to declare a National Emergency if the security of India or any part of its territory is threatened by war, external aggression, or armed rebellion. This page details the changes that occur when such an emergency is declared.</p>
+                <h2 data-translate-key="emergencyPageTitle">State of Emergency During War in India</h2>
+                <p data-translate-key="emergencyPageDesc">Under Article 352 of the Constitution of India, the President has the power to declare a National Emergency if the security of India or any part of its territory is threatened by war, external aggression, or armed rebellion. This page details the changes that occur when such an emergency is declared.</p>
                 
                 <div class="tab-buttons">
-                    <button class="tab-btn active" data-subtab="constitutional">Constitutional Changes</button>
-                    <button class="tab-btn" data-subtab="government">Government Powers</button>
-                    <button class="tab-btn" data-subtab="citizens">Citizen Impact</button>
-                    <button class="tab-btn" data-subtab="restrictions">Restrictions</button>
+                    <button class="tab-btn active" data-subtab="constitutional" data-translate-key="tabConstitutional">Constitutional Changes</button>
+                    <button class="tab-btn" data-subtab="government" data-translate-key="tabGovtPowers">Government Powers</button>
+                    <button class="tab-btn" data-subtab="citizens" data-translate-key="tabCitizenImpact">Citizen Impact</button>
+                    <button class="tab-btn" data-subtab="restrictions" data-translate-key="tabRestrictions">Restrictions</button>
                 </div>
                 
                 <div id="constitutional-subtab" class="subtab active">
-                    <h3>Constitutional Changes During Emergency</h3>
-                    <p>When a Proclamation of Emergency is issued under Article 352 due to war or external aggression:</p>
+                    <h3 data-translate-key="subTabConstitutionalTitle">Constitutional Changes During Emergency</h3>
+                    <p data-translate-key="subTabConstitutionalDesc">When a Proclamation of Emergency is issued under Article 352 due to war or external aggression:</p>
                     <ul class="important-list">
-                        <li><i class="fas fa-landmark"></i> The federal structure of the Constitution can transform into a unitary one, effectively.</li>
-                        <li><i class="fas fa-directions"></i> The Union government becomes empowered to give executive directions to any state on any matter.</li>
-                        <li><i class="fas fa-scroll"></i> Parliament can make laws on subjects that are normally in the State List (List II of the Seventh Schedule).</li>
-                        <li><i class="fas fa-coins"></i> The President can modify the provisions regarding the distribution of revenues between the Union and the States.</li>
-                        <li><i class="fas fa-ban"></i> Fundamental Rights under Article 19 (freedoms of speech, assembly, movement, etc.) are automatically suspended (Article 358).</li>
-                        <li><i class="fas fa-gavel"></i> The President may by order suspend the right to move courts for enforcement of other Fundamental Rights (except Articles 20 and 21) (Article 359).</li>
+                        <li><i class="fas fa-landmark"></i> <span data-translate-key="constChange1">The federal structure of the Constitution can transform into a unitary one, effectively.</span></li>
+                        <li><i class="fas fa-directions"></i> <span data-translate-key="constChange2">The Union government becomes empowered to give executive directions to any state on any matter.</span></li>
+                        <li><i class="fas fa-scroll"></i> <span data-translate-key="constChange3">Parliament can make laws on subjects that are normally in the State List (List II of the Seventh Schedule).</span></li>
+                        <li><i class="fas fa-coins"></i> <span data-translate-key="constChange4">The President can modify the provisions regarding the distribution of revenues between the Union and the States.</span></li>
+                        <li><i class="fas fa-ban"></i> <span data-translate-key="constChange5">Fundamental Rights under Article 19 (freedoms of speech, assembly, movement, etc.) are automatically suspended (Article 358).</span></li>
+                        <li><i class="fas fa-gavel"></i> <span data-translate-key="constChange6">The President may by order suspend the right to move courts for enforcement of other Fundamental Rights (except Articles 20 and 21) (Article 359).</span></li>
                     </ul>
                 </div>
                 
                 <div id="government-subtab" class="subtab">
-                    <h3>Enhanced Government Powers</h3>
-                    <p>During a national emergency, the government assumes extraordinary powers to manage the crisis:</p>
+                    <h3 data-translate-key="subTabGovtTitle">Enhanced Government Powers</h3>
+                    <p data-translate-key="subTabGovtDesc">During a national emergency, the government assumes extraordinary powers to manage the crisis:</p>
                     <ul class="important-list">
-                        <li><i class="fas fa-chess-king"></i> The Union Executive's power extends to giving directions to any state as to the manner in which its executive power is to be exercised.</li>
-                        <li><i class="fas fa-file-alt"></i> Parliament gains the power to legislate on matters in the State List.</li>
-                        <li><i class="fas fa-money-bill-wave"></i> The President can alter the financial arrangements between the Union and States.</li>
-                        <li><i class="fas fa-microphone-slash"></i> The government can impose censorship on media and communications to maintain public order and national security.</li>
-                        <li><i class="fas fa-balance-scale-right"></i> Special courts or tribunals may be established for speedy trials related to emergency provisions or national security.</li>
-                        <li><i class="fas fa-user-shield"></i> Military and paramilitary forces may be granted additional powers for security operations and maintaining order.</li>
-                         <li><i class="fas fa-industry"></i> Control over production, supply, and distribution of essential commodities may be instituted.</li>
+                        <li><i class="fas fa-chess-king"></i> <span data-translate-key="govtPower1">The Union Executive's power extends to giving directions to any state as to the manner in which its executive power is to be exercised.</span></li>
+                        <li><i class="fas fa-file-alt"></i> <span data-translate-key="govtPower2">Parliament gains the power to legislate on matters in the State List.</span></li>
+                        <li><i class="fas fa-money-bill-wave"></i> <span data-translate-key="govtPower3">The President can alter the financial arrangements between the Union and States.</span></li>
+                        <li><i class="fas fa-microphone-slash"></i> <span data-translate-key="govtPower4">The government can impose censorship on media and communications to maintain public order and national security.</span></li>
+                        <li><i class="fas fa-balance-scale-right"></i> <span data-translate-key="govtPower5">Special courts or tribunals may be established for speedy trials related to emergency provisions or national security.</span></li>
+                        <li><i class="fas fa-user-shield"></i> <span data-translate-key="govtPower6">Military and paramilitary forces may be granted additional powers for security operations and maintaining order.</span></li>
+                         <li><i class="fas fa-industry"></i> <span data-translate-key="govtPower7">Control over production, supply, and distribution of essential commodities may be instituted.</span></li>
                     </ul>
                 </div>
                 
                 <div id="citizens-subtab" class="subtab">
-                    <h3>Impact on Citizens</h3>
-                    <p>During a war emergency, citizens will experience several changes affecting daily life and civil liberties:</p>
+                    <h3 data-translate-key="subTabCitizenTitle">Impact on Citizens</h3>
+                    <p data-translate-key="subTabCitizenDesc">During a war emergency, citizens will experience several changes affecting daily life and civil liberties:</p>
                     <ul class="important-list">
-                        <li><i class="fas fa-comments-slash"></i> Restriction or suspension of certain Fundamental Rights, particularly those under Article 19 (freedom of speech, assembly, movement).</li>
-                        <li><i class="fas fa-route"></i> Freedom of movement may be severely restricted, especially in border areas or sensitive zones.</li>
-                        <li><i class="fas fa-moon"></i> Curfews may be imposed in specific regions to maintain order and safety.</li>
-                        <li><i class="fas fa-hands-helping"></i> Citizens may be called upon or required by law to assist authorities in civil defence or emergency management tasks.</li>
-                        <li><i class="fas fa-shopping-cart"></i> Rationing of essential commodities (food, fuel, etc.) might be implemented to ensure equitable distribution.</li>
-                        <li><i class="fas fa-users-slash"></i> Public gatherings, protests, or assemblies may be restricted or prohibited.</li>
-                        <li><i class="fas fa-id-card"></i> Increased security checks and identity verification will be common. Always carry valid ID.</li>
+                        <li><i class="fas fa-comments-slash"></i> <span data-translate-key="citizenImpact1">Restriction or suspension of certain Fundamental Rights, particularly those under Article 19 (freedom of speech, assembly, movement).</span></li>
+                        <li><i class="fas fa-route"></i> <span data-translate-key="citizenImpact2">Freedom of movement may be severely restricted, especially in border areas or sensitive zones.</span></li>
+                        <li><i class="fas fa-moon"></i> <span data-translate-key="citizenImpact3">Curfews may be imposed in specific regions to maintain order and safety.</span></li>
+                        <li><i class="fas fa-hands-helping"></i> <span data-translate-key="citizenImpact4">Citizens may be called upon or required by law to assist authorities in civil defence or emergency management tasks.</span></li>
+                        <li><i class="fas fa-shopping-cart"></i> <span data-translate-key="citizenImpact5">Rationing of essential commodities (food, fuel, etc.) might be implemented to ensure equitable distribution.</span></li>
+                        <li><i class="fas fa-users-slash"></i> <span data-translate-key="citizenImpact6">Public gatherings, protests, or assemblies may be restricted or prohibited.</span></li>
+                        <li><i class="fas fa-id-card"></i> <span data-translate-key="citizenImpact7">Increased security checks and identity verification will be common. Always carry valid ID.</span></li>
                     </ul>
                 </div>
                 
                 <div id="restrictions-subtab" class="subtab">
-                    <h3>Key Restrictions and Regulations</h3>
-                    <p>The following specific restrictions and regulations may be imposed during a war emergency:</p>
+                    <h3 data-translate-key="subTabRestrictTitle">Key Restrictions and Regulations</h3>
+                    <p data-translate-key="subTabRestrictDesc">The following specific restrictions and regulations may be imposed during a war emergency:</p>
                     <ul class="important-list">
-                        <li><i class="fas fa-lightbulb-slash"></i> Blackout regulations in vulnerable cities/towns to prevent enemy targeting.</li>
-                        <li><i class="fas fa-camera-retro"></i> Strict restrictions on photography or videography, especially of military installations, critical infrastructure, and troop movements.</li>
-                        <li><i class="fas fa-truck"></i> Control over transportation networks (road, rail, air, sea) and possible requisitioning of private vehicles or property for emergency use.</li>
-                        <li><i class="fas fa-house-user"></i> Evacuation orders for populations in high-risk areas or conflict zones. </li>
-                        <li><i class="fas fa-broadcast-tower"></i> Restrictions on the use of certain communication devices or frequencies in specific areas.</li>
-                        <li><i class="fas fa-map-marked-alt"></i> Declaration of certain areas as "prohibited" or "restricted" zones with controlled access.</li>
-                        <li><i class="fas fa-newspaper"></i> Control over publication and dissemination of information to prevent panic or spread of misinformation.</li>
+                        <li><i class="fas fa-lightbulb-slash"></i> <span data-translate-key="restrict1">Blackout regulations in vulnerable cities/towns to prevent enemy targeting.</span></li>
+                        <li><i class="fas fa-camera-retro"></i> <span data-translate-key="restrict2">Strict restrictions on photography or videography, especially of military installations, critical infrastructure, and troop movements.</span></li>
+                        <li><i class="fas fa-truck"></i> <span data-translate-key="restrict3">Control over transportation networks (road, rail, air, sea) and possible requisitioning of private vehicles or property for emergency use.</span></li>
+                        <li><i class="fas fa-house-user"></i> <span data-translate-key="restrict4">Evacuation orders for populations in high-risk areas or conflict zones.</span></li>
+                        <li><i class="fas fa-broadcast-tower"></i> <span data-translate-key="restrict5">Restrictions on the use of certain communication devices or frequencies in specific areas.</span></li>
+                        <li><i class="fas fa-map-marked-alt"></i> <span data-translate-key="restrict6">Declaration of certain areas as "prohibited" or "restricted" zones with controlled access.</span></li>
+                        <li><i class="fas fa-newspaper"></i> <span data-translate-key="restrict7">Control over publication and dissemination of information to prevent panic or spread of misinformation.</span></li>
                     </ul>
                 </div>
             </div>
 
             <div class="info-grid">
-                <div class="info-card">
+                 <div class="info-card">
                     <h3><i class="fas fa-gavel"></i> Legal Framework</h3>
                     <p>The constitutional provisions for National Emergency are detailed in Part XVIII, Articles 352 to 360. Article 352 specifically deals with emergency due to war, external aggression, or armed rebellion.</p>
                     <p><strong>Duration:</strong> An emergency proclamation must be approved by both Houses of Parliament within one month. Once approved, it can remain in force for six months at a time, requiring parliamentary approval for each extension.</p>
@@ -994,12 +971,12 @@
 
         <div id="civilian-duties-content" class="tab-content">
             <div class="content-section">
-                <h2>Civilian Responsibilities During Emergency</h2>
-                <p>During a state of emergency due to war, civilians play a crucial role in national resilience, maintaining public order, and supporting defence efforts. Your cooperation and responsible actions are vital.</p>
+                <h2 data-translate-key="dutiesPageTitle">Civilian Responsibilities During Emergency</h2>
+                <p data-translate-key="dutiesPageDesc">During a state of emergency due to war, civilians play a crucial role in national resilience, maintaining public order, and supporting defence efforts. Your cooperation and responsible actions are vital.</p>
                 
                 <div class="duties-section">
-                    <h3><i class="fas fa-clipboard-check"></i> Mandatory Responsibilities & Compliance</h3>
-                    <ul class="important-list">
+                    <h3 data-translate-key="dutiesMandatoryTitle"><i class="fas fa-clipboard-check"></i> Mandatory Responsibilities & Compliance</h3>
+                     <ul class="important-list">
                         <li><i class="fas fa-check"></i> Comply strictly with all evacuation orders and relocation instructions issued by authorities.</li>
                         <li><i class="fas fa-check"></i> Adhere to blackout/dim-out protocols and light discipline in designated areas to ensure safety.</li>
                         <li><i class="fas fa-check"></i> Carry valid identification documents at all times and present them when requested by security or government officials.</li>
@@ -1011,8 +988,8 @@
                 </div>
                 
                 <div class="duties-section">
-                    <h3 id="volunteer"><i class="fas fa-hands-helping"></i> Voluntary Contributions & Support</h3>
-                    <ul class="important-list">
+                    <h3 id="volunteer" data-translate-key="dutiesVoluntaryTitle"><i class="fas fa-hands-helping"></i> Voluntary Contributions & Support</h3>
+                     <ul class="important-list">
                         <li><i class="fas fa-check"></i> If able and trained, volunteer for recognized civil defence, first aid, or community emergency response teams.</li>
                         <li><i class="fas fa-check"></i> Donate blood if there is a call from authorized blood banks, provided you are healthy.</li>
                         <li><i class="fas fa-check"></i> Assist elderly, disabled persons, children, and vulnerable members of your community. Share resources if possible.</li>
@@ -1024,8 +1001,8 @@
                 </div>
                 
                 <div class="duties-section">
-                    <h3><i class="fas fa-exclamation-triangle"></i> Prohibited Activities & Cautions</h3>
-                    <ul class="important-list">
+                    <h3 data-translate-key="dutiesProhibitedTitle"><i class="fas fa-exclamation-triangle"></i> Prohibited Activities & Cautions</h3>
+                     <ul class="important-list">
                         <li><i class="fas fa-times-circle"></i> Do NOT spread rumors, unverified news, or panic-inducing information via any medium.</li>
                         <li><i class="fas fa-times-circle"></i> Do NOT hoard essential supplies beyond reasonable personal needs. This creates artificial scarcity.</li>
                         <li><i class="fas fa-times-circle"></i> Do NOT photograph or share images/videos of military installations, troop movements, damaged areas, or security operations.</li>
@@ -1040,12 +1017,12 @@
 
         <div id="safety-protocols-content" class="tab-content">
             <div class="content-section">
-                <h2>Safety Protocols During Wartime Emergency</h2>
-                <p>These protocols are designed to enhance public safety during wartime emergencies. Familiarize yourself and your family with these procedures to protect yourselves and your community. Always follow official instructions from authorities.</p>
+                <h2 data-translate-key="protocolsPageTitle">Safety Protocols During Wartime Emergency</h2>
+                <p data-translate-key="protocolsPageDesc">These protocols are designed to enhance public safety during wartime emergencies. Familiarize yourself and your family with these procedures to protect yourselves and your community. Always follow official instructions from authorities.</p>
                 
                 <div class="protocols-section">
-                    <h3><i class="fas fa-home-user"></i> At Home: Shelter & Preparedness</h3>
-                    <ul class="important-list">
+                    <h3 data-translate-key="protocolsAtHomeTitle"><i class="fas fa-home-user"></i> At Home: Shelter & Preparedness</h3>
+                     <ul class="important-list">
                         <li><i class="fas fa-check-circle"></i> Identify the safest area in your home (e.g., basement, internal room with no windows, under sturdy furniture) to use as a temporary shelter.</li>
                         <li><i class="fas fa-check-circle"></i> Prepare blackout materials (thick dark cloth, cardboard) for windows to prevent light from escaping at night.</li>
                         <li><i class="fas fa-check-circle"></i> Maintain a well-stocked emergency kit with essentials for at least 7-14 days (see 'Essential Resources' section).</li>
@@ -1057,8 +1034,8 @@
                 </div>
                 
                 <div class="protocols-section">
-                     <h3 id="evacuation-guide"><i class="fas fa-street-view"></i> In Public Spaces & Evacuation</h3>
-                    <ul class="important-list">
+                     <h3 id="evacuation-guide" data-translate-key="protocolsPublicTitle"><i class="fas fa-street-view"></i> In Public Spaces & Evacuation</h3>
+                      <ul class="important-list">
                         <li><i class="fas fa-check-circle"></i> Be aware of your surroundings. Know the location of nearby public shelters or safe zones if announced.</li>
                         <li><i class="fas fa-check-circle"></i> If an evacuation order is given, follow designated routes and instructions calmly and quickly. Assist those who need help.</li>
                         <li><i class="fas fa-check-circle"></i> Cooperate fully with instructions from police, civil defence, and military personnel.</li>
@@ -1069,8 +1046,8 @@
                 </div>
                 
                 <div class="protocols-section">
-                    <h3><i class="fas fa-plane-slash"></i> During Air Raids or Bombing Alerts (If Applicable)</h3>
-                    <ul class="important-list">
+                    <h3 data-translate-key="protocolsAirRaidTitle"><i class="fas fa-plane-slash"></i> During Air Raids or Bombing Alerts (If Applicable)</h3>
+                     <ul class="important-list">
                         <li><i class="fas fa-check-circle"></i> Upon hearing air raid sirens or official warnings, seek designated shelter immediately (public shelter, home shelter).</li>
                         <li><i class="fas fa-check-circle"></i> If indoors, stay away from windows, glass doors, and outer walls. Move to the pre-identified safest spot.</li>
                         <li><i class="fas fa-check-circle"></i> If outdoors, lie flat in the nearest ditch, culvert, or depression, and cover your head with your arms. Avoid open fields or direct lines of sight to potential impact.</li>
@@ -1084,11 +1061,11 @@
 
         <div id="resources-content" class="tab-content">
             <div class="content-section">
-                <h2>Essential Resources and Preparedness</h2>
-                <p>During a wartime emergency, access to essential resources may be disrupted. It is crucial to be prepared. Aim to have enough supplies for each person in your household for a minimum of 7 days, ideally 14 days if possible.</p>
+                <h2 data-translate-key="resourcesPageTitle">Essential Resources and Preparedness</h2>
+                <p data-translate-key="resourcesPageDesc">During a wartime emergency, access to essential resources may be disrupted. It is crucial to be prepared. Aim to have enough supplies for each person in your household for a minimum of 7 days, ideally 14 days if possible.</p>
                 
                 <div class="info-grid">
-                    <div class="info-card">
+                     <div class="info-card">
                         <h3><i class="fas fa-tint"></i> Water</h3>
                         <p>Store at least 3-4 litres of safe drinking water per person per day. Use clean, food-grade containers. Consider water purification tablets or a portable water filter. Don't forget water for sanitation.</p>
                     </div>
@@ -1121,8 +1098,8 @@
                         <p>A multi-purpose tool, duct tape, plastic sheeting (for sealing windows or creating shelter), whistle to signal for help, sturdy shoes, rain gear, blankets or sleeping bags, and some cash in small denominations.</p>
                     </div>
                 </div>
-                 <h3 id="emergency-kit" style="margin-top: 30px; color: #1a237e;"><i class="fas fa-suitcase-rolling" style="color: #ff9800; margin-right: 10px;"></i> Go-Bag / Emergency Kit Checklist Highlights</h3>
-                <ul class="important-list">
+                 <h3 id="emergency-kit" style="margin-top: 30px; color: #1a237e;"><i class="fas fa-suitcase-rolling" style="color: #ff9800; margin-right: 10px;"></i> <span data-translate-key="kitChecklistTitle">Go-Bag / Emergency Kit Checklist Highlights</span></h3>
+                 <ul class="important-list">
                     <li><i class="fas fa-check"></i> Water and non-perishable food (3-day supply for a go-bag, more for home kit)</li>
                     <li><i class="fas fa-check"></i> Battery-powered/hand-crank radio & flashlight (with extra batteries)</li>
                     <li><i class="fas fa-check"></i> Comprehensive First Aid Kit & personal medications</li>
@@ -1138,9 +1115,9 @@
 
         <div id="helplines-content" class="tab-content">
              <div id="helplines" class="content-section">
-                <h2>Emergency Helplines - India</h2>
-                <p>In any emergency, dial these numbers for assistance. It's advisable to also save local district/city specific helpline numbers. During specific crisis, new helplines might be announced by the government.</p>
-                <ul class="important-list">
+                <h2 data-translate-key="helplinesPageTitle">Emergency Helplines - India</h2>
+                <p data-translate-key="helplinesPageDesc">In any emergency, dial these numbers for assistance. It's advisable to also save local district/city specific helpline numbers. During specific crisis, new helplines might be announced by the government.</p>
+                 <ul class="important-list">
                     <li><i class="fas fa-phone-volume"></i> <strong>National Emergency Number (Single Number for all Emergencies):</strong> 112</li>
                     <li><i class="fas fa-user-shield"></i> <strong>Police:</strong> 100</li>
                     <li><i class="fas fa-fire-extinguisher"></i> <strong>Fire Services:</strong> 101</li>
@@ -1156,19 +1133,20 @@
                     <li><i class="fab fa-whatsapp"></i> <strong>MyGov WhatsApp Helpdesk (for verified Government information):</strong> +91 9013151515 (Save number and send 'Namaste' or 'Hi')</li>
                 </ul>
                 <div class="info-banner" style="margin-top: 20px; background-color: #fff9c4; border-left-color: #fbc02d;">
-                    <h3 style="color: #f57f17;"><i class="fas fa-exclamation-triangle"></i> Important Notes:</h3>
-                    <p style="color: #3e2723;">Service availability for some numbers may vary by telecom operator or region. <strong>Always try 112 first</strong> as it's the integrated emergency number. During wartime or specific crises, the government may announce special dedicated helplines. Stay tuned to official broadcasts (Radio, TV, Government websites) for the most current information.</p>
+                    <h3 style="color: #f57f17;"><i class="fas fa-exclamation-triangle"></i> <span data-translate-key="helplinesImportantNotes">Important Notes:</span></h3>
+                    <p style="color: #3e2723;" data-translate-key="helplinesNotesDesc">Service availability for some numbers may vary by telecom operator or region. <strong>Always try 112 first</strong> as it's the integrated emergency number. During wartime or specific crises, the government may announce special dedicated helplines. Stay tuned to official broadcasts (Radio, TV, Government websites) for the most current information.</p>
                 </div>
             </div>
         </div>
 
         <div id="legal-rights-content" class="tab-content">
-            <div class="content-section"> <h2>Legal Rights of Citizens During a National Emergency</h2>
-                <p>Understanding your legal rights during a National Emergency (declared under Article 352 of the Constitution due to war or external aggression) is crucial. While the government is granted enhanced powers to manage the crisis, certain fundamental rights remain protected, and constitutional safeguards exist.</p>
+            <div class="content-section"> 
+                <h2 data-translate-key="legalPageTitle">Legal Rights of Citizens During a National Emergency</h2>
+                <p data-translate-key="legalPageDesc">Understanding your legal rights during a National Emergency (declared under Article 352 of the Constitution due to war or external aggression) is crucial. While the government is granted enhanced powers to manage the crisis, certain fundamental rights remain protected, and constitutional safeguards exist.</p>
 
                 <div class="legal-subsection">
-                    <h3><i class="fas fa-gavel"></i> Status of Fundamental Rights</h3>
-                    <ul class="important-list">
+                    <h3 data-translate-key="legalStatusFRTitle"><i class="fas fa-gavel"></i> Status of Fundamental Rights</h3>
+                     <ul class="important-list">
                         <li><i class="fas fa-lock"></i> <strong>Suspension of Article 19:</strong> When a National Emergency is declared on the grounds of war or external aggression, the six fundamental rights under Article 19 (freedom of speech and expression, assembly, association, movement, residence, and profession) are automatically suspended (as per Article 358). This suspension applies for the duration of the emergency.</li>
                         <li><i class="fas fa-shield-alt"></i> <strong>Articles 20 and 21 Remain Protected:</strong> Crucially, the Fundamental Rights under Article 20 (Protection in respect of conviction for offences) and Article 21 (Protection of life and personal liberty) <strong>cannot be suspended</strong> even during a National Emergency. This vital safeguard was affirmed by the 44th Amendment Act, 1978. Citizens can approach the courts (Supreme Court under Article 32, High Courts under Article 226) if these two rights are violated.</li>
                         <li><i class="fas fa-scroll"></i> <strong>Suspension of Other Fundamental Rights (Article 359):</strong> The President may, by a separate order, suspend the right to move any court for the enforcement of other Fundamental Rights (except Articles 20 and 21) as specified in that Presidential order. Such an order must be laid before each House of Parliament for approval. The specific rights whose enforcement is suspended can vary.</li>
@@ -1176,8 +1154,8 @@
                 </div>
 
                 <div class="legal-subsection">
-                    <h3><i class="fas fa-landmark"></i> Changes in Executive and Legislative Powers</h3>
-                    <ul class="important-list">
+                    <h3 data-translate-key="legalExecLegTitle"><i class="fas fa-landmark"></i> Changes in Executive and Legislative Powers</h3>
+                     <ul class="important-list">
                         <li><i class="fas fa-directions"></i> <strong>Extension of Union's Executive Powers:</strong> The executive power of the Union (Central Government) extends to giving directions to any State as to the manner in which its executive power is to be exercised.</li>
                         <li><i class="fas fa-file-signature"></i> <strong>Parliamentary Legislative Powers:</strong> Parliament becomes empowered to make laws on any subject mentioned in the State List (which is normally under the exclusive domain of State Legislatures). Such laws made by Parliament on State subjects will cease to have effect six months after the emergency has ceased to operate, to the extent of their incompetency.</li>
                         <li><i class="fas fa-money-check-alt"></i> <strong>Modification of Financial Provisions:</strong> The President can modify the constitutional distribution of revenues between the Centre and the States.</li>
@@ -1185,8 +1163,8 @@
                 </div>
                 
                 <div class="legal-subsection">
-                    <h3><i class="fas fa-balance-scale"></i> Safeguards and Judicial Oversight</h3>
-                    <ul class="important-list">
+                    <h3 data-translate-key="legalSafeguardsTitle"><i class="fas fa-balance-scale"></i> Safeguards and Judicial Oversight</h3>
+                     <ul class="important-list">
                         <li><i class="fas fa-stamp"></i> <strong>Parliamentary Approval:</strong> A Proclamation of Emergency must be approved by resolutions of both Houses of Parliament (Lok Sabha and Rajya Sabha) by a special majority within one month from the date of its issue. If approved, it continues for six months and can be extended for six months at a time indefinitely, but each extension requires fresh parliamentary approval.</li>
                         <li><i class="fas fa-feather-alt"></i> <strong>Written Recommendation from Cabinet:</strong> The President can declare an emergency only on the basis of a written recommendation from the Union Cabinet (not just the Prime Minister).</li>
                         <li><i class="fas fa-search-dollar"></i> <strong>Judicial Review:</strong> The proclamation of emergency is not immune from judicial review. It can be challenged in court on grounds of mala fides (bad faith) or if the declaration was based on wholly extraneous and irrelevant facts or is absurd or perverse.</li>
@@ -1195,72 +1173,62 @@
                 </div>
 
                 <div class="legal-subsection">
-                    <h3><i class="fas fa-user-lock"></i> Preventive Detention</h3>
-                    <p>During an emergency, the government may make laws related to preventive detention. However, Article 22 of the Constitution provides safeguards for persons under preventive detention, such as the right to be informed of the grounds of detention (unless disclosure is against public interest) and the right to make a representation against the detention order. The case must generally be referred to an Advisory Board within a specified period.</p>
+                    <h3 data-translate-key="legalPreventiveTitle"><i class="fas fa-user-lock"></i> Preventive Detention</h3>
+                    <p data-translate-key="legalPreventiveDesc">During an emergency, the government may make laws related to preventive detention. However, Article 22 of the Constitution provides safeguards for persons under preventive detention, such as the right to be informed of the grounds of detention (unless disclosure is against public interest) and the right to make a representation against the detention order. The case must generally be referred to an Advisory Board within a specified period.</p>
                 </div>
 
                 <div class="info-banner" style="margin-top: 20px; background-color: #e8f5e9; border-left-color: #4caf50;">
-                    <h3 style="color: #2e7d32;"><i class="fas fa-info-circle"></i> Disclaimer:</h3>
-                    <p style="color: #1b5e20;">This information is for general understanding and educational purposes only. It is not a substitute for legal advice. Specific laws, ordinances, and government orders issued during an actual emergency must be consulted. Always rely on official government communications and seek legal counsel if needed.</p>
+                    <h3 style="color: #2e7d32;"><i class="fas fa-info-circle"></i> <span data-translate-key="legalDisclaimerTitle">Disclaimer:</span></h3>
+                    <p style="color: #1b5e20;" data-translate-key="legalDisclaimerDesc">This information is for general understanding and educational purposes only. It is not a substitute for legal advice. Specific laws, ordinances, and government orders issued during an actual emergency must be consulted. Always rely on official government communications and seek legal counsel if needed.</p>
                 </div>
             </div>
         </div>
 
         <div id="faq-content" class="tab-content">
             <div class="content-section">
-                <h2>Frequently Asked Questions (FAQ) - Wartime Emergency</h2>
-                <p>This section addresses common questions citizens may have during a state of emergency declared due to war or external aggression, based on constitutional provisions and general preparedness principles.</p>
+                <h2 data-translate-key="faqPageTitle">Frequently Asked Questions (FAQ) - Wartime Emergency</h2>
+                <p data-translate-key="faqPageDesc">This section addresses common questions citizens may have during a state of emergency declared due to war or external aggression, based on constitutional provisions and general preparedness principles.</p>
 
-                <div class="faq-item">
+                 <div class="faq-item">
                     <h3><i class="fas fa-question-circle"></i> What is a 'National Emergency' in the context of war?</h3>
                     <p>A National Emergency under Article 352 of the Indian Constitution is a formal declaration by the President when the security of India (or a part of it) is threatened by war, external aggression, or armed rebellion. This empowers the central government with extraordinary powers to manage the crisis, which may include temporary modifications to the federal structure and restrictions on certain fundamental rights to protect the nation.</p>
                 </div>
-
                 <div class="faq-item">
                     <h3><i class="fas fa-bullhorn"></i> How will I be officially informed if a National Emergency is declared?</h3>
                     <p>Official announcements will be made through government-controlled media channels such as All India Radio (AIR), Doordarshan (DD National), the Press Information Bureau (PIB), official government websites (e.g., MHA, PMO), and possibly through SMS alerts or public address systems. It is crucial to rely only on these verified sources.</p>
                 </div>
-
                 <div class="faq-item">
                     <h3><i class="fas fa-running"></i> What are the immediate actions I should take if an emergency is announced?</h3>
                     <p><strong>1. Stay Calm:</strong> Avoid panic. <br><strong>2. Seek Official Information:</strong> Tune into official news channels. <br><strong>3. Ensure Family Safety:</strong> Check on your family members and review your family emergency plan. <br><strong>4. Prepare Your Kit:</strong> Ensure your emergency supply kit is accessible. <br><strong>5. Follow Instructions:</strong> Adhere strictly to directives from government authorities regarding safety, movement, and resource use. <br><strong>6. Avoid Rumors:</strong> Do not spread unverified information.</p>
                 </div>
-
                 <div class="faq-item">
                     <h3><i class="fas fa-school"></i> Will schools, colleges, and offices remain open?</h3>
                     <p>Decisions regarding the operation of educational institutions, government offices, and private businesses will be made by the government based on the severity and nature of the emergency. Essential services (healthcare, police, fire, utilities) will likely continue, possibly with modifications. Follow official announcements for specific instructions.</p>
                 </div>
-
                 <div class="faq-item">
                     <h3><i class="fas fa-user-shield"></i> How can I get reliable information and combat misinformation?</h3>
                     <p>Exclusively rely on official government sources (AIR, Doordarshan, PIB, MyGov, official ministry websites and their social media handles). Critically evaluate information from other sources, especially social media. Do not forward messages or news without verifying their authenticity from official channels. Report misinformation to authorities if possible.</p>
                 </div>
-                
                 <div class="faq-item">
                     <h3><i class="fas fa-shopping-basket"></i> What should I do about essential supplies like food, water, and medicines?</h3>
                     <p>It is always advisable to have a personal emergency kit with essential supplies for at least 7-14 days (see 'Essential Resources' section). During an emergency, the government may take steps to ensure the availability of essential commodities, possibly through regulated distribution or rationing. Avoid hoarding and follow official guidelines on stocking and usage.</p>
                 </div>
-                
                 <div class="faq-item">
                     <h3><i class="fas fa-traffic-light"></i> Will my travel and movement be restricted?</h3>
                     <p>Yes, it is highly probable. Travel restrictions, including curfews, limitations on inter-city or inter-state movement, and control over public transport, may be imposed for security reasons, to facilitate emergency operations, or to manage resources. Always check official advisories before planning any travel.</p>
                 </div>
-
                 <div class="faq-item">
                     <h3><i class="fas fa-first-aid"></i> What if I or a family member needs urgent medical attention?</h3>
                     <p>Emergency medical services and hospitals will continue to function, though they may be under significant strain. Use emergency helpline numbers (e.g., 112, 102, 108) for urgent medical needs. If possible, inform the dispatcher if the medical emergency is related to the ongoing crisis situation (e.g., injury due to attack).</p>
                 </div>
-
                 <div class="faq-item">
                     <h3><i class="fas fa-hands-helping"></i> How can I contribute or help as a citizen during a wartime emergency?</h3>
                     <p>The primary contribution is to follow all laws and instructions from authorities. Beyond that, you can: volunteer with recognized civil defence or authorized aid organizations if calls are made for volunteers; conserve resources; help vulnerable neighbours; maintain community harmony; donate blood if fit and when required by official agencies; and importantly, stay informed and counter misinformation.</p>
                 </div>
-                
                 <div class="faq-item">
                     <h3><i class="fas fa-wifi"></i> Will I be able to use my phone and the internet?</h3>
                     <p>While authorities will try to maintain communication networks, they might face disruptions due to damage, high traffic, or deliberate restrictions for security reasons. Use communication services judiciously for essential purposes. The government may issue specific guidelines or temporarily restrict certain services to prevent misuse, manage network load, or for operational security.</p>
                 </div>
-                
                 <div class="faq-item">
                     <h3><i class="fas fa-balance-scale-left"></i> What happens to my Fundamental Rights during such an emergency?</h3>
                     <p>As explained in the 'Legal Rights' section, the six freedoms under Article 19 (like freedom of speech, assembly, movement) are automatically suspended during an emergency declared on grounds of war or external aggression. However, the Right to Life and Personal Liberty (Article 21) and Protection in Respect of Conviction for Offences (Article 20) remain enforceable and cannot be suspended. The enforcement of other fundamental rights may be suspended by a Presidential order.</p>
@@ -1270,8 +1238,8 @@
 
 
         <div class="footer">
-             <p>&copy; Wartime Wiki (Illustrative Informational Resource) | Last updated: <span id="footer-last-updated">May 9, 2025</span></p>
-            <p>In case of an actual emergency, always rely on official government channels and helplines. National Emergency Number: 112</p>
+             <p>&copy; <span data-translate-key="footerNote">Wartime Wiki (Illustrative Informational Resource)</span> | <span data-translate-key="footerLastUpdated">Last updated:</span> <span id="footer-last-updated">May 9, 2025</span></p>
+            <p data-translate-key="footerDisclaimer">In case of an actual emergency, always rely on official government channels and helplines. National Emergency Number: 112</p>
         </div>
     </div>
     <div id="custom-alert-box" style="display:none; position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background-color: #333; color: white; padding: 15px 25px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 2000; text-align: center;">
@@ -1281,6 +1249,232 @@
 
 
     <script>
+        // --- TRANSLATION DATA ---
+        const translations = {
+            en: {
+                wikiTitle: "Wartime Wiki",
+                menuEmergencyInfo: "Emergency Info",
+                menuCivilianDuties: "Civilian Duties",
+                menuSafetyProtocols: "Safety Protocols",
+                menuResources: "Essential Resources",
+                menuHelplines: "Emergency Helplines",
+                menuLegalRights: "Legal Rights",
+                menuFaq: "FAQ",
+                searchPlaceholder: "Search wartime information...",
+                langBtnHindi: "हिंदी",
+                langBtnEnglish: "English",
+                helplineBtn: "Helpline",
+                officialLinksTitle: "Official Government Resources", // New
+                officialLinksDesc: "For the latest official updates and information during an emergency, please refer to these government websites:", // New
+                linkMHA: "Ministry of Home Affairs (MHA)", // New
+                linkNDMA: "NDMA", // New
+                linkPIB: "Press Information Bureau (PIB)", // New
+                linkMyGov: "MyGov India", // New
+                // emergencyStatusLabel: "Emergency Status:", // Removed
+                // alertMessageDefault: "...", // Removed
+                // enableAlertsBtn: "Enable Alerts", // Removed (part of old alert)
+                // saveOfflineBtn: "Save Offline", // Removed (part of old alert)
+                // officialUpdatesBtn: "Official Updates", // Removed (part of old alert)
+                // alertDisclaimer: "...", // Removed
+                quickActionTitle: "Quick Action Guide",
+                quickActionEvacuation: "Evacuation",
+                quickActionViewRoutes: "View Routes",
+                quickActionKit: "Emergency Kit",
+                quickActionChecklist: "Checklist",
+                quickActionHelplines: "Local Helplines",
+                quickActionContact: "Contact Now",
+                quickActionCommunity: "Community Help",
+                quickActionJoin: "Join/Request",
+                aboutEmergencyTitle: "About State of Emergency",
+                aboutEmergencyDesc: "A state of emergency grants special powers to the government to handle critical situations like war. This wiki explains the potential changes and citizen responsibilities during such periods as per the Constitution of India.",
+                emergencyPageTitle: "State of Emergency During War in India",
+                emergencyPageDesc: "Under Article 352 of the Constitution of India, the President has the power to declare a National Emergency if the security of India or any part of its territory is threatened by war, external aggression, or armed rebellion. This page details the changes that occur when such an emergency is declared.",
+                tabConstitutional: "Constitutional Changes",
+                tabGovtPowers: "Government Powers",
+                tabCitizenImpact: "Citizen Impact",
+                tabRestrictions: "Restrictions",
+                subTabConstitutionalTitle: "Constitutional Changes During Emergency",
+                subTabConstitutionalDesc: "When a Proclamation of Emergency is issued under Article 352 due to war or external aggression:",
+                constChange1: "The federal structure of the Constitution can transform into a unitary one, effectively.",
+                constChange2: "The Union government becomes empowered to give executive directions to any state on any matter.",
+                constChange3: "Parliament can make laws on subjects that are normally in the State List (List II of the Seventh Schedule).",
+                constChange4: "The President can modify the provisions regarding the distribution of revenues between the Union and the States.",
+                constChange5: "Fundamental Rights under Article 19 (freedoms of speech, assembly, movement, etc.) are automatically suspended (Article 358).",
+                constChange6: "The President may by order suspend the right to move courts for enforcement of other Fundamental Rights (except Articles 20 and 21) (Article 359).",
+                subTabGovtTitle: "Enhanced Government Powers",
+                subTabGovtDesc: "During a national emergency, the government assumes extraordinary powers to manage the crisis:",
+                govtPower1: "The Union Executive's power extends to giving directions to any state as to the manner in which its executive power is to be exercised.",
+                govtPower2: "Parliament gains the power to legislate on matters in the State List.",
+                govtPower3: "The President can alter the financial arrangements between the Union and States.",
+                govtPower4: "The government can impose censorship on media and communications to maintain public order and national security.",
+                govtPower5: "Special courts or tribunals may be established for speedy trials related to emergency provisions or national security.",
+                govtPower6: "Military and paramilitary forces may be granted additional powers for security operations and maintaining order.",
+                govtPower7: "Control over production, supply, and distribution of essential commodities may be instituted.",
+                subTabCitizenTitle: "Impact on Citizens",
+                subTabCitizenDesc: "During a war emergency, citizens will experience several changes affecting daily life and civil liberties:",
+                citizenImpact1: "Restriction or suspension of certain Fundamental Rights, particularly those under Article 19 (freedom of speech, assembly, movement).",
+                citizenImpact2: "Freedom of movement may be severely restricted, especially in border areas or sensitive zones.",
+                citizenImpact3: "Curfews may be imposed in specific regions to maintain order and safety.",
+                citizenImpact4: "Citizens may be called upon or required by law to assist authorities in civil defence or emergency management tasks.",
+                citizenImpact5: "Rationing of essential commodities (food, fuel, etc.) might be implemented to ensure equitable distribution.",
+                citizenImpact6: "Public gatherings, protests, or assemblies may be restricted or prohibited.",
+                citizenImpact7: "Increased security checks and identity verification will be common. Always carry valid ID.",
+                subTabRestrictTitle: "Key Restrictions and Regulations",
+                subTabRestrictDesc: "The following specific restrictions and regulations may be imposed during a war emergency:",
+                restrict1: "Blackout regulations in vulnerable cities/towns to prevent enemy targeting.",
+                restrict2: "Strict restrictions on photography or videography, especially of military installations, critical infrastructure, and troop movements.",
+                restrict3: "Control over transportation networks (road, rail, air, sea) and possible requisitioning of private vehicles or property for emergency use.",
+                restrict4: "Evacuation orders for populations in high-risk areas or conflict zones.",
+                restrict5: "Restrictions on the use of certain communication devices or frequencies in specific areas.",
+                restrict6: "Declaration of certain areas as \"prohibited\" or \"restricted\" zones with controlled access.",
+                restrict7: "Control over publication and dissemination of information to prevent panic or spread of misinformation.",
+                dutiesPageTitle: "Civilian Responsibilities During Emergency",
+                dutiesPageDesc: "During a state of emergency due to war, civilians play a crucial role in national resilience, maintaining public order, and supporting defence efforts. Your cooperation and responsible actions are vital.",
+                dutiesMandatoryTitle: "Mandatory Responsibilities & Compliance",
+                dutiesVoluntaryTitle: "Voluntary Contributions & Support",
+                dutiesProhibitedTitle: "Prohibited Activities & Cautions",
+                protocolsPageTitle: "Safety Protocols During Wartime Emergency",
+                protocolsPageDesc: "These protocols are designed to enhance public safety during wartime emergencies. Familiarize yourself and your family with these procedures to protect yourselves and your community. Always follow official instructions from authorities.",
+                protocolsAtHomeTitle: "At Home: Shelter & Preparedness",
+                protocolsPublicTitle: "In Public Spaces & Evacuation",
+                protocolsAirRaidTitle: "During Air Raids or Bombing Alerts (If Applicable)",
+                resourcesPageTitle: "Essential Resources and Preparedness",
+                resourcesPageDesc: "During a wartime emergency, access to essential resources may be disrupted. It is crucial to be prepared. Aim to have enough supplies for each person in your household for a minimum of 7 days, ideally 14 days if possible.",
+                kitChecklistTitle: "Go-Bag / Emergency Kit Checklist Highlights",
+                helplinesPageTitle: "Emergency Helplines - India",
+                helplinesPageDesc: "In any emergency, dial these numbers for assistance. It's advisable to also save local district/city specific helpline numbers. During specific crisis, new helplines might be announced by the government.",
+                helplinesImportantNotes: "Important Notes:",
+                helplinesNotesDesc: "Service availability for some numbers may vary by telecom operator or region. <strong>Always try 112 first</strong> as it's the integrated emergency number. During wartime or specific crises, the government may announce special dedicated helplines. Stay tuned to official broadcasts (Radio, TV, Government websites) for the most current information.",
+                legalPageTitle: "Legal Rights of Citizens During a National Emergency",
+                legalPageDesc: "Understanding your legal rights during a National Emergency (declared under Article 352 of the Constitution due to war or external aggression) is crucial. While the government is granted enhanced powers to manage the crisis, certain fundamental rights remain protected, and constitutional safeguards exist.",
+                legalStatusFRTitle: "Status of Fundamental Rights",
+                legalExecLegTitle: "Changes in Executive and Legislative Powers",
+                legalSafeguardsTitle: "Safeguards and Judicial Oversight",
+                legalPreventiveTitle: "Preventive Detention",
+                legalPreventiveDesc: "During an emergency, the government may make laws related to preventive detention. However, Article 22 of the Constitution provides safeguards for persons under preventive detention, such as the right to be informed of the grounds of detention (unless disclosure is against public interest) and the right to make a representation against the detention order. The case must generally be referred to an Advisory Board within a specified period.",
+                legalDisclaimerTitle: "Disclaimer:",
+                legalDisclaimerDesc: "This information is for general understanding and educational purposes only. It is not a substitute for legal advice. Specific laws, ordinances, and government orders issued during an actual emergency must be consulted. Always rely on official government communications and seek legal counsel if needed.",
+                faqPageTitle: "Frequently Asked Questions (FAQ) - Wartime Emergency",
+                faqPageDesc: "This section addresses common questions citizens may have during a state of emergency declared due to war or external aggression, based on constitutional provisions and general preparedness principles.",
+                footerNote: "Wartime Wiki (Illustrative Informational Resource)",
+                footerLastUpdated: "Last updated:",
+                footerDisclaimer: "In case of an actual emergency, always rely on official government channels and helplines. National Emergency Number: 112",
+            },
+            hi: {
+                wikiTitle: "वॉरटाइम विकी",
+                menuEmergencyInfo: "आपातकालीन जानकारी",
+                menuCivilianDuties: "नागरिक कर्तव्य",
+                menuSafetyProtocols: "सुरक्षा प्रोटोकॉल",
+                menuResources: "आवश्यक संसाधन",
+                menuHelplines: "आपातकालीन हेल्पलाइन",
+                menuLegalRights: "कानूनी अधिकार",
+                menuFaq: "सामान्य प्रश्न",
+                searchPlaceholder: "युद्धकालीन जानकारी खोजें...",
+                langBtnHindi: "हिंदी",
+                langBtnEnglish: "English",
+                helplineBtn: "हेल्पलाइन",
+                officialLinksTitle: "आधिकारिक सरकारी संसाधन", // New
+                officialLinksDesc: "आपातकाल के दौरान नवीनतम आधिकारिक अपडेट और जानकारी के लिए, कृपया इन सरकारी वेबसाइटों को देखें:", // New
+                linkMHA: "गृह मंत्रालय (MHA)", // New
+                linkNDMA: "एनडीएमए", // New
+                linkPIB: "पत्र सूचना कार्यालय (PIB)", // New
+                linkMyGov: "माईगव इंडिया", // New
+                // emergencyStatusLabel: "आपातकालीन स्थिति:", // Removed
+                // alertMessageDefault: "...", // Removed
+                // enableAlertsBtn: "अलर्ट सक्षम करें", // Removed
+                // saveOfflineBtn: "ऑफलाइन सहेजें", // Removed
+                // officialUpdatesBtn: "आधिकारिक अपडेट", // Removed
+                // alertDisclaimer: "...", // Removed
+                quickActionTitle: "त्वरित कार्रवाई गाइड",
+                quickActionEvacuation: "निकासी",
+                quickActionViewRoutes: "मार्ग देखें",
+                quickActionKit: "आपातकालीन किट",
+                quickActionChecklist: "चेकलिस्ट",
+                quickActionHelplines: "स्थानीय हेल्पलाइन",
+                quickActionContact: "अभी संपर्क करें",
+                quickActionCommunity: "सामुदायिक सहायता",
+                quickActionJoin: "शामिल हों/अनुरोध करें",
+                aboutEmergencyTitle: "आपातकाल की स्थिति के बारे में",
+                aboutEmergencyDesc: "आपातकाल की स्थिति सरकार को युद्ध जैसी गंभीर स्थितियों से निपटने के लिए विशेष शक्तियाँ प्रदान करती है। यह विकी भारत के संविधान के अनुसार ऐसी अवधियों के दौरान संभावित परिवर्तनों और नागरिक जिम्मेदारियों की व्याख्या करती है।",
+                emergencyPageTitle: "भारत में युद्ध के दौरान आपातकाल की स्थिति",
+                emergencyPageDesc: "भारत के संविधान के अनुच्छेद 352 के तहत, राष्ट्रपति को राष्ट्रीय आपातकाल घोषित करने की शक्ति है यदि भारत या उसके क्षेत्र के किसी भी हिस्से की सुरक्षा युद्ध, बाहरी आक्रमण या सशस्त्र विद्रोह से खतरे में है। यह पृष्ठ विवरण देता है कि ऐसा आपातकाल घोषित होने पर क्या परिवर्तन होते हैं।",
+                tabConstitutional: "संवैधानिक परिवर्तन",
+                tabGovtPowers: "सरकारी शक्तियाँ",
+                tabCitizenImpact: "नागरिक प्रभाव",
+                tabRestrictions: "प्रतिबंध",
+                subTabConstitutionalTitle: "आपातकाल के दौरान संवैधानिक परिवर्तन",
+                subTabConstitutionalDesc: "जब युद्ध या बाहरी आक्रमण के कारण अनुच्छेद 352 के तहत आपातकाल की उद्घोषणा जारी की जाती है:",
+                constChange1: "संविधान की संघीय संरचना प्रभावी रूप से एकात्मक में बदल सकती है।",
+                constChange2: "संघ सरकार किसी भी राज्य को किसी भी मामले पर कार्यकारी निर्देश देने के लिए सशक्त हो जाती है।",
+                constChange3: "संसद उन विषयों पर कानून बना सकती है जो सामान्य रूप से राज्य सूची (सातवीं अनुसूची की सूची II) में हैं।",
+                constChange4: "राष्ट्रपति संघ और राज्यों के बीच राजस्व के वितरण के संबंध में प्रावधानों को संशोधित कर सकते हैं।",
+                constChange5: "अनुच्छेद 19 के तहत मौलिक अधिकार (भाषण, सभा, आंदोलन आदि की स्वतंत्रता) स्वतः निलंबित हो जाते हैं (अनुच्छेद 358)।",
+                constChange6: "राष्ट्रपति आदेश द्वारा अन्य मौलिक अधिकारों (अनुच्छेद 20 और 21 को छोड़कर) के प्रवर्तन के लिए अदालतों में जाने के अधिकार को निलंबित कर सकते हैं (अनुच्छेद 359)।",
+                subTabGovtTitle: "बढ़ी हुई सरकारी शक्तियाँ",
+                subTabGovtDesc: "राष्ट्रीय आपातकाल के दौरान, सरकार संकट के प्रबंधन के लिए असाधारण शक्तियाँ ग्रहण करती है:",
+                govtPower1: "संघ की कार्यकारी शक्ति का विस्तार किसी भी राज्य को निर्देश देने तक होता है कि उसकी कार्यकारी शक्ति का प्रयोग किस तरीके से किया जाना है।",
+                govtPower2: "संसद को राज्य सूची के मामलों पर कानून बनाने की शक्ति प्राप्त होती है।",
+                govtPower3: "राष्ट्रपति संघ और राज्यों के बीच वित्तीय व्यवस्थाओं को बदल सकते हैं।",
+                govtPower4: "सरकार सार्वजनिक व्यवस्था और राष्ट्रीय सुरक्षा बनाए रखने के लिए मीडिया और संचार पर सेंसरशिप लगा सकती है।",
+                govtPower5: "आपातकालीन प्रावधानों या राष्ट्रीय सुरक्षा से संबंधित त्वरित सुनवाई के लिए विशेष अदालतें या न्यायाधिकरण स्थापित किए जा सकते हैं।",
+                govtPower6: "सैन्य और अर्धसैनिक बलों को सुरक्षा अभियानों और व्यवस्था बनाए रखने के लिए अतिरिक्त शक्तियाँ प्रदान की जा सकती हैं।",
+                govtPower7: "आवश्यक वस्तुओं के उत्पादन, आपूर्ति और वितरण पर नियंत्रण स्थापित किया जा सकता है।",
+                subTabCitizenTitle: "नागरिकों पर प्रभाव",
+                subTabCitizenDesc: "युद्ध आपातकाल के दौरान, नागरिकों को दैनिक जीवन और नागरिक स्वतंत्रता को प्रभावित करने वाले कई बदलावों का अनुभव होगा:",
+                citizenImpact1: "कुछ मौलिक अधिकारों पर प्रतिबंध या निलंबन, विशेष रूप से अनुच्छेद 19 के तहत (भाषण, सभा, आंदोलन की स्वतंत्रता)।",
+                citizenImpact2: "आवाजाही की स्वतंत्रता गंभीर रूप से प्रतिबंधित हो सकती है, खासकर सीमावर्ती क्षेत्रों या संवेदनशील क्षेत्रों में।",
+                citizenImpact3: "व्यवस्था और सुरक्षा बनाए रखने के लिए विशिष्ट क्षेत्रों में कर्फ्यू लगाया जा सकता है।",
+                citizenImpact4: "नागरिकों को नागरिक सुरक्षा या आपातकालीन प्रबंधन कार्यों में अधिकारियों की सहायता करने के लिए कानून द्वारा बुलाया या आवश्यक किया जा सकता है।",
+                citizenImpact5: "समान वितरण सुनिश्चित करने के लिए आवश्यक वस्तुओं (भोजन, ईंधन, आदि) का राशन लागू किया जा सकता है।",
+                citizenImpact6: "सार्वजनिक सभाओं, विरोध प्रदर्शनों या सभाओं को प्रतिबंधित या निषिद्ध किया जा सकता है।",
+                citizenImpact7: "बढ़ी हुई सुरक्षा जांच और पहचान सत्यापन आम होगा। हमेशा वैध आईडी साथ रखें।",
+                subTabRestrictTitle: "मुख्य प्रतिबंध और विनियम",
+                subTabRestrictDesc: "युद्ध आपातकाल के दौरान निम्नलिखित विशिष्ट प्रतिबंध और नियम लगाए जा सकते हैं:",
+                restrict1: "दुश्मन के लक्ष्यीकरण को रोकने के लिए कमजोर शहरों/कस्बों में ब्लैकआउट नियम।",
+                restrict2: "फोटोग्राफी या वीडियोग्राफी पर सख्त प्रतिबंध, विशेष रूप से सैन्य प्रतिष्ठानों, महत्वपूर्ण बुनियादी ढांचे और सैनिकों की आवाजाही पर।",
+                restrict3: "परिवहन नेटवर्क (सड़क, रेल, वायु, समुद्र) पर नियंत्रण और आपातकालीन उपयोग के लिए निजी वाहनों या संपत्ति का संभावित अधिग्रहण।",
+                restrict4: "उच्च जोखिम वाले क्षेत्रों या संघर्ष क्षेत्रों में आबादी के लिए निकासी आदेश।",
+                restrict5: "विशिष्ट क्षेत्रों में कुछ संचार उपकरणों या आवृत्तियों के उपयोग पर प्रतिबंध।",
+                restrict6: "कुछ क्षेत्रों को नियंत्रित पहुंच के साथ \"निषिद्ध\" या \"प्रतिबंधित\" क्षेत्र घोषित करना।",
+                restrict7: "घबराहट या गलत सूचना के प्रसार को रोकने के लिए सूचना के प्रकाशन और प्रसार पर नियंत्रण।",
+                dutiesPageTitle: "आपातकाल के दौरान नागरिक जिम्मेदारियाँ",
+                dutiesPageDesc: "युद्ध के कारण आपातकाल की स्थिति के दौरान, नागरिक राष्ट्रीय लचीलेपन, सार्वजनिक व्यवस्था बनाए रखने और रक्षा प्रयासों का समर्थन करने में महत्वपूर्ण भूमिका निभाते हैं। आपका सहयोग और जिम्मेदार कार्य महत्वपूर्ण हैं।",
+                dutiesMandatoryTitle: "अनिवार्य जिम्मेदारियाँ और अनुपालन",
+                dutiesVoluntaryTitle: "स्वैच्छिक योगदान और समर्थन",
+                dutiesProhibitedTitle: "निषिद्ध गतिविधियाँ और सावधानियाँ",
+                protocolsPageTitle: "युद्धकालीन आपातकाल के दौरान सुरक्षा प्रोटोकॉल",
+                protocolsPageDesc: "ये प्रोटोकॉल युद्धकालीन आपात स्थितियों के दौरान सार्वजनिक सुरक्षा बढ़ाने के लिए डिज़ाइन किए गए हैं। अपनी और अपने समुदाय की सुरक्षा के लिए इन प्रक्रियाओं से खुद को और अपने परिवार को परिचित कराएं। हमेशा अधिकारियों के आधिकारिक निर्देशों का पालन करें।",
+                protocolsAtHomeTitle: "घर पर: आश्रय और तैयारी",
+                protocolsPublicTitle: "सार्वजनिक स्थानों और निकासी में",
+                protocolsAirRaidTitle: "हवाई हमलों या बमबारी अलर्ट के दौरान (यदि लागू हो)",
+                resourcesPageTitle: "आवश्यक संसाधन और तैयारी",
+                resourcesPageDesc: "युद्धकालीन आपातकाल के दौरान, आवश्यक संसाधनों तक पहुंच बाधित हो सकती है। तैयार रहना महत्वपूर्ण है। अपने घर में प्रत्येक व्यक्ति के लिए कम से कम 7 दिनों के लिए पर्याप्त आपूर्ति रखने का लक्ष्य रखें, यदि संभव हो तो आदर्श रूप से 14 दिनों के लिए।",
+                kitChecklistTitle: "गो-बैग / आपातकालीन किट चेकलिस्ट हाइलाइट्स",
+                helplinesPageTitle: "आपातकालीन हेल्पलाइन - भारत",
+                helplinesPageDesc: "किसी भी आपात स्थिति में, सहायता के लिए इन नंबरों पर डायल करें। स्थानीय जिले/शहर विशिष्ट हेल्पलाइन नंबरों को भी सहेजना उचित है। विशिष्ट संकट के दौरान, सरकार द्वारा नई हेल्पलाइन की घोषणा की जा सकती है।",
+                helplinesImportantNotes: "महत्वपूर्ण लेख:",
+                helplinesNotesDesc: "कुछ नंबरों के लिए सेवा उपलब्धता टेलीकॉम ऑपरेटर या क्षेत्र के अनुसार भिन्न हो सकती है। <strong>हमेशा पहले 112 डायल करने का प्रयास करें</strong> क्योंकि यह एकीकृत आपातकालीन नंबर है। युद्धकाल या विशिष्ट संकटों के दौरान, सरकार विशेष समर्पित हेल्पलाइन की घोषणा कर सकती है। सबसे ताज़ा जानकारी के लिए आधिकारिक प्रसारण (रेडियो, टीवी, सरकारी वेबसाइट) पर बने रहें।",
+                legalPageTitle: "राष्ट्रीय आपातकाल के दौरान नागरिकों के कानूनी अधिकार",
+                legalPageDesc: "राष्ट्रीय आपातकाल (युद्ध या बाहरी आक्रमण के कारण संविधान के अनुच्छेद 352 के तहत घोषित) के दौरान अपने कानूनी अधिकारों को समझना महत्वपूर्ण है। जबकि सरकार को संकट के प्रबंधन के लिए बढ़ी हुई शक्तियाँ प्रदान की जाती हैं, कुछ मौलिक अधिकार सुरक्षित रहते हैं, और संवैधानिक सुरक्षा उपाय मौजूद हैं।",
+                legalStatusFRTitle: "मौलिक अधिकारों की स्थिति",
+                legalExecLegTitle: "कार्यकारी और विधायी शक्तियों में परिवर्तन",
+                legalSafeguardsTitle: "सुरक्षा उपाय और न्यायिक निगरानी",
+                legalPreventiveTitle: "निवारक निरोध",
+                legalPreventiveDesc: "आपातकाल के दौरान, सरकार निवारक निरोध से संबंधित कानून बना सकती है। हालाँकि, संविधान का अनुच्छेद 22 निवारक निरोध के तहत व्यक्तियों के लिए सुरक्षा उपाय प्रदान करता है, जैसे निरोध के आधारों के बारे में सूचित होने का अधिकार (जब तक कि प्रकटीकरण सार्वजनिक हित के विरुद्ध न हो) और निरोध आदेश के खिलाफ अभ्यावेदन करने का अधिकार। मामले को आम तौर पर एक निर्दिष्ट अवधि के भीतर एक सलाहकार बोर्ड को भेजा जाना चाहिए।",
+                legalDisclaimerTitle: "अस्वीकरण:",
+                legalDisclaimerDesc: "यह जानकारी केवल सामान्य समझ और शैक्षिक उद्देश्यों के लिए है। यह कानूनी सलाह का विकल्प नहीं है। वास्तविक आपातकाल के दौरान जारी विशिष्ट कानूनों, अध्यादेशों और सरकारी आदेशों से परामर्श किया जाना चाहिए। हमेशा आधिकारिक सरकारी संचार पर भरोसा करें और यदि आवश्यक हो तो कानूनी सलाह लें।",
+                faqPageTitle: "अक्सर पूछे जाने वाले प्रश्न (FAQ) - युद्धकालीन आपातकाल",
+                faqPageDesc: "यह खंड उन सामान्य प्रश्नों को संबोधित करता है जो नागरिकों के मन में युद्ध या बाहरी आक्रमण के कारण घोषित आपातकाल की स्थिति के दौरान संवैधानिक प्रावधानों और सामान्य तैयारी सिद्धांतों के आधार पर हो सकते हैं।",
+                footerNote: "वॉरटाइम विकी (उदाहरणात्मक सूचनात्मक संसाधन)",
+                footerLastUpdated: "अंतिम अपडेट:",
+                footerDisclaimer: "वास्तविक आपात स्थिति के मामले में, हमेशा आधिकारिक सरकारी चैनलों और हेल्पलाइन पर भरोसा करें। राष्ट्रीय आपातकालीन नंबर: 112",
+            }
+        };
+        let currentLanguage = 'en'; // Default language
+
+        // --- END TRANSLATION DATA ---
+
+
         // Custom alert function
         function showCustomAlert(message) {
             const alertBox = document.getElementById('custom-alert-box');
@@ -1296,34 +1490,8 @@
         }
 
 
-        // Emergency Alert Status Management
-        function updateEmergencyStatus(status, message) {
-            const alertStatusEl = document.getElementById('alert-status');
-            const alertMessageEl = document.getElementById('alert-message');
-            const alertElement = document.getElementById('emergency-alert');
-
-            if (alertStatusEl && alertMessageEl && alertElement) {
-                alertStatusEl.textContent = status.toUpperCase();
-                alertMessageEl.textContent = message;
-
-                alertElement.classList.remove('status-normal', 'status-elevated', 'status-high');
-                alertElement.classList.add(`status-${status.toLowerCase()}`);
-
-                const lastUpdate = new Date().toLocaleString('en-IN', {
-                    timeZone: 'Asia/Kolkata',
-                    day: 'numeric', month: 'long', year: 'numeric',
-                    hour: 'numeric', minute: '2-digit', hour12: true
-                });
-                const updateTimeElement = document.getElementById('last-update-time');
-                if (updateTimeElement) {
-                    updateTimeElement.textContent = `Last Updated: ${lastUpdate}`;
-                }
-                const footerUpdateTime = document.getElementById('footer-last-updated');
-                if (footerUpdateTime) {
-                    footerUpdateTime.textContent = new Date().toLocaleDateString('en-IN', {day:'numeric', month: 'long', year: 'numeric'});
-                }
-            }
-        }
+        // Emergency Alert Status Management - REMOVED
+        // function updateEmergencyStatus(status, messageKey) { ... }
 
         // Enable Browser Notifications
         async function enableNotifications() {
@@ -1402,12 +1570,13 @@
             const nodesToModify = []; 
 
             while (node = walker.nextNode()) {
+                // Skip text nodes inside existing highlight spans or script/style tags
+                if (node.parentNode && (node.parentNode.classList.contains('search-highlight') || node.parentNode.nodeName === 'SCRIPT' || node.parentNode.nodeName === 'STYLE')) {
+                     continue;
+                }
                 const text = node.nodeValue;
                 const textLower = text.toLowerCase();
                 if (textLower.includes(queryLower)) {
-                    if (node.parentNode && node.parentNode.classList && node.parentNode.classList.contains('search-highlight')) {
-                        continue;
-                    }
                     nodesToModify.push({node: node, text: text});
                 }
             }
@@ -1415,7 +1584,7 @@
             nodesToModify.forEach(item => {
                 const { node, text } = item;
                 const parent = node.parentNode;
-                if (!parent || parent.nodeName === 'SCRIPT' || parent.nodeName === 'STYLE') return;
+                if (!parent) return; // Should not happen with text nodes, but safety check
 
                 const fragment = document.createDocumentFragment();
                 let lastIndex = 0;
@@ -1447,8 +1616,7 @@
             highlights.forEach(span => {
                 const parent = span.parentNode;
                 if (parent) {
-                    parent.insertBefore(document.createTextNode(span.textContent), span);
-                    parent.removeChild(span);
+                    parent.replaceChild(document.createTextNode(span.textContent), span);
                     parent.normalize(); 
                 }
             });
@@ -1457,7 +1625,8 @@
         function handleSearch() {
             const searchInput = document.querySelector('.search-bar input');
             const noResultsMessage = document.getElementById('no-results-message');
-            const query = searchInput.value.trim().toLowerCase();
+            const query = searchInput.value.trim(); // Keep original case for highlighting
+            const queryLower = query.toLowerCase(); // Use lower case for matching
 
             clearHighlights(); 
             noResultsMessage.style.display = 'none'; 
@@ -1474,44 +1643,130 @@
             let overallResultsFound = false;
 
             allSearchableElements.forEach(element => {
-                const text = element.textContent.toLowerCase();
-                if (text.includes(query)) {
-                    highlightTextInElement(element, query); 
-                    overallResultsFound = true;
-                    if (!firstMatchElement) {
-                        firstMatchElement = element;
+                 // Check only visible elements (within active tab)
+                 const parentTab = element.closest('.tab-content');
+                 if (parentTab && parentTab.classList.contains('active')) {
+                    const text = element.textContent.toLowerCase();
+                    if (text.includes(queryLower)) {
+                        highlightTextInElement(element, query); // Highlight using original case query
+                        overallResultsFound = true;
+                        if (!firstMatchElement) {
+                            firstMatchElement = element.querySelector('.search-highlight') || element; // Target the highlight if possible
+                        }
                     }
-                }
+                 }
             });
 
             if (overallResultsFound) {
                 if (firstMatchElement) {
-                    const parentTabContent = firstMatchElement.closest('.tab-content');
-                    if (parentTabContent) {
-                        if (!parentTabContent.classList.contains('active')) {
-                            const targetMenuId = parentTabContent.id.replace('-content', '');
-                            const correspondingMenuItem = document.querySelector(`.menu-item[data-target="${targetMenuId}"]`);
-                            if (correspondingMenuItem) {
-                                correspondingMenuItem.click(); 
-                            }
-                        }
-                        setTimeout(() => {
-                           firstMatchElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        }, 100); 
-                    } else {
-                         firstMatchElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    }
+                    firstMatchElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }
             } else {
-                noResultsMessage.style.display = 'block'; 
+                // If no results in active tab, search inactive tabs without highlighting yet
+                let foundInInactiveTab = false;
+                let firstInactiveMatchParentTabId = null;
+
+                allSearchableElements.forEach(element => {
+                    const parentTab = element.closest('.tab-content');
+                    if (parentTab && !parentTab.classList.contains('active')) {
+                        const text = element.textContent.toLowerCase();
+                        if (text.includes(queryLower)) {
+                            foundInInactiveTab = true;
+                            if (!firstInactiveMatchParentTabId) {
+                                firstInactiveMatchParentTabId = parentTab.id;
+                            }
+                        }
+                    }
+                });
+
+                if (foundInInactiveTab && firstInactiveMatchParentTabId) {
+                     // Switch to the tab containing the first inactive match
+                     const targetMenuId = firstInactiveMatchParentTabId.replace('-content', '');
+                     const correspondingMenuItem = document.querySelector(`.menu-item[data-target="${targetMenuId}"]`);
+                     if (correspondingMenuItem) {
+                         correspondingMenuItem.click();
+                         // Re-run search after tab switch to highlight
+                         setTimeout(handleSearch, 150); // Delay to allow tab switch
+                     }
+                } else {
+                    // Truly no results found anywhere
+                    noResultsMessage.style.display = 'block';
+                }
             }
         }
 
+        // --- TRANSLATION FUNCTIONALITY ---
+        function applyTranslations(lang) {
+            document.querySelectorAll('[data-translate-key]').forEach(element => {
+                const key = element.getAttribute('data-translate-key');
+                const translation = translations[lang]?.[key] || translations['en'][key]; // Fallback to English
+
+                if (translation) {
+                    // Check if we need to translate an attribute (like placeholder)
+                    const attr = element.getAttribute('data-translate-attr');
+                    if (attr) {
+                        element.setAttribute(attr, translation);
+                    } else {
+                        // Otherwise, translate text content
+                        // Handle potential nested elements like icons within buttons
+                        if (element.childNodes.length > 1 && element.querySelector('i')) {
+                             // Find the text node or span to update, preserving the icon
+                             let textNode = Array.from(element.childNodes).find(node => node.nodeType === Node.TEXT_NODE && node.textContent.trim() !== '');
+                             if (!textNode && element.querySelector('span')) { // Check for span if no direct text node
+                                textNode = element.querySelector('span');
+                                textNode.textContent = translation; // Update span directly
+                             } else if (textNode) {
+                                textNode.nodeValue = ` ${translation}`; // Add space if needed after icon
+                             } else {
+                                // If no text node or span, maybe append? Or replace last node?
+                                // For simplicity, let's just set textContent, might replace icon text if not careful
+                                element.textContent = translation; // Fallback, might overwrite icon if not structured well
+                             }
+                        } else {
+                             element.textContent = translation; // Default case
+                        }
+                    }
+                } else {
+                    console.warn(`Translation key "${key}" not found for language "${lang}"`);
+                }
+            });
+
+             // Update the language toggle button text itself
+            const langToggleBtn = document.getElementById('language-toggle');
+            if (langToggleBtn) {
+                const icon = langToggleBtn.querySelector('i').outerHTML; // Keep the icon
+                const targetLangKey = lang === 'en' ? 'langBtnHindi' : 'langBtnEnglish';
+                const buttonText = translations[lang]?.[targetLangKey] || translations['en'][targetLangKey];
+                // Find the span inside the button to update its text
+                const spanElement = langToggleBtn.querySelector('span');
+                if(spanElement){
+                    spanElement.textContent = buttonText;
+                } else { // Fallback if no span is found (shouldn't happen with current structure)
+                     langToggleBtn.innerHTML = `${icon} ${buttonText}`;
+                }
+            }
+        }
+
+        function toggleLanguage() {
+            currentLanguage = currentLanguage === 'en' ? 'hi' : 'en';
+            applyTranslations(currentLanguage);
+            // Optionally save preference
+            // localStorage.setItem('preferredLanguage', currentLanguage);
+             // Re-run search if there's a query, as element content has changed
+            if (document.querySelector('.search-bar input').value.trim() !== '') {
+                handleSearch();
+            }
+        }
+        // --- END TRANSLATION FUNCTIONALITY ---
 
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('DOM loaded, initializing menu, sidebar, and search...');
+            console.log('DOM loaded, initializing menu, sidebar, search, and translation...');
 
-            updateEmergencyStatus('NORMAL', 'This is an educational resource about emergency procedures during wartime. Always follow official government directives during actual emergencies.');
+            // --- INITIALIZATION ---
+            // Check for saved language preference (optional)
+            // currentLanguage = localStorage.getItem('preferredLanguage') || 'en';
+
+            // updateEmergencyStatus('NORMAL', 'alertMessageDefault'); // Removed call
             updateOnlineStatusIndicator(); 
 
             const menuItems = document.querySelectorAll('.sidebar .menu-item');
@@ -1519,13 +1774,19 @@
             const sidebarToggleBtn = document.getElementById('sidebar-toggle');
             const bodyElement = document.body;
             const searchInput = document.querySelector('.search-bar input'); 
-            const quickActionLinks = document.querySelectorAll('.quick-actions .action-card a'); // Select quick action links
+            const quickActionLinks = document.querySelectorAll('.quick-actions .action-card a'); 
+            const languageToggleBtn = document.getElementById('language-toggle'); // Language button
 
             allSearchableElements = document.querySelectorAll(
                 '.tab-content h2, .tab-content h3, .tab-content h4, .tab-content p, .tab-content li, ' +
-                '.info-card p, .info-card h3, .faq-item p, .faq-item h3, .action-card h4, .alert-content p, .alert-disclaimer small'
+                '.info-card p, .info-card h3, .faq-item p, .faq-item h3, .action-card h4, .alert-content p, .alert-disclaimer small, ' +
+                '.official-links-section h2, .official-links-section p, .official-link-button span' // Include new section elements
             );
             
+            // Apply initial translation based on currentLanguage
+            applyTranslations(currentLanguage);
+
+            // --- EVENT LISTENERS ---
             if (searchInput) {
                 searchInput.addEventListener('input', handleSearch); 
                 searchInput.addEventListener('keyup', function(e) {
@@ -1533,6 +1794,11 @@
                         handleSearch();
                     }
                 });
+            }
+
+            // Language Toggle Listener
+            if (languageToggleBtn) {
+                 languageToggleBtn.addEventListener('click', toggleLanguage);
             }
 
 
@@ -1626,20 +1892,6 @@
                     });
                 });
             }
-
-            const languageToggleBtn = document.getElementById('language-toggle');
-            if (languageToggleBtn) {
-                languageToggleBtn.addEventListener('click', function() {
-                    const currentText = this.textContent.trim();
-                    if (currentText.includes('हिंदी')) {
-                        this.innerHTML = '<i class="fas fa-language"></i> English';
-                        showCustomAlert('Language feature is illustrative. Content would change to Hindi.');
-                    } else {
-                        this.innerHTML = '<i class="fas fa-language"></i> हिंदी';
-                        showCustomAlert('Language feature is illustrative. Content would change to English.');
-                    }
-                });
-            }
             
             const emergencyContactBtn = document.getElementById('emergency-contact');
             if (emergencyContactBtn) {
@@ -1654,28 +1906,25 @@
             // Quick Action Guide Link Handler
             quickActionLinks.forEach(link => {
                 link.addEventListener('click', function(event) {
-                    event.preventDefault(); // Stop default anchor behavior
-                    const targetId = this.getAttribute('href').substring(1); // Get ID like 'emergency-kit'
+                    event.preventDefault(); 
+                    const targetId = this.getAttribute('href').substring(1); 
                     const targetElement = document.getElementById(targetId);
 
                     if (targetElement) {
                         const parentTab = targetElement.closest('.tab-content');
                         
                         if (parentTab && !parentTab.classList.contains('active')) {
-                            // Target is on an inactive tab
                             const targetMenuData = parentTab.id.replace('-content', '');
                             const menuItemToClick = document.querySelector(`.menu-item[data-target="${targetMenuData}"]`);
                             if (menuItemToClick) {
-                                menuItemToClick.click(); // Switch tab
-                                // Wait for tab switch before scrolling
+                                menuItemToClick.click(); 
                                 setTimeout(() => {
                                     targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                                }, 150); // Adjust delay if needed
+                                }, 150); 
                             } else {
                                 console.error("Could not find menu item for tab:", targetMenuData);
                             }
                         } else if (parentTab) {
-                            // Target is on the currently active tab
                             targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
                         } else {
                              console.error("Target element", targetId, "is not within a .tab-content");
