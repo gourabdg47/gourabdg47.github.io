@@ -42,16 +42,72 @@
         }
 
 
+        /* Support Developer Button */
+        .support-dev-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px;
+            border-radius: 50px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            overflow: hidden;
+            max-width: 50px;
+
+        .support-dev-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            background-color: #2196f3;
+            max-width: 250px; 
+            padding: 12px 20px;
+            gap: 8px; 
+            justify-content: flex-start;
+        }
+
+        .support-dev-btn i {
+            font-size: 1.2em;
+            min-width: 20px;
+        }
+
+        .support-dev-btn span {
+            white-space: nowrap;
+            opacity: 0;
+            display: none; 
+            transition: opacity 0.3s ease;
+        }
+
+        .support-dev-btn:hover span {
+            opacity: 1;
+            display: inline-block; 
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .support-dev-btn:hover i {
+            animation: pulse 1s infinite;
+        }
+
         body {
             background-color: var(--background-color);
             color: var(--text-color);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Moved font-family here for consistency */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
             display: flex;
             min-height: 100vh;
-            transition: padding-left 0.3s ease-in-out; /* For main content shift */
+            transition: padding-left 0.3s ease-in-out;
         }
 
-        /* Enhanced Emergency Alert Styles (Removed as requested) */
 
         /* Official Links Section Styles */
         .official-links-section {
@@ -194,15 +250,22 @@
 
         /* Online Status Indicator */
         .online-status {
-            position: fixed;
+            position: absolute;
             bottom: 20px;
-            right: 20px;
-            padding: 8px 15px;
+            left: 0;
+            right: 0;
+            margin: 0 8px;
+            padding: 8px 4px;
+            text-align: center;
             border-radius: 20px;
             font-size: 14px;
             font-weight: bold;
             z-index: 1000;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            transition: all 0.3s ease;
         }
 
         body:not(.offline) .online-status {
@@ -1533,21 +1596,26 @@
 
         // Check Online Status and Update UI
         function updateOnlineStatusIndicator() {
-            const onlineStatusDiv = document.querySelector('.online-status');
+            const sidebar = document.querySelector('.sidebar');
+            if (!sidebar) return;
+            
+            let onlineStatusDiv = document.querySelector('.online-status');
+            const isCollapsed = sidebar.classList.contains('collapsed');
+            
             if (onlineStatusDiv) { 
                 if (navigator.onLine) {
-                    onlineStatusDiv.textContent = 'Online';
+                    onlineStatusDiv.textContent = isCollapsed ? '●' : 'Online';
                     onlineStatusDiv.style.backgroundColor = '#4caf50'; 
                     document.body.classList.remove('offline');
                 } else {
-                    onlineStatusDiv.textContent = 'Offline';
+                    onlineStatusDiv.textContent = isCollapsed ? '○' : 'Offline';
                     onlineStatusDiv.style.backgroundColor = '#f44336'; 
                     document.body.classList.add('offline');
                 }
             } else { 
                 const statusIndicator = document.createElement('div');
                 statusIndicator.className = 'online-status';
-                document.body.appendChild(statusIndicator);
+                sidebar.appendChild(statusIndicator);
                 updateOnlineStatusIndicator();
             }
         }
@@ -1962,6 +2030,11 @@
             }
         });
     </script>
+
+    <a href="https://buymeacoffee.com/gourabdg" target="_blank" class="support-dev-btn">
+        <i class="fas fa-heart"></i>
+        <span>Support the Developer</span>
+    </a>
 </body>
 
 </html>
