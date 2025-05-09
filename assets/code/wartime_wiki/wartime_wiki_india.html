@@ -44,50 +44,52 @@
 
         /* Support Developer Button */
         .support-dev-btn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: var(--primary-color);
-            color: white;
-            padding: 12px;
-            border-radius: 50px;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 500;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            z-index: 1000;
-            overflow: hidden;
-            max-width: 50px;
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: var(--primary-color);
+        color: white;
+        padding: 12px;
+        border-radius: 50px;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        /* Removed gap: 8px; */
+        justify-content: center; /* Add this to center the remaining visible content */
+        font-weight: 500;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        z-index: 1000;
+        overflow: hidden;
+        max-width: 50px; /* Initial state - just shows the icon */
+    }
 
-        .support-dev-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            background-color: #2196f3;
-            max-width: 250px; 
-            padding: 12px 20px;
-            gap: 8px; 
-            justify-content: flex-start;
-        }
+    .support-dev-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        background-color: #2196f3;
+        max-width: 250px; /* Expanded state */
+        padding: 12px 20px;
+        gap: 8px; /* Re-add gap for space between icon and text on hover */
+        justify-content: flex-start; /* Align items to the start when expanded */
+    }
 
-        .support-dev-btn i {
-            font-size: 1.2em;
-            min-width: 20px;
-        }
+    .support-dev-btn i {
+        font-size: 1.2em;
+        min-width: 20px;
+    }
 
-        .support-dev-btn span {
-            white-space: nowrap;
-            opacity: 0;
-            display: none; 
-            transition: opacity 0.3s ease;
-        }
+    .support-dev-btn span {
+        white-space: nowrap;
+        opacity: 0;
+        display: none; /* Add this line to hide the text element from the layout flow initially */
+        transition: opacity 0.3s ease; /* Keep opacity transition for fade-in */
+    }
 
-        .support-dev-btn:hover span {
-            opacity: 1;
-            display: inline-block; 
-        }
+    .support-dev-btn:hover span {
+        opacity: 1;
+        display: inline-block; 
+    }
 
         @keyframes pulse {
             0% { transform: scale(1); }
@@ -102,12 +104,13 @@
         body {
             background-color: var(--background-color);
             color: var(--text-color);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Moved font-family here for consistency */
             display: flex;
             min-height: 100vh;
-            transition: padding-left 0.3s ease-in-out;
+            transition: padding-left 0.3s ease-in-out; /* For main content shift */
         }
 
+        /* Enhanced Emergency Alert Styles (Removed as requested) */
 
         /* Official Links Section Styles */
         .official-links-section {
@@ -1417,7 +1420,7 @@
                 helplinesPageTitle: "Emergency Helplines - India",
                 helplinesPageDesc: "In any emergency, dial these numbers for assistance. It's advisable to also save local district/city specific helpline numbers. During specific crisis, new helplines might be announced by the government.",
                 helplinesImportantNotes: "Important Notes:",
-                helplinesNotesDesc: "Service availability for some numbers may vary by telecom operator or region. Always try 112 first as it's the integrated emergency number. During wartime or specific crises, the government may announce special dedicated helplines. Stay tuned to official broadcasts (Radio, TV, Government websites) for the most current information.",
+                helplinesNotesDesc: "Service availability for some numbers may vary by telecom operator or region. <strong>Always try 112 first</strong> as it's the integrated emergency number. During wartime or specific crises, the government may announce special dedicated helplines. Stay tuned to official broadcasts (Radio, TV, Government websites) for the most current information.",
                 legalPageTitle: "Legal Rights of Citizens During a National Emergency",
                 legalPageDesc: "Understanding your legal rights during a National Emergency (declared under Article 352 of the Constitution due to war or external aggression) is crucial. While the government is granted enhanced powers to manage the crisis, certain fundamental rights remain protected, and constitutional safeguards exist.",
                 legalStatusFRTitle: "Status of Fundamental Rights",
