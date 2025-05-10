@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CardSparkle - Create Celebration</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>CardSparkle</h1>
+            <p>Create & Share Beautiful Animated Cards</p>
+        </header>
+
+        <main>
+            <section id="template-selection">
+                <h2>1. Choose a Template</h2>
+                <div class="templates">
+                    <div class="template-option" data-template="birthday">
+                        <img src="https://via.placeholder.com/150/FFC0CB/000000?Text=Birthday" alt="Birthday Template">
+                        <p>Birthday Bliss</p>
+                    </div>
+                    <div class="template-option" data-template="anniversary">
+                        <img src="https://via.placeholder.com/150/E6E6FA/000000?Text=Anniversary" alt="Anniversary Template">
+                        <p>Elegant Anniversary</p>
+                    </div>
+                    <div class="template-option" data-template="thankyou">
+                        <img src="https://via.placeholder.com/150/ADD8E6/000000?Text=Thank+You" alt="Thank You Template">
+                        <p>Simple Thanks</p>
+                    </div>
+                </div>
+                <input type="hidden" id="selectedTemplate" value="birthday"> <!-- Default -->
+            </section>
+
+            <section id="customization">
+                <h2>2. Customize Details</h2>
+                <form id="cardForm">
+                    <div>
+                        <label for="recipientName">To:</label>
+                        <input type="text" id="recipientName" name="recipientName" placeholder="e.g., Jane Doe" required>
+                    </div>
+                    <div>
+                        <label for="message">Message:</label>
+                        <textarea id="message" name="message" rows="4" placeholder="e.g., Wishing you a wonderful day!" required></textarea>
+                    </div>
+                    <div>
+                        <label for="senderName">From:</label>
+                        <input type="text" id="senderName" name="senderName" placeholder="e.g., John Smith" required>
+                    </div>
+                    <button type="submit">Generate Share Link</button>
+                </form>
+            </section>
+
+            <section id="share-link-section" style="display: none;">
+                <h2>3. Share Your Card!</h2>
+                <p>Copy and send this link to the recipient:</p>
+                <div class="link-display">
+                    <input type="text" id="generatedLink" readonly>
+                    <button id="copyLinkButton">Copy</button>
+                </div>
+                <p><a id="previewLink" href="#" target="_blank">Preview Card</a></p>
+            </section>
+        </main>
+
+        <footer>
+            <p>© 2023 CardSparkle</p>
+        </footer>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

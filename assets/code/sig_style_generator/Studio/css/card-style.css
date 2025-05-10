@@ -1,0 +1,135 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Lato', sans-serif;
+    overflow: hidden; /* Prevent scrollbars during animation */
+    background-color: #f0e8f8; /* Light lavender background */
+}
+
+.card-viewport {
+    perspective: 1500px; /* For 3D effects if any */
+}
+
+.postal-card {
+    width: 350px; /* A bit wider for postcard feel */
+    height: 500px; /* Taller */
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(0,0,0,0.05);
+    padding: 30px;
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden; /* Clip decorations */
+    transform: scale(0.8) rotateY(15deg) rotateX(5deg); /* Initial animation state */
+    opacity: 0;
+}
+
+.card-front {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card-decoration {
+    height: 20px; /* Example, make it pretty */
+    background: linear-gradient(45deg, #e6dbf2, #d1c4e9); /* Soft gradient */
+    opacity: 0; /* GSAP will animate this */
+}
+.top-deco { border-radius: 10px 10px 0 0; margin: -30px -30px 20px -30px; }
+.bottom-deco { border-radius: 0 0 10px 10px; margin: 20px -30px -30px -30px; }
+
+
+.card-content {
+    text-align: center;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.recipient-greeting {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6em;
+    color: #4a0e6c; /* Deep purple */
+    margin-bottom: 20px;
+    opacity: 0; transform: translateY(20px);
+}
+
+.card-message {
+    font-family: 'Lato', sans-serif;
+    font-size: 1.1em;
+    line-height: 1.7;
+    color: #555;
+    margin-bottom: 30px;
+    padding: 0 10px;
+    opacity: 0; transform: translateY(20px);
+}
+
+.card-signature {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.8em;
+    color: #6a1b9a; /* Slightly lighter purple */
+    text-align: right;
+    opacity: 0; transform: translateY(20px);
+}
+.card-signature span {
+    font-size: 0.9em; /* Adjust for sender name if needed */
+}
+
+.stamp {
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    width: 60px;
+    height: 75px;
+    border: 2px dashed #bca0dc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: rotate(7deg) scale(0); /* Initial state for animation */
+    opacity: 0;
+    background-color: #f8f5fa;
+}
+.stamp-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.8em;
+    font-weight: bold;
+    color: #8c5ba6;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transform: rotate(180deg); /* Correct orientation */
+}
+
+
+/* Template Specific Styles */
+body.template-birthday { background-color: #fff0f5; /* Light Pink */ }
+body.template-birthday .postal-card { background-color: #ffffff; }
+body.template-birthday .card-decoration { background: linear-gradient(45deg, #ffd1dc, #ffb6c1); }
+body.template-birthday .recipient-greeting { color: #d81b60; } /* Hot pink */
+body.template-birthday .card-signature { color: #c2185b; }
+body.template-birthday .stamp { border-color: #ff8fab; }
+body.template-birthday .stamp-text { color: #d81b60; }
+
+
+body.template-anniversary { background-color: #f5f5f5; /* Off-white */ }
+body.template-anniversary .postal-card { background-color: #faf3e0; /* Cream */ border: 1px solid #d4af37;}
+body.template-anniversary .card-decoration { background: linear-gradient(45deg, #e0cda9, #d4af37); } /* Gold tones */
+body.template-anniversary .recipient-greeting { color: #876445; } /* Brown */
+body.template-anniversary .card-signature { color: #a0522d; } /* Sienna */
+body.template-anniversary .stamp { border-color: #b8860b; } /* DarkGoldenRod */
+body.template-anniversary .stamp-text { color: #876445; }
+
+
+body.template-thankyou { background-color: #e6f7ff; /* Light Blue */ }
+body.template-thankyou .postal-card { background-color: #ffffff; }
+body.template-thankyou .card-decoration { background: linear-gradient(45deg, #b3e0ff, #80caff); }
+body.template-thankyou .recipient-greeting { color: #0277bd; } /* Deep blue */
+body.template-thankyou .card-signature { color: #01579b; }
+body.template-thankyou .stamp { border-color: #5da9dd; }
+body.template-thankyou .stamp-text { color: #0277bd; }
