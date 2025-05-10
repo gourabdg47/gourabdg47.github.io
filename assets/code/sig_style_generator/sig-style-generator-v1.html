@@ -3,222 +3,694 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Signature Style Generator</title>
+    <title>Advanced Signature Style Generator</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Allura&family=Bad+Script&family=Caveat:wght@400;700&family=Cedarville+Cursive&family=Dancing+Script:wght@400;700&family=Dawning+of+a+New+Day&family=Great+Vibes&family=Indie+Flower&family=Kalam:wght@300;400;700&family=La+Belle+Aurore&family=Marck+Script&family=Nothing+You+Could+Do&family=Pacifico&family=Parisienne&family=Permanent+Marker&family=Petit+Formal+Script&family=Pinyon+Script&family=Rock+Salt&family=Sacramento&family=Satisfy&family=Shadows+Into+Light&family=Style+Script&family=Yellowtail&family=Homemade+Apple&display=swap" rel="stylesheet">
 
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f8f7f4; /* Calm, off-white, slightly warm like linen paper */
-            color: #4a4a4a; /* Soft, dark gray for text */
+            background-color: #fdfcfa; /* Slightly warmer off-white */
+            color: #3d3d3d; /* Darker gray for better contrast */
         }
 
-        .signature-item {
-            /* Ensures text doesn't push boundaries too much, dynamic font size is primary control */
-            overflow: hidden;
-            text-overflow: ellipsis;
-            /* Removed whitespace-nowrap to allow wrapping if absolutely necessary, though font scaling should prevent it */
-        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #a8a8a8; }
 
-        /* Custom scrollbar for a more refined look - optional */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 10px;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #c1c1c1;
-            border-radius: 10px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #a8a8a8;
-        }
-        
-        /* Abstract background pattern - subtle */
-        .abstract-bg {
-            /* You could use a very subtle SVG pattern here or a faint gradient */
-            /* For minimalism, keeping it solid or a very light texture is best */
-        }
         .title-text {
-             font-family: 'Petit Formal Script', cursive; /* Elegant script for the title */
-             color: #333;
+             font-family: 'Playfair Display', serif; /* More formal, elegant serif for title */
+             color: #2c3e50; /* Deep slate blue */
+             letter-spacing: 0.025em;
         }
-        .btn-generate {
-            background-color: #607D8B; /* Muted blue-grey, sophisticated */
+        .btn {
+            transition: all 0.3s ease;
             color: white;
-            transition: background-color 0.3s ease;
+            font-weight: 500; /* medium */
+            padding: 0.8rem 1.6rem; /* Slightly larger padding */
+            border-radius: 0.375rem; /* rounded-md */
+            box-shadow: 0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px 0 rgba(0,0,0,0.06);
         }
-        .btn-generate:hover {
-            background-color: #546E7A; /* Slightly darker on hover */
+        .btn:hover {
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+            transform: translateY(-1px);
         }
+        .btn-primary {
+            background-color: #3498db; /* Brighter, more professional blue */
+        }
+        .btn-primary:hover {
+            background-color: #2980b9;
+        }
+        .btn-secondary {
+            background-color: #7f8c8d; /* Muted grey for secondary actions */
+        }
+        .btn-secondary:hover {
+            background-color: #6c7a7b;
+        }
+        .btn-success {
+            background-color: #2ecc71; /* Green for confirm/update */
+        }
+        .btn-success:hover {
+            background-color: #27ae60;
+        }
+
+
         .input-field {
-            border-color: #B0BEC5; /* Softer border color */
+            border-color: #bdc3c7; /* Softer grey border */
             transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            padding: 0.8rem 1rem;
         }
         .input-field:focus {
-            border-color: #607D8B;
-            box-shadow: 0 0 0 2px rgba(96, 125, 139, 0.2);
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
         }
         .signature-card {
             background-color: #ffffff;
-            border: 1px solid #ECEFF1; /* Very light border */
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* Softer shadow */
-            transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+            border: 1px solid #ecf0f1; /* Lightest grey border */
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            transition: transform 0.2s ease-out, box-shadow 0.2s ease-out, z-index 0s 0.2s; /* Delay z-index change on unhover */
+            position: relative; /* Establishes a stacking context */
+            z-index: 1; /* Default z-index */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between; /* Space for actions/font name */
+            /* overflow: hidden; */ /* MODIFIED: Removed this line to allow tooltips to show */
+            border-radius: 0.5rem; /* rounded-lg */
         }
         .signature-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+            z-index: 20; /* Higher z-index on hover to bring card and its children (tooltip) to front */
+            transition-delay: 0s; /* Apply z-index immediately on hover */
+        }
+        .signature-card:hover .card-actions {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
         }
 
-        /* Fallback font for signature items if a Google Font fails to load */
+        .signature-display-container {
+            width: 100%;
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+        }
+
         .signature-text-display {
-            font-family: var(--signature-font, 'cursive'); /* Default to generic cursive */
+            font-family: var(--signature-font, 'cursive');
+            text-align: center;
+            width: 100%;
+            padding: 0 5px;
+            word-break: break-all;
+            overflow-wrap: break-word;
+            color: var(--signature-color, #3d3d3d); /* Use CSS variable for color */
+        }
+        .font-name-display {
+            font-size: 0.7rem; /* 11.2px */
+            color: #7f8c8d; /* Muted grey */
+            padding: 4px 8px;
+            background-color: #f8f9f9;
+            width: 100%;
+            text-align: center;
+            border-top: 1px solid #ecf0f1;
+            font-family: 'Inter', sans-serif;
+        }
+        .card-actions {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            display: flex;
+            flex-direction: column; /* Stack icons vertically */
+            gap: 6px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out, transform 0.2s ease-in-out;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 6px;
+            border-radius: 0.375rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            z-index: 5; /* Ensure actions are above card content but below tooltip from other cards */
+        }
+        .action-icon {
+            cursor: pointer;
+            color: #3498db;
+            transition: color 0.2s ease, transform 0.2s ease;
+            padding: 4px;
+            position: relative; /* Needed for tooltip positioning within */
+        }
+        .action-icon:hover {
+            color: #2980b9;
+            transform: scale(1.1);
+        }
+        .tooltip {
+            position: relative; /* Already set on action-icon, but good to be explicit if this class is used elsewhere */
+            display: inline-block;
+        }
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            min-width: 100px;
+            background-color: #3d3d3d;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 6px 8px;
+            position: absolute;
+            z-index: 30; /* Highest z-index to ensure it's above everything */
+            bottom: 120%; /* Adjusted slightly for better spacing */
+            left: 50%;
+            transform: translateX(-50%); /* Use transform for centering */
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Add a subtle shadow to tooltip */
+        }
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Modal Styling */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 1000; /* Modal should be on top of everything */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5); /* Dim background */
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 25px 30px;
+            border: 1px solid #888;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            animation: fadeInModal 0.3s ease-out;
+        }
+        @keyframes fadeInModal {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        .close-button {
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close-button:hover,
+        .close-button:focus {
+            color: #3d3d3d;
+            text-decoration: none;
+        }
+        .modal-body label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #555;
+        }
+        .modal-body input[type="text"], .modal-body input[type="color"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .modal-body input[type="color"] {
+            height: 40px;
+            padding: 5px; /* Adjust padding for color input */
+        }
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+            margin-top: 20px;
+        }
+        #currentEditSignaturePreview {
+            width: 100%;
+            min-height: 80px;
+            border: 1px dashed #ccc;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            font-size: 28px; /* Default preview size */
         }
 
     </style>
 </head>
-<body class="min-h-screen flex flex-col items-center justify-start py-8 px-4 abstract-bg">
+<body class="min-h-screen flex flex-col items-center justify-start py-10 px-4">
 
-    <header class="mb-10 text-center">
+    <header class="mb-12 text-center">
         <h1 class="text-5xl md:text-6xl font-bold title-text">Signature Style Studio</h1>
-        <p class="text-lg text-stone-600 mt-3">Discover unique ways to write your name.</p>
+        <p class="text-xl text-gray-600 mt-4">Craft and customize your unique signature.</p>
     </header>
 
-    <main class="w-full max-w-4xl mb-12">
-        <div class="flex flex-col sm:flex-row gap-3 mb-10">
-            <input type="text" id="nameInput" placeholder="Enter your name or initials" class="input-field flex-grow p-4 text-lg border rounded-lg focus:ring-2 focus:ring-opacity-50 focus:outline-none">
-            <button id="generateButton" class="btn-generate p-4 text-lg font-semibold rounded-lg shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-opacity-75">
-                Generate 100 Styles
+    <main class="w-full max-w-6xl mb-16">
+        <div class="flex flex-col sm:flex-row gap-4 mb-8 items-center">
+            <input type="text" id="nameInput" placeholder="Enter your name or initials" class="input-field flex-grow text-lg border rounded-md focus:ring-2 focus:ring-opacity-50 focus:outline-none">
+            <button id="generateButton" class="btn btn-primary text-lg w-full sm:w-auto">
+                Generate Styles
+            </button>
+            <button id="clearButton" class="btn btn-secondary text-lg w-full sm:w-auto">
+                Clear
             </button>
         </div>
 
-        <div id="messageArea" class="text-center text-stone-500 mb-6"></div>
+        <div id="messageArea" class="text-center text-gray-500 mb-8 min-h-[1.5em]"></div>
 
-        <div id="signatureGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+        <div id="signatureGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             </div>
     </main>
 
-    <footer class="text-center text-stone-500 mt-auto pb-6">
-        <p>&copy; 2025 Signature Style Studio. Experiment and find your mark.</p>
+    <div id="editSignatureModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Edit Signature</h2>
+                <span class="close-button" id="closeModalButton">&times;</span>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="editingCardIndex">
+                <div>
+                    <label for="editText">Signature Text:</label>
+                    <input type="text" id="editText" class="input-field">
+                </div>
+                <div>
+                    <label for="editColor">Signature Color:</label>
+                    <input type="color" id="editColor" value="#3d3d3d">
+                </div>
+                <p class="text-sm text-gray-500 mb-2">Font: <span id="editFontName" class="font-semibold"></span> (Font cannot be changed here)</p>
+                <label>Preview:</label>
+                <div id="currentEditSignaturePreview"></div>
+            </div>
+            <div class="modal-footer">
+                <button id="cancelEditButton" class="btn btn-secondary">Cancel</button>
+                <button id="updateSignatureButton" class="btn btn-success">Update Signature</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center text-gray-500 mt-auto pb-8">
+        <p>&copy; 2025 Signature Style Studio. Innovate your identity.</p>
     </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const nameInput = document.getElementById('nameInput');
             const generateButton = document.getElementById('generateButton');
+            const clearButton = document.getElementById('clearButton');
             const signatureGrid = document.getElementById('signatureGrid');
             const messageArea = document.getElementById('messageArea');
 
-            // Curated list of Google Fonts for signatures
-            // Ensure these match the loaded fonts in the <head>
+            // Modal elements
+            const editModal = document.getElementById('editSignatureModal');
+            const closeModalButton = document.getElementById('closeModalButton');
+            const cancelEditButton = document.getElementById('cancelEditButton');
+            const updateSignatureButton = document.getElementById('updateSignatureButton');
+            const editText = document.getElementById('editText');
+            const editColor = document.getElementById('editColor');
+            const editFontName = document.getElementById('editFontName');
+            const editingCardIndexInput = document.getElementById('editingCardIndex');
+            const currentEditSignaturePreview = document.getElementById('currentEditSignaturePreview');
+
+            let currentSignatureIdeas = []; // To store generated ideas and their state
+
+            // SVG Icons for actions
+            const copyIconSVG = `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>`;
+            const downloadPngIconSVG = `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>`;
+            const downloadJpgIconSVG = `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line><circle cx="12" cy="8" r="1"></circle></svg>`; // Simple representation for JPG
+            const editIconSVG = `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>`;
+
+            // Available font families for signatures
             const fontFamilies = [
                 'Alex Brush', 'Allura', 'Bad Script', 'Caveat', 'Cedarville Cursive',
                 'Dancing Script', 'Dawning of a New Day', 'Great Vibes', 'Indie Flower', 'Kalam',
                 'La Belle Aurore', 'Marck Script', 'Nothing You Could Do', 'Pacifico', 'Parisienne',
                 'Permanent Marker', 'Petit Formal Script', 'Pinyon Script', 'Rock Salt', 'Sacramento',
                 'Satisfy', 'Shadows Into Light', 'Style Script', 'Yellowtail', 'Homemade Apple'
-            ]; // 25 fonts
+            ];
 
-            // Basic style transformations to apply
+            // Base text styling variations
             const baseStyles = [
-                { id: 'normal', style: { textTransform: 'none', letterSpacing: 'normal' } },
-                { id: 'upper', style: { textTransform: 'uppercase', letterSpacing: 'normal' } },
-                { id: 'lower', style: { textTransform: 'lowercase', letterSpacing: 'normal' } },
-                { id: 'spaced', style: { textTransform: 'none', letterSpacing: '0.1em' } } // Adjusted for better visual
-            ]; // 4 styles
+                { id: 'normal', style: { textTransform: 'none', letterSpacing: 'normal', fontWeight: 'normal' } },
+                { id: 'upper', style: { textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 'normal' } },
+                { id: 'lower', style: { textTransform: 'lowercase', letterSpacing: 'normal', fontWeight: 'normal' } },
+                { id: 'spaced', style: { textTransform: 'none', letterSpacing: '0.1em', fontWeight: 'normal' } }
+            ];
 
-            generateButton.addEventListener('click', () => {
+            // Load saved name from localStorage
+            const savedName = localStorage.getItem('signatureNameAdv');
+            if (savedName) nameInput.value = savedName;
+
+            // Event listeners for main controls
+            generateButton.addEventListener('click', handleGenerate);
+            nameInput.addEventListener('keypress', (event) => { if (event.key === 'Enter') handleGenerate(); });
+            clearButton.addEventListener('click', handleClear);
+
+            // Event listeners for modal controls
+            closeModalButton.onclick = () => editModal.style.display = "none";
+            cancelEditButton.onclick = () => editModal.style.display = "none";
+            window.onclick = (event) => { if (event.target == editModal) editModal.style.display = "none"; };
+            
+            editText.addEventListener('input', updateEditPreview);
+            editColor.addEventListener('input', updateEditPreview);
+            updateSignatureButton.addEventListener('click', applySignatureUpdate);
+
+            // Clears the input, grid, and localStorage
+            function handleClear() {
+                nameInput.value = '';
+                signatureGrid.innerHTML = '';
+                currentSignatureIdeas = [];
+                messageArea.textContent = 'Enter your name and click "Generate" to see styles.';
+                localStorage.removeItem('signatureNameAdv');
+            }
+
+            // Handles the generation of signatures
+            function handleGenerate() {
                 const name = nameInput.value.trim();
                 messageArea.textContent = ''; // Clear previous messages
 
                 if (!name) {
-                    messageArea.textContent = 'Please enter a name or initials to generate styles.';
+                    messageArea.textContent = 'Please enter a name or initials.';
                     signatureGrid.innerHTML = ''; // Clear grid if name is empty
+                    currentSignatureIdeas = [];
                     return;
                 }
+                localStorage.setItem('signatureNameAdv', name);
                 generateSignatures(name);
-            });
-            
-            nameInput.addEventListener('keypress', (event) => {
-                if (event.key === 'Enter') {
-                    generateButton.click();
-                }
-            });
+            }
 
+            // Generates signature ideas based on fonts and styles
             function generateSignatures(name) {
-                signatureGrid.innerHTML = ''; // Clear previous results
-                let signatureIdeas = [];
+                signatureGrid.innerHTML = ''; // Clear previous signatures
+                currentSignatureIdeas = [];
+                const targetCount = 100; // Max number of signature ideas to generate
 
                 for (const font of fontFamilies) {
                     for (const baseStyle of baseStyles) {
-                        if (signatureIdeas.length < 100) {
-                            signatureIdeas.push({
-                                text: name,
+                        if (currentSignatureIdeas.length < targetCount) {
+                            currentSignatureIdeas.push({
+                                originalText: name, // Keep original text for reference if needed
+                                currentText: name,
                                 fontFamily: font,
-                                styleAttrs: baseStyle.style
+                                styleAttrs: { ...baseStyle.style }, // Copy style attributes
+                                appliedFontSize: 0, // Will be calculated dynamically
+                                color: '#3d3d3d' // Default color
                             });
-                        } else {
-                            break;
-                        }
+                        } else break; // Stop if target count is reached
                     }
-                    if (signatureIdeas.length >= 100) break;
+                    if (currentSignatureIdeas.length >= targetCount) break;
                 }
                 
-                // Shuffle the array for more variety on each generation if desired
-                // signatureIdeas.sort(() => 0.5 - Math.random());
-
-
-                if (signatureIdeas.length === 0) {
-                     messageArea.textContent = 'Could not generate signature ideas. Try a different input.';
+                if (currentSignatureIdeas.length === 0) {
+                     messageArea.textContent = 'Could not generate ideas. Try a different input.';
                      return;
                 }
                 
-                messageArea.textContent = `Displaying ${signatureIdeas.length} signature ideas for "${name}":`;
+                messageArea.textContent = `Displaying ${currentSignatureIdeas.length} ideas for "${name}":`;
+                renderSignatureCards();
+            }
 
-                signatureIdeas.forEach(idea => {
+            // Renders all signature cards to the grid
+            function renderSignatureCards() {
+                signatureGrid.innerHTML = ''; // Clear grid before re-rendering
+                currentSignatureIdeas.forEach((idea, index) => {
                     const signatureCard = document.createElement('div');
-                    signatureCard.classList.add('signature-card', 'p-4', 'rounded-lg', 'flex', 'items-center', 'justify-center', 'h-28', 'md:h-32');
+                    signatureCard.classList.add('signature-card', 'p-0', 'h-40', 'md:h-44'); // Set fixed height
+                    signatureCard.dataset.index = index; // Store index for editing
+
+                    const displayContainer = document.createElement('div');
+                    displayContainer.classList.add('signature-display-container');
                     
                     const signatureTextDisplay = document.createElement('span');
-                    signatureTextDisplay.classList.add('signature-text-display', 'text-center');
+                    signatureTextDisplay.classList.add('signature-text-display');
+                    
+                    // Dynamically adjust font size based on text length
+                    let fontSize = 28; // Base font size
+                    const textLength = idea.currentText.length;
 
-                    // Apply styles
-                    signatureTextDisplay.style.setProperty('--signature-font', idea.fontFamily); // Set CSS variable for font
-                    signatureTextDisplay.style.fontFamily = `var(--signature-font, 'cursive')`; // Use variable with fallback
+                    if (textLength > 20) fontSize = Math.max(12, 28 - (textLength - 20) * 0.7);
+                    else if (textLength > 15) fontSize = Math.max(14, 28 - (textLength - 15) * 0.8);
+                    else if (textLength > 10) fontSize = Math.max(18, 28 - (textLength - 10) * 1);
+                    else if (textLength < 4 && textLength > 0) fontSize = Math.min(40, 28 + (4 - textLength) * 3); // Larger for very short text
+                    else if (textLength <= 6) fontSize = Math.min(36, 28 + (6 - textLength) * 2);
+                    
+                    idea.appliedFontSize = fontSize; // Store the calculated font size
+
+                    // Apply styles to the signature text display
+                    signatureTextDisplay.style.setProperty('--signature-font', idea.fontFamily);
+                    signatureTextDisplay.style.fontFamily = `var(--signature-font, 'cursive')`;
                     signatureTextDisplay.style.textTransform = idea.styleAttrs.textTransform;
                     signatureTextDisplay.style.letterSpacing = idea.styleAttrs.letterSpacing;
-
-                    // Dynamic font size adjustment
-                    let fontSize = 28; // Base font size for cards (slightly smaller than previous thought for better fit)
-                    const textLength = idea.text.length;
-
-                    if (textLength > 15) {
-                        fontSize = Math.max(14, 28 - (textLength - 15) * 0.8); // More gradual reduction
-                    } else if (textLength > 10) {
-                        fontSize = Math.max(18, 28 - (textLength - 10) * 1);
-                    } else if (textLength < 4 && textLength > 0) {
-                        fontSize = Math.min(40, 28 + (4 - textLength) * 3); // Increase for very short text
-                    } else if (textLength <=6 ) {
-                         fontSize = Math.min(36, 28 + (6 - textLength) * 2);
-                    }
-
-
+                    signatureTextDisplay.style.fontWeight = idea.styleAttrs.fontWeight;
                     signatureTextDisplay.style.fontSize = `${fontSize}px`;
-                    signatureTextDisplay.textContent = idea.text;
+                    signatureTextDisplay.style.setProperty('--signature-color', idea.color); // Use CSS variable for color
+                    signatureTextDisplay.textContent = idea.currentText;
                     
-                    signatureCard.appendChild(signatureTextDisplay);
+                    displayContainer.appendChild(signatureTextDisplay);
+
+                    // Display font name below signature
+                    const fontNameDiv = document.createElement('div');
+                    fontNameDiv.classList.add('font-name-display');
+                    fontNameDiv.textContent = idea.fontFamily;
+
+                    // Create action buttons container
+                    const actionsContainer = document.createElement('div');
+                    actionsContainer.classList.add('card-actions');
+
+                    // Create individual action buttons
+                    const copyButton = createActionButton(copyIconSVG, 'Copy Text', () => copyTextAction(idea.currentText, copyButton));
+                    const downloadPNGButton = createActionButton(downloadPngIconSVG, 'Download PNG', () => downloadSignatureAction(idea, 'png', downloadPNGButton));
+                    const downloadJPGButton = createActionButton(downloadJpgIconSVG, 'Download JPG', () => downloadSignatureAction(idea, 'jpg', downloadJPGButton));
+                    const editButton = createActionButton(editIconSVG, 'Edit Style', () => openEditModal(index));
+                    
+                    actionsContainer.appendChild(editButton);
+                    actionsContainer.appendChild(copyButton);
+                    actionsContainer.appendChild(downloadPNGButton);
+                    actionsContainer.appendChild(downloadJPGButton);
+                    
+                    signatureCard.appendChild(actionsContainer);
+                    signatureCard.appendChild(displayContainer);
+                    signatureCard.appendChild(fontNameDiv);
                     signatureGrid.appendChild(signatureCard);
                 });
             }
+
+            // Helper to create an action button with SVG icon and tooltip
+            function createActionButton(svg, tooltipText, action) {
+                const button = document.createElement('div');
+                button.classList.add('action-icon', 'tooltip'); // Tooltip class is on the button itself
+                button.innerHTML = svg + `<span class="tooltiptext">${tooltipText}</span>`;
+                button.addEventListener('click', (e) => {
+                    e.stopPropagation(); // Prevent card click or other parent events
+                    action();
+                });
+                return button;
+            }
+
+            // Action to copy signature text to clipboard
+            function copyTextAction(text, buttonElement) {
+                navigator.clipboard.writeText(text)
+                    .then(() => showTooltipFeedback(buttonElement, 'Copied!'))
+                    .catch(err => console.error('Failed to copy: ', err));
+            }
+
+            // Action to trigger download (simulates preparation)
+            function downloadSignatureAction(idea, format, buttonElement) {
+                showTooltipFeedback(buttonElement, 'Preparing...');
+                setTimeout(() => { // Simulate processing time
+                    downloadSignatureAsImage(idea, format);
+                    // Reset tooltip text after a delay, specific to the original action
+                    const originalTooltip = format === 'png' ? 'Download PNG' : 'Download JPG';
+                    showTooltipFeedback(buttonElement, originalTooltip, 2000, true); // Force reset to original text
+                }, 200); 
+            }
             
-            // Initial placeholder message
-            messageArea.textContent = 'Enter your name above and click "Generate" to see signature styles.';
+            // Shows temporary feedback on a tooltip
+            function showTooltipFeedback(buttonElement, message, duration = 1500, forceOriginalTextReset = false) {
+                const tooltip = buttonElement.querySelector('.tooltiptext');
+                if (tooltip) {
+                    // Store original text if not already stored, or if forced to reset
+                    if (!tooltip.dataset.originalText || forceOriginalTextReset) {
+                        // This logic infers original text. Could be more robust.
+                        let originalText = "Action"; // Generic fallback
+                        if (buttonElement.innerHTML.includes('rect x="9"')) originalText = "Copy Text"; // Heuristic for copy icon
+                        else if (buttonElement.innerHTML.includes('path d="M11 4H4a2')) originalText = "Edit Style"; // Heuristic for edit icon
+                        else if (message.toLowerCase().includes("png") || tooltip.textContent.toLowerCase().includes("png")) originalText = "Download PNG";
+                        else if (message.toLowerCase().includes("jpg") || tooltip.textContent.toLowerCase().includes("jpg")) originalText = "Download JPG";
+                        tooltip.dataset.originalText = originalText;
+                    }
+                
+                    tooltip.textContent = message;
+                
+                    // Clear any existing timeout to prevent multiple resets
+                    if (tooltip.dataset.timeoutId) {
+                        clearTimeout(parseInt(tooltip.dataset.timeoutId));
+                    }
+                
+                    const timeoutId = setTimeout(() => {
+                        tooltip.textContent = tooltip.dataset.originalText;
+                        tooltip.removeAttribute('data-timeout-id'); // Clear the stored timeout ID
+                    }, duration);
+                    tooltip.dataset.timeoutId = timeoutId.toString(); // Store the new timeout ID
+                }
+            }
+            
+            // Opens the edit modal with the selected signature's details
+            function openEditModal(index) {
+                const idea = currentSignatureIdeas[index];
+                editingCardIndexInput.value = index;
+                editText.value = idea.currentText;
+                editColor.value = idea.color;
+                editFontName.textContent = idea.fontFamily;
+                
+                // Apply styles to the modal preview
+                currentEditSignaturePreview.style.fontFamily = `"${idea.fontFamily}", cursive`; // Ensure font name is quoted
+                currentEditSignaturePreview.style.textTransform = idea.styleAttrs.textTransform;
+                currentEditSignaturePreview.style.letterSpacing = idea.styleAttrs.letterSpacing;
+                currentEditSignaturePreview.style.fontWeight = idea.styleAttrs.fontWeight;
+                currentEditSignaturePreview.style.fontSize = `${idea.appliedFontSize}px`; // Use the same font size as in card
+                updateEditPreview(); // Initial preview update
+                editModal.style.display = "flex"; // Show modal
+            }
+
+            // Updates the preview in the edit modal as user types or changes color
+            function updateEditPreview() {
+                currentEditSignaturePreview.textContent = editText.value;
+                currentEditSignaturePreview.style.color = editColor.value;
+            }
+
+            // Applies the changes from the edit modal to the signature idea and re-renders
+            function applySignatureUpdate() {
+                const index = parseInt(editingCardIndexInput.value);
+                if (isNaN(index) || index < 0 || index >= currentSignatureIdeas.length) return;
+
+                currentSignatureIdeas[index].currentText = editText.value;
+                currentSignatureIdeas[index].color = editColor.value;
+                
+                renderSignatureCards(); // Re-render all cards to reflect changes
+                editModal.style.display = "none"; // Hide modal
+            }
+
+            // Downloads the signature as an image (PNG or JPG)
+            async function downloadSignatureAsImage(idea, format = 'png') {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                const { currentText, fontFamily, styleAttrs, appliedFontSize, color } = idea;
+
+                // Attempt to ensure the font is loaded before drawing on canvas
+                try {
+                    await document.fonts.load(`${styleAttrs.fontWeight || 'normal'} ${appliedFontSize}px "${fontFamily}"`);
+                } catch (err) {
+                    console.warn(`Font ${fontFamily} might not be fully loaded for canvas. Error: ${err}`);
+                    // Proceed anyway, browser might handle it
+                }
+
+                // Apply text transformations (uppercase/lowercase)
+                let transformedText = currentText;
+                if (styleAttrs.textTransform === 'uppercase') transformedText = currentText.toUpperCase();
+                else if (styleAttrs.textTransform === 'lowercase') transformedText = currentText.toLowerCase();
+                
+                const fontStyle = `${styleAttrs.fontWeight || 'normal'} ${appliedFontSize}px "${fontFamily}"`; // Ensure font name is quoted
+                ctx.font = fontStyle;
+
+                // Calculate text metrics for canvas sizing
+                const textMetrics = ctx.measureText(transformedText);
+                const padding = 30; // Padding around the signature text
+                canvas.width = textMetrics.width + padding * 2;
+                
+                // Estimate height as browsers differ in actualBoundingBoxAscent/Descent support
+                let actualHeight = textMetrics.actualBoundingBoxAscent + textMetrics.actualBoundingBoxDescent;
+                if (isNaN(actualHeight) || actualHeight <= 0) actualHeight = appliedFontSize * 1.2; // Fallback height
+                canvas.height = actualHeight + padding * 2;
+
+                // Fill background for JPG, transparent for PNG
+                if (format === 'jpg') {
+                    ctx.fillStyle = '#FFFFFF'; // White background for JPG
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                }
+
+                // Set text properties for drawing
+                ctx.font = fontStyle; // Re-apply font as fillRect might reset it
+                ctx.fillStyle = color;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                
+                const x = canvas.width / 2;
+                const y = canvas.height / 2;
+
+                // Handle custom letter spacing if applied
+                if (styleAttrs.letterSpacing && styleAttrs.letterSpacing !== 'normal' && styleAttrs.letterSpacing !== '0px') {
+                    const letterSpacingValue = parseFloat(styleAttrs.letterSpacing.replace('em', '')) * appliedFontSize; // Convert em to px
+                    
+                    // Calculate total width with spacing for centering
+                    let totalWidthWithSpacing = 0;
+                    for(let i = 0; i < transformedText.length; i++) {
+                        totalWidthWithSpacing += ctx.measureText(transformedText[i]).width;
+                        if (i < transformedText.length - 1) {
+                            totalWidthWithSpacing += letterSpacingValue;
+                        }
+                    }
+                    let currentX = x - (totalWidthWithSpacing / 2); // Start X for centered text with spacing
+
+                    // Draw text char by char with spacing
+                    for (const char of transformedText) {
+                        ctx.fillText(char, currentX, y);
+                        currentX += ctx.measureText(char).width + letterSpacingValue;
+                    }
+                } else {
+                    // Draw text normally if no custom spacing
+                    ctx.fillText(transformedText, x, y);
+                }
+
+                // Create download link and trigger download
+                const dataURL = canvas.toDataURL(format === 'jpg' ? 'image/jpeg' : 'image/png');
+                const link = document.createElement('a');
+                link.href = dataURL;
+                const safeFontName = fontFamily.replace(/\s+/g, '_'); // Sanitize font name for filename
+                const safeText = currentText.substring(0,10).replace(/\s+/g, '_'); // Sanitize text for filename
+                link.download = `signature_${safeText}_${safeFontName}.${format}`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+            
+            // Initial generation if name is already in input (e.g., from localStorage)
+            if (nameInput.value) handleGenerate();
+            else messageArea.textContent = 'Enter your name and click "Generate" to see styles.';
         });
     </script>
 
