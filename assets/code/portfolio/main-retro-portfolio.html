@@ -1,0 +1,1322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gourab Dasgupta - [TERMINAL_ACCESS_GRANTED]</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=VT323&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --hacker-black: #000000;
+            --hacker-bg: #0D0D0D;
+            --hacker-green: #00FF00;
+            --hacker-green-dim: rgba(0, 255, 0, 0.7);
+            --hacker-green-dark: #008F00;
+            --hacker-border: #00FF00;
+            --hacker-text: #00FF00;
+            --hacker-text-secondary: #00C000;
+
+            --font-terminal: 'VT323', monospace;
+            --font-header: 'Press Start 2P', cursive;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-terminal);
+            background-color: var(--hacker-black);
+            color: var(--hacker-text);
+            line-height: 1.7; /* Increased for terminal readability */
+            overflow-x: hidden;
+            padding-bottom: 60px; /* Space for command panel */
+        }
+
+        /* Scanlines Effect */
+        body.scanlines::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0) 0px,
+                rgba(0, 0, 0, 0) 1px,
+                var(--scanline-color, rgba(0, 255, 0, 0.08)) 2px, /* Use variable for color */
+                var(--scanline-color, rgba(0, 255, 0, 0.08)) 3px
+            );
+            pointer-events: none;
+            z-index: 3000;
+        }
+
+        /* CRT Text Effect */
+        body.crt-effect {
+            text-shadow: 0 0 3px var(--hacker-green-dim);
+        }
+        body.crt-effect h1, body.crt-effect h2, body.crt-effect h3, body.crt-effect .logo, body.crt-effect .cta-button {
+             animation: text-flicker 3s infinite;
+        }
+
+        @keyframes text-flicker {
+            0%, 100% { text-shadow: 0 0 2px var(--hacker-green), 0 0 5px var(--hacker-green-dim); opacity: 1; }
+            50% { text-shadow: 0 0 3px var(--hacker-green), 0 0 6px var(--hacker-green-dim); opacity: 0.85; }
+        }
+
+
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            background-color: var(--hacker-black);
+        }
+
+        .container {
+            max-width: 1000px; /* Adjusted for terminal feel */
+            margin: 0 auto;
+            padding: 0 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header & Navigation */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 10px 0;
+            z-index: 1000;
+            background-color: rgba(0,0,0,0.85); /* Solid black with some transparency */
+            border-bottom: 1px solid var(--hacker-border);
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: var(--font-header);
+            font-size: 1.2em;
+            color: var(--hacker-green);
+            text-decoration: none;
+            text-shadow: 0 0 5px var(--hacker-green);
+        }
+        .logo span { /* Not really used in this style, but kept if needed */
+            color: var(--hacker-text);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+        }
+
+        nav ul li {
+            margin-left: 15px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--hacker-text-secondary);
+            font-size: 0.9em; /* Smaller for terminal feel */
+            padding: 3px 6px;
+            border: 1px solid transparent;
+            transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+        }
+
+        nav ul li a:hover, nav ul li a.active {
+            color: var(--hacker-black);
+            background-color: var(--hacker-green);
+            border-color: var(--hacker-green);
+            text-shadow: none;
+        }
+        
+        .menu-toggle {
+            display: none;
+            color: var(--hacker-green);
+            font-size: 1.5rem;
+            cursor: pointer;
+            border: 1px solid var(--hacker-green);
+            padding: 2px 5px;
+        }
+        .menu-toggle i {
+            text-shadow: 0 0 3px var(--hacker-green);
+        }
+
+
+        /* Hero Section */
+        #hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            padding-top: 60px; 
+        }
+
+        .hero-content {
+            max-width: 700px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero-content h1 {
+            font-family: var(--font-header);
+            font-size: 2.5rem; 
+            margin-bottom: 10px;
+            color: var(--hacker-text);
+            line-height: 1.2;
+            text-shadow: 0 0 7px var(--hacker-green);
+        }
+
+        .hero-content .subtitle {
+            font-family: var(--font-terminal);
+            font-size: 1.1rem; 
+            color: var(--hacker-text-secondary);
+            margin-bottom: 15px;
+            display: block;
+            letter-spacing: 1px; /* Wider spacing */
+        }
+        
+        .hero-content .tagline {
+            font-size: 1rem; 
+            color: var(--hacker-text-secondary);
+            margin-bottom: 25px;
+            max-width: 550px; 
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: transparent;
+            color: var(--hacker-green);
+            border: 1px solid var(--hacker-green);
+            padding: 8px 20px; 
+            text-decoration: none;
+            font-size: 0.9rem; 
+            font-weight: normal; /* Monospace usually doesn't need bold */
+            border-radius: 0; /* Sharp corners */
+            transition: background-color 0.2s ease, color 0.2s ease;
+            margin-top: 15px;
+            text-shadow: 0 0 3px var(--hacker-green-dim);
+        }
+
+        .cta-button:hover {
+            background-color: var(--hacker-green);
+            color: var(--hacker-black);
+            text-shadow: none;
+        }
+        
+        .social-icons-hero {
+            margin-top: 25px;
+        }
+        .social-icons-hero a {
+            color: var(--hacker-text-secondary);
+            font-size: 1.5rem; 
+            margin: 0 10px;
+            transition: color 0.2s ease, text-shadow 0.2s ease;
+        }
+        .social-icons-hero a:hover {
+            color: var(--hacker-green);
+            text-shadow: 0 0 5px var(--hacker-green);
+        }
+        .social-icons-hero a i { /* Style FontAwesome icons */
+             color: inherit; /* Inherit color from <a> tag */
+        }
+
+
+        /* General Section Styling */
+        section {
+            padding: 70px 0;
+            position: relative;
+            z-index: 1;
+            border-bottom: 1px dashed var(--hacker-border-dim, rgba(0,255,0,0.3)); /* Dashed separator */
+        }
+        section:last-of-type {
+            border-bottom: none;
+        }
+
+        .section-title {
+            text-align: center;
+            font-family: var(--font-header);
+            font-size: 1.8rem; 
+            margin-bottom: 40px;
+            color: var(--hacker-text);
+            position: relative;
+            padding: 5px 10px;
+            border: 1px solid var(--hacker-border);
+            display: inline-block; /* To make border fit content */
+            left: 50%;
+            transform: translateX(-50%);
+            text-shadow: 0 0 5px var(--hacker-green);
+        }
+        .section-title::after { /* Remove complex underline */
+            content: none;
+        }
+
+        /* About Section */
+        #about .about-content {
+            display: flex;
+            gap: 30px; 
+            align-items: flex-start;
+        }
+        #about .about-text {
+            flex: 2;
+        }
+        #about .about-image-container {
+            flex: 1;
+            text-align: center;
+            padding-top: 10px;
+        }
+        #about .profile-pic {
+            width: 200px; 
+            height: 200px; 
+            object-fit: cover;
+            border: 2px solid var(--hacker-border); 
+            filter: grayscale(80%) contrast(120%) brightness(90%) sepia(30%); /* Retro image effect */
+            padding: 5px; /* Inner border effect */
+            background-color: var(--hacker-black);
+        }
+        body.crt-effect #about .profile-pic { /* Less flicker on image */
+            animation: none;
+        }
+
+        #about h3 {
+            font-family: var(--font-terminal); /* Use terminal font for subheadings */
+            font-size: 1.4rem; 
+            color: var(--hacker-green);
+            margin-bottom: 10px;
+            font-weight: normal;
+        }
+        #about p {
+            margin-bottom: 10px;
+            color: var(--hacker-text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* Skills Section */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+            gap: 20px; 
+        }
+        .skill-category {
+            background-color: transparent; /* No card bg */
+            padding: 20px; 
+            border: 1px solid var(--hacker-border-dim, rgba(0,255,0,0.4));
+            transition: border-color 0.3s ease;
+        }
+        .skill-category:hover {
+            border-color: var(--hacker-green);
+        }
+        .skill-category h3 {
+            font-size: 1.2rem; 
+            color: var(--hacker-green);
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--hacker-border-dim, rgba(0,255,0,0.4));
+            padding-bottom: 6px;
+            display: flex;
+            align-items: center;
+            font-family: var(--font-terminal);
+            font-weight: normal;
+        }
+         .skill-category h3 i {
+            margin-right: 8px;
+            font-size: 1.1em; 
+            color: var(--hacker-green); /* Ensure icon color */
+         }
+        .skill-category ul {
+            list-style: none; /* Use custom markers or none */
+        }
+        .skill-category ul li {
+            margin-bottom: 8px;
+            color: var(--hacker-text-secondary);
+            font-family: var(--font-terminal);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+        }
+        .skill-category ul li::before { /* Custom list marker */
+            content: ">>";
+            color: var(--hacker-green-dim);
+            margin-right: 8px;
+            font-size: 0.8em;
+        }
+        .skill-category ul li i { /* Hide default icon if using ::before */
+           display: none;
+        }
+
+
+        /* Experience & Education (Journey) Section */
+        .timeline {
+            position: relative;
+            max-width: 700px; 
+            margin: 0 auto;
+        }
+        .timeline::after { 
+            content: ''; position: absolute; width: 2px; 
+            background-color: var(--hacker-border-dim, rgba(0,255,0,0.3)); 
+            top: 0; bottom: 0; left: 50%; margin-left: -1px; 
+        }
+        .timeline-item {
+            padding: 5px 30px; 
+            position: relative; background-color: inherit; width: 50%;
+        }
+        .timeline-item::after { /* Timeline dots */
+            content: ''; position: absolute; width: 12px; height: 12px; 
+            right: -6px; 
+            background-color: var(--hacker-black); border: 2px solid var(--hacker-green); 
+            top: 18px; 
+            border-radius: 0; /* Square dots */
+            z-index: 1; 
+            box-shadow: 0 0 5px var(--hacker-green-dim);
+        }
+        .timeline-item.left { left: 0; text-align: right; } /* Align text for left items */
+        .timeline-item.right { left: 50%; text-align: left; } /* Align text for right items */
+        
+        .timeline-item.left::before, .timeline-item.right::before { /* Remove arrows */
+            content: none;
+        }
+        .timeline-item.right::after { left: -6px; }
+
+        .timeline-content {
+            padding: 15px; 
+            background-color: transparent; /* No card bg */
+            position: relative; 
+            border: 1px solid var(--hacker-border-dim, rgba(0,255,0,0.4)); 
+            transition: border-color 0.3s ease;
+        }
+        .timeline-content:hover {
+            border-color: var(--hacker-green);
+        }
+        .timeline-content h3 {
+            font-size: 1.1rem; color: var(--hacker-green); margin-bottom: 3px; font-weight: normal; 
+            font-family: var(--font-terminal);
+        }
+        .timeline-content h4 {
+            font-size: 0.9rem; color: var(--hacker-text); margin-bottom: 6px; font-weight: normal; 
+        }
+        .timeline-content .date {
+            font-family: var(--font-terminal); font-size: 0.8rem; color: var(--hacker-text-secondary); 
+            margin-bottom: 6px; display: block;
+        }
+        .timeline-content p {
+            font-size: 0.85rem; color: var(--hacker-text-secondary); margin-bottom: 6px; 
+        }
+        .timeline-content .keywords {
+            font-family: var(--font-terminal); font-size: 0.75rem; color: var(--hacker-green-dim); opacity: 0.9; 
+        }
+
+        /* Projects Section */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+            gap: 20px;
+        }
+        .project-card {
+            background-color: transparent; 
+            padding: 20px;
+            border: 1px solid var(--hacker-border-dim, rgba(0,255,0,0.4)); 
+            display: flex; flex-direction: column; justify-content: space-between;
+            transition: border-color 0.3s ease;
+        }
+        .project-card:hover {
+            border-color: var(--hacker-green);
+        }
+        .project-card h3 {
+            font-size: 1.3rem; color: var(--hacker-green); margin-bottom: 6px; font-weight: normal;
+            font-family: var(--font-terminal);
+        }
+        .project-card p {
+            font-size: 0.9rem; color: var(--hacker-text-secondary); margin-bottom: 10px; flex-grow: 1; 
+        }
+        .project-card .technologies {
+            font-family: var(--font-terminal); font-size: 0.8rem; color: var(--hacker-green-dim); 
+            opacity: 0.9; margin-bottom: 15px; word-spacing: 2px; 
+        }
+        .project-card .project-links a {
+            color: var(--hacker-green); text-decoration: none; margin-right: 10px; 
+            font-size: 0.9rem; font-weight: normal; 
+            transition: color 0.2s ease, background-color 0.2s ease;
+            padding: 2px 4px;
+            border: 1px solid transparent;
+        }
+        .project-card .project-links a:hover {
+            background-color: var(--hacker-green);
+            color: var(--hacker-black);
+            border-color: var(--hacker-green);
+        }
+        .project-card .project-links a i { margin-right: 5px; color: inherit !important; }
+
+        /* Certifications Section */
+        .certifications-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); 
+            gap: 15px;
+        }
+        .certification-item {
+            background-color: transparent; padding: 15px; 
+            border: 1px solid var(--hacker-border-dim, rgba(0,255,0,0.4)); 
+            transition: border-color 0.3s ease;
+        }
+        .certification-item:hover {
+             border-color: var(--hacker-green);
+        }
+        .certification-item h3 {
+            font-size: 1.1rem; color: var(--hacker-green); margin-bottom: 5px; font-weight: normal; 
+            font-family: var(--font-terminal);
+        }
+        .certification-item p {
+            font-family: var(--font-terminal); font-size: 0.85rem; color: var(--hacker-text-secondary); 
+        }
+
+        /* Blog Section */
+        #blog .blog-promo {
+            text-align: center; background-color: transparent;
+            padding: 30px 20px; 
+            border: 1px solid var(--hacker-border-dim, rgba(0,255,0,0.4)); 
+            transition: border-color 0.3s ease;
+        }
+        #blog .blog-promo:hover {
+            border-color: var(--hacker-green);
+        }
+        #blog .blog-promo h3 {
+            font-size: 1.5rem; color: var(--hacker-green); margin-bottom: 10px; font-weight: normal; 
+            font-family: var(--font-header);
+        }
+        #blog .blog-promo p {
+            font-size: 1rem; color: var(--hacker-text-secondary); margin-bottom: 20px; 
+        }
+
+        /* Contact Section */
+        #contact .contact-content {
+            text-align: center; max-width: 600px; margin: 0 auto; 
+        }
+        #contact p {
+            font-size: 1rem; color: var(--hacker-text-secondary); margin-bottom: 20px; 
+        }
+        .contact-details {
+            display: flex; flex-wrap: wrap; justify-content: center;
+            gap: 15px; 
+            margin-bottom: 30px; 
+        }
+        .contact-item {
+            font-size: 1rem; 
+            color: var(--hacker-text-secondary); display: flex; align-items: center;
+            padding: 8px 12px; 
+            background-color: transparent; 
+            border: 1px solid var(--hacker-border-dim, rgba(0,255,0,0.4));
+            transition: color 0.2s ease, border-color 0.2s ease;
+        }
+        .contact-item:hover {
+            color: var(--hacker-green); border-color: var(--hacker-green); 
+        }
+        .contact-item i {
+            color: var(--hacker-green); margin-right: 8px; font-size: 1.2rem; 
+        }
+        .contact-item a {
+            color: inherit; text-decoration: none; 
+        }
+        
+        .contact-social-icons {
+            margin-top: 15px; 
+        }
+        .contact-social-icons a {
+            color: var(--hacker-text-secondary); font-size: 1.8rem; margin: 0 12px; 
+            transition: color 0.2s ease, text-shadow 0.2s ease;
+        }
+        .contact-social-icons a:hover {
+            color: var(--hacker-green); text-shadow: 0 0 5px var(--hacker-green);
+        }
+         .contact-social-icons a i { color: inherit; }
+
+
+        /* Footer */
+        footer {
+            text-align: center; padding: 25px 0; 
+            background-color: var(--hacker-black); /* Solid black footer */
+            border-top: 1px solid var(--hacker-border);
+            position: relative; z-index: 1;
+        }
+        footer p {
+            font-size: 0.8rem; color: var(--hacker-text-secondary); font-family: var(--font-terminal); 
+            margin-bottom: 3px;
+        }
+        footer p:last-child { margin-bottom: 0; }
+        footer p a { color: var(--hacker-green); text-decoration: none; }
+        footer p a:hover { text-decoration: underline; }
+        footer i.fa-heart { color: var(--hacker-green) !important; } /* Ensure heart icon color */
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar { width: 8px; height: 8px;}
+        ::-webkit-scrollbar-track { background: var(--hacker-black); border-left: 1px solid var(--hacker-border-dim, rgba(0,255,0,0.2));}
+        ::-webkit-scrollbar-thumb { background: var(--hacker-green-dark); border: 1px solid var(--hacker-green); }
+        ::-webkit-scrollbar-thumb:hover { background: var(--hacker-green); }
+        ::-webkit-scrollbar-corner { background: var(--hacker-black); }
+
+
+        /* Command Panel */
+        .command-panel {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(5, 5, 5, 0.95); /* Slightly off-black, high transparency */
+            border-top: 1px solid var(--hacker-border);
+            padding: 5px 10px;
+            font-family: var(--font-terminal);
+            color: var(--hacker-text);
+            z-index: 2000;
+            max-height: 150px; /* Limit height */
+            display: flex;
+            flex-direction: column;
+        }
+        .command-output-container {
+            flex-grow: 1;
+            overflow-y: auto;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+            max-height: 100px; /* Max height for output before input */
+        }
+        .command-output-container p {
+            margin-bottom: 2px;
+            word-break: break-all;
+        }
+        .command-output-container p .cmd-prompt { color: var(--hacker-green-dark); }
+        .command-output-container p .cmd-success { color: var(--hacker-green); }
+        .command-output-container p .cmd-error { color: #FF4136; /* Retro Red */ }
+        .command-output-container p .cmd-info { color: #7FDBFF; /* Retro Blue */ }
+
+        .command-input-line {
+            display: flex;
+            align-items: center;
+        }
+        .command-prompt {
+            margin-right: 5px;
+            color: var(--hacker-green);
+        }
+        .command-input {
+            background-color: transparent;
+            border: none;
+            color: var(--hacker-text);
+            flex-grow: 1;
+            outline: none;
+            font-family: inherit;
+            font-size: 1em;
+            caret-color: var(--hacker-green);
+        }
+        .command-input::placeholder {
+            color: var(--hacker-green-dim);
+            opacity: 0.7;
+        }
+
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .logo { font-size: 1em; }
+            nav ul {
+                display: none; /* Hide default nav */
+                flex-direction: column;
+                position: absolute;
+                top: calc(100% + 1px); /* Position below header */
+                left: 0;
+                width: 100%;
+                background-color: var(--hacker-black);
+                border: 1px solid var(--hacker-border);
+                border-top: none;
+            }
+            nav ul.active { /* Show when mobile menu is active */
+                display: flex;
+            }
+            nav ul li {
+                margin: 0;
+                width: 100%;
+            }
+            nav ul li a {
+                display: block;
+                padding: 8px 10px;
+                border-bottom: 1px solid var(--hacker-border-dim, rgba(0,255,0,0.2));
+            }
+            nav ul li:last-child a { border-bottom: none; }
+            .menu-toggle { display: block; }
+
+            .hero-content h1 { font-size: 2rem; } 
+            .hero-content .subtitle { font-size: 1rem; } 
+            .section-title { font-size: 1.5rem; } 
+
+            #about .about-content { flex-direction: column; align-items: center; }
+            #about .about-image-container { margin-bottom: 20px; }
+            #about .profile-pic { width: 150px; height: 150px; }
+
+            .timeline::after { left: 10px; } 
+            .timeline-item { width: 100%; padding-left: 30px; padding-right: 0; text-align: left !important; } 
+            .timeline-item::after { left: 3px; } 
+            .timeline-item.right { left: 0; }
+            .timeline-item.left::before, .timeline-item.right::before { /* Adjust or remove arrows for simpler mobile view */
+                left: 15px; 
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero-content h1 { font-size: 1.6rem; }
+            .hero-content .subtitle { font-size: 0.85rem; }
+            .cta-button { padding: 6px 12px; font-size: 0.8rem; }
+            .section-title { font-size: 1.3rem; }
+
+            .skills-grid, .projects-grid, .certifications-list {
+                grid-template-columns: 1fr; /* Single column */
+                gap: 15px;
+            }
+            .skill-category, .project-card, .certification-item, #blog .blog-promo, .timeline-content {
+                padding: 15px;
+            }
+            .command-panel { font-size: 0.9em; max-height: 120px; }
+            .command-output-container { max-height: 70px; }
+        }
+
+        /* Styles for disabled project links */
+        .disabled-link {
+            opacity: 0.6;
+            cursor: default;
+            pointer-events: none; /* Prevents click event and hover effects */
+        }
+        .disabled-link:hover { /* Override hover for disabled links */
+            background-color: transparent !important;
+            color: var(--hacker-green) !important;
+            border-color: transparent !important;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="particles-js"></div>
+
+    <header>
+        <div class="container">
+            <a href="#hero" class="logo">&gt;G_D<span></span></a>
+            <nav>
+                <div class="menu-toggle" id="mobile-menu">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <ul class="nav-list">
+                    <li><a href="#hero" class="active">root:~#</a></li>
+                    <li><a href="#about">./about_me</a></li>
+                    <li><a href="#skills">./skill_matrix</a></li>
+                    <li><a href="#journey">./history_log</a></li>
+                    <li><a href="#projects">./exploit_archive</a></li>
+                    <li><a href="#certifications">./auth_tokens</a></li>
+                    <li><a href="#blog">./intel_feed</a></li>
+                    <li><a href="#contact">./contact_ops</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section id="hero">
+        <div class="hero-content container">
+            <h1>Gourab Dasgupta</h1>
+            <span class="subtitle">// Cybersecurity_Professional | Threat_Intel_Analyst | OSINT_Specialist</span>
+            <p class="tagline">System.out.println("Transitioning operative with advanced proficiency in system analysis, automation, and cryptographic problem-solving. Current directive: Fortify digital perimeters.");</p>
+            <a href="#projects" class="cta-button">[ View Payloads ]</a>
+            <a href="https://gourabdg47.github.io/Resume-CTI-OSINT-April-09-2025.pdf" target="_blank" class="cta-button" style="margin-left:10px;">[ Download Dossier ]</a>
+            <div class="social-icons-hero">
+                <a href="https://github.com/gourabdg47" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                <a href="https://linkedin.com/in/gourabdasgupta/" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                <a href="mailto:gourav.dev26@zohomail.in" aria-label="Email"><i class="fas fa-envelope"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <section id="about">
+        <div class="container">
+            <h2 class="section-title">INIT_USER_PROFILE</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>GREETINGS_PROGRAM! I'm Gourab Dasgupta.</h3>
+                    <p>With a robust background in system architecture, API development, and process automation from my previous roles as a Product Engineer and Machine Learning Operative, I am now redirecting my core functions towards the cybersecurity domain.</p>
+                    <p>Currently interfacing with Security+ certification protocols and continuously assimilating threat intelligence frameworks (MITRE ATT&CK, Kill Chains, STIX/TAXII), alongside advanced OSINT reconnaissance patterns. My transition into cybersecurity is fueled by a deep-seated curiosity and a primary directive to safeguard our digital ecosystems.</p>
+                    <p>My technical skill array includes Python, Bash, SQL, cloud infrastructures (GCP, AWS), and multi-OS proficiency (Debian, Ubuntu, Arch, Windows), forming a solid foundation for decrypting complex security algorithms. Eager to deploy problem-solving subroutines and analytical processing to contribute to a dedicated cyber defense unit.</p>
+                    <h3>PRIMARY_DIRECTIVE: Cybersecurity</h3>
+                    <p>"My objective is to pursue cybersecurity due to an intrinsic drive to protect the global digital network and establish a secure operational environment for all users." This is not merely a career vector change; it's an alignment with a field critical to contemporary digital society. I am energized by the constant evolution and adaptation protocols inherent in cybersecurity and anticipate making a significant impact.</p>
+                </div>
+                <div class="about-image-container">
+                    <img src="https://placehold.co/200x200/000000/00FF00?text=GD&font=pressstart2p" alt="Gourab Dasgupta" class="profile-pic" onerror="this.src='https://placehold.co/200x200/000000/00FF00?text=NO_SIG&font=vt323'">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills">
+        <div class="container">
+            <h2 class="section-title">SKILL_MATRIX_LOADED</h2>
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h3><i class="fas fa-shield-alt"></i> Cybersecurity Ops</h3>
+                    <ul>
+                        <li>OSINT Reconnaissance</li>
+                        <li>Vulnerability Analysis</li>
+                        <li>Social Engineering Tactics</li>
+                        <li>Basic Exploit Development</li>
+                        <li>Kill Chain Mapping</li>
+                        <li>MITRE ATT&CK Framework</li>
+                        <li>STIX/TAXII Protocols</li>
+                        <li>NIST Policy Compliance</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h3><i class="fas fa-code"></i> Code & Data Stores</h3>
+                    <ul>
+                        <li>Python Scripting</li>
+                        <li>Bash Shell Operations</li>
+                        <li>PostgreSQL Management</li>
+                        <li>Django & DRF Frameworks</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h3><i class="fas fa-cloud"></i> Cloud & OS Kernels</h3>
+                    <ul>
+                        <li>AWS (Lambda, EC2)</li>
+                        <li>GCP (Compute Engine)</li>
+                        <li>Linux (Debian, Ubuntu, Arch)</li>
+                        <li>Windows Systems</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h3><i class="fas fa-tools"></i> Tools & Tech Stacks</h3>
+                    <ul>
+                        <li>RESTful API Design</li>
+                        <li>Git & GitHub Version Control</li>
+                        <li>Odoo ERP Customization</li>
+                        <li>ML (TensorFlow, Rasa)</li>
+                        <li>Computer Vision Systems</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="journey">
+        <div class="container">
+            <h2 class="section-title">CAREER_HISTORY_LOG</h2>
+            <div class="timeline">
+                <div class="timeline-item left">
+                    <div class="timeline-content">
+                        <h3>Product Engineer</h3>
+                        <h4>Livealtlife Systems</h4>
+                        <span class="date">Mar 2022 - Dec 2024</span>
+                        <p>Engineered robust APIs (Django/DRF), developed 27+ custom Odoo modules, implemented automated diagnostics. Led backend dev for healthcare projects.</p>
+                        <p class="keywords">TAGS: Django, PostgreSQL, REST_API, Odoo, Git, Python, AWS</p>
+                    </div>
+                </div>
+                <div class="timeline-item right">
+                    <div class="timeline-content">
+                        <h3>Machine Learning Engineer</h3>
+                        <h4>Qurhealth Corp</h4>
+                        <span class="date">Aug 2019 - Aug 2021</span>
+                        <p>Developed Rasa medical chatbot (AWS), AI calorie estimator (MobileNet v2), offline voice UI "Hey Maya" (Raspberry Pi).</p>
+                        <p class="keywords">TAGS: Computer_Vision, Speech_Rec, IoT, AWS, Python, Rasa</p>
+                    </div>
+                </div>
+                <div class="timeline-item left">
+                    <div class="timeline-content">
+                        <h3>ML Engineer Intern</h3>
+                        <h4>Quantiphi Analytics</h4>
+                        <span class="date">Nov 2018 - Aug 2019</span>
+                        <p>Automated defect detection (CNNs), pioneered text-to-image generation (Attn-GAN), built Hindi speech-to-text system.</p>
+                        <p class="keywords">TAGS: CV, Research, TensorFlow, GCP, NLP</p>
+                    </div>
+                </div>
+                 <div class="timeline-item right">
+                    <div class="timeline-content">
+                        <h3>Master C.A.</h3>
+                        <h4>Vellore Institute of Technology</h4>
+                        <span class="date">EDUCATION_LOG</span>
+                        <p>Completed Master's degree focusing on advanced computer applications and software development principles.</p>
+                    </div>
+                </div>
+                <div class="timeline-item left">
+                    <div class="timeline-content">
+                        <h3>Bachelor C.A.</h3>
+                        <h4>Institute of Engineering & Management</h4>
+                        <span class="date">EDUCATION_LOG</span>
+                        <p>Laid foundational knowledge in computer science, programming, and application development.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects">
+        <div class="container">
+            <h2 class="section-title">PROJECT_ARSENAL</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div>
+                        <h3>StayTabbed - Chrome Tab Ctrl</h3>
+                        <p>Chrome extension for browser tab session management. Focus on client-side interaction and resource optimization.</p>
+                        <p class="technologies">JS, Chrome_API, HTML, CSS</p>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://shorturl.at/TGRWS" target="_blank"><i class="fas fa-external-link-alt"></i> Access Project</a>
+                    </div>
+                </div>
+                 <div class="project-card">
+                    <div>
+                        <h3>AI Calorie Estimator (IND_Cuisine)</h3>
+                        <p>AI tool for calorie estimation from Indian food images using MobileNet v2. (Qurhealth Internal Op)</p>
+                        <p class="technologies">Python, TensorFlow, MobileNet_v2, CV</p>
+                    </div>
+                    <div class="project-links">
+                         <a href="#" class="disabled-link"><i class="fas fa-eye-slash"></i> Internal_Access_Only</a>
+                    </div>
+                </div>
+                 <div class="project-card">
+                    <div>
+                        <h3>Personalized Medical Chatbot (Rasa)</h3>
+                        <p>Rasa-based chatbot for self-service medical platform; patient queries, appointment scheduling. Deployed on AWS. (Qurhealth Internal Op)</p>
+                        <p class="technologies">Python, Rasa, AWS, NLP</p>
+                    </div>
+                     <div class="project-links">
+                        <a href="#" class="disabled-link"><i class="fas fa-eye-slash"></i> Internal_Access_Only</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="certifications">
+        <div class="container">
+            <h2 class="section-title">AUTHENTICATION_TOKENS</h2>
+            <div class="certifications-list">
+                <div class="certification-item">
+                    <h3>Google Cybersecurity Specialization</h3>
+                    <p>ISSUER: Google (Coursera)</p>
+                    <p>TOKEN: P9264RVW05GN</p>
+                </div>
+                <div class="certification-item">
+                    <h3>OSINT (Security Blue Team)</h3>
+                    <p>ISSUER: Security Blue Team</p>
+                    <p>TOKEN: 654381197</p>
+                </div>
+                <div class="certification-item">
+                    <h3>Pre Security Learning Path</h3>
+                    <p>ISSUER: TryHackMe (THM)</p>
+                    <p>TOKEN: THM-10TJL0JYYZ</p>
+                </div>
+                 <div class="certification-item">
+                    <h3>Security+ (SY0-701 In Progress)</h3>
+                    <p>ISSUER: CompTIA</p>
+                    <p>STATUS: Preparing_Deployment</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="blog">
+        <div class="container">
+            <h2 class="section-title">INTEL_FEED_ACCESS</h2>
+            <div class="blog-promo">
+                <h3>Zeroday Mindset // Log_Files</h3>
+                <p>Access my datastream: thoughts, findings, and learning logs from the cybersecurity front lines. Sharing intel on threat analysis, OSINT, and various security paradigms.</p>
+                <a href="https://gourabdg47.github.io/" target="_blank" class="cta-button">[ Access Blog_Archive ]</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <div class="container">
+            <h2 class="section-title">ESTABLISH_COMMS_LINK</h2>
+            <div class="contact-content">
+                <p>Always open to discussing new directives, collaborations, or exchanging intel on cybersecurity. Initiate contact sequence.</p>
+                <div class="contact-details">
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i> <a href="mailto:gourav.dev26@zohomail.in">gourav.dev26@zohomail.in</a>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone-alt"></i> <a href="tel:+918240585094">+91_8240585094</a>
+                    </div>
+                </div>
+                <div class="contact-social-icons">
+                    <a href="https://github.com/gourabdg47" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="https://linkedin.com/in/gourabdasgupta/" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://gourabdg47.github.io/" target="_blank" aria-label="Blog"><i class="fas fa-blog"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&gt; SYS_MSG: Copyright &copy; <span id="currentYear"></span> Gourab Dasgupta. All rights reserved.</p>
+            <p>&gt; STATUS: Designed with <i class="fas fa-heart"></i> for the Digital Frontier. Connection Secure.</p>
+        </div>
+    </footer>
+
+    <div class="command-panel">
+        <div class="command-output-container" id="command-output-container">
+            <p><span class="cmd-prompt">root@gourabOS:~#</span> Welcome, operator. Type ':help' for available commands.</p>
+        </div>
+        <div class="command-input-line">
+            <span class="command-prompt" id="command-prompt-symbol">GD_TERM:~$</span>
+            <input type="text" class="command-input" id="command-input" placeholder="Enter command..." autocomplete="off">
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script>
+        // --- Global Variables & Initial Particle Config ---
+        let currentThemeColor = getComputedStyle(document.documentElement).getPropertyValue('--hacker-green').trim();
+        let particlesJSInstance;
+        const defaultParticlesConfig = {
+            "particles": {
+                "number": {"value": 100, "density": {"enable": true, "value_area": 800}},
+                "color": {"value": currentThemeColor},
+                "shape": {"type": "char", "character": ["0","1"], "stroke": {"width": 0, "color": "#000000"}},
+                "opacity": {"value": 0.6, "random": true, "anim": {"enable": true, "speed": 0.5, "opacity_min": 0.1, "sync": false}},
+                "size": {"value": 5, "random": true, "anim": {"enable": false}},
+                "line_linked": {"enable": false},
+                "move": {"enable": true, "speed": 2, "direction": "bottom", "random": true, "straight": false, "out_mode": "out", "bounce": false}
+            },
+            "interactivity": {"detect_on": "canvas", "events": {"onhover": {"enable": false}, "onclick": {"enable": false}}, "modes": {}},
+            "retina_detect": true
+        };
+        const matrixParticlesConfig = { // For :matrix on
+            "particles": {
+                "number": {"value": 250, "density": {"enable": true, "value_area": 800}},
+                "color": {"value": currentThemeColor},
+                "shape": {"type": ["char", "edge"], "character": ["0","1","H","A","C","K","E","R"], "stroke": {"width": 0, "color": "#000000"}},
+                "opacity": {"value": 0.7, "random": true, "anim": {"enable": true, "speed": 0.3, "opacity_min": 0.2, "sync": false}},
+                "size": {"value": 6, "random": true, "anim": {"enable": true, "speed": 2, "size_min": 2, "sync": false}},
+                "line_linked": {"enable": false},
+                "move": {"enable": true, "speed": 4, "direction": "bottom", "random": false, "straight": true, "out_mode": "out", "bounce": false}
+            },
+            "interactivity": {"detect_on": "canvas", "events": {"onhover": {"enable": false}, "onclick": {"enable": false}}, "modes": {}},
+            "retina_detect": true
+        };
+        let isMatrixMode = false;
+
+        function initParticles(config) {
+            if (typeof particlesJS !== 'undefined') {
+                if (document.getElementById('particles-js')) {
+                     // particlesJS.load('particles-js', 'path/to/your/particles.json', function() {
+                     // console.log('callback - particles.js config loaded');
+                     // });
+                     // Instead of loading from a file, we directly use the object
+                     window.pJSDom = []; // Clear previous instances if any
+                     if (particlesJSInstance && particlesJSInstance.pJS && typeof particlesJSInstance.pJS.fn.vendors.destroypJS === 'function') {
+                        // This is a bit of a hack as particles.js doesn't have a clean destroy/reinit
+                        // It might not fully work if the library doesn't expose such a method.
+                        // For simplicity, we'll just re-initialize over the existing canvas.
+                     }
+                     particlesJSInstance = particlesJS('particles-js', config);
+                } else {
+                    console.error("particles-js div not found");
+                }
+            } else {
+                 console.error("particles.js library not loaded");
+            }
+        }
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initParticles(defaultParticlesConfig); // Initialize with default
+
+            const navLinks = document.querySelectorAll('nav ul li a');
+            const sections = Array.from(document.querySelectorAll('section'));
+            const header = document.querySelector('header');
+            let headerHeight = header ? header.offsetHeight : 60; 
+            
+            const mobileMenuToggle = document.getElementById('mobile-menu');
+            const navList = document.querySelector('.nav-list');
+
+            if (header) {
+                new ResizeObserver(() => {
+                    headerHeight = header.offsetHeight;
+                }).observe(header);
+            }
+
+            if (mobileMenuToggle && navList) {
+                mobileMenuToggle.addEventListener('click', () => {
+                    navList.classList.toggle('active');
+                    const icon = mobileMenuToggle.querySelector('i');
+                    if (icon) {
+                        icon.classList.toggle('fa-bars');
+                        icon.classList.toggle('fa-times');
+                    }
+                });
+            }
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    if (navList && navList.classList.contains('active')) {
+                        navList.classList.remove('active');
+                        const icon = mobileMenuToggle.querySelector('i');
+                        if (icon) {
+                            icon.classList.remove('fa-times');
+                            icon.classList.add('fa-bars');
+                        }
+                    }
+                });
+            });
+
+            function changeActiveLink() {
+                let currentSectionId = 'hero'; // Default to hero
+                const scrollPosition = window.scrollY + headerHeight + 50;
+
+                for (let i = sections.length - 1; i >= 0; i--) {
+                    const section = sections[i];
+                    if (section.offsetTop <= scrollPosition) {
+                        currentSectionId = section.getAttribute('id');
+                        break;
+                    }
+                }
+                
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${currentSectionId}`) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+            
+            if (sections.length > 0) {
+                 changeActiveLink(); 
+                 window.addEventListener('scroll', changeActiveLink);
+            }
+
+            const currentYearElement = document.getElementById('currentYear');
+            if (currentYearElement) {
+                currentYearElement.textContent = new Date().getFullYear();
+            }
+
+            document.querySelectorAll('.disabled-link').forEach(link => {
+                link.addEventListener('click', (event) => {
+                    event.preventDefault();
+                });
+            });
+
+            // --- Command Panel Logic ---
+            const commandInput = document.getElementById('command-input');
+            const commandOutputContainer = document.getElementById('command-output-container');
+            const commandPromptSymbol = document.getElementById('command-prompt-symbol');
+            let commandHistory = [];
+            let historyIndex = -1;
+
+            commandInput.addEventListener('keydown', function(event) {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    const commandText = commandInput.value.trim();
+                    if (commandText) {
+                        addToOutput(`<span class="cmd-prompt">${commandPromptSymbol.textContent}</span> ${escapeHtml(commandText)}`, true);
+                        processCommand(commandText);
+                        if (commandHistory[commandHistory.length -1] !== commandText) {
+                           commandHistory.push(commandText);
+                        }
+                        historyIndex = commandHistory.length;
+                        commandInput.value = '';
+                        commandOutputContainer.scrollTop = commandOutputContainer.scrollHeight;
+                    }
+                } else if (event.key === 'ArrowUp') {
+                    if (commandHistory.length > 0 && historyIndex > 0) {
+                        historyIndex--;
+                        commandInput.value = commandHistory[historyIndex];
+                        event.preventDefault();
+                    } else if (commandHistory.length > 0 && historyIndex === 0) {
+                         commandInput.value = commandHistory[historyIndex];
+                         event.preventDefault();
+                    }
+                } else if (event.key === 'ArrowDown') {
+                    if (commandHistory.length > 0 && historyIndex < commandHistory.length - 1) {
+                        historyIndex++;
+                        commandInput.value = commandHistory[historyIndex];
+                        event.preventDefault();
+                    } else if (historyIndex >= commandHistory.length - 1) {
+                        historyIndex = commandHistory.length;
+                        commandInput.value = "";
+                        event.preventDefault();
+                    }
+                }
+            });
+            
+            function escapeHtml(unsafe) {
+                return unsafe
+                     .replace(/&/g, "&amp;")
+                     .replace(/</g, "&lt;")
+                     .replace(/>/g, "&gt;")
+                     .replace(/"/g, "&quot;")
+                     .replace(/'/g, "&#039;");
+            }
+
+            function addToOutput(message, isHtml = false) {
+                const p = document.createElement('p');
+                if (isHtml) {
+                    p.innerHTML = message;
+                } else {
+                    p.textContent = message;
+                }
+                commandOutputContainer.appendChild(p);
+                commandOutputContainer.scrollTop = commandOutputContainer.scrollHeight;
+            }
+
+            function processCommand(commandText) {
+                const [command, ...args] = commandText.toLowerCase().split(' ');
+                const fullArg = args.join(' ');
+
+                switch (command) {
+                    case ':help':
+                        addToOutput("Available commands:", false);
+                        addToOutput("&nbsp;&nbsp;<span class='cmd-success'>:help</span> - Show this help message", true);
+                        addToOutput("&nbsp;&nbsp;<span class='cmd-success'>:theme &lt;color&gt;</span> - Change theme (green, amber, blue, red)", true);
+                        addToOutput("&nbsp;&nbsp;<span class='cmd-success'>:scanlines &lt;on|off&gt;</span> - Toggle scanline effect", true);
+                        addToOutput("&nbsp;&nbsp;<span class='cmd-success'>:crt_effect &lt;on|off&gt;</span> - Toggle CRT text flicker", true);
+                        addToOutput("&nbsp;&nbsp;<span class='cmd-success'>:goto &lt;section_id&gt;</span> - Scroll to section (e.g., :goto projects)", true);
+                        addToOutput("&nbsp;&nbsp;<span class='cmd-success'>:whoami</span> - Display user info", true);
+                        addToOutput("&nbsp;&nbsp;<span class='cmd-success'>:sys_info</span> - Display simulated system info", true);
+                        addToOutput("&nbsp;&nbsp;<span class='cmd-success'>:matrix &lt;on|off&gt;</span> - Toggle digital rain particle effect", true);
+                        addToOutput("&nbsp;&nbsp;<span class='cmd-success'>:clear</span> - Clear command output", true);
+                        addToOutput("&nbsp;&nbsp;<span class='cmd-success'>:exit</span> - Sign off", true);
+                        break;
+                    case ':theme':
+                        const validThemes = {
+                            "green": "#00FF00", "amber": "#FFBF00", "blue": "#00BFFF", "red": "#FF4136"
+                        };
+                        if (args.length > 0 && validThemes[args[0]]) {
+                            currentThemeColor = validThemes[args[0]];
+                            document.documentElement.style.setProperty('--hacker-green', currentThemeColor);
+                            document.documentElement.style.setProperty('--hacker-green-dim', `${currentThemeColor}B3`); // Add alpha for dim
+                            document.documentElement.style.setProperty('--hacker-green-dark', changeColorBrightness(currentThemeColor, -0.5));
+                            document.documentElement.style.setProperty('--hacker-border', currentThemeColor);
+                            document.documentElement.style.setProperty('--hacker-text', currentThemeColor);
+                            document.documentElement.style.setProperty('--hacker-text-secondary', changeColorBrightness(currentThemeColor, -0.2));
+                            document.documentElement.style.setProperty('--scanline-color', `rgba(${hexToRgb(currentThemeColor).r}, ${hexToRgb(currentThemeColor).g}, ${hexToRgb(currentThemeColor).b}, 0.08)`);
+
+                            // Re-initialize particles with new color
+                            const currentParticlesConfig = isMatrixMode ? matrixParticlesConfig : defaultParticlesConfig;
+                            currentParticlesConfig.particles.color.value = currentThemeColor;
+                            initParticles(currentParticlesConfig);
+
+                            addToOutput(`Theme changed to <span style="color:${currentThemeColor}; text-shadow: 0 0 3px ${currentThemeColor};">${args[0]}</span>.`, true);
+                        } else {
+                            addToOutput("<span class='cmd-error'>Error:</span> Invalid theme. Use green, amber, blue, or red.", true);
+                        }
+                        break;
+                    case ':scanlines':
+                        if (args[0] === 'on') {
+                            document.body.classList.add('scanlines');
+                            addToOutput("Scanlines: <span class='cmd-success'>ON</span>", true);
+                        } else if (args[0] === 'off') {
+                            document.body.classList.remove('scanlines');
+                            addToOutput("Scanlines: <span class='cmd-error'>OFF</span>", true);
+                        } else {
+                            addToOutput("<span class='cmd-error'>Usage:</span> :scanlines &lt;on|off&gt;", true);
+                        }
+                        break;
+                    case ':crt_effect':
+                        if (args[0] === 'on') {
+                            document.body.classList.add('crt-effect');
+                            addToOutput("CRT Effect: <span class='cmd-success'>ON</span>", true);
+                        } else if (args[0] === 'off') {
+                            document.body.classList.remove('crt-effect');
+                            addToOutput("CRT Effect: <span class='cmd-error'>OFF</span>", true);
+                        } else {
+                            addToOutput("<span class='cmd-error'>Usage:</span> :crt_effect &lt;on|off&gt;", true);
+                        }
+                        break;
+                    case ':goto':
+                        if (args.length > 0) {
+                            const sectionElement = document.getElementById(args[0]);
+                            if (sectionElement) {
+                                sectionElement.scrollIntoView({ behavior: 'smooth' });
+                                addToOutput(`Navigating to <span class='cmd-info'>${args[0]}</span>...`, true);
+                            } else {
+                                addToOutput(`<span class='cmd-error'>Error:</span> Section '${args[0]}' not found.`, true);
+                            }
+                        } else {
+                            addToOutput("<span class='cmd-error'>Usage:</span> :goto &lt;section_id&gt;", true);
+                        }
+                        break;
+                    case ':whoami':
+                        addToOutput("<span class='cmd-info'>USER:</span> Gourab Dasgupta", true);
+                        addToOutput("<span class='cmd-info'>UID:</span> 1001 (gdasgupta)", true);
+                        addToOutput("<span class='cmd-info'>GROUPS:</span> users, cybersec, threat_intel, osint_practitioner", true);
+                        addToOutput("<span class='cmd-info'>SHELL:</span> /bin/zsh_hacker_edition", true);
+                        break;
+                    case ':sys_info':
+                        addToOutput("<span class='cmd-info'>HOSTNAME:</span> GD-SECURE-TERMINAL", true);
+                        addToOutput("<span class='cmd-info'>OS_VERSION:</span> GourabOS 13.3.7 (Kernel 6.X.Y-L33T)", true);
+                        addToOutput("<span class='cmd-info'>CPU_LOAD:</span> " + (Math.random() * 15 + 5).toFixed(2) + "%", true);
+                        addToOutput("<span class='cmd-info'>MEM_USAGE:</span> " + (Math.random() * 40 + 30).toFixed(2) + "% of 32GB", true);
+                        addToOutput("<span class='cmd-info'>UPTIME:</span> " + Math.floor(Math.random()*100) + "d " + Math.floor(Math.random()*24) + "h " + Math.floor(Math.random()*60) + "m", true);
+                        break;
+                    case ':matrix':
+                        if (args[0] === 'on') {
+                            isMatrixMode = true;
+                            matrixParticlesConfig.particles.color.value = currentThemeColor; // Ensure current color
+                            initParticles(matrixParticlesConfig);
+                            addToOutput("Matrix Particle Mode: <span class='cmd-success'>ACTIVATED</span>", true);
+                        } else if (args[0] === 'off') {
+                            isMatrixMode = false;
+                            defaultParticlesConfig.particles.color.value = currentThemeColor; // Ensure current color
+                            initParticles(defaultParticlesConfig);
+                            addToOutput("Matrix Particle Mode: <span class='cmd-error'>DEACTIVATED</span>", true);
+                        } else {
+                             addToOutput("<span class='cmd-error'>Usage:</span> :matrix &lt;on|off&gt;", true);
+                        }
+                        break;
+                    case ':clear':
+                        commandOutputContainer.innerHTML = '';
+                        addToOutput("Console cleared.", false);
+                        break;
+                    case ':exit':
+                        addToOutput("Signing off... Connection terminated. Goodbye, operator.", false);
+                        commandInput.disabled = true; // Optionally disable input
+                        setTimeout(() => { commandInput.disabled = false; commandInput.focus();}, 3000); // Re-enable after a delay
+                        break;
+                    default:
+                        addToOutput(`<span class='cmd-error'>Error:</span> Command not found: ${escapeHtml(command)}. Type ':help'.`, true);
+                }
+            }
+
+            // --- Utility functions for theme command ---
+            function hexToRgb(hex) {
+                let r = 0, g = 0, b = 0;
+                if (hex.length == 4) { // 3 digits
+                    r = "0x" + hex[1] + hex[1];
+                    g = "0x" + hex[2] + hex[2];
+                    b = "0x" + hex[3] + hex[3];
+                } else if (hex.length == 7) { // 6 digits
+                    r = "0x" + hex[1] + hex[2];
+                    g = "0x" + hex[3] + hex[4];
+                    b = "0x" + hex[5] + hex[6];
+                }
+                return {r: +r, g: +g, b: +b};
+            }
+
+            function changeColorBrightness(hex, percent) {
+                let {r, g, b} = hexToRgb(hex);
+                r = Math.max(0, Math.min(255, Math.floor(r * (1 + percent))));
+                g = Math.max(0, Math.min(255, Math.floor(g * (1 + percent))));
+                b = Math.max(0, Math.min(255, Math.floor(b * (1 + percent))));
+                return `rgb(${r},${g},${b})`;
+            }
+
+        });
+    </script>
+</body>
+</html>
