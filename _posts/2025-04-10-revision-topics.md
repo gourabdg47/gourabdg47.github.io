@@ -263,6 +263,11 @@ Allows a response packet only if it matches a previously initiated and allowed c
 - **Record-level encryption** is commonly used with databases to encrypt individual columns within the database.
 - **Resource provisioning** can be automated during the on-boarding and off-boarding process to quickly create or remove rights and permissions.
 - **Enumeration** describes the detailed listing of all parts in a particular device.
+- **Policies**: A formal statement that outlines an organisation's goals, principles, and guidelines for achieving specific objectives.
+- **Standards**: A document establishing specific requirements or specifications for a particular process, product, or service.
+- **Guidelines**: A document that provides recommendations and best practices (non-mandatory) for achieving specific goals or objectives.
+- **Procedures**: Set of specific steps for undertaking a particular task or process.
+- **Baselines**: A set of minimum security standards or requirements that an organisation or system must meet.
 
 
 ![OSI Layers & Cyber Attacks](https://i.redd.it/758sb6cyf7we1.jpeg)
