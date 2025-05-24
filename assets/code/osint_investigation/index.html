@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OSINT Investigation Helper</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a1a2e; /* Dark blue-purple background */
+            color: #e0e0e0; /* Light gray text */
+        }
+        .tab-button {
+            transition: all 0.3s ease;
+            border-bottom-width: 4px;
+            border-bottom-color: transparent;
+        }
+        .tab-button.active {
+            color: #7f5af0; /* Purple accent */
+            border-bottom-color: #7f5af0;
+        }
+        .tab-button:hover {
+            color: #9a7ff7;
+            border-bottom-color: #9a7ff7;
+        }
+        .content-section {
+            display: none;
+            background-color: #161625; /* Slightly lighter dark blue for content */
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .content-section.active {
+            display: block;
+        }
+        input[type="text"], input[type="url"], textarea {
+            background-color: #2a2a3e; /* Darker input fields */
+            border: 1px solid #4a4a6a;
+            color: #e0e0e0;
+            border-radius: 6px;
+            padding: 10px;
+            width: 100%;
+        }
+        input[type="text"]:focus, input[type="url"]:focus, textarea:focus {
+            outline: none;
+            border-color: #7f5af0;
+            box-shadow: 0 0 0 2px rgba(127, 90, 240, 0.5);
+        }
+        button {
+            background-color: #7f5af0; /* Purple button */
+            color: white;
+            padding: 10px 15px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #6948d1;
+        }
+        .secondary-button { /* Kept for potential future use or alerts */
+            background-color: #4a4a6a;
+        }
+        .secondary-button:hover {
+            background-color: #5a5a7a;
+        }
+        
+        #loadingIndicator {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0,0,0,0.8);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            z-index: 2000;
+            display: none; /* Hidden by default */
+        }
+
+        /* Styles for Wiki Content and OSINT Tools List */
+        .static-content h3, .osint-tools-category h3 {
+            font-size: 1.5em;
+            color: #a380f0; /* Lighter purple for headings */
+            margin-top: 1.5em;
+            margin-bottom: 0.75em;
+            border-bottom: 1px solid #4a4a6a;
+            padding-bottom: 0.25em;
+        }
+        .static-content h4, .osint-tools-category h4 {
+            font-size: 1.2em;
+            color: #b8a0f8;
+            margin-top: 1em;
+            margin-bottom: 0.5em;
+        }
+        .static-content p, .osint-tools-list p {
+            line-height: 1.7;
+            margin-bottom: 1em;
+            color: #c0c0d0; /* Slightly lighter gray for paragraph text */
+        }
+        .static-content ul, .osint-tools-list ul {
+            list-style-type: disc;
+            margin-left: 20px;
+            margin-bottom: 1em;
+        }
+        .static-content li, .osint-tools-list li {
+            margin-bottom: 0.5em;
+        }
+        .osint-tools-list a {
+            color: #8cb2f2; /* Light blue for links */
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        .osint-tools-list a:hover {
+            color: #b3cfff;
+            text-decoration: underline;
+        }
+        .osint-tool-item { /* Simpler list item style */
+            padding: 8px 0;
+            border-bottom: 1px dotted #3a3a4e;
+        }
+         .osint-tool-item:last-child {
+            border-bottom: none;
+        }
+        .osint-tool-item strong {
+            color: #e0e0e0;
+        }
+        .tool-description {
+            font-size: 0.9em;
+            color: #b0b0c0;
+            margin-left:10px;
+        }
+
+        /* Modal styles (kept for potential future use, e.g., custom alert) */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background-color: #161625;
+            padding: 30px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 500px; /* Adjusted for alerts */
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        }
+         .close-button { /* For potential future modals */
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: #e0e0e0;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="min-h-screen p-4 sm:p-8">
+
+    <div id="loadingIndicator">Loading...</div>
+
+    <header class="mb-8 text-center">
+        <h1 class="text-4xl font-bold text-white"><i class="fas fa-user-secret mr-2"></i> OSINT Investigation Helper</h1>
+        <p class="text-sm text-gray-400 mt-2">User ID: <span id="userIdDisplay">Initializing...</span></p>
+    </header>
+
+    <nav class="mb-8 flex flex-wrap justify-center space-x-2 sm:space-x-4 border-b border-gray-700 pb-2">
+        <button data-tab="search" class="tab-button text-lg font-medium px-3 py-2 active">
+            <i class="fas fa-search mr-1 sm:mr-2"></i>Search
+        </button>
+        <button data-tab="wiki" class="tab-button text-lg font-medium px-3 py-2">
+            <i class="fas fa-book-open mr-1 sm:mr-2"></i>OSINT Guide
+        </button>
+        <button data-tab="osint_tools" class="tab-button text-lg font-medium px-3 py-2">
+            <i class="fas fa-tools mr-1 sm:mr-2"></i>OSINT Tools
+        </button>
+    </nav>
+
+    <main>
+        <section id="search" class="content-section active">
+            <h2 class="text-2xl font-semibold mb-6 text-white">OSINT Search</h2>
+            <div class="space-y-4">
+                <input type="text" id="searchQueryInput" placeholder="Enter your search query (e.g., username, email, domain)" class="text-lg">
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+                    <button onclick="performSearch('google')" class="flex items-center justify-center"><i class="fab fa-google mr-2"></i> Google</button>
+                    <button onclick="performSearch('duckduckgo')" class="flex items-center justify-center"><i class="fas fa-duck mr-2"></i> DuckDuckGo</button>
+                    <button onclick="performSearch('twitter')" class="flex items-center justify-center"><i class="fab fa-twitter mr-2"></i> Twitter</button>
+                    <button onclick="performSearch('linkedin')" class="flex items-center justify-center"><i class="fab fa-linkedin mr-2"></i> LinkedIn</button>
+                    <button onclick="performSearch('github')" class="flex items-center justify-center"><i class="fab fa-github mr-2"></i> GitHub</button>
+                    <button onclick="performSearch('virustotal_domain')" class="flex items-center justify-center"><i class="fas fa-shield-virus mr-2"></i> VirusTotal (Domain)</button>
+                    <button onclick="performSearch('shodan')" class="flex items-center justify-center"><i class="fas fa-server mr-2"></i> Shodan</button>
+                    <button onclick="performSearch('exploitdb')" class="flex items-center justify-center"><i class="fas fa-bomb mr-2"></i> Exploit-DB</button>
+                </div>
+            </div>
+            <div class="mt-6 p-4 bg-gray-700/50 rounded-lg">
+                <h3 class="text-lg font-semibold mb-2 text-white">Search Tips:</h3>
+                <ul class="list-disc list-inside text-sm text-gray-300 space-y-1">
+                    <li>Use specific keywords for better results.</li>
+                    <li>For usernames: <code>"exact_username"</code></li>
+                    <li>For emails: <code>"john.doe@example.com"</code></li>
+                    <li>For domains: <code>site:example.com</code> or <code>domain:example.com</code></li>
+                    <li>Combine operators: <code>"John Doe" filetype:pdf site:gov</code></li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="wiki" class="content-section static-content">
+            <h2 class="text-2xl font-semibold mb-6 text-white">How to Conduct an OSINT Investigation</h2>
+            </section>
+
+        <section id="osint_tools" class="content-section">
+            <h2 class="text-2xl font-semibold mb-6 text-white">Free OSINT Tools Directory</h2>
+            <p class="mb-6">A curated list of free tools for various OSINT tasks. Always ensure you use these tools responsibly and ethically.</p>
+            <div id="osintToolsListContainer" class="space-y-4">
+                </div>
+        </section>
+    </main>
+
+    <div id="confirmationModal" class="modal" style="display: none;">
+        <div class="modal-content relative max-w-md">
+            <button id="closeAlertBtn" class="close-button" style="top: 10px; right: 10px; font-size: 1.2rem;">×</button>
+            <h3 id="confirmationTitle" class="text-xl font-semibold mb-4 text-white">Notification</h3>
+            <p id="confirmationMessage" class="text-gray-300 mb-6">Message here.</p>
+            <div class="flex justify-end space-x-3">
+                <button id="confirmActionBtn" class="px-4 py-2">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        // Firestore is not used in this version for wiki/tools, but auth is kept.
+
+        // --- ALL FUNCTION DEFINITIONS FIRST ---
+        function showLoading(show = true) { 
+            if (loadingIndicator) loadingIndicator.style.display = show ? 'block' : 'none'; 
+        }
+
+        window.openModal = function(modalId) { 
+            const modal = document.getElementById(modalId);
+            if (modal) modal.style.display = 'flex';
+        };
+        window.closeModal = function(modalId) { 
+            const modal = document.getElementById(modalId);
+            if (modal) modal.style.display = 'none';
+        };
+        
+        function showCustomAlert(message, title = 'Notification') { 
+            if (confirmTitleEl && confirmMessageEl && confirmActionBtn && confirmationModal) {
+                confirmTitleEl.textContent = title;
+                confirmMessageEl.textContent = message;
+                confirmActionBtn.textContent = 'OK';
+                if(confirmCancelBtn) confirmCancelBtn.style.display = 'none'; // Ensure cancel is hidden for alerts
+                currentConfirmCallback = null;
+                openModal('confirmationModal');
+            } else {
+                console.warn("Custom alert elements not found, falling back to console.log", title, message);
+                console.log(`ALERT: ${title} - ${message}`);
+            }
+        }
+        
+        // This function is not used in this reverted version but kept for potential re-use
+        function showConfirmationDialog(message, title = 'Confirm Action', onConfirm) { 
+            if (confirmTitleEl && confirmMessageEl && confirmActionBtn && confirmCancelBtn && confirmationModal) {
+                confirmTitleEl.textContent = title;
+                confirmMessageEl.textContent = message;
+                confirmActionBtn.textContent = 'Confirm';
+                if(confirmCancelBtn) confirmCancelBtn.style.display = 'inline-block';
+                currentConfirmCallback = onConfirm;
+                openModal('confirmationModal');
+            } else {
+                 console.warn("Confirmation dialog elements not found, cannot show dialog.", title, message);
+            }
+        }
+
+        async function initializeFirebase() {
+            showLoading(true);
+            try {
+                app = initializeApp(firebaseConfig);
+                auth = getAuth(app);
+                
+                await setPersistence(auth, browserLocalPersistence);
+
+                console.log("Firebase Initialized for Auth. App ID:", appId);
+                if(document.getElementById('userIdDisplay')) document.getElementById('userIdDisplay').textContent = "Authenticating...";
+
+                onAuthStateChanged(auth, async (user) => {
+                    if (user) {
+                        userId = user.uid;
+                        console.log("User authenticated:", userId);
+                        if(document.getElementById('userIdDisplay')) document.getElementById('userIdDisplay').textContent = userId;
+                        isAuthReady = true;
+                    } else {
+                        console.log("No user. Attempting sign in...");
+                         if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                            try { await signInWithCustomToken(auth, __initial_auth_token); console.log("Signed in with custom token."); }
+                            catch (error) { console.error("Error signing in with custom token:", error); await signInAnonymously(auth); console.log("Signed in anonymously as fallback."); }
+                        } else { await signInAnonymously(auth); console.log("Signed in anonymously."); }
+                    }
+                    showLoading(false);
+                });
+
+            } catch (error) {
+                console.error("Error initializing Firebase Auth:", error);
+                if(document.getElementById('userIdDisplay')) document.getElementById('userIdDisplay').textContent = "Auth Error";
+                showLoading(false);
+                const mainContent = document.querySelector('main');
+                if (mainContent) {
+                    mainContent.innerHTML = `<div class="text-center text-red-500 p-8">
+                        <h2 class="text-2xl font-bold">Initialization Error</h2>
+                        <p>Could not initialize authentication services. Some features might be limited.</p>
+                        <p class="text-sm mt-2">Details: ${error.message}</p>
+                    </div>`;
+                }
+            }
+        }
+
+        window.performSearch = function(platform) { 
+            const queryInput = document.getElementById('searchQueryInput');
+            if (!queryInput) {
+                showCustomAlert("Search input not found.", "Error");
+                return;
+            }
+            const query = queryInput.value.trim();
+            if (!query) {
+                showCustomAlert("Please enter a search query.");
+                return;
+            }
+            let url;
+            switch (platform) {
+                case 'google': url = `https://www.google.com/search?q=${encodeURIComponent(query)}`; break;
+                case 'duckduckgo': url = `https://duckduckgo.com/?q=${encodeURIComponent(query)}`; break;
+                case 'twitter': url = `https://twitter.com/search?q=${encodeURIComponent(query)}&src=typed_query`; break;
+                case 'linkedin': url = `https://www.linkedin.com/search/results/all/?keywords=${encodeURIComponent(query)}`; break;
+                case 'github': url = `https://github.com/search?q=${encodeURIComponent(query)}`; break;
+                case 'virustotal_domain': url = `https://www.virustotal.com/gui/domain/${encodeURIComponent(query)}/detection`; break;
+                case 'shodan': url = `https://www.shodan.io/search?query=${encodeURIComponent(query)}`; break;
+                case 'exploitdb': url = `https://www.exploit-db.com/search?q=${encodeURIComponent(query)}`; break;
+                default: console.error("Unknown search platform:", platform); return;
+            }
+            window.open(url, '_blank');
+        };
+        
+        function renderOsintTools() { 
+            const container = document.getElementById('osintToolsListContainer');
+            if (!container) return; 
+            container.innerHTML = ''; 
+            osintToolsData.forEach(category => {
+                const categoryDiv = document.createElement('div');
+                categoryDiv.className = 'osint-tools-category mb-8';
+                const categoryTitle = document.createElement('h3');
+                categoryTitle.textContent = category.category;
+                categoryDiv.appendChild(categoryTitle);
+                
+                const toolsListUl = document.createElement('ul');
+                toolsListUl.className = 'space-y-2 osint-tools-list'; // Added osint-tools-list for specific styling
+
+                category.tools.forEach(tool => {
+                    const toolItemLi = document.createElement('li');
+                    toolItemLi.className = 'osint-tool-item';
+                    
+                    const linkA = document.createElement('a');
+                    linkA.href = tool.url;
+                    linkA.target = '_blank';
+                    linkA.rel = 'noopener noreferrer';
+                    linkA.innerHTML = `<strong>${tool.name}</strong> <i class="fas fa-external-link-alt text-xs ml-1"></i>`;
+                    
+                    const descP = document.createElement('p');
+                    descP.className = 'tool-description';
+                    descP.textContent = tool.description;
+
+                    toolItemLi.appendChild(linkA);
+                    toolItemLi.appendChild(descP);
+                    toolsListUl.appendChild(toolItemLi);
+                });
+                categoryDiv.appendChild(toolsListUl);
+                container.appendChild(categoryDiv);
+            });
+        }
+        
+        function populateOsintGuide() { 
+            const wikiSection = document.getElementById('wiki');
+            // Check if content is already there by looking for a <p> tag, as h2 is always there.
+            if (wikiSection && wikiSection.querySelector('h2') && !wikiSection.querySelector('p')) {
+                 const contentDiv = document.createElement('div');
+                 contentDiv.innerHTML = osintGuideFullContent; 
+                 wikiSection.appendChild(contentDiv);
+            }
+        }
+
+
+        // --- Global `const` and `let` for DOM elements and state ---
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        const confirmTitleEl = document.getElementById('confirmationTitle');
+        const confirmMessageEl = document.getElementById('confirmationMessage');
+        const confirmActionBtn = document.getElementById('confirmActionBtn');
+        const confirmCancelBtn = document.getElementById('confirmCancelBtn'); // Added this definition
+        const confirmationModal = document.getElementById('confirmationModal'); // Added this definition
+        
+        let app, auth, db, userId, isAuthReady = false;
+        let currentConfirmCallback = null; // For confirmation dialog
+
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'osint-dev-app';
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
+            apiKey: "YOUR_FALLBACK_API_KEY", authDomain: "YOUR_FALLBACK_AUTH_DOMAIN", projectId: "YOUR_FALLBACK_PROJECT_ID",
+            storageBucket: "YOUR_FALLBACK_STORAGE_BUCKET", messagingSenderId: "YOUR_FALLBACK_MESSAGING_SENDER_ID", appId: "YOUR_FALLBACK_APP_ID"
+        };
+        
+        // --- Event Listeners & Initial Calls ---
+        const tabs = document.querySelectorAll('.tab-button'); 
+        const contentSections = document.querySelectorAll('.content-section');
+        tabs.forEach(tab => { 
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                const targetTab = tab.dataset.tab;
+                contentSections.forEach(section => {
+                    section.id === targetTab ? section.classList.add('active') : section.classList.remove('active');
+                });
+            });
+        });
+
+        if(confirmActionBtn) confirmActionBtn.addEventListener('click', () => { 
+            if (currentConfirmCallback) currentConfirmCallback();
+            closeModal('confirmationModal');
+        });
+        const closeAlertBtn = document.getElementById('closeAlertBtn'); // Defined it here
+        if(closeAlertBtn) closeAlertBtn.addEventListener('click', () => closeModal('confirmationModal'));
+        if(confirmCancelBtn) confirmCancelBtn.addEventListener('click', () => closeModal('confirmationModal'));
+
+
+        // OSINT Tools and Guide Data
+        const osintToolsData = [ // This is the earlier, less expanded list
+            {
+                category: "Search Engines & Specialized Search",
+                tools: [
+                    { name: "Google", url: "https://www.google.com", description: "General web search." },
+                    { name: "DuckDuckGo", url: "https://www.duckduckgo.com", description: "Privacy-focused search." },
+                    { name: "Wayback Machine", url: "https://archive.org/web/", description: "Historical website snapshots." }
+                ]
+            },
+            {
+                category: "Social Media Analysis",
+                tools: [
+                    { name: "TweetDeck", url: "https://tweetdeck.twitter.com/", description: "Advanced Twitter monitoring." }
+                ]
+            },
+            {
+                category: "Username & Profile Search",
+                tools: [
+                    { name: "WhatsMyName.app", url: "https://whatsmyname.app/", description: "Username search across platforms." }
+                ]
+            },
+            {
+                category: "Email Address Analysis",
+                tools: [
+                    { name: "Have I Been Pwned (HIBP)", url: "https://haveibeenpwned.com/", description: "Check for email in breaches." }
+                ]
+            },
+            {
+                category: "Domain & IP Analysis",
+                tools: [
+                    { name: "WHOIS Lookup (ICANN)", url: "https://lookup.icann.org/", description: "Domain registration info." },
+                    { name: "DNSdumpster", url: "https://dnsdumpster.com/", description: "DNS reconnaissance." },
+                    { name: "Shodan", url: "https://www.shodan.io/", description: "Search engine for connected devices." },
+                    { name: "VirusTotal", url: "https://www.virustotal.com/", description: "Analyze files/URLs for malware." }
+                ]
+            },
+            {
+                category: "OSINT Frameworks & Collections",
+                tools: [
+                    { name: "OSINT Framework", url: "https://osintframework.com/", description: "Collection of OSINT tools." }
+                ]
+            }
+        ];
+        const osintGuideFullContent = `
+            <p>Open-Source Intelligence (OSINT) is the collection and analysis of data gathered from open sources (overt and publicly available sources) to produce actionable intelligence. Here's a general framework for conducting an OSINT investigation:</p>
+            <h3>Phase 1: Planning and Direction</h3> <p>Before diving in, clearly define the objectives of your investigation.</p> <ul> <li><strong>Define Scope:</strong> What specific information are you looking for? What questions need to be answered? (e.g., identify an individual, map a network, assess a company's public exposure).</li> <li><strong>Identify Targets:</strong> Who or what is the subject of the investigation? (e.g., person, organization, domain, IP address).</li> <li><strong>Legal and Ethical Boundaries:</strong> Understand and adhere to all applicable laws, regulations, and ethical guidelines. Ensure your methods are legal and justifiable. Never engage in hacking or unauthorized access.</li> </ul>
+            <h3>Phase 2: Collection</h3> <p>This is where you gather information from various open sources...</p> 
+            <h3>Phase 3: Processing and Exploitation</h3> <p>Raw data collected needs to be organized...</p>
+            <h3>Phase 4: Analysis and Production</h3> <p>This is where you make sense of the processed data...</p>
+            <h3>Phase 5: Dissemination and Reporting</h3> <p>Communicate your findings effectively...</p>
+            <h3>Ongoing Considerations (OPSEC - Operational Security)</h3> <p>Protect your identity and be mindful of digital footprints...</p>
+            <p>OSINT is a dynamic field. Continuous learning and adaptation are crucial for success.</p>
+        `;
+        
+        // Initial Execution using DOMContentLoaded
+        document.addEventListener('DOMContentLoaded', async () => {
+            await initializeFirebase(); 
+            renderOsintTools();
+            populateOsintGuide();
+            
+            const searchTabButton = document.querySelector('button[data-tab="search"]');
+            if(searchTabButton) {
+                 searchTabButton.click();
+            }
+        });
+    </script>
+</body>
+</html>
