@@ -12,7 +12,7 @@ render_with_liquid: true
 ---
 
 
-  #### Sample polymorphic code
+#### Sample polymorphic code
 
 ###### Explanation:
 
