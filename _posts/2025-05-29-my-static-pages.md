@@ -1,7 +1,7 @@
 ---
 title: My Static Pages (Projects)
 author: gourabdg47
-date: 2025-04-22 13:33:00
+date: 2025-05-29 13:33:00
 categories:
   - Information
   - Code
