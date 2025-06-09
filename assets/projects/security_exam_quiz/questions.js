@@ -838,5 +838,12 @@ window.quizQuestions = [
         "answer": "All of the above",
         "domain": "Security Operations",
         "explanation": "Bug bounty programs crowdsource vulnerability discovery from a global pool of researchers, providing a continuous and cost-effective way to improve security and demonstrate a commitment to it."
+    },
+    {
+        "question": "An attacker has sent more information than expected in a single API call, and this has allowed the execution of arbitrary code. Which of the following would BEST describe this attack?",
+        "options": ["Buffer overflow", "Replay attack", "Cross-site scripting", "DDoS"],
+        "answer": "Buffer overflow",
+        "domain": "Threats, Vulnerabilities, and Mitigations",
+        "explanation": "The results of a buffer overflow can cause random results, but sometimes the actions can be repeatable and controlled. In the best possible case for the hacker, a buffer overflow can be manipulated to execute code on the remote device."
     }
 ]
