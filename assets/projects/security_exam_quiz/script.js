@@ -88,9 +88,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const availableCount = availableQuestions.length;
         questionCountSelect.innerHTML = ''; // Clear existing options
 
-        const options = [30, 60, 90];
+        // A more flexible set of options
+        const options = [10, 25, 50]; 
+
+        // Add an option if it's less than the total available questions
         options.forEach(opt => {
-            if (opt <= availableCount) {
+            if (opt < availableCount) { 
                 const optionElement = document.createElement('option');
                 optionElement.value = opt;
                 optionElement.textContent = `${opt} Questions`;
@@ -98,12 +101,27 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
         
-        // if (availableCount > 0) {
-        //     const allOption = document.createElement('option');
-        //     allOption.value = availableCount;
-        //     allOption.textContent = `All ${availableCount} Questions`;
-        //     questionCountSelect.appendChild(allOption);
-        // }
+        // **This is the key fix**: Always add an option for the total number of questions.
+        // This guarantees that even if a domain has very few questions (e.g., 15),
+        // a valid choice ("All 15 Questions") will be available.
+        if (availableCount > 0) {
+            const allOption = document.createElement('option');
+            allOption.value = availableCount;
+            allOption.textContent = `All ${availableCount} Questions`;
+            questionCountSelect.appendChild(allOption);
+            
+            // Set this as the selected option if it's the only one
+            if (questionCountSelect.options.length === 1) {
+                questionCountSelect.selectedIndex = 0;
+            }
+
+        } else {
+            // Handle the edge case where a domain might have no questions.
+            const noQuestionsOption = document.createElement('option');
+            noQuestionsOption.disabled = true;
+            noQuestionsOption.textContent = 'No questions available';
+            questionCountSelect.appendChild(noQuestionsOption);
+        }
     }
 
 
