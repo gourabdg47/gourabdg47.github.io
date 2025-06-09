@@ -9,67 +9,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Nunito', sans-serif;
-        }
-        .heartbeat {
-            animation: heartbeat 1.5s ease-in-out infinite both;
-        }
-        @keyframes heartbeat {
-            from { transform: scale(1); transform-origin: center center; animation-timing-function: ease-out; }
-            10% { transform: scale(0.91); animation-timing-function: ease-in; }
-            17% { transform: scale(0.98); animation-timing-function: ease-out; }
-            33% { transform: scale(0.87); animation-timing-function: ease-in; }
-            45% { transform: scale(1); animation-timing-function: ease-out; }
-        }
-        .quiz-option {
-            transition: all 0.2s ease-in-out;
-        }
-        .quiz-option:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        .quiz-option.selected {
-            background-color: #3b82f6;
-            color: white;
-            border-color: #2563eb;
-        }
-        .quiz-option.correct-answer {
-            background-color: #16a34a; /* green-600 */
-            color: white;
-            border-color: #15803d; /* green-700 */
-        }
-        .quiz-option.incorrect-answer {
-            background-color: #dc2626; /* red-600 */
-            color: white;
-            border-color: #b91c1c; /* red-700 */
-        }
-        .quiz-option.user-selected {
-            outline: 2px solid #2563eb; /* blue-600 */
-            outline-offset: 2px;
-        }
-        .explanation-box {
-            background-color: #f3f4f6; /* gray-100 */
-            border-left: 4px solid #6b7280; /* gray-500 */
-            padding: 1rem;
-            margin-top: 1.5rem;
-            border-radius: 0.25rem;
-        }
-        /* Loading Spinner */
-        #loader {
-            border: 8px solid #f3f3f3;
-            border-top: 8px solid #3498db;
-            border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+
 </head>
 <body class="bg-gray-100 text-gray-800">
 
@@ -252,6 +194,7 @@
             let activeSeed = '';
             let startTime = 0;
             let isQuizActive = false;
+            let hasShown50PercentModal = false; // <-- Bug fix state variable
 
             // DOM Elements
             const setupSection = document.getElementById('setup-section');
@@ -417,6 +360,7 @@
                     userAnswers = new Array(currentQuestions.length).fill(null);
                     currentQuestionIndex = 0;
                     isQuizActive = true;
+                    hasShown50PercentModal = false; // Reset the modal flag for the new quiz
                     
                     setupSection.classList.add('hidden');
                     resultsSection.classList.add('hidden');
@@ -473,9 +417,14 @@
             }
 
             function updateProgress() {
-                progressIndicator.textContent = `Question ${currentQuestionIndex + 1} of ${currentQuestions.length}`;
-                if (currentQuestionIndex + 1 === Math.ceil(currentQuestions.length / 2) && currentQuestionIndex > 0) {
+                const progress = currentQuestionIndex + 1;
+                const total = currentQuestions.length;
+                progressIndicator.textContent = `Question ${progress} of ${total}`;
+                
+                // Only show the 50% modal once per quiz
+                if (progress >= Math.ceil(total / 2) && !hasShown50PercentModal) {
                     showSupportModal(false);
+                    hasShown50PercentModal = true;
                 }
             }
 
@@ -518,7 +467,7 @@
                     }
                 });
 
-                const percentage = currentQuestions.length > 0 ? ((score / currentQuestions.length) * 100).toFixed(2) : 0;
+                const percentage = currentQuestions.length > 0 ? ((score / currentQuestions.length) * 100) : 0;
                 let timeTakenInSeconds;
 
                 if (examType === 'exam') {
@@ -528,7 +477,7 @@
                 }
                 
                 scoreDisplay.textContent = `${score} / ${currentQuestions.length}`;
-                percentageDisplay.textContent = `${percentage}%`;
+                percentageDisplay.textContent = `${percentage.toFixed(2)}%`;
                 timeTakenDisplay.textContent = formatTime(timeTakenInSeconds);
                 
                 saveHistory(score, percentage, timeTakenInSeconds);
@@ -537,10 +486,36 @@
                 resultsSection.classList.remove('hidden');
                 supportIcon.classList.remove('hidden');
                 
+                if (percentage >= 80) {
+                    triggerCelebration();
+                }
+                
                 showSupportModal(false);
             }
 
-            // --- REVIEW LOGIC ---
+            // --- REVIEW & CELEBRATION LOGIC ---
+            function triggerCelebration() {
+                const duration = 5 * 1000;
+                const animationEnd = Date.now() + duration;
+                const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+                function randomInRange(min, max) {
+                    return Math.random() * (max - min) + min;
+                }
+
+                const interval = setInterval(function() {
+                    const timeLeft = animationEnd - Date.now();
+
+                    if (timeLeft <= 0) {
+                        return clearInterval(interval);
+                    }
+
+                    const particleCount = 50 * (timeLeft / duration);
+                    confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } });
+                    confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } });
+                }, 250);
+            }
+
             function startReview() {
                 reviewQuestionIndex = 0;
                 resultsSection.classList.add('hidden');
@@ -609,7 +584,7 @@
                     date: now.toLocaleDateString(),
                     time: now.toLocaleTimeString(),
                     score: `${score} / ${currentQuestions.length}`,
-                    percentage: `${percentage}%`,
+                    percentage: `${percentage.toFixed(2)}%`,
                     timeTaken: formatTime(timeInSeconds),
                     examType: examType.charAt(0).toUpperCase() + examType.slice(1), // Capitalize first letter
                     domain: activeSeed ? (history.find(r => r.seed === activeSeed).domain) : domainSelect.value,
