@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security+ SY0-701 Quiz App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+        }
+        .heartbeat {
+            animation: heartbeat 1.5s ease-in-out infinite both;
+        }
+        @keyframes heartbeat {
+            from {
+                transform: scale(1);
+                transform-origin: center center;
+                animation-timing-function: ease-out;
+            }
+            10% {
+                transform: scale(0.91);
+                animation-timing-function: ease-in;
+            }
+            17% {
+                transform: scale(0.98);
+                animation-timing-function: ease-out;
+            }
+            33% {
+                transform: scale(0.87);
+                animation-timing-function: ease-in;
+            }
+            45% {
+                transform: scale(1);
+                animation-timing-function: ease-out;
+            }
+        }
+        .quiz-option {
+            transition: all 0.2s ease-in-out;
+        }
+        .quiz-option:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .quiz-option.selected {
+            background-color: #3b82f6; /* bg-blue-600 */
+            color: white;
+            border-color: #2563eb; /* border-blue-700 */
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <!-- Main Container -->
+    <div class="container mx-auto p-4 md:p-8 max-w-7xl">
+
+        <header class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-gray-800">CompTIA Security+ SY0-701 Quiz</h1>
+            <p class="text-lg text-gray-600 mt-2">Test your knowledge and prepare for the exam.</p>
+        </header>
+
+        <!-- Quiz Setup Section -->
+        <div id="setup-section" class="bg-white p-6 rounded-lg shadow-lg mb-8">
+            <h2 class="text-2xl font-bold mb-4">Exam Configuration</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label for="question-count" class="block text-sm font-medium text-gray-700 mb-2">Number of Questions:</label>
+                    <select id="question-count" class="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                        <option value="30">30 Questions</option>
+                        <option value="60">60 Questions</option>
+                        <option value="90">90 Questions</option>
+                        <option value="120">120 Questions</option>
+                        <option value="150">150 Questions</option>
+                        <option value="180">All 180 Questions</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="exam-type" class="block text-sm font-medium text-gray-700 mb-2">Exam Type:</label>
+                    <select id="exam-type" class="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                        <option value="practice">Practice Mode</option>
+                        <option value="timed">Timed Mode (1 min/question)</option>
+                    </select>
+                </div>
+            </div>
+            <div class="mt-6 text-center">
+                <button id="start-exam" class="bg-blue-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 transition duration-300 shadow-md text-base">Start Exam</button>
+            </div>
+        </div>
+
+        <!-- Quiz Section -->
+        <div id="quiz-section" class="hidden bg-white p-6 rounded-lg shadow-lg mb-8">
+            <div id="timer" class="text-xl font-bold text-right mb-4 text-red-600"></div>
+            <!-- Fixed height container for question and options -->
+            <div id="question-container" class="min-h-[450px]">
+                <!-- Question will be injected here by JS -->
+            </div>
+            <div class="mt-6 flex justify-between items-center">
+                <button id="prev-question" class="bg-gray-300 text-gray-800 font-bold py-2 px-6 rounded-lg hover:bg-gray-400 transition duration-300">Previous</button>
+                <div id="progress-indicator" class="text-sm font-medium text-gray-600"></div>
+                <button id="next-question" class="bg-blue-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-600 transition duration-300">Next</button>
+                <button id="submit-exam" class="hidden bg-green-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-green-700 transition duration-300">Submit</button>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div id="results-section" class="hidden bg-white p-6 rounded-lg shadow-lg text-center">
+            <h2 class="text-3xl font-bold mb-4">Exam Results</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-lg">
+                <div class="p-4 bg-gray-50 rounded-lg">
+                    <p class="font-bold">Score:</p>
+                    <p id="score" class="text-2xl font-bold text-green-600"></p>
+                </div>
+                <div class="p-4 bg-gray-50 rounded-lg">
+                    <p class="font-bold">Percentage:</p>
+                    <p id="percentage" class="text-2xl font-bold text-blue-600"></p>
+                </div>
+                <div class="p-4 bg-gray-50 rounded-lg">
+                    <p class="font-bold">Time Taken:</p>
+                    <p id="time-taken" class="text-2xl font-bold text-purple-600"></p>
+                </div>
+            </div>
+            <button id="restart-exam" class="mt-8 bg-blue-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-blue-700 transition duration-300">Take Another Exam</button>
+        </div>
+
+        <!-- History Table Section -->
+        <div id="history-section" class="bg-white p-6 rounded-lg shadow-lg mt-8">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-2xl font-bold">Exam History</h2>
+                <div class="flex items-center gap-2">
+                    <button id="download-csv" class="bg-gray-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-gray-700 transition duration-300 text-sm"><i class="fas fa-download mr-1"></i> CSV</button>
+                    <button id="download-json" class="bg-gray-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-gray-700 transition duration-300 text-sm"><i class="fas fa-download mr-1"></i> JSON</button>
+                    <button id="reset-history" class="bg-red-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-red-700 transition duration-300 text-sm"><i class="fas fa-trash-alt mr-1"></i> Reset</button>
+                </div>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="min-w-full bg-white">
+                    <thead class="bg-gray-200">
+                        <tr>
+                            <th class="py-2 px-4 border-b">Seed</th>
+                            <th class="py-2 px-4 border-b">Date</th>
+                            <th class="py-2 px-4 border-b">Score</th>
+                            <th class="py-2 px-4 border-b">Percentage</th>
+                            <th class="py-2 px-4 border-b">Time Taken</th>
+                        </tr>
+                    </thead>
+                    <tbody id="history-table-body">
+                        <!-- History will be injected here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Floating Support Icon -->
+    <div id="support-icon" class="fixed bottom-8 right-8 cursor-pointer heartbeat z-50">
+        <a href="https://buymeacoffee.com/gourabdg" target="_blank" class="block w-16 h-16 bg-red-500 rounded-full flex items-center justify-center shadow-lg text-white">
+            <i class="fas fa-heart text-2xl"></i>
+        </a>
+    </div>
+
+    <!-- Support Modal -->
+    <div id="support-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white p-8 rounded-lg shadow-2xl text-center max-w-sm mx-auto">
+            <h3 class="text-2xl font-bold mb-4">Support the Developer!</h3>
+            <p class="mb-6 text-gray-700">If you find this quiz app helpful, please consider supporting my work. It helps me create more tools like this for the community.</p>
+            <a href="https://buymeacoffee.com/gourabdg" target="_blank" class="bg-yellow-400 text-gray-800 font-bold py-3 px-6 rounded-lg hover:bg-yellow-500 transition duration-300 block mb-3">
+                <i class="fas fa-coffee mr-2"></i>Buy me a coffee
+            </a>
+            <button id="skip-support" class="bg-gray-300 text-gray-800 font-bold py-3 px-6 rounded-lg hover:bg-gray-400 transition duration-300 w-full">Skip to Exam</button>
+        </div>
+    </div>
+    
+    <!-- Reset Confirmation Modal -->
+    <div id="reset-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white p-8 rounded-lg shadow-2xl text-center max-w-sm mx-auto">
+            <h3 class="text-2xl font-bold mb-4">Confirm Reset</h3>
+            <p class="mb-6 text-gray-700">Are you sure you want to delete all exam history? This action cannot be undone.</p>
+            <div class="flex justify-center gap-4">
+                <button id="confirm-reset-btn" class="bg-red-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-red-700 transition duration-300">Reset</button>
+                <button id="cancel-reset-btn" class="bg-gray-300 text-gray-800 font-bold py-2 px-6 rounded-lg hover:bg-gray-400 transition duration-300">Cancel</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Questions data -->
+    <script id="questions-data" type="application/json">
+    [
+        {
+            "question": "Which of the following ensures that a sender cannot deny sending a message?",
+            "options": ["Encryption", "Hashing", "Digital Signature", "Symmetric Key Exchange"],
+            "answer": "Digital Signature"
+        },
+        {
+            "question": "Which type of threat actor is MOST likely to have the greatest resources and patience for an extended attack?",
+            "options": ["Insider", "Nation-State", "Script Kiddie", "Hacktivist"],
+            "answer": "Nation-State"
+        },
+        {
+            "question": "What type of attack involves inserting malicious code into a legitimate web application to steal information from users?",
+            "options": ["Phishing", "SQL Injection", "Cross-Site Scripting (XSS)", "DNS Spoofing"],
+            "answer": "Cross-Site Scripting (XSS)"
+        },
+        {
+            "question": "A company needs to prevent unauthorized devices from connecting to its internal network. What technology should be used?",
+            "options": ["Firewall", "VPN", "NAC (Network Access Control)", "IDS"],
+            "answer": "NAC (Network Access Control)"
+        },
+        {
+            "question": "Which backup type saves only the changes made since the last full backup?",
+            "options": ["Incremental", "Differential", "Full", "Snapshot"],
+            "answer": "Differential"
+        },
+        {
+            "question": "What control type is a biometric fingerprint scanner?",
+            "options": ["Technical", "Administrative", "Physical", "Compensating"],
+            "answer": "Physical"
+        },
+        {
+            "question": "Which wireless security protocol is the most secure for corporate environments?",
+            "options": ["WEP", "WPA", "WPA2-PSK", "WPA3-Enterprise"],
+            "answer": "WPA3-Enterprise"
+        },
+        {
+            "question": "Which of the following would BEST help mitigate risks associated with phishing attacks?",
+            "options": ["IDS", "Security Awareness Training", "Firewall Rules", "Password Complexity Requirements"],
+            "answer": "Security Awareness Training"
+        },
+        {
+            "question": "Which risk response involves buying cyber insurance?",
+            "options": ["Accept", "Mitigate", "Transfer", "Avoid"],
+            "answer": "Transfer"
+        },
+        {
+            "question": "Which concept is being applied when access to files is based on job roles such as HR, IT, or Accounting?",
+            "options": ["MAC", "DAC", "RBAC", "ABAC"],
+            "answer": "RBAC"
+        },
+        {
+            "question": "What type of malware disguises itself as a legitimate program but delivers a malicious payload?",
+            "options": ["Worm", "Ransomware", "Trojan", "Rootkit"],
+            "answer": "Trojan"
+        },
+        {
+            "question": "Which process helps ensure that only needed ports and services are running on a server?",
+            "options": ["Network segmentation", "Baseline configuration", "Change management", "Hardening"],
+            "answer": "Hardening"
+        },
+        {
+            "question": "A database administrator is setting access so that users only have permission to view certain data. Which principle is being applied?",
+            "options": ["Separation of Duties", "Need-to-Know", "Non-repudiation", "Risk Transference"],
+            "answer": "Need-to-Know"
+        },
+        {
+            "question": "What is the primary purpose of a honeypot?",
+            "options": ["Encrypt sensitive data", "Divert attackers away from real systems", "Patch vulnerabilities", "Enforce firewall rules"],
+            "answer": "Divert attackers away from real systems"
+        },
+        {
+            "question": "During which incident response phase would you isolate a compromised server?",
+            "options": ["Recovery", "Containment", "Lessons Learned", "Identification"],
+            "answer": "Containment"
+        },
+        {
+            "question": "A company is using older operating systems for their web servers and are concerned of their stability during periods of high use. Which of the following should the company use to maximize the uptime and availability of this service?",
+            "options": ["Cold site", "UPS", "Redundant routers", "Load balancer"],
+            "answer": "Load balancer"
+        },
+        {
+            "question": "A system administrator would like to segment the network to give the marketing, accounting, and manufacturing departments their own private network. Which of the following should be configured on this network?",
+            "options": ["VPN", "RBAC", "VLAN", "SDN"],
+            "answer": "VLAN"
+        },
+        {
+            "question": "Which of the following is used to describe how cautious an organization might be to taking a specific risk?",
+            "options": ["Risk appetite", "Risk register", "Risk transfer", "Risk reporting"],
+            "answer": "Risk appetite"
+        },
+        {
+            "question": "A security administrator has found a keylogger installed in an update of the company's accounting software. Which of the following would prevent the transmission of the collected logs?",
+            "options": ["Prevent the installation of all software", "Block all unknown outbound network traffic at the Internet firewall", "Install host-based anti-virus software", "Scan all incoming email attachments at the email gateway"],
+            "answer": "Block all unknown outbound network traffic at the Internet firewall"
+        },
+        {
+            "question": "An attacker has gained access to an application through the use of packet captures. Which of the following would be MOST likely used by the attacker?",
+            "options": ["Overflow", "Forgery", "Replay", "Injection"],
+            "answer": "Replay"
+        },
+        {
+            "question": "A company must comply with legal requirements for storing customer data in the same country as the customer's mailing address. Which of the following would describe this requirement?",
+            "options": ["Geographic dispersion", "Least privilege", "Data sovereignty", "Exfiltration"],
+            "answer": "Data sovereignty"
+        },
+        {
+            "question": "What is the key difference between a worm and a virus?",
+            "options": ["What operating system they run on", "How they spread", "What their potential impact is", "The number of infections"],
+            "answer": "How they spread"
+        },
+        {
+            "question": "An organization has identified a security breach and has removed the affected servers from the network. Which of the following is the NEXT step in the incident response process?",
+            "options": ["Eradication", "Preparation", "Recovery", "Detection"],
+            "answer": "Eradication"
+        },
+        {
+            "question": "A security administrator has configured a virtual machine in a screened subnet with a guest login account and no password. Which of the following would be the MOST likely reason for this configuration?",
+            "options": ["The server is a honeypot for attracting potential attackers", "The server is a cloud storage service for remote users", "The server will be used as a VPN concentrator", "The server is a development sandbox for third-party programming projects"],
+            "answer": "The server is a honeypot for attracting potential attackers"
+        },
+        {
+            "question": "A security administrator needs to block users from visiting websites hosting malicious software. Which of the following would be the BEST way to control this access?",
+            "options": ["Honeynet", "Data masking", "DNS filtering", "Data loss prevention"],
+            "answer": "DNS filtering"
+        },
+        {
+            "question": "A user connects to a third-party website and receives this message: 'Your connection is not private. NET::ERR_CERT_INVALID'. Which of the following attacks would be the MOST likely reason for this message?",
+            "options": ["Brute force", "DoS", "On-path", "Deauthentication"],
+            "answer": "On-path"
+        },
+        {
+            "question": "What kind of security control is associated with a login banner?",
+            "options": ["Preventive", "Deterrent", "Corrective", "Detective"],
+            "answer": "Deterrent"
+        },
+        {
+            "question": "Which of the following describes two-factor authentication?",
+            "options": ["A printer uses a password and a PIN", "The door to a building requires a fingerprint scan", "An application requires a pseudo-random code", "A Windows Domain requires a password and smart card"],
+            "answer": "A Windows Domain requires a password and smart card"
+        },
+        {
+            "question": "A Linux administrator is downloading an updated version of her Linux distribution. The download site shows a link to the ISO and a SHA256 hash value. Which of these would describe the use of this hash value?",
+            "options": ["Verifies that the file was not corrupted during the file transfer", "Provides a key for decrypting the ISO after download", "Authenticates the site as an official ISO distribution site", "Confirms that the file does not contain any malware"],
+            "answer": "Verifies that the file was not corrupted during the file transfer"
+        },
+        {
+            "question": "Which of the following would be the main reasons why a system administrator would use a TPM when configuring full disk encryption? (Select TWO)",
+            "options": ["Allows the encryption of multiple volumes", "Uses burned-in cryptographic keys", "Stores certificates in a hardware security module", "Includes built-in protections against brute-force attacks"],
+            "answer": ["Uses burned-in cryptographic keys", "Includes built-in protections against brute-force attacks"]
+        },
+        {
+            "question": "An attacker is using a tool to intercept and modify traffic between a user and a web server. This is an example of what kind of attack?",
+            "options": ["Phishing", "Man-in-the-Middle (MITM)", "Denial of Service (DoS)", "SQL Injection"],
+            "answer": "Man-in-the-Middle (MITM)"
+        },
+        {
+            "question": "What is the primary purpose of salting passwords before hashing them?",
+            "options": ["To make the hash shorter", "To prevent rainbow table attacks", "To make passwords easier to remember", "To encrypt the password hash"],
+            "answer": "To prevent rainbow table attacks"
+        },
+        {
+            "question": "Which of the following is a symmetric encryption algorithm?",
+            "options": ["RSA", "ECC", "AES", "Diffie-Hellman"],
+            "answer": "AES"
+        },
+        {
+            "question": "A company policy states that all employees must change their passwords every 90 days. This is an example of what kind of control?",
+            "options": ["Technical", "Physical", "Administrative", "Corrective"],
+            "answer": "Administrative"
+        },
+        {
+            "question": "Which type of firewall filters traffic based on session information and connection state?",
+            "options": ["Packet-filtering", "Stateful inspection", "Application-layer", "Proxy"],
+            "answer": "Stateful inspection"
+        },
+        {
+            "question": "Which security principle suggests that a system should be secure by default?",
+            "options": ["Least privilege", "Fail-safe defaults", "Defense in depth", "Open design"],
+            "answer": "Fail-safe defaults"
+        },
+        {
+            "question": "An unauthorized access point is configured to mimic a legitimate corporate network to trick users into connecting. What is this access point called?",
+            "options": ["Honeypot", "Rogue AP", "Evil Twin", "Ad hoc network"],
+            "answer": "Evil Twin"
+        },
+        {
+            "question": "What is the term for an attack that exploits a previously unknown vulnerability?",
+            "options": ["Zero-day attack", "Replay attack", "Buffer overflow", "Brute-force attack"],
+            "answer": "Zero-day attack"
+        },
+        {
+            "question": "Which of the following provides integrity for a message?",
+            "options": ["AES", "RSA", "SHA-256", "WPA3"],
+            "answer": "SHA-256"
+        },
+        {
+            "question": "A company wants to outsource its IT infrastructure, including servers, storage, and networking, to a cloud provider. Which service model should it choose?",
+            "options": ["SaaS", "PaaS", "IaaS", "DaaS"],
+            "answer": "IaaS"
+        },
+        {
+            "question": "Which of the following is used to manage and enforce policies on employees' smartphones and tablets?",
+            "options": ["MDM (Mobile Device Management)", "SIEM (Security Information and Event Management)", "DLP (Data Loss Prevention)", "NAC (Network Access Control)"],
+            "answer": "MDM (Mobile Device Management)"
+        },
+        {
+            "question": "What is the name of an attack where the attacker sends a flood of ICMP echo request packets to a broadcast address?",
+            "options": ["Ping of death", "Smurf attack", "SYN flood", "Teardrop attack"],
+            "answer": "Smurf attack"
+        },
+        {
+            "question": "Which of the following is a physical security control?",
+            "options": ["Password policy", "Mantrap", "Firewall", "Antivirus"],
+            "answer": "Mantrap"
+        },
+        {
+            "question": "A developer is writing code and wants to prevent users from entering malicious scripts into input fields. What vulnerability is the developer trying to mitigate?",
+            "options": ["SQL Injection", "Cross-Site Scripting (XSS)", "Cross-Site Request Forgery (CSRF)", "Buffer Overflow"],
+            "answer": "Cross-Site Scripting (XSS)"
+        },
+        {
+            "question": "Which type of backup strategy involves backing up all data that has changed since the last backup of any kind?",
+            "options": ["Full", "Differential", "Incremental", "Snapshot"],
+            "answer": "Incremental"
+        },
+        {
+            "question": "Which of the following describes the 'A' in the CIA triad?",
+            "options": ["Authentication", "Authorization", "Availability", "Accounting"],
+            "answer": "Availability"
+        },
+        {
+            "question": "A security team is performing a test where they have no prior knowledge of the target system. What type of test is this?",
+            "options": ["White-box", "Gray-box", "Black-box", "Red team"],
+            "answer": "Black-box"
+        },
+        {
+            "question": "What is the process of verifying a user's identity?",
+            "options": ["Authorization", "Authentication", "Accounting", "Auditing"],
+            "answer": "Authentication"
+        },
+        {
+            "question": "An attacker spoofs the MAC address of a trusted device to gain access to a network. This is an example of:",
+            "options": ["ARP poisoning", "MAC flooding", "IP spoofing", "DNS poisoning"],
+            "answer": "ARP poisoning"
+        },
+        {
+            "question": "A company wants to ensure that a single employee cannot carry out a critical task alone. Which security principle should be implemented?",
+            "options": ["Least privilege", "Separation of duties", "Job rotation", "Need-to-know"],
+            "answer": "Separation of duties"
+        },
+        {
+            "question": "Which of the following is a characteristic of an advanced persistent threat (APT)?",
+            "options": ["Low skill level", "Short-term objectives", "High level of resources and patience", "Targets individuals, not organizations"],
+            "answer": "High level of resources and patience"
+        },
+        {
+            "question": "Which biometric authentication method is considered the most unique and difficult to forge?",
+            "options": ["Fingerprint scan", "Facial recognition", "Iris scan", "Voice recognition"],
+            "answer": "Iris scan"
+        },
+        {
+            "question": "What type of social engineering attack involves an attacker sending a fraudulent email that appears to be from a legitimate source?",
+            "options": ["Vishing", "Smishing", "Phishing", "Tailgating"],
+            "answer": "Phishing"
+        },
+        {
+            "question": "In cryptography, what is a public key used for?",
+            "options": ["To encrypt data that only the private key can decrypt", "To decrypt data that was encrypted with the same public key", "To create a digital signature", "To generate a symmetric key"],
+            "answer": "To encrypt data that only the private key can decrypt"
+        },
+        {
+            "question": "A company wants to monitor and filter web traffic for its employees. Which of the following would be the most suitable solution?",
+            "options": ["VPN concentrator", "Web application firewall", "Proxy server", "IDS"],
+            "answer": "Proxy server"
+        },
+        {
+            "question": "What is the primary goal of a Business Continuity Plan (BCP)?",
+            "options": ["To restore IT systems after a disaster", "To ensure critical business functions can continue during a disruption", "To investigate the cause of an incident", "To prosecute attackers"],
+            "answer": "To ensure critical business functions can continue during a disruption"
+        },
+        {
+            "question": "Which type of intrusion detection system (IDS) analyzes traffic for signatures of known attacks?",
+            "options": ["Signature-based", "Anomaly-based", "Behavior-based", "Heuristic-based"],
+            "answer": "Signature-based"
+        },
+        {
+            "question": "A user receives a text message with a malicious link. This is an example of what type of attack?",
+            "options": ["Phishing", "Vishing", "Smishing", "Spear phishing"],
+            "answer": "Smishing"
+        },
+        {
+            "question": "Which of the following policies specifies how employees should handle sensitive company data?",
+            "options": ["Acceptable Use Policy (AUP)", "Information Classification Policy", "Password Policy", "Incident Response Policy"],
+            "answer": "Information Classification Policy"
+        },
+        {
+            "question": "Which deployment model requires a company to purchase and own the device, but allows the user to select the device they prefer?",
+            "options": ["BYOD", "COPE", "CYOD", "VDI"],
+            "answer": "CYOD"
+        },
+        {
+            "question": "A security operations center (SOC) has identified an ongoing denial-of-service attack against their primary web server. Which of the following should be the IMMEDIATE next step?",
+            "options": ["Perform a full backup of the web server", "Contact law enforcement", "Isolate the web server from the network", "Analyze the server logs to identify the attack source"],
+            "answer": "Isolate the web server from the network"
+        },
+        {
+            "question": "Which of the following is a detective security control?",
+            "options": ["Firewall", "Encryption", "Security guard", "Log monitoring"],
+            "answer": "Log monitoring"
+        },
+        {
+            "question": "Which of the following is an example of a watering hole attack?",
+            "options": ["An attacker sends a phishing email to all employees of a company", "An attacker compromises a website frequently visited by a specific group of users", "An attacker sets up a fake wireless access point in a coffee shop", "An attacker calls an employee pretending to be from the IT department"],
+            "answer": "An attacker compromises a website frequently visited by a specific group of users"
+        },
+        {
+            "question": "A company wants to ensure that data in transit is protected from eavesdropping. Which technology should be used?",
+            "options": ["Hashing", "Digital signatures", "TLS", "Steganography"],
+            "answer": "TLS"
+        },
+        {
+            "question": "A system administrator has configured a new server and wants to ensure it has the correct security settings before deploying it to the production network. What should the administrator use?",
+            "options": ["Vulnerability scanner", "Configuration baseline", "Honeypot", "Penetration test"],
+            "answer": "Configuration baseline"
+        },
+        {
+            "question": "Which of the following is a common vector for ransomware infections?",
+            "options": ["Phishing emails", "DDoS attacks", "SQL injection", "Man-in-the-middle attacks"],
+            "answer": "Phishing emails"
+        },
+        {
+            "question": "Which authentication factor is a user's fingerprint an example of?",
+            "options": ["Something you know", "Something you have", "Something you are", "Somewhere you are"],
+            "answer": "Something you are"
+        },
+        {
+            "question": "What is the purpose of a Faraday cage?",
+            "options": ["To block electromagnetic fields", "To prevent unauthorized physical access", "To provide redundant power", "To suppress fires"],
+            "answer": "To block electromagnetic fields"
+        },
+        {
+            "question": "A security analyst is reviewing logs and notices a large number of failed login attempts from a single IP address. This could be an indication of what type of attack?",
+            "options": ["Phishing", "Brute-force", "Denial-of-service", "Cross-site scripting"],
+            "answer": "Brute-force"
+        },
+        {
+            "question": "Which of the following is the BEST way to protect against tailgating?",
+            "options": ["Security guards and mantraps", "CCTV cameras", "Biometric locks", "Employee training"],
+            "answer": "Security guards and mantraps"
+        },
+        {
+            "question": "Which of the following cloud computing models provides a fully functional application to users over the internet?",
+            "options": ["IaaS", "PaaS", "SaaS", "DaaS"],
+            "answer": "SaaS"
+        },
+        {
+            "question": "An organization wants to implement a policy that requires employees to take a mandatory vacation of at least one week per year. What is the primary security benefit of this policy?",
+            "options": ["It reduces employee burnout", "It helps to detect fraudulent activity", "It improves employee morale", "It is required for compliance with labor laws"],
+            "answer": "It helps to detect fraudulent activity"
+        },
+        {
+            "question": "Which of the following is a key component of a successful defense-in-depth strategy?",
+            "options": ["Using a single, strong security control", "Implementing layered security controls", "Focusing only on perimeter security", "Relying on security through obscurity"],
+            "answer": "Implementing layered security controls"
+        },
+        {
+            "question": "A user is granted the minimum level of access required to perform their job duties. This is an example of which security principle?",
+            "options": ["Need-to-know", "Least privilege", "Separation of duties", "Defense in depth"],
+            "answer": "Least privilege"
+        },
+        {
+            "question": "What type of malware is designed to steal sensitive information, such as credit card numbers and passwords, from a user's computer?",
+            "options": ["Ransomware", "Spyware", "Adware", "Worm"],
+            "answer": "Spyware"
+        },
+        {
+            "question": "Which of the following is a common technique used in social engineering?",
+            "options": ["Exploiting a software vulnerability", "Using a brute-force attack to guess a password", "Creating a sense of urgency to trick a user into taking an action", "Intercepting network traffic"],
+            "answer": "Creating a sense of urgency to trick a user into taking an action"
+        },
+        {
+            "question": "A company has a policy that prohibits employees from using personal email accounts for business purposes. This is an example of what type of control?",
+            "options": ["Technical", "Physical", "Administrative", "Corrective"],
+            "answer": "Administrative"
+        },
+        {
+            "question": "Which of the following is a primary benefit of using a SIEM system?",
+            "options": ["To prevent intrusions from occurring", "To automatically patch software vulnerabilities", "To centralize and analyze security logs from multiple sources", "To provide a secure way for remote users to access the network"],
+            "answer": "To centralize and analyze security logs from multiple sources"
+        },
+        {
+            "question": "What is the main purpose of a disaster recovery plan (DRP)?",
+            "options": ["To ensure business continuity during a disruption", "To restore IT services and infrastructure after a disaster", "To investigate the cause of a security incident", "To comply with regulatory requirements"],
+            "answer": "To restore IT services and infrastructure after a disaster"
+        },
+        {
+            "question": "A network administrator wants to allow HTTP traffic but block all other traffic. Which of the following firewall rules should be implemented?",
+            "options": ["Allow TCP port 80, deny all others", "Deny TCP port 80, allow all others", "Allow UDP port 53, deny all others", "Deny TCP port 22, allow all others"],
+            "answer": "Allow TCP port 80, deny all others"
+        },
+        {
+            "question": "An organization is using a key stretching algorithm to make their password hashes more resistant to brute-force attacks. Which of the following would be an example of this type of algorithm?",
+            "options": ["SHA-256", "MD5", "PBKDF2", "AES"],
+            "answer": "PBKDF2"
+        },
+        {
+            "question": "Which of the following is a primary concern when using a public Wi-Fi hotspot?",
+            "options": ["Low bandwidth", "Man-in-the-middle attacks", "IP address exhaustion", "Power outages"],
+            "answer": "Man-in-the-middle attacks"
+        },
+        {
+            "question": "A company wants to implement a system that will automatically block network traffic from known malicious IP addresses. Which of the following would be the most effective solution?",
+            "options": ["Honeypot", "Intrusion Prevention System (IPS)", "Vulnerability scanner", "Log analysis server"],
+            "answer": "Intrusion Prevention System (IPS)"
+        },
+        {
+            "question": "Which of the following is the most effective way to prevent SQL injection attacks?",
+            "options": ["Using strong passwords for the database", "Implementing a web application firewall", "Using parameterized queries or prepared statements", "Disabling JavaScript in the browser"],
+            "answer": "Using parameterized queries or prepared statements"
+        },
+        {
+            "question": "A company has a secure area that requires employees to swipe a badge to enter. An unauthorized person follows an employee into the secure area without swiping a badge. This is an example of:",
+            "options": ["Shoulder surfing", "Tailgating", "Dumpster diving", "Vishing"],
+            "answer": "Tailgating"
+        },
+        {
+            "question": "Which of the following is an example of a preventive security control?",
+            "options": ["CCTV cameras", "Log analysis", "Incident response plan", "Firewall"],
+            "answer": "Firewall"
+        },
+        {
+            "question": "A user's web browser is redirected to a malicious website without their knowledge. This is an example of what type of attack?",
+            "options": ["Pharming", "Phishing", "Clickjacking", "Session hijacking"],
+            "answer": "Pharming"
+        },
+        {
+            "question": "What is the purpose of a certificate revocation list (CRL)?",
+            "options": ["To list all valid digital certificates", "To list all expired digital certificates", "To list all revoked digital certificates", "To list all self-signed digital certificates"],
+            "answer": "To list all revoked digital certificates"
+        },
+        {
+            "question": "Which of the following is a hashing algorithm?",
+            "options": ["AES", "RSA", "SHA-512", "ECC"],
+            "answer": "SHA-512"
+        },
+        {
+            "question": "A company wants to ensure that employees do not share sensitive information outside of the organization via email. Which of the following technologies would be most effective in preventing this?",
+            "options": ["Spam filter", "Data Loss Prevention (DLP)", "Web application firewall", "Network intrusion detection system"],
+            "answer": "Data Loss Prevention (DLP)"
+        },
+        {
+            "question": "Which of the following is a primary goal of a red team exercise?",
+            "options": ["To test the effectiveness of an organization's security defenses", "To train employees on how to respond to security incidents", "To comply with industry regulations", "To identify and patch software vulnerabilities"],
+            "answer": "To test the effectiveness of an organization's security defenses"
+        },
+        {
+            "question": "Which of the following is a common symptom of a system that has been infected with adware?",
+            "options": ["The system runs slower than usual", "Files on the system are encrypted", "The user is unable to access the internet", "The system displays unwanted pop-up advertisements"],
+            "answer": "The system displays unwanted pop-up advertisements"
+        },
+        {
+            "question": "A company wants to provide remote access to its employees. Which of the following technologies would provide the most secure connection?",
+            "options": ["Telnet", "FTP", "VPN", "RDP"],
+            "answer": "VPN"
+        },
+        {
+            "question": "Which of the following is an example of a compensating control?",
+            "options": ["Implementing a firewall to protect the network perimeter", "Requiring employees to use strong passwords", "Placing a security guard at the entrance to a building", "Reviewing audit logs to detect unauthorized activity"],
+            "answer": "Reviewing audit logs to detect unauthorized activity"
+        },
+        {
+            "question": "An attacker is attempting to gain unauthorized access to a system by trying all possible password combinations. This is an example of what type of attack?",
+            "options": ["Dictionary attack", "Brute-force attack", "Rainbow table attack", "Password spraying attack"],
+            "answer": "Brute-force attack"
+        },
+        {
+            "question": "A company wants to test its incident response plan to ensure that it is effective. Which of the following would be the most appropriate method?",
+            "options": ["Conducting a tabletop exercise", "Performing a vulnerability scan", "Implementing a new security control", "Hiring a third-party penetration testing firm"],
+            "answer": "Conducting a tabletop exercise"
+        },
+        {
+            "question": "Which of the following is the BEST way to mitigate the risk of a single point of failure in a network?",
+            "options": ["Implementing a firewall", "Using strong encryption", "Implementing redundancy", "Conducting regular backups"],
+            "answer": "Implementing redundancy"
+        },
+        {
+            "question": "A company is concerned about the risk of employees writing down their passwords on sticky notes. Which of the following policies would be most effective in mitigating this risk?",
+            "options": ["Password complexity policy", "Clean desk policy", "Acceptable use policy", "Password rotation policy"],
+            "answer": "Clean desk policy"
+        },
+        {
+            "question": "Which of the following is an example of a threat intelligence source?",
+            "options": ["A company's internal security logs", "A vendor's security advisory", "An industry information sharing and analysis center (ISAC)", "A news article about a recent data breach"],
+            "answer": "An industry information sharing and analysis center (ISAC)"
+        },
+        {
+            "question": "What is the primary purpose of a web application firewall (WAF)?",
+            "options": ["To protect against network-layer attacks", "To protect against application-layer attacks such as SQL injection and XSS", "To filter spam and phishing emails", "To provide secure remote access to the network"],
+            "answer": "To protect against application-layer attacks such as SQL injection and XSS"
+        },
+        {
+            "question": "Which of the following is a benefit of using a trusted platform module (TPM)?",
+            "options": ["It provides a secure way to store cryptographic keys", "It allows for faster network speeds", "It protects against power outages", "It can be used to run virtual machines"],
+            "answer": "It provides a secure way to store cryptographic keys"
+        },
+        {
+            "question": "A security analyst is investigating a security incident and needs to preserve evidence from a compromised system. Which of the following should be the first step?",
+            "options": ["Create a forensic image of the system's hard drive", "Shut down the system to prevent further damage", "Disconnect the system from the network", "Install antivirus software on the system"],
+            "answer": "Create a forensic image of the system's hard drive"
+        },
+        {
+            "question": "Which of the following is a common security concern associated with the Internet of Things (IoT)?",
+            "options": ["Lack of strong security controls and regular patching", "High bandwidth consumption", "Limited processing power", "Physical theft of devices"],
+            "answer": "Lack of strong security controls and regular patching"
+        },
+        {
+            "question": "A company wants to ensure that only authorized users are able to access its wireless network. Which of the following would be the most secure method?",
+            "options": ["Hiding the SSID of the wireless network", "Using MAC address filtering", "Implementing WPA3-Enterprise with 802.1X authentication", "Using a pre-shared key (PSK)"],
+            "answer": "Implementing WPA3-Enterprise with 802.1X authentication"
+        },
+        {
+            "question": "Which of the following is an example of a detective control?",
+            "options": ["A security policy that requires all employees to attend annual security awareness training", "A firewall that blocks traffic from known malicious IP addresses", "A security guard who patrols the perimeter of a building", "A log monitoring system that generates alerts for suspicious activity"],
+            "answer": "A log monitoring system that generates alerts for suspicious activity"
+        },
+        {
+            "question": "What is the purpose of a sandboxed environment?",
+            "options": ["To run and analyze suspicious code in an isolated environment", "To store and manage cryptographic keys", "To provide a secure way for remote users to access the network", "To test the performance of a new application"],
+            "answer": "To run and analyze suspicious code in an isolated environment"
+        },
+        {
+            "question": "A company is required to comply with the Payment Card Industry Data Security Standard (PCI DSS). Which of the following is a key requirement of this standard?",
+            "options": ["Encrypting all sensitive data at rest and in transit", "Conducting annual penetration tests", "Implementing a security awareness training program for all employees", "All of the above"],
+            "answer": "All of the above"
+        },
+        {
+            "question": "Which of the following is a common indicator of a compromised system?",
+            "options": ["Unusual outbound network traffic", "Increased CPU or memory usage", "Unexpected changes to system files or configurations", "All of the above"],
+            "answer": "All of the above"
+        },
+        {
+            "question": "A company wants to implement a system that will allow it to remotely wipe data from lost or stolen mobile devices. Which of the following technologies would be most appropriate?",
+            "options": ["Full disk encryption", "Mobile device management (MDM)", "Virtual private network (VPN)", "Data loss prevention (DLP)"],
+            "answer": "Mobile device management (MDM)"
+        },
+        {
+            "question": "Which of the following is a primary goal of a continuity of operations plan (COOP)?",
+            "options": ["To ensure that an organization can continue to perform its essential functions during a disruption", "To restore IT services and infrastructure after a disaster", "To investigate the cause of a security incident", "To comply with regulatory requirements"],
+            "answer": "To ensure that an organization can continue to perform its essential functions during a disruption"
+        },
+        {
+            "question": "An attacker has gained access to a user's session cookie and is using it to impersonate the user. This is an example of what type of attack?",
+            "options": ["Session hijacking", "Cross-site scripting (XSS)", "Cross-site request forgery (CSRF)", "Clickjacking"],
+            "answer": "Session hijacking"
+        },
+        {
+            "question": "A company wants to implement a system that will provide a single point of authentication for multiple applications. Which of the following would be the most appropriate solution?",
+            "options": ["Kerberos", "RADIUS", "TACACS+", "SAML"],
+            "answer": "SAML"
+        },
+        {
+            "question": "Which of the following is a common method for exfiltrating data from a compromised network?",
+            "options": ["Using DNS tunneling", "Encrypting the data and sending it via email", "Uploading the data to a cloud storage service", "All of the above"],
+            "answer": "All of the above"
+        },
+        {
+            "question": "A company wants to ensure that its employees are aware of the latest security threats and best practices. Which of the following would be the most effective method?",
+            "options": ["Sending out a monthly security newsletter", "Requiring all employees to attend an annual security awareness training session", "Conducting regular phishing simulations", "All of the above"],
+            "answer": "All of the above"
+        },
+        {
+            "question": "Which of the following is a key consideration when developing a secure software development lifecycle (SDLC)?",
+            "options": ["Incorporating security into every phase of the development process", "Performing a security review of the code before it is deployed", "Conducting a penetration test of the application after it is deployed", "All of the above"],
+            "answer": "All of the above"
+        },
+        {
+            "question": "A company is concerned about the risk of an attacker gaining access to its internal network by compromising a user's home computer. Which of the following would be the most effective way to mitigate this risk?",
+            "options": ["Requiring all employees to use a VPN when connecting to the corporate network from home", "Providing all employees with a company-owned laptop for work purposes", "Implementing a security awareness training program that covers the risks of using home computers for work", "All of the above"],
+            "answer": "All of the above"
+        },
+        {
+            "question": "Which of the following is a common security risk associated with cloud computing?",
+            "options": ["Misconfigured security settings", "Lack of visibility into the cloud provider's security controls", "Shared tenancy", "All of the above"],
+            "answer": "All of the above"
+        },
+        {
+            "question": "A company wants to implement a system that will allow it to track and manage changes to its IT infrastructure. Which of the following would be the most appropriate solution?",
+            "options": ["A configuration management database (CMDB)", "A change management system", "A version control system", "All of the above"],
+            "answer": "All of the above"
+        },
+        {
+            "question": "A user has received an email that appears to be from their bank, asking them to click on a link to verify their account information. This is an example of what type of attack?",
+            "options": ["Spear phishing", "Whaling", "Phishing", "Vishing"],
+            "answer": "Phishing"
+        },
+        {
+            "question": "Which of the following is a key benefit of using a bug bounty program?",
+            "options": ["It allows a company to leverage the expertise of a large number of security researchers", "It can be a cost-effective way to identify and fix vulnerabilities", "It can help to improve a company's security posture and reputation", "All of the above"],
+            "answer": "All of the above"
+        }
+    ]
+    </script>
+    <script>
+        // Main script for the quiz application
+        document.addEventListener('DOMContentLoaded', () => {
+            // State variables
+            let questions = [];
+            let currentQuestions = [];
+            let userAnswers = [];
+            let currentQuestionIndex = 0;
+            let examType = 'practice';
+            let timer;
+            let timeLeft = 0;
+            let totalTime = 0;
+            let examSeed = '';
+            let startTime = 0; // For practice mode timer
+
+            // DOM Elements
+            const setupSection = document.getElementById('setup-section');
+            const quizSection = document.getElementById('quiz-section');
+            const resultsSection = document.getElementById('results-section');
+            const startExamBtn = document.getElementById('start-exam');
+            const questionCountSelect = document.getElementById('question-count');
+            const examTypeSelect = document.getElementById('exam-type');
+            const questionContainer = document.getElementById('question-container');
+            const prevQuestionBtn = document.getElementById('prev-question');
+            const nextQuestionBtn = document.getElementById('next-question');
+            const submitExamBtn = document.getElementById('submit-exam');
+            const timerDisplay = document.getElementById('timer');
+            const scoreDisplay = document.getElementById('score');
+            const percentageDisplay = document.getElementById('percentage');
+            const timeTakenDisplay = document.getElementById('time-taken');
+            const restartExamBtn = document.getElementById('restart-exam');
+            const historyTableBody = document.getElementById('history-table-body');
+            const downloadCsvBtn = document.getElementById('download-csv');
+            const downloadJsonBtn = document.getElementById('download-json');
+            const resetHistoryBtn = document.getElementById('reset-history');
+            const supportIcon = document.getElementById('support-icon');
+            const supportModal = document.getElementById('support-modal');
+            const skipSupportBtn = document.getElementById('skip-support');
+            const progressIndicator = document.getElementById('progress-indicator');
+            const resetModal = document.getElementById('reset-modal');
+            const confirmResetBtn = document.getElementById('confirm-reset-btn');
+            const cancelResetBtn = document.getElementById('cancel-reset-btn');
+            
+            // Load questions from the embedded JSON data
+            function loadQuestions() {
+                const questionsDataElement = document.getElementById('questions-data');
+                questions = JSON.parse(questionsDataElement.textContent);
+            }
+
+            // --- SEED-BASED PRNG ---
+            function xmur3(str) {
+                for(var i = 0, h = 1779033703 ^ str.length; i < str.length; i++) {
+                    h = Math.imul(h ^ str.charCodeAt(i), 3432918353);
+                    h = h << 13 | h >>> 19;
+                }
+                return function() {
+                    h = Math.imul(h ^ h >>> 16, 2246822507);
+                    h = Math.imul(h ^ h >>> 13, 3266489909);
+                    return (h ^= h >>> 16) >>> 0;
+                }
+            }
+            
+            function mulberry32(a) {
+                return function() {
+                  var t = a += 0x6D2B79F5;
+                  t = Math.imul(t ^ t >>> 15, t | 1);
+                  t ^= t + Math.imul(t ^ t >>> 7, t | 61);
+                  return ((t ^ t >>> 14) >>> 0) / 4294967296;
+                }
+            }
+
+            function shuffleArray(array, seed) {
+                const seedFunc = xmur3(seed);
+                const rand = mulberry32(seedFunc());
+                let currentIndex = array.length, randomIndex;
+
+                while (currentIndex != 0) {
+                    randomIndex = Math.floor(rand() * currentIndex);
+                    currentIndex--;
+                    [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+                }
+                return array;
+            }
+
+            function generateSeed() {
+                return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+            }
+
+            // Start the exam
+            startExamBtn.addEventListener('click', () => {
+                showSupportModal();
+            });
+
+            function beginExam() {
+                const numQuestions = parseInt(questionCountSelect.value);
+                examType = examTypeSelect.value;
+                examSeed = generateSeed();
+                
+                const shuffledQuestions = shuffleArray([...questions], examSeed);
+                currentQuestions = shuffledQuestions.slice(0, numQuestions);
+                
+                userAnswers = new Array(currentQuestions.length).fill(null);
+                currentQuestionIndex = 0;
+                
+                setupSection.classList.add('hidden');
+                resultsSection.classList.add('hidden');
+                quizSection.classList.remove('hidden');
+                supportIcon.classList.add('hidden');
+
+                if (examType === 'timed') {
+                    timeLeft = numQuestions * 60;
+                    totalTime = timeLeft;
+                    startTimer();
+                } else {
+                    startTime = Date.now();
+                    timerDisplay.textContent = '';
+                }
+
+                displayQuestion();
+            }
+
+            // Display current question
+            function displayQuestion() {
+                const question = currentQuestions[currentQuestionIndex];
+                let optionsHtml = '';
+                question.options.forEach((option, index) => {
+                    const isSelected = userAnswers[currentQuestionIndex] === option;
+                    optionsHtml += `
+                        <div class="quiz-option p-4 border rounded-lg cursor-pointer mb-3 ${isSelected ? 'selected' : 'bg-gray-50'}" data-option="${option}">
+                            ${option}
+                        </div>
+                    `;
+                });
+                
+                questionContainer.innerHTML = `
+                    <h3 class="text-2xl font-semibold mb-4">${currentQuestionIndex + 1}. ${question.question}</h3>
+                    <div id="options-container">${optionsHtml}</div>
+                `;
+                
+                updateNavigation();
+                updateProgress();
+
+                document.querySelectorAll('.quiz-option').forEach(el => {
+                    el.addEventListener('click', handleOptionSelect);
+                });
+            }
+            
+            function handleOptionSelect(e) {
+                const selectedOption = e.currentTarget.dataset.option;
+                userAnswers[currentQuestionIndex] = selectedOption;
+                displayQuestion();
+            }
+            
+            // Navigation
+            function updateNavigation() {
+                prevQuestionBtn.disabled = currentQuestionIndex === 0;
+                prevQuestionBtn.classList.toggle('opacity-50', prevQuestionBtn.disabled);
+
+                if (userAnswers[currentQuestionIndex] === null) {
+                    nextQuestionBtn.textContent = 'Skip';
+                } else {
+                    nextQuestionBtn.textContent = 'Next';
+                }
+                
+                if (currentQuestionIndex === currentQuestions.length - 1) {
+                    nextQuestionBtn.classList.add('hidden');
+                    submitExamBtn.classList.remove('hidden');
+                } else {
+                    nextQuestionBtn.classList.remove('hidden');
+                    submitExamBtn.classList.add('hidden');
+                }
+            }
+
+            function updateProgress() {
+                const progress = currentQuestionIndex + 1;
+                const total = currentQuestions.length;
+                progressIndicator.textContent = `Question ${progress} of ${total}`;
+                
+                if (progress === Math.ceil(total / 2) && progress > 1) {
+                    showSupportModal(false);
+                }
+            }
+
+            nextQuestionBtn.addEventListener('click', () => {
+                if (currentQuestionIndex < currentQuestions.length - 1) {
+                    currentQuestionIndex++;
+                    displayQuestion();
+                }
+            });
+
+            prevQuestionBtn.addEventListener('click', () => {
+                if (currentQuestionIndex > 0) {
+                    currentQuestionIndex--;
+                    displayQuestion();
+                }
+            });
+
+            submitExamBtn.addEventListener('click', submitExam);
+            
+            // Timer logic
+            function startTimer() {
+                timerDisplay.classList.remove('hidden');
+                timer = setInterval(() => {
+                    timeLeft--;
+                    const minutes = Math.floor(timeLeft / 60);
+                    const seconds = timeLeft % 60;
+                    timerDisplay.textContent = `Time Left: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+                    if (timeLeft <= 0) {
+                        clearInterval(timer);
+                        submitExam();
+                    }
+                }, 1000);
+            }
+
+            // Submit exam
+            function submitExam() {
+                clearInterval(timer);
+                let score = 0;
+                currentQuestions.forEach((q, index) => {
+                    const correctAnswers = Array.isArray(q.answer) ? q.answer : [q.answer];
+                    if (correctAnswers.includes(userAnswers[index])) {
+                        score++;
+                    }
+                });
+
+                const percentage = ((score / currentQuestions.length) * 100).toFixed(2);
+                let timeTakenInSeconds;
+
+                if (examType === 'timed') {
+                    timeTakenInSeconds = totalTime - timeLeft;
+                } else {
+                    timeTakenInSeconds = startTime > 0 ? Math.floor((Date.now() - startTime) / 1000) : 0;
+                }
+                
+                scoreDisplay.textContent = `${score} / ${currentQuestions.length}`;
+                percentageDisplay.textContent = `${percentage}%`;
+                timeTakenDisplay.textContent = formatTime(timeTakenInSeconds);
+                
+                saveHistory(score, percentage, timeTakenInSeconds);
+
+                quizSection.classList.add('hidden');
+                resultsSection.classList.remove('hidden');
+                supportIcon.classList.remove('hidden');
+                
+                showSupportModal(false);
+            }
+            
+            function formatTime(totalSeconds) {
+                if (isNaN(totalSeconds) || totalSeconds < 0) return '00:00:00';
+                const hours = Math.floor(totalSeconds / 3600).toString().padStart(2, '0');
+                const minutes = Math.floor((totalSeconds % 3600) / 60).toString().padStart(2, '0');
+                const seconds = (totalSeconds % 60).toString().padStart(2, '0');
+                return `${hours}:${minutes}:${seconds}`;
+            }
+
+            // History management
+            function saveHistory(score, percentage, timeInSeconds) {
+                const history = JSON.parse(localStorage.getItem('quizHistory')) || [];
+                const now = new Date();
+                const newRecord = {
+                    seed: examSeed,
+                    date: now.toLocaleDateString(),
+                    time: now.toLocaleTimeString(),
+                    score: `${score} / ${currentQuestions.length}`,
+                    percentage: `${percentage}%`,
+                    timeTaken: formatTime(timeInSeconds)
+                };
+                history.unshift(newRecord);
+                localStorage.setItem('quizHistory', JSON.stringify(history));
+                loadHistory();
+            }
+
+            function loadHistory() {
+                const history = JSON.parse(localStorage.getItem('quizHistory')) || [];
+                historyTableBody.innerHTML = '';
+                if (history.length === 0) {
+                    historyTableBody.innerHTML = '<tr><td colspan="5" class="text-center py-4">No exam history found.</td></tr>';
+                } else {
+                    history.forEach(record => {
+                        const row = `
+                            <tr>
+                                <td class="py-2 px-4 border-b">${record.seed}</td>
+                                <td class="py-2 px-4 border-b">${record.date} ${record.time}</td>
+                                <td class="py-2 px-4 border-b">${record.score}</td>
+                                <td class="py-2 px-4 border-b">${record.percentage}</td>
+                                <td class="py-2 px-4 border-b">${record.timeTaken}</td>
+                            </tr>
+                        `;
+                        historyTableBody.innerHTML += row;
+                    });
+                }
+            }
+            
+            // Reset History Modal Logic
+            resetHistoryBtn.addEventListener('click', () => {
+                resetModal.classList.remove('hidden');
+            });
+
+            cancelResetBtn.addEventListener('click', () => {
+                resetModal.classList.add('hidden');
+            });
+
+            confirmResetBtn.addEventListener('click', () => {
+                localStorage.removeItem('quizHistory');
+                loadHistory();
+                resetModal.classList.add('hidden');
+            });
+
+
+            // Download functionality
+            function downloadData(data, filename, type) {
+                const blob = new Blob([data], { type });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }
+
+            downloadJsonBtn.addEventListener('click', () => {
+                const history = localStorage.getItem('quizHistory') || '[]';
+                downloadData(history, 'quiz_history.json', 'application/json');
+            });
+            
+            downloadCsvBtn.addEventListener('click', () => {
+                const history = JSON.parse(localStorage.getItem('quizHistory')) || [];
+                if (history.length === 0) return;
+                
+                const headers = Object.keys(history[0]).join(',');
+                const rows = history.map(record => Object.values(record).join(',')).join('\n');
+                const csv = `${headers}\n${rows}`;
+                downloadData(csv, 'quiz_history.csv', 'text/csv');
+            });
+
+            // Restart exam
+            restartExamBtn.addEventListener('click', () => {
+                resultsSection.classList.add('hidden');
+                setupSection.classList.remove('hidden');
+            });
+            
+            // Support Modal Logic
+            function showSupportModal(startAfter = true) {
+                supportModal.classList.remove('hidden');
+                if (startAfter) {
+                    skipSupportBtn.textContent = 'Skip to Exam';
+                    skipSupportBtn.onclick = () => {
+                        supportModal.classList.add('hidden');
+                        beginExam();
+                    };
+                } else {
+                     skipSupportBtn.textContent = 'Close';
+                     skipSupportBtn.onclick = () => supportModal.classList.add('hidden');
+                }
+            }
+
+            // Initial Load
+            loadQuestions();
+            loadHistory();
+        });
+
+    </script>
+</body>
+</html>
