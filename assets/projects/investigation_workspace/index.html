@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INSIGHT: Intelligence Gathering & OSINT Platform</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Vis.js Network -->
+    <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+    
+    <!-- Leaflet.js for Map View -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+    <!-- Google Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        body { font-family: 'Nunito', sans-serif; background-color: #0c111d; color: #d1d5db; background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px); background-size: 20px 20px; }
+        .bg-custom-dark { background-color: #111827; }
+        .bg-custom-dark-2 { background-color: #1f2937; }
+        .border-custom { border-color: #374151; }
+        .stat-card, .main-panel, .notification-dropdown { background: rgba(31, 41, 55, 0.7); backdrop-filter: blur(10px); border: 1px solid #374151; }
+        #graph-container, #timeline-container, #map-container { width: 100%; height: 100%; border-radius: 0.5rem; background-color: #1f2937; }
+        .vis-tooltip { background-color: #111827; border: 1px solid #374151; color: #d1d5db; padding: 8px; border-radius: 6px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); }
+        .input-field { background-color: #374151; border: 1px solid #4b5563; }
+        .input-field:focus { border-color: #3b82f6; box-shadow: 0 0 0 1px #3b82f6; }
+        #graph-container.linking-mode .vis-network canvas { cursor: crosshair !important; }
+        #context-menu { position: absolute; z-index: 1000; background-color: #1f2937; border: 1px solid #4b5563; border-radius: 0.5rem; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); padding: 0.5rem; }
+        .context-menu-item { display: flex; align-items: center; padding: 0.5rem; cursor: pointer; border-radius: 0.25rem; }
+        .context-menu-item:hover { background-color: #374151; }
+        .tab-btn.active { border-color: #3b82f6 !important; color: white !important; }
+        .leaflet-popup-content-wrapper, .leaflet-popup-tip { background-color: #1f2937; color: #d1d5db; border: 1px solid #4b5563; }
+        .leaflet-control-zoom-in, .leaflet-control-zoom-out, .leaflet-control-attribution { background-color: #1f2937 !important; color: #d1d5db !important; border: 1px solid #4b5563 !important; }
+        .group-summary.drag-over { background-color: #3b82f6; color: white; }
+    </style>
+</head>
+<body class="h-screen w-screen overflow-hidden flex flex-col">
+
+    <!-- Header -->
+    <header class="bg-custom-dark/80 backdrop-blur-sm border-b border-custom px-6 py-3 flex justify-between items-center z-30 flex-shrink-0">
+        <h1 class="text-xl font-bold text-white flex items-center">
+             <button id="back-to-dashboard-btn" class="mr-4 hidden items-center justify-center p-2 rounded-full hover:bg-gray-700">
+                <i data-lucide="arrow-left" class="w-5 h-5"></i>
+             </button>
+            <span id="header-title">INSIGHT</span>
+        </h1>
+        <div class="flex items-center space-x-4">
+            <div class="flex items-center space-x-2 text-sm"> <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div> <span class="text-green-400 font-semibold">Live</span> </div>
+            <div class="relative">
+                <button id="notification-btn" class="relative text-gray-400 hover:text-white"> <i data-lucide="bell" class="w-5 h-5"></i> <span class="absolute -top-1 -right-1 flex h-3 w-3"> <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span> <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span> </span> </button>
+                <div id="notification-dropdown" class="notification-dropdown absolute right-0 mt-2 w-80 rounded-lg shadow-lg p-4 hidden">
+                    <h3 class="font-semibold text-white mb-3">Recent Alerts</h3>
+                     <div class="space-y-4 max-h-96 overflow-y-auto">
+                        <div class="flex items-start text-sm"><i data-lucide="shield-alert" class="w-5 h-5 text-red-500 mt-0.5 flex-shrink-0"></i><div class="ml-3"><h4 class="font-semibold text-white">High Risk Domain</h4><p class="text-gray-300 mt-1">New domain registered: <span class="font-mono text-blue-400">target-company-new.com</span></p></div></div>
+                        <div class="flex items-start text-sm"><i data-lucide="at-sign" class="w-5 h-5 text-yellow-500 mt-0.5 flex-shrink-0"></i><div class="ml-3"><h4 class="font-semibold text-white">Social Media Activity</h4><p class="text-gray-300 mt-1">New post with location data: <span class="font-mono text-blue-400">@target_handle</span></p></div></div>
+                     </div>
+                </div>
+            </div>
+            <div class="w-px h-6 bg-gray-600"></div>
+             <div id="user-display" class="text-xs text-gray-400 font-mono">Initializing...</div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <div class="flex-1 overflow-hidden">
+        
+        <!-- View 1: Dashboard -->
+        <main id="dashboard-view" class="p-6 overflow-y-auto h-full">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+                <div class="stat-card p-5 rounded-lg"><h3 class="text-gray-400 text-sm">Active Investigations</h3><p id="stats-investigations" class="text-3xl font-bold text-white mt-2">0</p></div>
+                <div class="stat-card p-5 rounded-lg"><h3 class="text-gray-400 text-sm">Entities Tracked</h3><p id="stats-entities" class="text-3xl font-bold text-white mt-2">0</p></div>
+                <div class="stat-card p-5 rounded-lg"><h3 class="text-gray-400 text-sm">High Priority Alerts</h3><p id="stats-alerts" class="text-3xl font-bold text-red-500 mt-2">1</p></div>
+                <div class="stat-card p-5 rounded-lg"><h3 class="text-gray-400 text-sm">Data Sources</h3><p id="stats-sources" class="text-3xl font-bold text-white mt-2">0</p></div>
+            </div>
+            <div class="main-panel p-6 rounded-lg">
+                <div class="flex justify-between items-center mb-4"><h2 class="text-lg font-semibold text-white">Active Investigations</h2><button id="new-investigation-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg flex items-center"><i data-lucide="plus" class="w-4 h-4 mr-2"></i>New Investigation</button></div>
+                <div id="investigations-list" class="space-y-3"></div>
+            </div>
+        </main>
+
+        <!-- View 2: Investigation Workspace -->
+        <div id="investigation-view" class="h-full flex-1 flex overflow-hidden hidden">
+            <aside class="w-1/4 max-w-sm bg-custom-dark-2/50 p-4 flex flex-col border-r border-custom overflow-y-auto">
+                <div id="case-info-panel" class="mb-2"> <h2 class="text-lg font-bold text-white" id="current-case-name"></h2> <p class="text-sm text-gray-400" id="current-case-desc"></p> </div>
+                <div class="flex items-center space-x-2 mb-2 border-t border-b border-custom py-2"> <button id="freeze-layout-btn" title="Freeze/Unfreeze Layout (F)" class="flex-1 bg-gray-700 hover:bg-gray-600 text-white p-2 rounded-md flex items-center justify-center"><i data-lucide="snowflake" class="w-5 h-5"></i></button> <button id="hierarchical-layout-btn" title="Toggle Hierarchical View (H)" class="flex-1 bg-gray-700 hover:bg-gray-600 text-white p-2 rounded-md flex items-center justify-center"><i data-lucide="align-center-horizontal" class="w-5 h-5"></i></button> </div>
+                <div class="flex border-b border-custom mb-2"> <button class="workspace-tab-btn tab-btn flex-1 p-2 text-sm text-gray-400 border-b-2 border-transparent active" data-view="entities">Entities</button> <button class="workspace-tab-btn tab-btn flex-1 p-2 text-sm text-gray-400 border-b-2 border-transparent" data-view="timeline">Timeline</button> <button class="workspace-tab-btn tab-btn flex-1 p-2 text-sm text-gray-400 border-b-2 border-transparent" data-view="map">Map</button> </div>
+                <div id="entities-view" class="flex-1 flex flex-col overflow-y-auto"> 
+                    <div id="group-filter-bar" class="hidden items-center mb-2">
+                        <span class="text-sm text-gray-400 mr-2">Filtering by:</span>
+                        <span id="active-group-filter" class="font-bold text-white"></span>
+                        <button id="clear-group-filter" class="ml-auto text-blue-400 hover:text-blue-300 text-sm">Show All</button>
+                    </div>
+                    <div class="flex items-center mb-2"> <input type="text" id="group-name-input" placeholder="New group name..." class="input-field text-sm flex-1 rounded-l-md px-2 py-1"> <button id="add-group-btn" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded-r-md">Add</button> </div> 
+                    <div id="entity-list-container" class="flex-1 overflow-y-auto space-y-2"></div> 
+                </div>
+                <div id="timeline-view" class="hidden flex-1 overflow-y-auto p-2"></div>
+                <div id="map-view" class="hidden flex-1 overflow-y-auto"></div>
+            </aside>
+            <section class="flex-1 flex flex-col p-4">
+                <div id="main-workspace-area" class="flex-1 relative">
+                    <div id="graph-container" class="w-full h-full"></div>
+                    <div id="timeline-container" class="w-full h-full hidden"></div>
+                    <div id="map-container" class="w-full h-full hidden"></div>
+                    <div id="graph-interaction-message" class="absolute top-4 left-1/2 -translate-x-1/2 bg-blue-900/80 text-white text-sm py-2 px-4 rounded-full hidden shadow-lg z-10"></div>
+                </div>
+            </section>
+            <aside id="inspector-container" class="w-1/4 max-w-sm bg-custom-dark-2/50 p-4 flex flex-col border-l border-custom overflow-y-auto"><div id="inspector-panel"></div></aside>
+        </div>
+    </div>
+    
+    <!-- Context Menu -->
+    <div id="context-menu" class="hidden"></div>
+
+    <!-- Modals -->
+    <div id="new-investigation-modal" class="fixed inset-0 bg-black/60 items-center justify-center z-50 hidden"><div class="bg-custom-dark rounded-lg shadow-xl p-6 w-full max-w-md m-4 border border-custom"><h3 class="text-xl font-bold text-white mb-4">Create New Investigation</h3><form id="new-investigation-form"><div class="mb-4"><label for="investigation-name" class="block text-sm text-gray-300 mb-1">Investigation Name</label><input type="text" id="investigation-name" class="w-full bg-custom-dark-2 text-white border border-custom rounded-md px-3 py-2 input-field" required></div><div class="mb-4"><label for="investigation-description" class="block text-sm text-gray-300 mb-1">Description</label><textarea id="investigation-description" rows="3" class="w-full bg-custom-dark-2 text-white border border-custom rounded-md px-3 py-2 input-field"></textarea></div><div class="flex justify-end space-x-3"><button type="button" id="cancel-new-investigation" class="bg-gray-600 hover:bg-gray-500 text-white py-2 px-4 rounded-lg">Cancel</button><button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg">Create</button></div></form></div></div>
+
+    <!-- Main Application Logic -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-app.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-auth.js";
+        import { getFirestore, doc, getDoc, addDoc, updateDoc, deleteDoc, onSnapshot, collection, query, getDocs, serverTimestamp, setLogLevel, writeBatch, where, or, documentId, orderBy, arrayUnion, arrayRemove } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-firestore.js";
+
+        // --- GLOBAL STATE & CONFIG ---
+        const appState = {
+            db: null, auth: null, userId: null, appId: 'insight-osint-platform',
+            currentCaseId: null, network: null, map: null, caseData: null, entities: new Map(), relationships: new Map(), groups: new Map(),
+            unsubscribers: {}, relationshipCreationState: null, isPhysicsEnabled: true, isHierarchical: false, currentWorkspaceView: 'entities',
+            draggedNodeData: null, activeGroupFilter: null
+        };
+
+        const ENTITY_TYPES = { 
+            Person: { color: { background: '#ef4444', border: '#f87171' }, icon: 'user', fields: ['DOB', 'Nationality', 'Address', 'Phone Number'] }, 
+            Location: { color: { background: '#22c55e', border: '#4ade80' }, icon: 'map-pin', fields: ['Address', 'Coordinates', 'Country'] }, 
+            Organization: { color: { background: '#3b82f6', border: '#60a5fa' }, icon: 'building-2', fields: ['Industry', 'Headquarters', 'Website'] }, 
+            Object: { color: { background: '#eab308', border: '#facc15' }, icon: 'box', fields: ['Serial Number', 'Owner', 'Last Seen'] }, 
+            Event: { color: { background: '#a855f7', border: '#c084fc' }, icon: 'calendar-days', fields: ['Date', 'Time', 'Location'] }, 
+            Cyber: { color: { background: '#14b8a6', border: '#2dd4bf' }, icon: 'server', fields: ['IP Address', 'Hostname', 'Associated Email'] } 
+        };
+        
+        const LEVEL_COLORS = ['#ff6b6b', '#48dbfb', '#1dd1a1', '#feca57', '#ff9f43', '#a3a6ff'];
+        const LEVEL_COLORS_LIGHT = ['rgba(255, 107, 107, 0.15)', 'rgba(72, 219, 251, 0.15)', 'rgba(29, 209, 161, 0.15)', 'rgba(254, 202, 87, 0.15)', 'rgba(255, 159, 67, 0.15)', 'rgba(163, 166, 255, 0.15)'];
+
+        const dom = { headerTitle: document.getElementById('header-title'), backToDashboardBtn: document.getElementById('back-to-dashboard-btn'), userDisplay: document.getElementById('user-display'), dashboardView: document.getElementById('dashboard-view'), investigationView: document.getElementById('investigation-view'), notificationBtn: document.getElementById('notification-btn'), notificationDropdown: document.getElementById('notification-dropdown'), newInvestigationBtn: document.getElementById('new-investigation-btn'), newInvestigationModal: document.getElementById('new-investigation-modal'), newInvestigationForm: document.getElementById('new-investigation-form'), cancelNewInvestigationBtn: document.getElementById('cancel-new-investigation'), investigationsList: document.getElementById('investigations-list'), statsInvestigations: document.getElementById('stats-investigations'), statsEntities: document.getElementById('stats-entities'), currentCaseName: document.getElementById('current-case-name'), currentCaseDesc: document.getElementById('current-case-desc'), entityListContainer: document.getElementById('entity-list-container'), graphContainer: document.getElementById('graph-container'), graphInteractionMessage: document.getElementById('graph-interaction-message'), inspectorPanel: document.getElementById('inspector-panel'), freezeLayoutBtn: document.getElementById('freeze-layout-btn'), hierarchicalLayoutBtn: document.getElementById('hierarchical-layout-btn'), contextMenu: document.getElementById('context-menu'), addGroupBtn: document.getElementById('add-group-btn'), groupNameInput: document.getElementById('group-name-input'), timelineContainer: document.getElementById('timeline-container'), mapContainer: document.getElementById('map-container'), entitiesView: document.getElementById('entities-view'), timelineView: document.getElementById('timeline-view'), mapView: document.getElementById('map-view'), groupFilterBar: document.getElementById('group-filter-bar'), activeGroupFilter: document.getElementById('active-group-filter'), clearGroupFilterBtn: document.getElementById('clear-group-filter')};
+
+        // --- INITIALIZATION & AUTH ---
+        async function main() {
+            lucide.createIcons();
+            setupEventListeners();
+            showView('dashboard-view');
+            
+            // Static Firebase configuration for GitHub Pages deployment
+            const firebaseConfig = {
+                apiKey: "AIzaSyD9o-FBBOYQhuNKDD1l8tUUCkLlqhReSeA",
+                authDomain: "investigation-workspace.firebaseapp.com",
+                projectId: "investigation-workspace",
+                storageBucket: "investigation-workspace.appspot.com",
+                messagingSenderId: "836840107649",
+                appId: "1:836840107649:web:14ca269a1099aa9561e780",
+                measurementId: "G-3Y7BWDTKDR"
+            };
+            appState.appId = 'my-github-pages-osint-app';
+
+            try {
+                const app = initializeApp(firebaseConfig);
+                appState.db = getFirestore(app);
+                appState.auth = getAuth(app);
+                onAuthStateChanged(appState.auth, handleAuthState);
+            } catch (error) {
+                console.error("Firebase Init Error:", error);
+            }
+        }
+
+        async function handleAuthState(user) {
+            if (user) {
+                appState.userId = user.uid;
+                dom.userDisplay.textContent = `UID: ${user.uid.substring(0, 12)}...`;
+                listenForInvestigationsSummary();
+            } else {
+                try {
+                    await signInAnonymously(appState.auth);
+                } catch (e) {
+                    console.error("Anonymous sign-in failed:", e);
+                }
+            }
+        }
+        
+        // --- VIEW MANAGEMENT & WORKFLOW ---
+        function showView(viewName) { dom.dashboardView.classList.add('hidden'); dom.investigationView.classList.add('hidden'); document.getElementById(viewName).classList.remove('hidden'); dom.backToDashboardBtn.classList.toggle('hidden', viewName === 'dashboard-view'); dom.backToDashboardBtn.classList.toggle('flex', viewName === 'investigation-view'); dom.headerTitle.textContent = viewName === 'investigation-view' ? "Investigation Workspace" : "INSIGHT"; if (viewName === 'dashboard-view') cleanupInvestigationWorkspace(); }
+        function showGraphInteractionMessage(message, sticky = false) { dom.graphInteractionMessage.textContent = message; dom.graphInteractionMessage.classList.remove('hidden'); if (!sticky) setTimeout(() => dom.graphInteractionMessage.classList.add('hidden'), 3000); }
+        function hideGraphInteractionMessage() { dom.graphInteractionMessage.classList.add('hidden'); }
+        async function handleNewInvestigation(e) { e.preventDefault(); if (!appState.userId) return; const name = dom.newInvestigationForm['investigation-name'].value; const description = dom.newInvestigationForm['investigation-description'].value; try { const collectionPath = `artifacts/${appState.appId}/users/${appState.userId}/cases`; const newDoc = await addDoc(collection(appState.db, collectionPath), { name, description, createdAt: serverTimestamp(), updatedAt: serverTimestamp() }); dom.newInvestigationForm.reset(); dom.newInvestigationModal.style.display = 'none'; loadInvestigationWorkspace(newDoc.id); } catch (error) { console.error("Error creating investigation:", error); } }
+
+        // --- DASHBOARD LOGIC ---
+        function listenForInvestigationsSummary() { if (!appState.userId) return; const collectionPath = `artifacts/${appState.appId}/users/${appState.userId}/cases`; const q = query(collection(appState.db, collectionPath)); appState.unsubscribers['dashboard'] = onSnapshot(q, async (snapshot) => { let totalEntities = 0; const investigations = await Promise.all(snapshot.docs.map(async (doc) => { const entitiesPath = `${collectionPath}/${doc.id}/entities`; const entitiesSnapshot = await getDocs(collection(appState.db, entitiesPath)); totalEntities += entitiesSnapshot.size; return { id: doc.id, entityCount: entitiesSnapshot.size, ...doc.data() }; })); dom.statsInvestigations.textContent = investigations.length; dom.statsEntities.textContent = totalEntities; renderInvestigationsList(investigations); }); }
+        function renderInvestigationsList(investigations) { if (investigations.length === 0) { dom.investigationsList.innerHTML = `<div class="text-center py-16 text-gray-500"><i data-lucide="folder-search" class="w-16 h-16 mx-auto mb-4"></i><h3 class="font-semibold text-lg text-gray-300">No investigations yet</h3><p class="text-sm">Create one to start gathering intelligence.</p></div>`; lucide.createIcons(); return; } dom.investigationsList.innerHTML = investigations.map(inv => { const date = inv.createdAt?.toDate ? inv.createdAt.toDate().toLocaleDateString() : 'N/A'; return `<div data-id="${inv.id}" class="investigation-item bg-custom-dark-2/50 hover:bg-custom-dark-2 transition-colors rounded-lg p-4 border border-custom cursor-pointer"><div><h4 class="font-bold text-white">${inv.name}</h4><p class="text-sm text-gray-400 mt-1">${inv.description}</p></div><div class="flex justify-between items-center mt-3"><span class="text-xs text-gray-500">Created: ${date}</span><span class="text-xs font-semibold bg-gray-600/50 text-gray-300 px-2 py-1 rounded-full">${inv.entityCount} Entities</span></div></div>`; }).join(''); document.querySelectorAll('.investigation-item').forEach(item => item.addEventListener('click', (e) => loadInvestigationWorkspace(e.currentTarget.dataset.id))); }
+
+        // --- INVESTIGATION WORKSPACE: STATE & SETUP ---
+        function cleanupInvestigationWorkspace() { Object.values(appState.unsubscribers).forEach(unsub => unsub && unsub()); appState.unsubscribers = {}; appState.entities.clear(); appState.relationships.clear(); appState.groups.clear(); if(appState.network) appState.network.destroy(); if(appState.map) appState.map.remove(); appState.network = null; appState.map = null; appState.currentCaseId = null; dom.entityListContainer.innerHTML = ''; dom.inspectorPanel.innerHTML = ''; exitRelationshipMode(); }
+        async function loadInvestigationWorkspace(caseId) { if (!appState.userId) return; cleanupInvestigationWorkspace(); appState.currentCaseId = caseId; showView('investigation-view'); const casePath = `artifacts/${appState.appId}/users/${appState.userId}/cases/${caseId}`; const caseDoc = await getDoc(doc(appState.db, casePath)); if (caseDoc.exists()) { appState.caseData = caseDoc.data(); dom.currentCaseName.textContent = appState.caseData.name; dom.currentCaseDesc.textContent = appState.caseData.description; } const entitiesPath = `${casePath}/entities`; appState.unsubscribers['case_entities'] = onSnapshot(query(collection(appState.db, entitiesPath)), (snapshot) => { snapshot.docChanges().forEach((change) => { if (change.type === "removed") appState.entities.delete(change.doc.id); else appState.entities.set(change.doc.id, { id: change.doc.id, ...change.doc.data() }); }); updateEntityListAndViews(); }); const relationshipsPath = `${casePath}/relationships`; appState.unsubscribers['case_relationships'] = onSnapshot(query(collection(appState.db, relationshipsPath)), (snapshot) => { snapshot.docChanges().forEach((change) => { if (change.type === "removed") appState.relationships.delete(change.doc.id); else appState.relationships.set(change.doc.id, { id: change.doc.id, ...change.doc.data() }); }); updateEntityListAndViews(); }); const groupsPath = `${casePath}/groups`; appState.unsubscribers['case_groups'] = onSnapshot(query(collection(appState.db, groupsPath)), (snapshot) => { snapshot.docChanges().forEach((change) => { if (change.type === "removed") appState.groups.delete(change.doc.id); else appState.groups.set(change.doc.id, { id: change.doc.id, ...change.doc.data() }); }); updateEntityListAndViews(); }); renderInspectorDefault(); switchWorkspaceView('entities'); }
+        function updateEntityListAndViews() { if (appState.currentWorkspaceView === 'entities') { updateEntityList(); renderGraph({groupFilterId: appState.activeGroupFilter}); } else if (appState.currentWorkspaceView === 'timeline') { renderTimeline(); } else if (appState.currentWorkspaceView === 'map') { renderMap(); } }
+        
+        // --- GROUP & ENTITY LIST LOGIC ---
+        async function handleAddGroup() { const name = dom.groupNameInput.value.trim(); if (!name || !appState.currentCaseId) return; const groupsPath = `artifacts/${appState.appId}/users/${appState.userId}/cases/${appState.currentCaseId}/groups`; await addDoc(collection(appState.db, groupsPath), { name, entityIds: [] }); dom.groupNameInput.value = ''; }
+        async function assignEntityToGroup(entityId, groupId) { const casePath = `artifacts/${appState.appId}/users/${appState.userId}/cases/${appState.currentCaseId}`; const batch = writeBatch(appState.db); appState.groups.forEach((groupData, gId) => { const groupRef = doc(appState.db, `${casePath}/groups`, gId); batch.update(groupRef, { entityIds: arrayRemove(entityId) }); }); const targetGroupRef = doc(appState.db, `${casePath}/groups`, groupId); batch.update(targetGroupRef, { entityIds: arrayUnion(entityId) }); await batch.commit(); }
+        async function handleDeleteGroup(groupId) { if (!confirm("Are you sure you want to delete this group? Entities will become ungrouped.")) return; const groupsPath = `artifacts/${appState.appId}/users/${appState.userId}/cases/${appState.currentCaseId}/groups`; await deleteDoc(doc(appState.db, groupsPath, groupId));}
+        
+        function updateEntityList() {
+            const nodeLevels = calculateNodeLevels();
+            const createEntityHtml = (entity, isGrouped = false) => {
+                const level = nodeLevels.get(entity.id);
+                const bgColorStyle = typeof level !== 'undefined' 
+                    ? `style="background-color: ${LEVEL_COLORS_LIGHT[level % LEVEL_COLORS_LIGHT.length]}"`
+                    : 'class="bg-gray-800/50"';
+                const indentClass = isGrouped ? 'ml-4' : '';
+                return `<div draggable="true" data-id="${entity.id}" class="entity-list-item cursor-grab hover:bg-gray-700 p-2 rounded-md flex items-center ${indentClass}" ${bgColorStyle}>
+                            <i data-lucide="${ENTITY_TYPES[entity.type]?.icon || 'help-circle'}" class="w-4 h-4 mr-2"></i>
+                            <span class="font-medium text-white text-sm">${entity.label}</span>
+                        </div>`;
+            };
+
+            let html = '';
+            const ungroupedEntities = new Map(appState.entities);
+            appState.groups.forEach((group, groupId) => {
+                let groupEntitiesHtml = '';
+                (group.entityIds || []).forEach(id => {
+                    const entity = appState.entities.get(id);
+                    if (entity) {
+                        groupEntitiesHtml += createEntityHtml(entity, true);
+                        ungroupedEntities.delete(id);
+                    }
+                });
+                html += `<details class="group" open><summary class="group-summary font-semibold cursor-pointer p-1 rounded-md flex justify-between items-center" data-group-id="${groupId}"><span>${group.name}</span><span class="group-actions hidden"><i data-lucide="trash-2" class="w-4 h-4 text-red-500 hover:text-red-400 delete-group-btn"></i></span></summary><div class="space-y-1 mt-1">${groupEntitiesHtml}</div></details>`;
+            });
+            let ungroupedHtml = '';
+            ungroupedEntities.forEach(entity => { ungroupedHtml += createEntityHtml(entity); });
+            if (ungroupedHtml) html += `<div class="mt-2 pt-2 border-t border-custom space-y-1">${ungroupedHtml}</div>`;
+            dom.entityListContainer.innerHTML = html || `<p class="text-gray-500 text-sm p-4 text-center">No entities added yet.</p>`;
+            lucide.createIcons();
+            document.querySelectorAll('.entity-list-item').forEach(item => { item.addEventListener('dragstart', e => e.dataTransfer.setData('text/plain', e.target.dataset.id)); item.addEventListener('click', e => { const entityId = e.currentTarget.dataset.id; if(appState.network) { appState.network.focus(entityId, { scale: 1.2, animation: true }); appState.network.selectNodes([entityId]); handleGraphClick({nodes: [entityId]}); } }); });
+            document.querySelectorAll('.group-summary').forEach(summary => { summary.addEventListener('dragover', e => e.preventDefault()); summary.addEventListener('dragenter', e => e.target.classList.add('drag-over')); summary.addEventListener('dragleave', e => e.target.classList.remove('drag-over')); summary.addEventListener('drop', e => { e.preventDefault(); e.target.classList.remove('drag-over'); const entityId = e.dataTransfer.getData('text/plain'); const groupId = e.target.dataset.groupId; assignEntityToGroup(entityId, groupId); }); summary.addEventListener('click', e => {if (e.target.tagName === 'SUMMARY' || e.target.parentElement.tagName === 'SUMMARY') filterByGroup(e.currentTarget.dataset.groupId);}); summary.addEventListener('mouseenter', e => e.currentTarget.querySelector('.group-actions').classList.remove('hidden')); summary.addEventListener('mouseleave', e => e.currentTarget.querySelector('.group-actions').classList.add('hidden')); summary.querySelector('.delete-group-btn').addEventListener('click', (e) => { e.stopPropagation(); handleDeleteGroup(summary.dataset.groupId); }); });
+        }
+
+        // --- DATA & HISTORY LOGIC ---
+        async function addHistoryLog(entityId, action, details) { const historyPath = `artifacts/${appState.appId}/users/${appState.userId}/cases/${appState.currentCaseId}/entities/${entityId}/history`; await addDoc(collection(appState.db, historyPath), { timestamp: serverTimestamp(), action, details }); }
+        
+        // --- CRUD OPERATIONS ---
+        async function handleSaveEntity(e) { e.preventDefault(); const form = e.target; const entityId = form.dataset.id; const details = {}; document.querySelectorAll('.detail-field').forEach(el => { if (el.value) details[el.dataset.key] = el.value; }); document.querySelectorAll('.custom-detail-item').forEach(item => { const key = item.querySelector('.detail-key').value; const value = item.querySelector('.detail-value').value; if (key && value) details[key] = value; }); const entityData = { label: form.label.value, type: form.type.value, details: details, updatedAt: serverTimestamp() }; const entitiesPath = `artifacts/${appState.appId}/users/${appState.userId}/cases/${appState.currentCaseId}/entities`; if (entityId) { await updateDoc(doc(appState.db, entitiesPath, entityId), entityData); await addHistoryLog(entityId, "Updated Entity", ""); renderInspectorDefault(); } else { entityData.createdAt = serverTimestamp(); const newDocRef = await addDoc(collection(appState.db, entitiesPath), entityData); await addHistoryLog(newDocRef.id, "Created Entity", ""); if (appState.relationshipCreationState) { const fromId = appState.relationshipCreationState.from; const toId = newDocRef.id; exitRelationshipMode(); renderRelationshipForm({ from: fromId, to: toId }); } else { renderInspectorDefault(); } } }
+        async function handleDeleteEntity(entityId) { if (!confirm("Are you sure? This will also delete all connected relationships.")) return; const batch = writeBatch(appState.db); const casePath = `artifacts/${appState.appId}/users/${appState.userId}/cases/${appState.currentCaseId}`; const entityRef = doc(appState.db, `${casePath}/entities/${entityId}`); batch.delete(entityRef); const relCollection = collection(appState.db, `${casePath}/relationships`); const q = query(relCollection, or(where('from', '==', entityId), where('to', '==', entityId))); const relsToDelete = await getDocs(q); relsToDelete.forEach(relDoc => batch.delete(relDoc.ref)); await batch.commit(); renderInspectorDefault(); }
+        async function handleSaveRelationship(e) { e.preventDefault(); const form = e.target; const relId = form.dataset.id; const fromId = form.dataset.from; const toId = form.dataset.to; const relData = { from: fromId, to: toId, label: form.label.value }; const relsPath = `artifacts/${appState.appId}/users/${appState.userId}/cases/${appState.currentCaseId}/relationships`; if (relId) { await updateDoc(doc(appState.db, relsPath, relId), relData); } else { const newRel = await addDoc(collection(appState.db, relsPath), relData); await addHistoryLog(fromId, "Linked to", appState.entities.get(toId)?.label); await addHistoryLog(toId, "Linked from", appState.entities.get(fromId)?.label); } renderInspectorDefault(); }
+        async function handleDeleteRelationship(relId) { if (!confirm("Delete this relationship?")) return; const relsPath = `artifacts/${appState.appId}/users/${appState.userId}/cases/${appState.currentCaseId}/relationships`; const relDoc = await getDoc(doc(appState.db, relsPath, relId)); if (relDoc.exists()) { const {from, to} = relDoc.data(); await addHistoryLog(from, "Unlinked from", appState.entities.get(to)?.label); await addHistoryLog(to, "Unlinked from", appState.entities.get(from)?.label); await deleteDoc(doc(appState.db, relsPath, relId)); } renderInspectorDefault(); }
+
+        // --- INSPECTOR & GRAPH ---
+        function enterRelationshipMode(fromId) { dom.graphContainer.classList.add('linking-mode'); renderLinkModeInspector(fromId); }
+        function exitRelationshipMode() { appState.relationshipCreationState = null; dom.graphContainer.classList.remove('linking-mode'); hideGraphInteractionMessage(); }
+        function renderInspectorDefault() { dom.inspectorPanel.innerHTML = `<div class="text-center text-gray-500 mt-10"><i data-lucide="mouse-pointer-2" class="w-16 h-16 mx-auto mb-4"></i><h3 class="font-bold text-lg text-gray-300">Inspector</h3><p>Select an item or add a new entity.</p><button id="show-add-entity-form" class="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg flex items-center justify-center"><i data-lucide="plus-circle" class="w-5 h-5 mr-2"></i>Add New Entity</button></div>`; lucide.createIcons(); document.getElementById('show-add-entity-form').addEventListener('click', () => renderEntityForm()); }
+        
+        async function renderEntityForm(data = {}) { const isEditing = !!data.id; const details = data.details || {}; let tabsHTML = `<div class="flex border-b border-custom mb-4"><div class="tab-btn p-2 cursor-pointer border-b-2 border-transparent text-gray-400 hover:text-white active" data-tab="details">Details</div><div class="tab-btn p-2 cursor-pointer border-b-2 border-transparent text-gray-400 hover:text-white" data-tab="history">History</div></div>`; let detailsTabContent = `<div class="mb-3"><label class="block text-sm font-medium mb-1">Label</label><input name="label" value="${data.label || ''}" class="w-full rounded-md px-3 py-2 input-field" required></div> <div class="mb-3"><label class="block text-sm font-medium mb-1">Type</label><select name="type" id="entity-type-select" class="w-full rounded-md px-3 py-2 input-field">${Object.keys(ENTITY_TYPES).map(t => `<option value="${t}" ${data.type === t ? 'selected' : ''}>${t}</option>`).join('')}</select></div> <div id="predefined-fields-container" class="space-y-2 mb-4"></div> <div class="border-t border-custom pt-4"><label class="block text-sm font-medium mb-1">Custom Details</label><div id="custom-details-container" class="space-y-2"></div><button type="button" id="add-detail-btn" class="mt-2 text-sm text-blue-400 hover:text-blue-300">+ Add Custom Detail</button></div>`; dom.inspectorPanel.innerHTML = `<div><h3 class="text-lg font-bold text-white mb-4">${isEditing ? 'Edit Entity' : 'Add New Entity'}</h3><form id="entity-form" data-id="${data.id || ''}">${isEditing ? tabsHTML : ''}<div id="tab-content-details">${detailsTabContent}</div><div id="tab-content-history" class="hidden p-2 text-sm text-gray-400 space-y-2">Loading history...</div><div class="flex space-x-2 mt-4">${isEditing ? `<button type="button" id="delete-entity-btn" class="bg-red-600 hover:bg-red-700 text-white p-2 rounded-lg"><i data-lucide="trash-2" class="w-5 h-5"></i></button>` : ''}<button type="submit" class="flex-1 bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg">${isEditing ? 'Update' : 'Create'}</button></div>${isEditing ? `<button type="button" id="link-entity-btn" class="mt-3 w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-lg flex items-center justify-center"><i data-lucide="link" class="w-4 h-4 mr-2"></i>Link Entity</button>` : ''}</form></div>`; if(isEditing) { document.querySelectorAll('.tab-btn').forEach(btn => btn.addEventListener('click', async (e) => { document.querySelectorAll('.tab-btn').forEach(b => {b.classList.remove('active');}); e.target.classList.add('active'); const isDetailsTab = e.target.dataset.tab === 'details'; document.getElementById('tab-content-details').classList.toggle('hidden', !isDetailsTab); document.getElementById('tab-content-history').classList.toggle('hidden', isDetailsTab); if (!isDetailsTab) { const historyPath = `artifacts/${appState.appId}/users/${appState.userId}/cases/${appState.currentCaseId}/entities/${data.id}/history`; const q = query(collection(appState.db, historyPath), orderBy('timestamp', 'desc')); const historySnapshot = await getDocs(q); const historyContent = historySnapshot.docs.map(doc => `<div><strong>${doc.data().timestamp.toDate().toLocaleString()}:</strong> ${doc.data().action} <em>${doc.data().details || ''}</em></div>`).join(''); document.getElementById('tab-content-history').innerHTML = historyContent || "No history found."; } })); document.querySelector('.tab-btn[data-tab="details"]').classList.add('active'); } renderPredefinedFields(data.type || 'Person', details); const typeSelect = document.getElementById('entity-type-select'); typeSelect.addEventListener('change', () => renderPredefinedFields(typeSelect.value, {})); const customDetailsContainer = document.getElementById('custom-details-container'); const predefinedFields = ENTITY_TYPES[data.type || 'Person']?.fields || []; if(data.details) { Object.entries(details).forEach(([key, value]) => { if(!predefinedFields.includes(key)) addCustomDetailField(customDetailsContainer, key, value) }); } document.getElementById('add-detail-btn').addEventListener('click', () => addCustomDetailField(customDetailsContainer)); document.getElementById('entity-form').addEventListener('submit', handleSaveEntity); if (isEditing) { document.getElementById('delete-entity-btn').addEventListener('click', () => handleDeleteEntity(data.id)); document.getElementById('link-entity-btn').addEventListener('click', () => enterRelationshipMode(data.id)); } lucide.createIcons(); }
+        function renderPredefinedFields(type, details = {}) { const container = document.getElementById('predefined-fields-container'); const fields = ENTITY_TYPES[type]?.fields || []; container.innerHTML = fields.map(field => `<div class="mb-2"><label class="text-xs text-gray-400 mb-1 block">${field}</label><textarea data-key="${field}" class="w-full rounded-md px-3 py-1 text-sm input-field detail-field min-h-[28px]" rows="1">${details[field] || ''}</textarea></div>`).join(''); }
+        function addCustomDetailField(container, key = '', value = '') { const div = document.createElement('div'); div.className = 'flex items-center space-x-2 custom-detail-item'; div.innerHTML = `<input type="text" placeholder="Key" value="${key}" class="detail-key w-1/3 rounded-md px-3 py-1 text-sm input-field"><textarea placeholder="Value" class="detail-value flex-1 rounded-md px-3 py-1 text-sm input-field" rows="1">${value}</textarea><button type="button" class="text-red-500 hover:text-red-400 remove-detail-btn p-1">&times;</button>`; container.appendChild(div); div.querySelector('.remove-detail-btn').addEventListener('click', () => div.remove()); }
+        function renderLinkModeInspector(fromId) { appState.relationshipCreationState = { from: fromId }; const fromEntity = appState.entities.get(fromId); dom.inspectorPanel.innerHTML = `<div class="text-center p-4"><i data-lucide="link-2" class="w-16 h-16 mx-auto mb-4 text-indigo-400"></i><h3 class="font-bold text-lg text-white">Linking Mode</h3><p class="text-gray-400 mt-2">Linking from: <span class="font-bold text-white">${fromEntity.label}</span></p><p class="mt-4 text-sm">Select a target entity on the graph, or create a new one to link.</p><button id="create-and-link-btn" class="mt-6 w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg">Create & Link New Entity</button><button id="cancel-linking-btn" class="mt-2 w-full bg-gray-600 hover:bg-gray-500 text-white py-2 px-4 rounded-lg">Cancel</button></div>`; document.getElementById('create-and-link-btn').addEventListener('click', () => renderEntityForm()); document.getElementById('cancel-linking-btn').addEventListener('click', () => { exitRelationshipMode(); renderEntityForm(fromEntity); }); lucide.createIcons(); }
+        function renderRelationshipForm(data) { dom.inspectorPanel.innerHTML = `<div><h3 class="text-lg font-bold text-white mb-4">${data.id ? 'Edit' : 'Create'} Relationship</h3><p class="text-sm text-gray-400 mb-3">From: <span class="font-bold text-white">${appState.entities.get(data.from)?.label}</span><br>To: <span class="font-bold text-white">${appState.entities.get(data.to)?.label}</span></p><form id="relationship-form" data-id="${data.id||''}" data-from="${data.from}" data-to="${data.to}"><div class="mb-3"><label class="block text-sm font-medium mb-1">Label (e.g., Communicated With)</label><input name="label" value="${data.label || ''}" class="w-full rounded-md px-3 py-2 input-field" required></div><div class="flex space-x-2">${data.id ? `<button type="button" id="delete-relationship-btn" class="bg-red-600 hover:bg-red-700 text-white p-2 rounded-lg"><i data-lucide="trash-2" class="w-5 h-5"></i></button>`: ''}<button type="submit" class="flex-1 bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg">${data.id ? 'Update' : 'Create'}</button></div></form></div>`; document.getElementById('relationship-form').addEventListener('submit', handleSaveRelationship); if(data.id) document.getElementById('delete-relationship-btn').addEventListener('click', () => handleDeleteRelationship(data.id)); lucide.createIcons(); }
+        
+        // --- ANALYSIS VIEWS ---
+        function switchWorkspaceView(view) {
+            appState.currentWorkspaceView = view;
+            document.querySelectorAll('.workspace-tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`.workspace-tab-btn[data-view="${view}"]`).classList.add('active');
+
+            const mainViewIDs = {'graph-container': 'entities', 'timeline-container': 'timeline', 'map-container': 'map'};
+            const sideViewIDs = {'entities-view': 'entities', 'timeline-view': 'timeline', 'map-view': 'map'};
+            
+            Object.keys(mainViewIDs).forEach(id => dom[id]?.classList.toggle('hidden', mainViewIDs[id] !== view));
+            Object.keys(sideViewIDs).forEach(id => dom[id]?.classList.toggle('hidden', sideViewIDs[id] !== view));
+
+            requestAnimationFrame(() => {
+                if (view === 'timeline') renderTimeline();
+                if (view === 'map') renderMap();
+                if (view === 'entities') { if(appState.network) { appState.network.fit(); } else { renderGraph(); } }
+            });
+        }
+
+        async function renderTimeline() {
+            dom.timelineView.innerHTML = `<div class="p-4 text-gray-400">Loading timeline...</div>`;
+            let events = [];
+            if (appState.caseData && appState.caseData.createdAt) {
+                events.push({ timestamp: appState.caseData.createdAt.toDate(), html: `Investigation <span class="font-bold text-white">'${appState.caseData.name}'</span> started.` });
+            }
+
+            const historyPromises = [];
+            appState.entities.forEach((entity, entityId) => {
+                 if (entity.createdAt?.toDate) {
+                    events.push({ timestamp: entity.createdAt.toDate(), html: `Entity <span class="font-bold text-white">'${entity.label}'</span> created.`});
+                }
+                const historyPath = `artifacts/${appState.appId}/users/${appState.userId}/cases/${appState.currentCaseId}/entities/${entityId}/history`;
+                historyPromises.push(getDocs(query(collection(appState.db, historyPath))));
+            });
+
+            const historySnapshots = await Promise.all(historyPromises);
+            historySnapshots.forEach(snapshot => {
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    if(data.timestamp?.toDate) {
+                        events.push({ timestamp: data.timestamp.toDate(), html: `${data.action} <em>${data.details || ''}</em>` });
+                    }
+                });
+            });
+
+            events.sort((a,b) => b.timestamp - a.timestamp);
+
+            const groupedEvents = events.reduce((acc, event) => {
+                const date = event.timestamp.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric'});
+                if (!acc[date]) acc[date] = [];
+                acc[date].push(event);
+                return acc;
+            }, {});
+
+            let timelineHtml = '<div class="space-y-8">';
+            for(const date in groupedEvents) {
+                timelineHtml += `
+                    <div>
+                        <h3 class="text-lg font-bold text-white mb-4">${date}</h3>
+                        <div class="relative pl-8 border-l-2 border-gray-700">
+                `;
+                groupedEvents[date].forEach(event => {
+                    timelineHtml += `
+                        <div class="mb-6">
+                            <div class="absolute w-4 h-4 bg-blue-500 rounded-full -left-[9px] border-2 border-gray-900"></div>
+                            <p class="text-sm text-gray-400">${event.timestamp.toLocaleTimeString()}</p>
+                            <p class="text-white">${event.html}</p>
+                        </div>
+                    `;
+                });
+                timelineHtml += `</div></div>`;
+            }
+            timelineHtml += `</div>`;
+
+            dom.timelineView.innerHTML = timelineHtml;
+        }
+
+        function renderMap() {
+            if (!appState.map) { appState.map = L.map('map-container').setView([20, 0], 2); L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { attribution: '&copy; OpenStreetMap contributors &copy; CARTO' }).addTo(appState.map); }
+            appState.map.eachLayer(layer => { if (!!layer.toGeoJSON) appState.map.removeLayer(layer); });
+            const locations = [...appState.entities.values()].filter(e => e.type === 'Location' && e.details?.Coordinates);
+            locations.forEach(loc => {
+                const coords = loc.details.Coordinates.split(',').map(c => parseFloat(c.trim()));
+                if(coords.length === 2 && !isNaN(coords[0]) && !isNaN(coords[1])) {
+                    L.marker(coords).addTo(appState.map).bindPopup(`<b>${loc.label}</b>`);
+                }
+            });
+             setTimeout(() => appState.map.invalidateSize(), 0);
+        }
+        
+        // --- GRAPH LOGIC ---
+        function calculateNodeLevels() { if (appState.entities.size === 0) return new Map(); const adj = new Map(); appState.entities.forEach(e => adj.set(e.id, [])); appState.relationships.forEach(r => { adj.get(r.from)?.push(r.to); adj.get(r.to)?.push(r.from); }); let maxConnections = -1; let startNode = appState.entities.keys().next().value; adj.forEach((neighbors, node) => { if (neighbors.length > maxConnections) { maxConnections = neighbors.length; startNode = node; } }); const levels = new Map(); const visited = new Set(); if(startNode) {const queue = [[startNode, 0]]; visited.add(startNode); while (queue.length > 0) { const [currentNode, level] = queue.shift(); levels.set(currentNode, level); adj.get(currentNode)?.forEach(neighbor => { if (!visited.has(neighbor)) { visited.add(neighbor); queue.push([neighbor, level + 1]); } }); }} return levels; }
+        
+        function renderGraph(options = {}) {
+            if (!appState.currentCaseId || !dom.graphContainer) return;
+            const { focusNodeId, groupFilterId } = options;
+            const nodeLevels = calculateNodeLevels();
+            let nodesToRender, edgesToRender;
+
+            if (groupFilterId) {
+                const group = appState.groups.get(groupFilterId);
+                const entityIdsInGroup = new Set(group.entityIds || []);
+                nodesToRender = [...appState.entities.values()].filter(e => entityIdsInGroup.has(e.id));
+                edgesToRender = [...appState.relationships.values()].filter(r => entityIdsInGroup.has(r.from) && entityIdsInGroup.has(r.to));
+            } else {
+                nodesToRender = [...appState.entities.values()];
+                edgesToRender = [...appState.relationships.values()];
+            }
+
+            if (focusNodeId) {
+                const connectedNodes = new Set([focusNodeId]);
+                const networkEdges = appState.network ? appState.network.getConnectedEdges(focusNodeId) : [];
+                networkEdges.forEach(edgeId => { const edge = appState.relationships.get(edgeId); if(edge) { connectedNodes.add(edge.from); connectedNodes.add(edge.to); } });
+                nodesToRender = nodesToRender.map(node => ({...node, isFaded: !connectedNodes.has(node.id)}));
+                edgesToRender = edgesToRender.map(edge => ({...edge, isFaded: !connectedNodes.has(edge.from) || !connectedNodes.has(edge.to)}));
+            }
+
+            const nodes = new vis.DataSet(nodesToRender.map(e => {
+                const level = nodeLevels.get(e.id);
+                const color = typeof level !== 'undefined' ? LEVEL_COLORS[level % LEVEL_COLORS.length] : '#9ca3af';
+                const opacity = e.isFaded ? 0.2 : 1.0;
+                return { id: e.id, label: e.label, color: { background: color, border: color }, font: { color: `rgba(255, 255, 255, ${opacity})`}, opacity: opacity, title: `<b>${e.label}</b><br>Type: ${e.type}` };
+            }));
+            const edges = new vis.DataSet(edgesToRender.map(r => ({ id: r.id, from: r.from, to: r.to, label: r.label, arrows: 'to', color: { opacity: r.isFaded ? 0.1 : 1.0 }, font: { color: `rgba(255, 255, 255, ${r.isFaded ? 0.3 : 1.0})` } })));
+            
+            const visOptions = { nodes: { font: { face: 'Nunito', size: 14, strokeWidth: 0 }, shape: 'dot', size: 20 }, edges: { color: { color: '#6b7280', highlight: '#d1d5db' }, font: { align: 'top', face: 'Nunito', size: 12, strokeWidth: 0 }, smooth: true }, physics: { enabled: appState.isPhysicsEnabled, stabilization: false, barnesHut: { gravitationalConstant: -3000 } }, layout: { hierarchical: { enabled: appState.isHierarchical, direction: 'UD', sortMethod: 'directed' }}, interaction: { hover: true, tooltipDelay: 200 } };
+            
+            if(appState.network) {
+                appState.network.setData({ nodes, edges });
+            } else {
+                appState.network = new vis.Network(dom.graphContainer, { nodes, edges }, visOptions);
+                appState.network.on('click', handleGraphClick); appState.network.on('oncontext', handleGraphRightClick); appState.network.on('dragStart', params => { if (params.nodes.length > 0 && appState.isPhysicsEnabled) { const mainNodeId = params.nodes[0]; const connectedNodes = appState.network.getConnectedNodes(mainNodeId); const allNodesToDrag = [mainNodeId, ...connectedNodes]; appState.draggedNodeData = { mainNodeId, nodes: new Map() }; allNodesToDrag.forEach(nodeId => { const pos = appState.network.getPositions([nodeId])[nodeId]; appState.draggedNodeData.nodes.set(nodeId, pos); }); } }); appState.network.on('dragging', params => { if (appState.draggedNodeData && params.nodes.length > 0 && appState.isPhysicsEnabled) { const mainNodeId = appState.draggedNodeData.mainNodeId; const mainNodePos = params.pointer.canvas; const mainNodeStartPos = appState.draggedNodeData.nodes.get(mainNodeId); const dx = mainNodePos.x - mainNodeStartPos.x; const dy = mainNodePos.y - mainNodeStartPos.y; appState.draggedNodeData.nodes.forEach((startPos, nodeId) => { if (nodeId !== mainNodeId) { appState.network.moveNode(nodeId, startPos.x + dx, startPos.y + dy); } }); } }); appState.network.on('dragEnd', () => { appState.draggedNodeData = null; });
+            }
+        }
+
+        function filterByGroup(groupId) {
+            appState.activeGroupFilter = groupId;
+            dom.groupFilterBar.classList.remove('hidden');
+            dom.activeGroupFilter.textContent = appState.groups.get(groupId)?.name || 'Unknown Group';
+            renderGraph({ groupFilterId: groupId });
+        }
+        
+        function clearGroupFilter() {
+            appState.activeGroupFilter = null;
+            dom.groupFilterBar.classList.add('hidden');
+            renderGraph();
+        }
+
+        function handleGraphClick(params) { hideContextMenu(); if (appState.relationshipCreationState) { if (params.nodes.length > 0 && params.nodes[0] !== appState.relationshipCreationState.from) { const toId = params.nodes[0]; renderRelationshipForm({ from: appState.relationshipCreationState.from, to: toId }); exitRelationshipMode(); } else { const fromEntity = appState.entities.get(appState.relationshipCreationState.from); exitRelationshipMode(); if(fromEntity) renderEntityForm(fromEntity); else renderInspectorDefault(); } renderGraph({ groupFilterId: appState.activeGroupFilter }); return; } if (params.nodes.length > 0) { const entity = appState.entities.get(params.nodes[0]); if(entity) renderEntityForm(entity); renderGraph({focusNodeId: params.nodes[0], groupFilterId: appState.activeGroupFilter}); } else if (params.edges.length > 0) { const rel = appState.relationships.get(params.edges[0]); if(rel) renderRelationshipForm(rel); renderGraph({ groupFilterId: appState.activeGroupFilter }); } else { renderInspectorDefault(); renderGraph({ groupFilterId: appState.activeGroupFilter }); } }
+        function handleGraphRightClick(params) { params.event.preventDefault(); const nodeId = appState.network.getNodeAt(params.pointer.DOM); if (nodeId) { const entity = appState.entities.get(nodeId); showContextMenu(params.pointer.DOM.x, params.pointer.DOM.y, entity); } else { hideContextMenu(); } }
+        function showContextMenu(x, y, entity) { let groupSubMenu = ''; appState.groups.forEach((group, groupId) => { groupSubMenu += `<div class="context-menu-item assign-group-item" data-group-id="${groupId}">Assign to: ${group.name}</div>`; }); dom.contextMenu.innerHTML = `<div id="context-menu-edit" class="context-menu-item"><i data-lucide="pencil" class="w-4 h-4 mr-2"></i>Edit</div><div id="context-menu-link" class="context-menu-item"><i data-lucide="link" class="w-4 h-4 mr-2"></i>Link Entity</div><div class="border-t border-custom my-1"></div>${groupSubMenu}<div class="border-t border-custom my-1"></div><div id="context-menu-delete" class="context-menu-item text-red-400"><i data-lucide="trash-2" class="w-4 h-4 mr-2"></i>Delete</div>`; lucide.createIcons(); dom.contextMenu.style.left = `${x}px`; dom.contextMenu.style.top = `${y}px`; dom.contextMenu.classList.remove('hidden'); dom.contextMenu.querySelector('#context-menu-edit').onclick = () => { renderEntityForm(entity); hideContextMenu(); }; dom.contextMenu.querySelector('#context-menu-link').onclick = () => { enterRelationshipMode(entity.id); hideContextMenu(); }; dom.contextMenu.querySelector('#context-menu-delete').onclick = () => { handleDeleteEntity(entity.id); hideContextMenu(); }; document.querySelectorAll('.assign-group-item').forEach(item => { item.onclick = (e) => { assignEntityToGroup(entity.id, e.target.dataset.groupId); hideContextMenu(); }; }); }
+        function hideContextMenu() { dom.contextMenu.classList.add('hidden'); }
+        function handleKeyPress(e) { if (dom.investigationView.classList.contains('hidden')) return; if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName) || document.activeElement.isContentEditable) return; if (e.ctrlKey && e.key.toLowerCase() === 'e') { e.preventDefault(); renderEntityForm(); } if (e.ctrlKey && e.key.toLowerCase() === 'l') { e.preventDefault(); const selection = appState.network?.getSelection(); if (selection?.nodes?.length === 1) { enterRelationshipMode(selection.nodes[0]); } else { showGraphInteractionMessage('Select a single entity to link from.'); } } if (e.key === 'Delete') { e.preventDefault(); const selection = appState.network?.getSelection(); if (selection?.nodes?.length === 1) { handleDeleteEntity(selection.nodes[0]); } else if (selection?.edges?.length === 1) { handleDeleteRelationship(selection.edges[0]); } } }
+
+        // --- EVENT LISTENERS ---
+        function setupEventListeners() { 
+            dom.backToDashboardBtn.addEventListener('click', () => showView('dashboard-view')); 
+            dom.notificationBtn.addEventListener('click', () => dom.notificationDropdown.classList.toggle('hidden')); 
+            dom.newInvestigationBtn.addEventListener('click', () => dom.newInvestigationModal.style.display = 'flex'); 
+            dom.cancelNewInvestigationBtn.addEventListener('click', () => dom.newInvestigationModal.style.display = 'none'); 
+            dom.newInvestigationForm.addEventListener('submit', handleNewInvestigation); 
+            dom.freezeLayoutBtn.addEventListener('click', () => { appState.isPhysicsEnabled = !appState.isPhysicsEnabled; dom.freezeLayoutBtn.classList.toggle('bg-blue-600', !appState.isPhysicsEnabled); if (appState.network) appState.network.setOptions({ physics: { enabled: appState.isPhysicsEnabled } }); });
+            dom.hierarchicalLayoutBtn.addEventListener('click', () => { appState.isHierarchical = !appState.isHierarchical; dom.hierarchicalLayoutBtn.classList.toggle('bg-blue-600', appState.isHierarchical); if (appState.network) renderGraph(); });
+            dom.addGroupBtn.addEventListener('click', handleAddGroup);
+            document.querySelectorAll('.workspace-tab-btn').forEach(btn => btn.addEventListener('click', (e) => switchWorkspaceView(e.target.dataset.view)));
+            dom.clearGroupFilterBtn.addEventListener('click', clearGroupFilter);
+            document.addEventListener('keydown', handleKeyPress);
+            window.addEventListener('click', (e) => { 
+                if (!dom.notificationBtn.contains(e.target) && !dom.notificationDropdown.contains(e.target)) {
+                     dom.notificationDropdown.classList.add('hidden');
+                }
+                if (!dom.contextMenu.contains(e.target)) {
+                    hideContextMenu();
+                }
+            }); 
+        }
+        
+        // --- STARTUP ---
+        window.onload = main;
+    </script>
+</body>
+</html>
