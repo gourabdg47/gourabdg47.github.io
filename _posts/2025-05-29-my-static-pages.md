@@ -1,7 +1,7 @@
 ---
 title: My Static Pages (Projects)
 author: gourabdg47
-date: 2025-05-29 13:33:00
+date: 2025-05-29 08:08:00
 categories:
   - Information
   - Code
@@ -12,7 +12,7 @@ render_with_liquid: true
 pin: "true"
 ---
 
-#### My Static Project 
+#### My Static Project
 
 - [Wartime Wiki - INDIA](https://gourabdg47.github.io/assets/code/wartime_wiki/wartime_wiki_india.html)
 - [Focus Time - For ADHD People](https://gourabdg47.github.io/assets/code/focustime-landing-page.html)
