@@ -1383,6 +1383,13 @@ window.quizQuestions = [
         "explanation": "The correct answer is Check the DKIM record. DKIM (Domain Keys Identified Mail) is an email authentication method that uses a digital signature linked to the domain. The public key for verification is published in the sender's DNS records. This allows a receiving server to verify that the email was authorized by the owner of that domain."
     },
     {
+        "question": "A company is using older operating systems for their web servers and are concerned of their stability during periods of high use. Which of the following should the company use to maximize the uptime and availability of this service?",
+        "options": ["Cold site", "UPS", "Redundant routers", "Load balancer"],
+        "answer": "Load balancer",
+        "domain": "Resiliency",
+        "explanation": "The correct answer is Load balancer. A load balancer distributes incoming traffic across multiple servers in a server pool. This enhances availability and reliability by ensuring that if one server fails or becomes overloaded, the others can continue to handle the traffic."
+    },
+    {
         "question": "A user in the accounting department would like to email a spreadsheet with sensitive information to a list of third-party vendors. Which of the following would be the BEST way to protect the data in this email?",
         "options": ["Full disk encryption", "Key exchange algorithm", "Salted hash", "Asymmetric encryption"],
         "answer": "Asymmetric encryption",
@@ -1525,7 +1532,7 @@ window.quizQuestions = [
     {
         "question": "A transportation company headquarters is located in an area with frequent power surges and outages. The security administrator is concerned about the potential for downtime and hardware failures. Which of the following would provide the most protection against these issues? Select TWO.",
         "options": ["UPS", "Parallel processing", "Snapshots", "Multi-cloud system", "Load balancing", "Generator"],
-        "answer": ["UPS, Generator"],
+        "answer": "UPS, Generator",
         "domain": "Power Resiliency",
         "explanation": "The correct answers are UPS and Generator. A UPS (Uninterruptible Power Supply) provides immediate, short-term battery power to allow systems to shut down gracefully or to bridge the gap until a long-term power source comes online. A generator can provide long-term power for the duration of an extended outage, as long as it has fuel."
     },
@@ -1614,11 +1621,25 @@ window.quizQuestions = [
         "explanation": "The correct answer is Tokenization. Tokenization replaces the actual credit card number with a unique, single-use or limited-use token for the transaction. This means the sensitive card number is not transmitted or stored by the merchant, significantly reducing risk. Masking is for display, not transmission. DLP is for preventing data from leaving, not for securing transactions. An NGFW is a network security device."
     },
     {
+        "question": "A company must comply with legal requirements for storing customer data in the same country as the customer's mailing address. Which of the following would describe this requirement?",
+        "options": ["Geographic dispersion", "Least privilege", "Data sovereignty", "Exfiltration"],
+        "answer": "Data sovereignty",
+        "domain": "States of Data",
+        "explanation": "The correct answer is Data sovereignty. This is the concept that information which has been converted and stored in binary digital form is subject to the laws of the country in which it is located. This often leads to legal requirements to keep a citizen's data within that country's borders."
+    },
+    {
         "question": "A company is installing access points in all of their remote sites. Which of the following would provide confidentiality for all wireless data?",
         "options": ["802.1X", "WPA3", "RADIUS", "MDM"],
         "answer": "WPA3",
         "domain": "Wireless Security Settings",
         "explanation": "The correct answer is WPA3 (Wi-Fi Protected Access 3). WPA3 is a security protocol that encrypts the data transmitted over a wireless network, providing confidentiality for the communication. 802.1X and RADIUS are used for authentication (verifying who can connect), not for encrypting the data itself. MDM is for managing devices."
+    },
+    {
+        "question": "A security administrator has found a keylogger installed in an update of the company's accounting software. Which of the following would prevent the transmission of the collected logs?",
+        "options": ["Prevent the installation of all software", "Block all unknown outbound network traffic at the Internet firewall", "Install host-based anti-virus software", "Scan all incoming email attachments at the email gateway"],
+        "answer": "Block all unknown outbound network traffic at the Internet firewall",
+        "domain": "Other Malware Types",
+        "explanation": "The correct answer is B. Keyloggers must transmit the data they collect to the attacker. By configuring the firewall to block all outbound traffic by default and only allow known, necessary connections (an egress filtering policy), the administrator can prevent the keylogger from successfully exfiltrating the data, even if it is installed on a host."
     },
     {
         "question": "A user in the marketing department is unable to connect to the wireless network. After authenticating with a username and password, the user receives this message: 'The connection attempt could not be completed. The Credentials provided by the server could not be validated. Radius Server: radius.example.com Root CA: Example.com Internal CA Root Certificate' The access point is configured with WPA3 encryption and 802.1X authentication. Which of the following is the MOST likely reason for this login issue?",
@@ -1637,7 +1658,7 @@ window.quizQuestions = [
     {
         "question": "A security administrator has been tasked with hardening all internal web servers to control access from certain IP address ranges and ensure all transferred data remains confidential. Which of the following should the administrator include in his project plan? (Select TWO)",
         "options": ["Change the administrator password", "Use HTTPS for all server communication", "Uninstall all unused software", "Enable a host-based firewall", "Install the latest operating system update"],
-        "answer": ["Use HTTPS for all server communication", "Enable a host-based firewall"],
+        "answer": "Use HTTPS for all server communication, Enable a host-based firewall",
         "domain": "Hardening Techniques",
         "explanation": "The correct answers are B and D. To ensure data remains confidential during transfer, the administrator must use an encrypted protocol like HTTPS. To control access from specific IP address ranges, the administrator should enable a host-based firewall and create rules to allow or deny traffic based on source IP."
     },
@@ -1742,7 +1763,7 @@ window.quizQuestions = [
     {
         "question": "A security manager believes that an employee is using their laptop to circumvent the corporate Internet security controls through the use of a cellular hotspot. Which of the following could be used to validate this belief? (Select TWO)",
         "options": ["HIPS", "UTM logs", "Web application firewall events", "Host-based firewall logs", "Next-generation firewall logs"],
-        "answer": ["HIPS", "Host-based firewall logs"],
+        "answer": "HIPS, Host-based firewall logs",
         "domain": "Hardening Techniques",
         "explanation": "The correct answers are A and D. Since the employee is using a cellular hotspot, the traffic is bypassing all network-based security controls (UTM, WAF, NGFW). The only place to find evidence of this traffic is on the endpoint itself. A HIPS (Host-based Intrusion Prevention System) and the logs from a host-based firewall could show network connections being made through an unexpected interface (the hotspot) to external destinations."
     },
@@ -1789,6 +1810,13 @@ window.quizQuestions = [
         "explanation": "The correct answer is B. A Data Loss Prevention (DLP) solution is designed to prevent sensitive data from leaving the network. It can inspect outbound traffic (including emails) for patterns matching sensitive information like credit card numbers and block the transmission, thus limiting the damage of the malware."
     },
     {
+        "question": "An organization has identified a security breach and has removed the affected servers from the network. Which of the following is the NEXT step in the incident response process?",
+        "options": ["Eradication", "Preparation", "Recovery", "Detection", "Containment"],
+        "answer": "Eradication",
+        "domain": "Incident Response",
+        "explanation": "The correct answer is Eradication. The incident response process typically follows these steps: Preparation, Identification (Detection), Containment, Eradication, Recovery, and Lessons Learned. Since the servers have been removed from the network (Containment), the next step is Eradication—the process of removing the malware, disabling breached accounts, and eliminating the root cause of the incident."
+    },
+    {
         "question": "A security administrator has been tasked with storing and protecting customer payment and shipping information for a three-year period. Which of the following would describe the source of this data?",
         "options": ["Controller", "Owner", "Data subject", "Processor"],
         "answer": "Data subject",
@@ -1796,7 +1824,14 @@ window.quizQuestions = [
         "explanation": "The correct answer is Data subject. In privacy regulations like GDPR, the data subject is the individual to whom the personal data relates. The customer, whose payment and shipping information is being stored, is the data subject."
     },
     {
-        "question": "A security administrator is using an access control where each file or folder is assigned a security clearance level, such as 'confidential' or 'secret.' The security administrator then assigns a maximum security level to each user. What type of access control is used in this network?",
+        "question": "Which of the following would be the main reasons why a system administrator would use a TPM when configuring full disk encryption? (Select TWO)",
+        "options": ["Allows the encryption of multiple volumes", "Uses burned-in cryptographic keys", "Stores certificates in a hardware security module", "Maintains a copy of the CRL", "Includes built-in protections against brute-force attacks"],
+        "answer": "Uses burned-in cryptographic keys, Includes built-in protections against brute-force attacks",
+        "domain": "Encryption Technologies",
+        "explanation": "The correct answers are B and E. A TPM (Trusted Platform Module) is a secure crypto-processor chip on a motherboard. It can securely store cryptographic keys, including those used for full disk encryption, by 'binding' them to the hardware. It also includes security features like anti-hammering logic to protect against brute-force attacks on the decryption key or PIN."
+    },
+    {
+        "question": "A security administrator is using an access control where each file or folder is assigned a security clearance level, such as "confidential" or "secret." The security administrator then assigns a maximum security level to each user. What type of access control is used in this network?",
         "options": ["Mandatory", "Rule-based", "Discretionary", "Role-based"],
         "answer": "Mandatory",
         "domain": "Access Controls",

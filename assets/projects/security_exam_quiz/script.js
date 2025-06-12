@@ -251,18 +251,28 @@ document.addEventListener('DOMContentLoaded', () => {
         if (currentQuestionIndex >= currentQuestions.length) return;
         const question = currentQuestions[currentQuestionIndex];
         let optionsHtml = '';
-        
+        const isMultiAnswer = Array.isArray(question.answer);
+        const maxSelections = isMultiAnswer ? question.answer.length : 1;
+        let selectedAnswers = userAnswers[currentQuestionIndex] || (isMultiAnswer ? [] : null);
+
         question.options.forEach((option, index) => {
-            const isSelected = userAnswers[currentQuestionIndex] === option;
+            let isSelected = false;
+            if (isMultiAnswer) {
+                isSelected = selectedAnswers.includes(option);
+            } else {
+                isSelected = selectedAnswers === option;
+            }
             optionsHtml += `
                 <div class="quiz-option p-4 border rounded-lg cursor-pointer mb-3 ${isSelected ? 'selected bg-blue-800 text-white' : 'bg-gray-50'}" data-option-index="${index}">
                     <span class="font-bold mr-2">${index + 1}.</span> ${option}
+                    ${isMultiAnswer ? `<input type="checkbox" class="ml-2" ${isSelected ? 'checked' : ''} disabled>` : ''}
                 </div>
             `;
         });
-        
+
         questionContainer.innerHTML = `
             <h3 class="text-2xl font-semibold mb-4">${currentQuestionIndex + 1}. ${question.question}</h3>
+            ${isMultiAnswer ? `<div class='mb-2 text-sm text-blue-700'>Select ${maxSelections} answer(s)</div>` : ''}
             <div id="options-container">${optionsHtml}</div>
         `;
         
@@ -276,8 +286,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function handleOptionSelect(selectedElement) {
         const selectedIndex = parseInt(selectedElement.dataset.optionIndex);
-        const selectedOption = currentQuestions[currentQuestionIndex].options[selectedIndex];
-        userAnswers[currentQuestionIndex] = selectedOption;
+        const question = currentQuestions[currentQuestionIndex];
+        const isMultiAnswer = Array.isArray(question.answer);
+        const option = question.options[selectedIndex];
+        let selectedAnswers = userAnswers[currentQuestionIndex];
+
+        if (isMultiAnswer) {
+            if (!Array.isArray(selectedAnswers)) selectedAnswers = [];
+            if (selectedAnswers.includes(option)) {
+                selectedAnswers = selectedAnswers.filter(ans => ans !== option);
+            } else {
+                if (selectedAnswers.length < question.answer.length) {
+                    selectedAnswers = [...selectedAnswers, option];
+                }
+            }
+            userAnswers[currentQuestionIndex] = selectedAnswers;
+        } else {
+            userAnswers[currentQuestionIndex] = option;
+        }
         displayQuestion();
     }
 
@@ -356,9 +382,20 @@ document.addEventListener('DOMContentLoaded', () => {
         isQuizActive = false;
         let score = 0;
         currentQuestions.forEach((q, index) => {
-            const correctAnswers = Array.isArray(q.answer) ? q.answer : [q.answer];
-            if (correctAnswers.includes(userAnswers[index])) {
-                score++;
+            const correctAnswers = Array.isArray(q.answer) ? q.answer.map(a => a.trim()).sort() : [q.answer];
+            let userAns = userAnswers[index];
+            if (Array.isArray(q.answer)) {
+                userAns = Array.isArray(userAns) ? userAns.map(a => a.trim()).sort() : [];
+                if (
+                    userAns.length === correctAnswers.length &&
+                    userAns.every((val, idx) => val === correctAnswers[idx])
+                ) {
+                    score++;
+                }
+            } else {
+                if (userAns === q.answer) {
+                    score++;
+                }
             }
         });
 
