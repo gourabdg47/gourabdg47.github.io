@@ -1,15 +1,14 @@
 body {
     font-family: 'Nunito', sans-serif;
+    line-height: 1.6;
 }
 .heartbeat {
-    animation: heartbeat 1.5s ease-in-out infinite both;
+    animation: heartbeat 1.5s infinite;
 }
 @keyframes heartbeat {
-    from { transform: scale(1); transform-origin: center center; animation-timing-function: ease-out; }
-    10% { transform: scale(0.91); animation-timing-function: ease-in; }
-    17% { transform: scale(0.98); animation-timing-function: ease-out; }
-    33% { transform: scale(0.87); animation-timing-function: ease-in; }
-    45% { transform: scale(1); animation-timing-function: ease-out; }
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
 }
 .quiz-option {
     transition: all 0.2s ease-in-out;
@@ -46,14 +45,126 @@ body {
 }
 /* Loading Spinner */
 #loader {
-    border: 8px solid #f3f3f3;
-    border-top: 8px solid #3498db;
+    width: 48px;
+    height: 48px;
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #3498db;
     border-radius: 50%;
-    width: 60px;
-    height: 60px;
     animation: spin 1s linear infinite;
 }
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+}
+
+/* Question styles */
+.question {
+    margin-bottom: 1.5rem;
+}
+
+.question-text {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #2d3748;
+}
+
+.options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.option {
+    padding: 0.75rem 1rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background-color: white;
+}
+
+.option:hover {
+    border-color: #4299e1;
+    background-color: #ebf8ff;
+}
+
+.option.selected {
+    border-color: #4299e1;
+    background-color: #ebf8ff;
+}
+
+.option.correct {
+    border-color: #48bb78;
+    background-color: #f0fff4;
+}
+
+.option.incorrect {
+    border-color: #f56565;
+    background-color: #fff5f5;
+}
+
+/* Review section styles */
+.review-question {
+    margin-bottom: 2rem;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    background-color: #f8fafc;
+}
+
+.review-question.correct {
+    border-left: 4px solid #48bb78;
+}
+
+.review-question.incorrect {
+    border-left: 4px solid #f56565;
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+    .question-text {
+        font-size: 1rem;
+    }
+
+    .option {
+        padding: 0.625rem 0.875rem;
+    }
+
+    .review-question {
+        padding: 0.75rem;
+    }
+
+    /* Improve table readability on mobile */
+    .overflow-x-auto {
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* Adjust spacing for mobile */
+    .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    /* Make buttons more touch-friendly */
+    button {
+        min-height: 44px;
+    }
+
+    /* Improve form elements on mobile */
+    select, input {
+        font-size: 16px; /* Prevents iOS zoom on focus */
+        padding: 0.75rem;
+    }
+}
+
+/* Tablet optimizations */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .container {
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+
+    .question-text {
+        font-size: 1.05rem;
+    }
 }

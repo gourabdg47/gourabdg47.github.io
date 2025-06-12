@@ -1,4 +1,3 @@
-
 // Main script for the quiz application
 document.addEventListener('DOMContentLoaded', () => {
     // State variables
@@ -16,6 +15,11 @@ document.addEventListener('DOMContentLoaded', () => {
     let startTime = 0;
     let isQuizActive = false;
     let hasShown50PercentModal = false; // <-- Bug fix state variable
+
+    // Add these constants at the top of the file, after the state variables
+    const MAX_HISTORY_ROWS = 20;
+    const MAX_HISTORY_DAYS = 7;
+    const DEBOUNCE_DELAY = 300; // milliseconds
 
     // DOM Elements
     const setupSection = document.getElementById('setup-section');
@@ -80,47 +84,43 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updateQuestionCountOptions() {
+        const domainSelect = document.getElementById('domain-select');
+        const questionCountSelect = document.getElementById('question-count');
         const selectedDomain = domainSelect.value;
-        const availableQuestions = selectedDomain === 'all' 
-            ? allQuestions 
-            : allQuestions.filter(q => q.domain === selectedDomain);
         
-        const availableCount = availableQuestions.length;
-        questionCountSelect.innerHTML = ''; // Clear existing options
-
-        // A more flexible set of options
-        const options = [10, 25, 50]; 
-
-        // Add an option if it's less than the total available questions
-        options.forEach(opt => {
-            if (opt < availableCount) { 
-                const optionElement = document.createElement('option');
-                optionElement.value = opt;
-                optionElement.textContent = `${opt} Questions`;
-                questionCountSelect.appendChild(optionElement);
-            }
-        });
+        // Clear existing options
+        questionCountSelect.innerHTML = '';
         
-        // **This is the key fix**: Always add an option for the total number of questions.
-        // This guarantees that even if a domain has very few questions (e.g., 15),
-        // a valid choice ("All 15 Questions") will be available.
-        if (availableCount > 0) {
-            const allOption = document.createElement('option');
-            allOption.value = availableCount;
-            allOption.textContent = `All ${availableCount} Questions`;
-            questionCountSelect.appendChild(allOption);
+        // Get total questions for selected domain
+        let totalQuestions = 0;
+        if (selectedDomain === 'all') {
+            totalQuestions = window.quizQuestions.length;
             
-            // Set this as the selected option if it's the only one
-            if (questionCountSelect.options.length === 1) {
-                questionCountSelect.selectedIndex = 0;
-            }
-
+            // For "All Domains", show 10, 30, and 90 questions
+            const allDomainOptions = [10, 30, 90];
+            allDomainOptions.forEach(count => {
+                if (count <= totalQuestions) {
+                    const option = document.createElement('option');
+                    option.value = count;
+                    option.textContent = count;
+                    questionCountSelect.appendChild(option);
+                }
+            });
         } else {
-            // Handle the edge case where a domain might have no questions.
-            const noQuestionsOption = document.createElement('option');
-            noQuestionsOption.disabled = true;
-            noQuestionsOption.textContent = 'No questions available';
-            questionCountSelect.appendChild(noQuestionsOption);
+            totalQuestions = window.quizQuestions.filter(q => q.domain === selectedDomain).length;
+            
+            // For individual domains, show 10 and total questions
+            if (totalQuestions >= 10) {
+                const option = document.createElement('option');
+                option.value = 10;
+                option.textContent = '10';
+                questionCountSelect.appendChild(option);
+            }
+            
+            const option = document.createElement('option');
+            option.value = totalQuestions;
+            option.textContent = totalQuestions;
+            questionCountSelect.appendChild(option);
         }
     }
 
@@ -199,7 +199,16 @@ document.addEventListener('DOMContentLoaded', () => {
             userAnswers = new Array(currentQuestions.length).fill(null);
             currentQuestionIndex = 0;
             isQuizActive = true;
-            hasShown50PercentModal = false; // Reset the modal flag for the new quiz
+            hasShown50PercentModal = false;
+            
+            // Reset timer-related variables
+            if (timer) {
+                clearInterval(timer);
+                timer = null;
+            }
+            timeLeft = 0;
+            totalTime = 0;
+            startTime = 0;
             
             setupSection.classList.add('hidden');
             resultsSection.classList.add('hidden');
@@ -210,15 +219,12 @@ document.addEventListener('DOMContentLoaded', () => {
             if (examType === 'exam') {
                 timeLeft = numQuestions * 60; // 1 minute per question
                 totalTime = timeLeft;
-                startTimer();
-            } else {
-                startTime = Date.now();
-                timerDisplay.textContent = 'Practice Mode';
             }
-
+            
+            startTimer();
             displayQuestion();
             loaderOverlay.classList.add('hidden');
-        }, 500); // Simulate loading
+        }, 500);
     }
     
     function displayQuestion() {
@@ -282,21 +288,51 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     function startTimer() {
+        // Clear any existing timer
+        if (timer) {
+            clearInterval(timer);
+        }
+        
         timerDisplay.classList.remove('hidden');
-        timer = setInterval(() => {
-            timeLeft--;
-            const minutes = Math.floor(timeLeft / 60);
-            const seconds = timeLeft % 60;
-            timerDisplay.textContent = `Time Left: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-            if (timeLeft <= 0) {
-                clearInterval(timer);
-                submitExam();
-            }
-        }, 1000);
+        
+        if (examType === 'exam') {
+            timeLeft = totalTime;
+            timer = setInterval(() => {
+                timeLeft--;
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                timerDisplay.textContent = `Time Left: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    submitExam();
+                }
+            }, 1000);
+        } else {
+            // Practice mode timer
+            startTime = Date.now();
+            timer = setInterval(() => {
+                const elapsedSeconds = Math.floor((Date.now() - startTime) / 1000);
+                const hours = Math.floor(elapsedSeconds / 3600);
+                const minutes = Math.floor((elapsedSeconds % 3600) / 60);
+                const seconds = elapsedSeconds % 60;
+                
+                let timeString = 'Practice Mode - Elapsed: ';
+                if (hours > 0) {
+                    timeString += `${hours}:`;
+                }
+                timeString += `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                timerDisplay.textContent = timeString;
+            }, 1000);
+        }
     }
 
     function submitExam() {
-        clearInterval(timer);
+        if (timer) {
+            clearInterval(timer);
+            timer = null;
+        }
+        
         isQuizActive = false;
         let score = 0;
         currentQuestions.forEach((q, index) => {
@@ -416,31 +452,98 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function saveHistory(score, percentage, timeInSeconds) {
-        const history = JSON.parse(localStorage.getItem('quizHistory')) || [];
-        const now = new Date();
-        const newRecord = {
-            seed: examSeed,
-            date: now.toLocaleDateString(),
-            time: now.toLocaleTimeString(),
-            score: `${score} / ${currentQuestions.length}`,
-            percentage: `${percentage.toFixed(2)}%`,
-            timeTaken: formatTime(timeInSeconds),
-            examType: examType.charAt(0).toUpperCase() + examType.slice(1), // Capitalize first letter
-            domain: activeSeed ? (history.find(r => r.seed === activeSeed).domain) : domainSelect.value,
-            questionCount: currentQuestions.length
-        };
-        history.unshift(newRecord);
-        localStorage.setItem('quizHistory', JSON.stringify(history));
-        loadHistory();
+        try {
+            const history = JSON.parse(localStorage.getItem('quizHistory')) || [];
+            const now = new Date();
+            
+            // Get the current domain and question count
+            const currentDomain = domainSelect.value;
+            const currentQuestionCount = currentQuestions.length;
+            
+            // Validate domain exists
+            const domains = [...new Set(allQuestions.map(q => q.domain))];
+            if (!domains.includes(currentDomain) && currentDomain !== 'all') {
+                console.error('Invalid domain:', currentDomain);
+                return;
+            }
+            
+            // Validate question count
+            const availableQuestions = currentDomain === 'all' 
+                ? allQuestions 
+                : allQuestions.filter(q => q.domain === currentDomain);
+            
+            if (currentQuestionCount > availableQuestions.length) {
+                console.error('Invalid question count:', currentQuestionCount);
+                return;
+            }
+
+            const newRecord = {
+                seed: examSeed,
+                date: now.toLocaleDateString(),
+                time: now.toLocaleTimeString(),
+                timestamp: now.getTime(), // Add timestamp for age-based filtering
+                score: `${score} / ${currentQuestionCount}`,
+                percentage: `${percentage.toFixed(2)}%`,
+                timeTaken: formatTime(timeInSeconds),
+                examType: examType.charAt(0).toUpperCase() + examType.slice(1),
+                domain: currentDomain,
+                questionCount: currentQuestionCount
+            };
+
+            // If using an active seed, update the existing record instead of adding a new one
+            if (activeSeed) {
+                const existingIndex = history.findIndex(r => r.seed === activeSeed);
+                if (existingIndex !== -1) {
+                    history[existingIndex] = newRecord;
+                } else {
+                    history.unshift(newRecord);
+                }
+            } else {
+                history.unshift(newRecord);
+            }
+
+            // Clean up old records
+            const cleanedHistory = cleanupHistory(history);
+            localStorage.setItem('quizHistory', JSON.stringify(cleanedHistory));
+            loadHistory();
+        } catch (error) {
+            console.error('Error saving history:', error);
+            alert('There was an error saving your exam history. Please try again.');
+        }
+    }
+
+    function cleanupHistory(history) {
+        const now = Date.now();
+        const maxAge = MAX_HISTORY_DAYS * 24 * 60 * 60 * 1000; // Convert days to milliseconds
+        
+        // Filter out records older than MAX_HISTORY_DAYS
+        let cleanedHistory = history.filter(record => {
+            const recordDate = new Date(record.timestamp);
+            return (now - recordDate.getTime()) <= maxAge;
+        });
+        
+        // Limit to MAX_HISTORY_ROWS
+        if (cleanedHistory.length > MAX_HISTORY_ROWS) {
+            cleanedHistory = cleanedHistory.slice(0, MAX_HISTORY_ROWS);
+        }
+        
+        return cleanedHistory;
     }
 
     function loadHistory() {
         const history = JSON.parse(localStorage.getItem('quizHistory')) || [];
+        const cleanedHistory = cleanupHistory(history);
+        
+        // Update localStorage with cleaned history if any records were removed
+        if (cleanedHistory.length !== history.length) {
+            localStorage.setItem('quizHistory', JSON.stringify(cleanedHistory));
+        }
+        
         historyTableBody.innerHTML = '';
-        if (history.length === 0) {
+        if (cleanedHistory.length === 0) {
             historyTableBody.innerHTML = '<tr><td colspan="6" class="text-center py-4">No exam history found.</td></tr>';
         } else {
-            history.forEach(record => {
+            cleanedHistory.forEach(record => {
                 const row = `
                     <tr>
                         <td class="py-2 px-4 border-b font-mono text-xs">${record.seed}</td>
@@ -453,18 +556,57 @@ document.addEventListener('DOMContentLoaded', () => {
                 historyTableBody.innerHTML += row;
             });
         }
+        
+        // Add information about history limits
+        const infoRow = `
+            <tr class="bg-gray-50">
+                <td colspan="6" class="py-2 px-4 text-sm text-gray-600">
+                    <i class="fas fa-info-circle mr-1"></i>
+                    History is limited to ${MAX_HISTORY_ROWS} records and ${MAX_HISTORY_DAYS} days retention.
+                </td>
+            </tr>`;
+        historyTableBody.innerHTML += infoRow;
     }
     
     function downloadData(data, filename, type) {
-        const blob = new Blob([data], { type });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = filename;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
+        try {
+            let processedData;
+            if (type === 'text/csv') {
+                // Properly escape CSV data
+                const escapeCSV = (str) => {
+                    if (typeof str !== 'string') return str;
+                    // Escape quotes by doubling them and wrap in quotes if contains special characters
+                    const needsQuotes = /[",\n\r]/.test(str);
+                    const escaped = str.replace(/"/g, '""');
+                    return needsQuotes ? `"${escaped}"` : escaped;
+                };
+
+                const history = JSON.parse(data);
+                const headers = Object.keys(history[0]).filter(key => key !== 'timestamp').join(',');
+                const rows = history.map(record => {
+                    const values = Object.entries(record)
+                        .filter(([key]) => key !== 'timestamp')
+                        .map(([_, value]) => escapeCSV(value));
+                    return values.join(',');
+                });
+                processedData = `${headers}\n${rows.join('\n')}`;
+            } else {
+                processedData = data;
+            }
+
+            const blob = new Blob([processedData], { type });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        } catch (error) {
+            console.error('Error downloading data:', error);
+            alert('There was an error downloading the history. Please try again.');
+        }
     }
     
     function showSupportModal(startAfter = true) {
@@ -486,21 +628,46 @@ document.addEventListener('DOMContentLoaded', () => {
         const history = JSON.parse(localStorage.getItem('quizHistory')) || [];
         const seedRecord = history.find(r => r.seed === seedValue);
 
+        if (seedValue === '') {
+            resetSeedState();
+            return;
+        }
+
         if (seedRecord) {
+            // Validate if the domain still exists in current question bank
+            const domains = [...new Set(allQuestions.map(q => q.domain))];
+            if (!domains.includes(seedRecord.domain)) {
+                seedInput.classList.add('border-red-500', 'ring-red-500');
+                seedInput.setCustomValidity('This seed references a domain that no longer exists.');
+                return;
+            }
+
+            // Validate if the question count is still valid
+            const availableQuestions = seedRecord.domain === 'all' 
+                ? allQuestions 
+                : allQuestions.filter(q => q.domain === seedRecord.domain);
+            
+            if (seedRecord.questionCount > availableQuestions.length) {
+                seedInput.classList.add('border-red-500', 'ring-red-500');
+                seedInput.setCustomValidity(`This seed references ${seedRecord.questionCount} questions, but only ${availableQuestions.length} are available.`);
+                return;
+            }
+
+            // If all validations pass, set the seed
             activeSeed = seedValue;
             domainSelect.value = seedRecord.domain;
-            updateQuestionCountOptions(); // Update counts based on the new domain
+            updateQuestionCountOptions();
             questionCountSelect.value = seedRecord.questionCount;
             
             domainSelect.disabled = true;
             questionCountSelect.disabled = true;
             seedInput.classList.add('border-green-500', 'ring-green-500');
             seedInput.classList.remove('border-red-500', 'ring-red-500');
+            seedInput.setCustomValidity('');
         } else {
             resetSeedState();
-            if (seedValue !== '') {
-                    seedInput.classList.add('border-red-500', 'ring-red-500');
-            }
+            seedInput.classList.add('border-red-500', 'ring-red-500');
+            seedInput.setCustomValidity('Invalid seed. Please enter a valid seed from your history.');
         }
     }
     
@@ -510,6 +677,7 @@ document.addEventListener('DOMContentLoaded', () => {
         questionCountSelect.disabled = false;
         seedInput.value = '';
         seedInput.classList.remove('border-green-500', 'ring-green-500', 'border-red-500', 'ring-red-500');
+        seedInput.setCustomValidity('');
     }
     
     // --- EVENT LISTENERS ---
@@ -596,4 +764,152 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- INITIALIZATION ---
     loadQuestions();
     loadHistory();
+
+    // Add these utility functions at the top of the file, after the constants
+    function debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    }
+
+    function safeGetElement(id) {
+        const element = document.getElementById(id);
+        if (!element) {
+            console.error(`Element with id '${id}' not found`);
+            return null;
+        }
+        return element;
+    }
+
+    function safeLocalStorageGet(key, defaultValue = []) {
+        try {
+            const item = localStorage.getItem(key);
+            return item ? JSON.parse(item) : defaultValue;
+        } catch (error) {
+            console.error(`Error reading from localStorage (${key}):`, error);
+            return defaultValue;
+        }
+    }
+
+    function safeLocalStorageSet(key, value) {
+        try {
+            localStorage.setItem(key, JSON.stringify(value));
+            return true;
+        } catch (error) {
+            console.error(`Error writing to localStorage (${key}):`, error);
+            return false;
+        }
+    }
+
+    // Update functions to use safeLocalStorage
+    function saveHistory(score, percentage, timeInSeconds) {
+        try {
+            const history = safeLocalStorageGet('quizHistory', []);
+            const now = new Date();
+            
+            // Get the current domain and question count
+            const currentDomain = domainSelect.value;
+            const currentQuestionCount = currentQuestions.length;
+            
+            // Validate domain exists
+            const domains = [...new Set(allQuestions.map(q => q.domain))];
+            if (!domains.includes(currentDomain) && currentDomain !== 'all') {
+                console.error('Invalid domain:', currentDomain);
+                return;
+            }
+            
+            // Validate question count
+            const availableQuestions = currentDomain === 'all' 
+                ? allQuestions 
+                : allQuestions.filter(q => q.domain === currentDomain);
+            
+            if (currentQuestionCount > availableQuestions.length) {
+                console.error('Invalid question count:', currentQuestionCount);
+                return;
+            }
+
+            const newRecord = {
+                seed: examSeed,
+                date: now.toLocaleDateString(),
+                time: now.toLocaleTimeString(),
+                timestamp: now.getTime(), // Add timestamp for age-based filtering
+                score: `${score} / ${currentQuestionCount}`,
+                percentage: `${percentage.toFixed(2)}%`,
+                timeTaken: formatTime(timeInSeconds),
+                examType: examType.charAt(0).toUpperCase() + examType.slice(1),
+                domain: currentDomain,
+                questionCount: currentQuestionCount
+            };
+
+            // If using an active seed, update the existing record instead of adding a new one
+            if (activeSeed) {
+                const existingIndex = history.findIndex(r => r.seed === activeSeed);
+                if (existingIndex !== -1) {
+                    history[existingIndex] = newRecord;
+                } else {
+                    history.unshift(newRecord);
+                }
+            } else {
+                history.unshift(newRecord);
+            }
+
+            // Clean up old records
+            const cleanedHistory = cleanupHistory(history);
+            safeLocalStorageSet('quizHistory', cleanedHistory);
+            loadHistory();
+        } catch (error) {
+            console.error('Error saving history:', error);
+            alert('There was an error saving your exam history. Please try again.');
+        }
+    }
+
+    function loadHistory() {
+        const history = safeLocalStorageGet('quizHistory', []);
+        const cleanedHistory = cleanupHistory(history);
+        
+        // Update localStorage with cleaned history if any records were removed
+        if (cleanedHistory.length !== history.length) {
+            safeLocalStorageSet('quizHistory', cleanedHistory);
+        }
+        
+        historyTableBody.innerHTML = '';
+        if (cleanedHistory.length === 0) {
+            historyTableBody.innerHTML = '<tr><td colspan="6" class="text-center py-4">No exam history found.</td></tr>';
+        } else {
+            cleanedHistory.forEach(record => {
+                const row = `
+                    <tr>
+                        <td class="py-2 px-4 border-b font-mono text-xs">${record.seed}</td>
+                        <td class="py-2 px-4 border-b">${record.date} ${record.time}</td>
+                        <td class="py-2 px-4 border-b">${record.examType || 'N/A'}</td>
+                        <td class="py-2 px-4 border-b">${record.score}</td>
+                        <td class="py-2 px-4 border-b">${record.percentage}</td>
+                        <td class="py-2 px-4 border-b">${record.timeTaken}</td>
+                    </tr>`;
+                historyTableBody.innerHTML += row;
+            });
+        }
+        
+        // Add information about history limits
+        const infoRow = `
+            <tr class="bg-gray-50">
+                <td colspan="6" class="py-2 px-4 text-sm text-gray-600">
+                    <i class="fas fa-info-circle mr-1"></i>
+                    History is limited to ${MAX_HISTORY_ROWS} records and ${MAX_HISTORY_DAYS} days retention.
+                </td>
+            </tr>`;
+        historyTableBody.innerHTML += infoRow;
+    }
+
+    // Update event listeners to use debounced functions
+    const debouncedHandleSeedInput = debounce(handleSeedInput, DEBOUNCE_DELAY);
+    if (seedInput) {
+        seedInput.addEventListener('input', debouncedHandleSeedInput);
+    }
 });
