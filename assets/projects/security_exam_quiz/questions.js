@@ -845,5 +845,19 @@ window.quizQuestions = [
         "answer": "Buffer overflow",
         "domain": "Threats, Vulnerabilities, and Mitigations",
         "explanation": "The results of a buffer overflow can cause random results, but sometimes the actions can be repeatable and controlled. In the best possible case for the hacker, a buffer overflow can be manipulated to execute code on the remote device."
+    },
+    {
+        "question": "Which of the following is a key component of a security information and event management (SIEM) system?",
+        "options": ["A log management system", "A vulnerability scanner", "A firewall", "A patch management system"],
+        "answer": "A log management system",
+        "domain": "Security Operations",
+        "explanation": "A SIEM system collects, analyzes, and correlates security events from various sources to detect and respond to threats."
+    },
+    {
+        "question": "A finance company is legally required to maintain seven years of tax records for all of their customers. Which of the following would be the BEST way to implement this requirement?",
+        "options": ["Automate a script to remove all tax information more than seven years old", "Print and store all tax records in a seven-year cycle", "Allow users to download tax records from their account login", "Create a separate daily backup archive for all applicable tax records"],
+        "answer": "Create a separate daily backup archive for all applicable tax records",
+        "domain": "Security Architecture",
+        "explanation": "An important consideration for a data retention mandate is to always have access to the information over the proposed time frame. In this example, a daily backup would ensure tax information is constantly archived over a seven year period and could always be retrieved if needed. If data was inadvertently deleted from the primary storage, the backup would still maintain a copy."
     }
 ]
