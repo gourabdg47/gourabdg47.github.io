@@ -12,7 +12,7 @@ render_with_liquid: true
 pin: "true"
 ---
 
-#### My Static Project links 
+#### My Static Project 
 
 - [Wartime Wiki - INDIA](https://gourabdg47.github.io/assets/code/wartime_wiki/wartime_wiki_india.html)
 - [Focus Time - For ADHD People](https://gourabdg47.github.io/assets/code/focustime-landing-page.html)
