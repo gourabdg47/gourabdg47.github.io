@@ -21,6 +21,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const MAX_HISTORY_DAYS = 7;
     const DEBOUNCE_DELAY = 300; // milliseconds
 
+    // Pagination variables
+    let currentPage = 1;
+    const rowsPerPage = 3;
+
     // DOM Elements
     const setupSection = document.getElementById('setup-section');
     const quizSection = document.getElementById('quiz-section');
@@ -453,7 +457,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function saveHistory(score, percentage, timeInSeconds) {
         try {
-            const history = JSON.parse(localStorage.getItem('quizHistory')) || [];
+            const history = safeLocalStorageGet('quizHistory', []);
             const now = new Date();
             
             // Get the current domain and question count
@@ -504,8 +508,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Clean up old records
             const cleanedHistory = cleanupHistory(history);
-            localStorage.setItem('quizHistory', JSON.stringify(cleanedHistory));
-            loadHistory();
+            safeLocalStorageSet('quizHistory', cleanedHistory);
+            currentPage = 1; // Reset to first page when new record is added
+            updateHistoryTable();
         } catch (error) {
             console.error('Error saving history:', error);
             alert('There was an error saving your exam history. Please try again.');
@@ -807,7 +812,80 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Update functions to use safeLocalStorage
+    // Function to update history table with pagination
+    function updateHistoryTable() {
+        const historyTableBody = document.getElementById('history-table-body');
+        const history = safeLocalStorageGet('quizHistory', []);
+        const cleanedHistory = cleanupHistory(history);
+        
+        // Calculate pagination
+        const totalRows = cleanedHistory.length;
+        const totalPages = Math.ceil(totalRows / rowsPerPage);
+        const start = (currentPage - 1) * rowsPerPage;
+        const end = Math.min(start + rowsPerPage, totalRows);
+        
+        // Update pagination info
+        document.getElementById('history-start').textContent = totalRows === 0 ? 0 : start + 1;
+        document.getElementById('history-end').textContent = end;
+        document.getElementById('history-total').textContent = totalRows;
+        
+        // Update pagination buttons
+        document.getElementById('prev-page').disabled = currentPage === 1;
+        document.getElementById('next-page').disabled = currentPage === totalPages || totalPages === 0;
+        
+        // Clear existing rows
+        historyTableBody.innerHTML = '';
+        
+        if (cleanedHistory.length === 0) {
+            historyTableBody.innerHTML = '<tr><td colspan="6" class="text-center py-4">No exam history found.</td></tr>';
+        } else {
+            // Add rows for current page
+            for (let i = start; i < end; i++) {
+                const record = cleanedHistory[i];
+                const row = document.createElement('tr');
+                row.className = 'hover:bg-gray-50';
+                row.innerHTML = `
+                    <td class="py-2 px-3 border-b text-sm font-mono">${record.seed}</td>
+                    <td class="py-2 px-3 border-b text-sm">${record.date} ${record.time}</td>
+                    <td class="py-2 px-3 border-b text-sm">${record.examType || 'N/A'}</td>
+                    <td class="py-2 px-3 border-b text-sm">${record.score}</td>
+                    <td class="py-2 px-3 border-b text-sm">${record.percentage}%</td>
+                    <td class="py-2 px-3 border-b text-sm">${record.timeTaken}</td>
+                `;
+                historyTableBody.appendChild(row);
+            }
+        }
+        
+        // Add information about history limits
+        const infoRow = document.createElement('tr');
+        infoRow.className = 'bg-gray-50';
+        infoRow.innerHTML = `
+            <td colspan="6" class="py-2 px-3 text-sm text-gray-600">
+                <i class="fas fa-info-circle mr-1"></i>
+                History is limited to ${MAX_HISTORY_ROWS} records and ${MAX_HISTORY_DAYS} days retention.
+            </td>
+        `;
+        historyTableBody.appendChild(infoRow);
+    }
+
+    // Add event listeners for pagination
+    document.getElementById('prev-page').addEventListener('click', () => {
+        if (currentPage > 1) {
+            currentPage--;
+            updateHistoryTable();
+        }
+    });
+
+    document.getElementById('next-page').addEventListener('click', () => {
+        const history = safeLocalStorageGet('quizHistory', []);
+        const totalPages = Math.ceil(history.length / rowsPerPage);
+        if (currentPage < totalPages) {
+            currentPage++;
+            updateHistoryTable();
+        }
+    });
+
+    // Update the existing saveHistory function to reset pagination
     function saveHistory(score, percentage, timeInSeconds) {
         try {
             const history = safeLocalStorageGet('quizHistory', []);
@@ -862,49 +940,19 @@ document.addEventListener('DOMContentLoaded', () => {
             // Clean up old records
             const cleanedHistory = cleanupHistory(history);
             safeLocalStorageSet('quizHistory', cleanedHistory);
-            loadHistory();
+            currentPage = 1; // Reset to first page when new record is added
+            updateHistoryTable();
         } catch (error) {
             console.error('Error saving history:', error);
             alert('There was an error saving your exam history. Please try again.');
         }
     }
 
-    function loadHistory() {
-        const history = safeLocalStorageGet('quizHistory', []);
-        const cleanedHistory = cleanupHistory(history);
-        
-        // Update localStorage with cleaned history if any records were removed
-        if (cleanedHistory.length !== history.length) {
-            safeLocalStorageSet('quizHistory', cleanedHistory);
-        }
-        
-        historyTableBody.innerHTML = '';
-        if (cleanedHistory.length === 0) {
-            historyTableBody.innerHTML = '<tr><td colspan="6" class="text-center py-4">No exam history found.</td></tr>';
-        } else {
-            cleanedHistory.forEach(record => {
-                const row = `
-                    <tr>
-                        <td class="py-2 px-4 border-b font-mono text-xs">${record.seed}</td>
-                        <td class="py-2 px-4 border-b">${record.date} ${record.time}</td>
-                        <td class="py-2 px-4 border-b">${record.examType || 'N/A'}</td>
-                        <td class="py-2 px-4 border-b">${record.score}</td>
-                        <td class="py-2 px-4 border-b">${record.percentage}</td>
-                        <td class="py-2 px-4 border-b">${record.timeTaken}</td>
-                    </tr>`;
-                historyTableBody.innerHTML += row;
-            });
-        }
-        
-        // Add information about history limits
-        const infoRow = `
-            <tr class="bg-gray-50">
-                <td colspan="6" class="py-2 px-4 text-sm text-gray-600">
-                    <i class="fas fa-info-circle mr-1"></i>
-                    History is limited to ${MAX_HISTORY_ROWS} records and ${MAX_HISTORY_DAYS} days retention.
-                </td>
-            </tr>`;
-        historyTableBody.innerHTML += infoRow;
+    // Update the existing resetHistory function
+    function resetHistory() {
+        localStorage.removeItem('quizHistory');
+        currentPage = 1;
+        updateHistoryTable();
     }
 
     // Update event listeners to use debounced functions
