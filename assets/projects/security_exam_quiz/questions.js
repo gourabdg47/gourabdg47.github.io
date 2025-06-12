@@ -634,7 +634,7 @@ window.quizQuestions = [
         "options": ["To test the effectiveness of an organization's security defenses", "To train employees on how to respond to security incidents", "To comply with industry regulations", "To identify and patch software vulnerabilities"],
         "answer": "To test the effectiveness of an organization's security defenses",
         "domain": "Security Operations",
-        "explanation": "A red team exercise is a full-scope, multi-layered attack simulation designed to measure how well a company’s people, networks, applications and physical security controls can withstand an attack from a real-life adversary."
+        "explanation": "A red team exercise is a full-scope, multi-layered attack simulation designed to measure how well a company's people, networks, applications and physical security controls can withstand an attack from a real-life adversary."
     },
     {
         "question": "Which of the following is a common symptom of a system that has been infected with adware?",
@@ -855,9 +855,446 @@ window.quizQuestions = [
     },
     {
         "question": "A finance company is legally required to maintain seven years of tax records for all of their customers. Which of the following would be the BEST way to implement this requirement?",
-        "options": ["Automate a script to remove all tax information more than seven years old", "Print and store all tax records in a seven-year cycle", "Allow users to download tax records from their account login", "Create a separate daily backup archive for all applicable tax records"],
+        "options": [
+            "Automate a script to remove all tax information more than seven years old",
+            "Print and store all tax records in a seven-year cycle",
+            "Allow users to download tax records from their account login",
+            "Create a separate daily backup archive for all applicable tax records"
+        ],
         "answer": "Create a separate daily backup archive for all applicable tax records",
-        "domain": "Security Architecture",
+        "domain": "Security Operations",
         "explanation": "An important consideration for a data retention mandate is to always have access to the information over the proposed time frame. In this example, a daily backup would ensure tax information is constantly archived over a seven year period and could always be retrieved if needed. If data was inadvertently deleted from the primary storage, the backup would still maintain a copy."
+    },
+    {
+        "question": "A system administrator is designing a data center for an insurance company's new public cloud and would like to automatically rotate encryption keys on a regular basis. Which of the following would provide this functionality?",
+        "options": [
+            "TPM",
+            "Key management system",
+            "Secure enclave",
+            "XDR"
+        ],
+        "answer": "Key management system",
+        "domain": "Security Architecture",
+        "explanation": "A key management system is used to manage large security key implementations from a central console. This includes creating keys, associating keys with individuals, rotating keys on regular intervals, and logging all key use."
+    },
+    {
+        "question": "A security administrator has identified an internally developed application which allows modification of SQL queries through the web-based frontend. Which of the following changes would resolve this vulnerability?",
+        "options": [
+            "Store all credentials as salted hashes",
+            "Verify the application's digital signature",
+            "Validate all application input",
+            "Obfuscate the application's source code"
+        ],
+        "answer": "Validate all application input",
+        "domain": "Security Operations",
+        "explanation": "Input validation would examine the input from the client and make sure that the input is expected and not malicious. In this example, validating the input would prevent any SQL (Structured Query Language) injection through the web front-end."
+    },
+    {
+        "question": "A system administrator is implementing a fingerprint scanner to provide access to the data center. Which of the following authentication technologies would be associated with this access?",
+        "options": [
+            "Digital signature",
+            "Hard authentication token",
+            "Security key",
+            "Something you are"
+        ],
+        "answer": "Something you are",
+        "domain": "Security Operations",
+        "explanation": "An authentication factor of 'something you are' often refers to a physical characteristic. This factor commonly uses fingerprints, facial recognition, or some other biometric characteristic to match a user to an authentication attempt."
+    },
+    {
+        "question": "The IT department of a transportation company maintains an on-site inventory of chassis-based network switch interface cards. If a failure occurs, the on-site technician can replace the interface card and have the system running again in sixty minutes. Which of the following BEST describes this recovery metric?",
+        "options": [
+            "MTBF",
+            "MTTR",
+            "RPO",
+            "RTO"
+        ],
+        "answer": "MTTR",
+        "domain": "Governance, Risk, and Compliance",
+        "explanation": "MTTR (Mean Time To Restore) is the amount of time required to get back up and running. This is sometimes called Mean Time To Repair."
+    },
+    {
+        "question": "A company maintains a server farm in a large data center. These servers are used internally and are not accessible from outside of the data center. The security team has discovered a group of servers was breached before the latest security patches were applied. Breach attempts were not logged on any other servers. Which of these threat actors would be MOST likely involved in this breach?",
+        "options": [
+            "Organized crime",
+            "Insider",
+            "Nation state",
+            "Unskilled attacker"
+        ],
+        "answer": "Insider",
+        "domain": "Threats, Vulnerabilities, and Mitigations",
+        "explanation": "None of these servers are accessible from the outside, and the only servers with any logged connections were also susceptible to the latest vulnerabilities. To complete this attack, there would need a very specific knowledge of the vulnerable systems and a way to communicate with those servers."
+    },
+    {
+        "question": "An organization has received a vulnerability scan report of their Internet-facing web servers. The report shows the servers have multiple Sun Java Runtime Environment (JRE) vulnerabilities, but the server administrator has verified that JRE is not installed. Which of the following would be the BEST way to handle this report?",
+        "options": [
+            "Install the latest version of JRE on the server",
+            "Quarantine the server and scan for malware",
+            "Harden the operating system of the web server",
+            "Ignore the JRE vulnerability alert"
+        ],
+        "answer": "Ignore the JRE vulnerability alert",
+        "domain": "Security Operations",
+        "explanation": "It's relatively common for vulnerability scans to show vulnerabilities that don't actually exist, especially if the scans are not credentialed. An issue that is identified but does not actually exist is a false positive, and it can be dismissed once the alert has been properly researched."
+    },
+    {
+        "question": "A user downloaded and installed a utility for compressing and decompressing files. Immediately after installing the utility, the user's overall workstation performance degraded and it now takes twice as much time to perform any tasks on the computer. Which of the following is the BEST description of this malware infection?",
+        "options": [
+            "Ransomware",
+            "Bloatware",
+            "Logic bomb",
+            "Trojan"
+        ],
+        "answer": "Trojan",
+        "domain": "Threats, Vulnerabilities, and Mitigations",
+        "explanation": "A Trojan horse is malicious software that pretends to be something benign. The user will install the software with the expectation that it will perform a particular function, but in reality it is installing malware on the computer."
+    },
+    {
+        "question": "Which of the following is the process for replacing sensitive data with a non-sensitive and functional placeholder?",
+        "options": [
+            "Steganography",
+            "Tokenization",
+            "Retention",
+            "Masking"
+        ],
+        "answer": "Tokenization",
+        "domain": "Infrastructure Security",
+        "explanation": "Tokenization replaces sensitive data with a token, and this token can be used as a functional placeholder for the original data. Tokenization is commonly used with credit card processing and mobile devices."
+    },
+    {
+        "question": "A security administrator has installed a new firewall to protect a web server VLAN. The application owner requires all web server sessions communicate over an encrypted channel. Which rule should the security administrator add to the firewall rulebase?",
+        "options": [
+            "Source: ANY, Destination: ANY, Protocol: TCP, Port: 23, Deny",
+            "Source: ANY, Destination: ANY, Protocol: TCP, Port: 22, Allow",
+            "Source: ANY, Destination: ANY, Protocol: TCP, Port: 80, Allow",
+            "Source: ANY, Destination: ANY, Protocol: TCP, Port: 443, Allow"
+        ],
+        "answer": "Source: ANY, Destination: ANY, Protocol: TCP, Port: 443, Allow",
+        "domain": "Security Operations",
+        "explanation": "Most web servers use tcp/443 for HTTPS (Hypertext Transfer Protocol Secure) for encrypted web server communication This rule allows HTTPS encrypted traffic to be forwarded to the web server over tcp/443."
+    },
+    {
+        "question": "Which of these would be used to provide multi-factor authentication?",
+        "options": [
+            "USB-connected storage drive with FDE",
+            "Employee policy manual",
+            "Just-in-time permissions",
+            "Smart card with picture ID"
+        ],
+        "answer": "Smart card with picture ID",
+        "domain": "Security Operations",
+        "explanation": "A smart card commonly includes a certificate that can be used as a multi-factor authentication of something you have. These smart cards are commonly combined with an employee identification card, and often require a separate PIN (Personal Identification Number) as an additional authentication factor."
+    },
+    {
+        "question": "A company's network team has been asked to build an IPsec tunnel to a new business partner. Which of the following security risks would be the MOST important to consider?",
+        "options": [
+            "Supply chain attack",
+            "Unsupported systems",
+            "Business email compromise",
+            "Typosquatting"
+        ],
+        "answer": "Supply chain attack",
+        "domain": "Threats, Vulnerabilities, and Mitigations",
+        "explanation": "A direct connection to a third-party creates potential access for an attacker. Most organizations will include a firewall to help monitor and protect against any supply chain attacks."
+    },
+    {
+        "question": "A company's human resources team maintains a list of all employees participating in the corporate savings plan. A third-party financial company uses this information to manage stock investments for the employees. Which of the following would describe this financial company?",
+        "options": [
+            "Processor",
+            "Owner",
+            "Controller",
+            "Custodian"
+        ],
+        "answer": "Processor",
+        "domain": "Governance, Risk, and Compliance",
+        "explanation": "A data processor performs some type of action to the data, and this is often a different group within the organization or a third-party company. In this example, the third-party financial organization is the data processor of the employee's financial data."
+    },
+    {
+        "question": "A technology company is manufacturing a military-grade radar tracking system designed to identify any nearby unmanned aerial vehicles (UAVs). The UAV detector must be able to instantly identify and react to a vehicle without delay. Which of the following would BEST describe this tracking system?",
+        "options": [
+            "RTOS",
+            "IoT",
+            "ICS",
+            "SDN"
+        ],
+        "answer": "RTOS",
+        "domain": "Infrastructure Security",
+        "explanation": "This tracking system requires an RTOS (Real-Time Operating System) to instantly react to input without any significant delays or queuing in the operating system. Operating systems used by the military, automobile manufacturers, and industrial equipment companies often use RTOS to process certain transactions without any significant delays."
+    },
+    {
+        "question": "An administrator is writing a script to convert an email message to a help desk ticket and assign the ticket to the correct department. Which of the following should be administrator use to complete this script?",
+        "options": [
+            "Role-based access controls",
+            "Federation",
+            "Due diligence",
+            "Orchestration"
+        ],
+        "answer": "Orchestration",
+        "domain": "Security Operations",
+        "explanation": "Orchestration describes the process of automation, and is commonly associated with large scale automation or automating processes between different systems."
+    },
+    {
+        "question": "A security administrator would like a report showing how many attackers are attempting to use a known vulnerability to gain access to a corporate web server. Which of the following should be used to gather this information?",
+        "options": [
+            "Application log",
+            "Metadata",
+            "IPS log",
+            "Windows log"
+        ],
+        "answer": "IPS log",
+        "domain": "Security Operations",
+        "explanation": "An IPS (Intrusion Prevention System) commonly uses a database of known vulnerabilities to identify and block malicious network traffic. This log of attempted exploits would provide the required report information."
+    },
+    {
+        "question": "During a ransomware outbreak, an organization was forced to rebuild database servers from known good backup systems. In which of the following incident response phases were these database servers brought back online?",
+        "options": [
+            "Recovery",
+            "Lessons learned",
+            "Containment",
+            "Detection"
+        ],
+        "answer": "Recovery",
+        "domain": "Security Operations",
+        "explanation": "The recovery phase focuses on getting things back to normal after an attack. This is the phase that removes malware, fixes vulnerabilities, and recovers the damaged systems."
+    },
+    {
+        "question": "A security administrator is installing a web server with a newly built operating system. Which of the following would be the best way to harden this OS?",
+        "options": [
+            "Create a backup schedule",
+            "Install a device certificate",
+            "Remove unnecessary software",
+            "Disable power management features"
+        ],
+        "answer": "Remove unnecessary software",
+        "domain": "Threats, Vulnerabilities, and Mitigations",
+        "explanation": "The process of hardening an operating system makes it more difficult to attack. In this example, the only step that would limit the attack surface is to remove any unnecessary or unused software."
+    },
+    {
+        "question": "A network IPS has created this log entry:\nFrame 4: 937 bytes on wire (7496 bits), 937 bytes captured Ethernet II, Src: HewlettP_82:d8:31, Dst: Cisco_a1:b0:d1 Internet Protocol Version 4, Src: 172.16.22.7, Dst: 10.8.122.244 Transmission Control Protocol, Src Port: 3863, Dst Port: 1433 Application Data: SELECT * FROM users WHERE username='x' or 'x'='x' AND password='x' or 'x'='x'\nWhich of the following would describe this log entry?",
+        "options": [
+            "Phishing",
+            "Brute force",
+            "SQL injection",
+            "Cross-site scripting"
+        ],
+        "answer": "SQL injection",
+        "domain": "Threats, Vulnerabilities, and Mitigations",
+        "explanation": "The SQL injection is contained in the application data. The attacker was attempting to circumvent the authentication through the use of equivalent SQL statements ('x'='x')."
+    },
+    {
+        "question": "An incident response team would like to validate their disaster recovery plans without making any changes to the infrastructure. Which of the following would be the best course of action?",
+        "options": [
+            "Tabletop exercise",
+            "Hot site fail-over",
+            "Simulation",
+            "Penetration test"
+        ],
+        "answer": "Tabletop exercise",
+        "domain": "Infrastructure Security",
+        "explanation": "A tabletop exercise is a walk-through exercise where the disaster recovery process can be discussed in a conference room without making any changes to the existing systems."
+    },
+    {
+        "question": "A system administrator has installed a new firewall between the corporate user network and the data center network. When the firewall is turned on with the default settings, users complain the application in the data center is no longer working. Which of the following would be the BEST way to correct this application issue?",
+        "options": [
+            "Create a single firewall rule with an explicit deny",
+            "Build a separate VLAN for the application",
+            "Create firewall rules that match the application traffic flow",
+            "Enable firewall threat blocking"
+        ],
+        "answer": "Create firewall rules that match the application traffic flow",
+        "domain": "Security Operations",
+        "explanation": "By default, most firewalls implicitly deny all traffic. Firewall rules must be built to match the traffic flows, and only then will traffic pass through the firewall."
+    },
+    {
+        "question": "Which of these would be used to provide HA for a web-based database application?",
+        "options": [
+            "SIEM",
+            "UPS",
+            "DLP",
+            "VPN concentrator"
+        ],
+        "answer": "UPS",
+        "domain": "Infrastructure Security",
+        "explanation": "HA (High Availability) means the service should always be on and available. The only device on this list providing HA is the UPS (Uninterruptible Power Supply). If power is lost, the UPS will provide electricity using battery power or a gas-powered generator."
+    },
+    {
+        "question": "Which of the following would be the BEST way to prevent unauthorized access to a wireless network?",
+        "options": [
+            "Disable SSID broadcasting",
+            "Enable MAC filtering",
+            "Use WPA3 with 802.1X authentication",
+            "Change the default admin password"
+        ],
+        "answer": "Use WPA3 with 802.1X authentication",
+        "domain": "Security Architecture",
+        "explanation": "WPA3 with 802.1X provides the strongest wireless security by requiring each user to authenticate with unique credentials through a RADIUS server, making it much harder for unauthorized users to gain access."
+    },
+    {
+        "question": "A security analyst notices unusual network traffic patterns during non-business hours. Which of the following would be the BEST way to investigate this?",
+        "options": [
+            "Review firewall logs",
+            "Check system backups",
+            "Update antivirus signatures",
+            "Perform a vulnerability scan"
+        ],
+        "answer": "Review firewall logs",
+        "domain": "Security Operations",
+        "explanation": "Firewall logs contain detailed information about network traffic, including source/destination IPs, ports, and timestamps, making them the best resource for investigating unusual network activity."
+    },
+    {
+        "question": "Which of the following is the MOST important reason to implement a change management process?",
+        "options": [
+            "To reduce system downtime",
+            "To track system changes",
+            "To prevent unauthorized modifications",
+            "To improve system performance"
+        ],
+        "answer": "To prevent unauthorized modifications",
+        "domain": "Security Program Management and Oversight",
+        "explanation": "The primary purpose of change management is to prevent unauthorized or unplanned changes that could introduce security vulnerabilities or system instability."
+    },
+    {
+        "question": "Which of the following would be the MOST effective way to prevent data exfiltration through USB devices?",
+        "options": [
+            "Implement DLP software",
+            "Disable USB ports in BIOS",
+            "Use encrypted USB drives",
+            "Monitor USB usage"
+        ],
+        "answer": "Disable USB ports in BIOS",
+        "domain": "Security Operations",
+        "explanation": "While all options provide some level of protection, physically disabling USB ports at the BIOS level is the most effective as it completely prevents the use of USB devices, eliminating the risk of data exfiltration through this vector."
+    },
+    {
+        "question": "A company wants to ensure their cloud storage solution meets compliance requirements. Which of the following would be the MOST important to verify?",
+        "options": [
+            "Data encryption at rest",
+            "Geographic location of data centers",
+            "Backup frequency",
+            "Access control methods"
+        ],
+        "answer": "Geographic location of data centers",
+        "domain": "Security Program Management and Oversight",
+        "explanation": "Data sovereignty and compliance requirements often mandate that data be stored in specific geographic locations. This is a fundamental requirement that must be met before other security controls can be considered."
+    },
+    {
+        "question": "Which of the following would be the BEST way to protect against zero-day vulnerabilities?",
+        "options": [
+            "Keep systems patched",
+            "Use antivirus software",
+            "Implement network segmentation",
+            "Enable host-based firewalls"
+        ],
+        "answer": "Implement network segmentation",
+        "domain": "Security Architecture",
+        "explanation": "While all options are important, network segmentation is the most effective against zero-day vulnerabilities as it limits the potential impact by containing any successful exploit to a specific network segment."
+    },
+    {
+        "question": "Which of the following would be the MOST effective way to prevent social engineering attacks?",
+        "options": [
+            "Implement strong password policies",
+            "Conduct regular security awareness training",
+            "Use multi-factor authentication",
+            "Deploy email filtering"
+        ],
+        "answer": "Conduct regular security awareness training",
+        "domain": "Security Program Management and Oversight",
+        "explanation": "While technical controls help, the most effective defense against social engineering is educating users. Regular security awareness training helps employees recognize and respond appropriately to social engineering attempts."
+    },
+    {
+        "question": "A security team needs to monitor for potential data breaches. Which of the following would be the MOST comprehensive solution?",
+        "options": [
+            "Implement a SIEM",
+            "Deploy an IDS",
+            "Use network monitoring tools",
+            "Enable system logging"
+        ],
+        "answer": "Implement a SIEM",
+        "domain": "Security Operations",
+        "explanation": "A Security Information and Event Management (SIEM) system provides comprehensive monitoring by collecting and analyzing security events from multiple sources, correlating them, and providing real-time alerts."
+    },
+    {
+        "question": "Which of the following would be the BEST way to ensure secure communication between two offices?",
+        "options": [
+            "Use a site-to-site VPN",
+            "Implement a DMZ",
+            "Deploy a proxy server",
+            "Configure a firewall"
+        ],
+        "answer": "Use a site-to-site VPN",
+        "domain": "Security Architecture",
+        "explanation": "A site-to-site VPN creates an encrypted tunnel between two networks, ensuring that all traffic between the offices is secure and protected from interception."
+    },
+    {
+        "question": "Which of the following would be the MOST effective way to prevent unauthorized access to a server room?",
+        "options": [
+            "Install security cameras",
+            "Use biometric access control",
+            "Post security guards",
+            "Implement key card access"
+        ],
+        "answer": "Use biometric access control",
+        "domain": "Physical Security",
+        "explanation": "Biometric access control provides the highest level of security as it cannot be shared, lost, or stolen like keys or access cards. It ensures that only authorized personnel can access the server room."
+    },
+    {
+        "question": "A company needs to ensure their web application is secure against common attacks. Which of the following would be the MOST comprehensive approach?",
+        "options": [
+            "Implement input validation",
+            "Use HTTPS",
+            "Conduct regular penetration testing",
+            "Enable WAF"
+        ],
+        "answer": "Conduct regular penetration testing",
+        "domain": "Security Operations",
+        "explanation": "While all options are important, regular penetration testing provides the most comprehensive security assessment by actively attempting to exploit vulnerabilities in the application, helping identify and fix security issues before attackers can find them."
+    },
+    {
+        "question": "Which of the following would be the BEST way to protect against ransomware attacks?",
+        "options": [
+            "Implement email filtering",
+            "Use antivirus software",
+            "Maintain regular backups",
+            "Enable system restore points"
+        ],
+        "answer": "Maintain regular backups",
+        "domain": "Security Operations",
+        "explanation": "While all options help prevent ransomware, maintaining regular backups is the most effective recovery strategy. If systems are encrypted by ransomware, having recent backups allows for quick recovery without paying the ransom."
+    },
+    {
+        "question": "Which of the following would be the MOST effective way to prevent data breaches in a cloud environment?",
+        "options": [
+            "Use strong passwords",
+            "Implement encryption",
+            "Enable multi-factor authentication",
+            "Configure proper IAM policies"
+        ],
+        "answer": "Configure proper IAM policies",
+        "domain": "Cloud Security",
+        "explanation": "While all options are important, proper Identity and Access Management (IAM) policies are fundamental to cloud security. They ensure that users and services have only the permissions they need, following the principle of least privilege."
+    },
+    {
+        "question": "A company needs to ensure their mobile devices are secure. Which of the following would be the MOST comprehensive solution?",
+        "options": [
+            "Implement screen locks",
+            "Use MDM software",
+            "Enable device encryption",
+            "Install antivirus"
+        ],
+        "answer": "Use MDM software",
+        "domain": "Mobile Security",
+        "explanation": "Mobile Device Management (MDM) software provides comprehensive security by allowing centralized management of mobile devices, including enforcing security policies, remote wiping, and monitoring device compliance."
+    },
+    {
+        "question": "Which of the following would be the BEST way to protect against insider threats?",
+        "options": [
+            "Implement DLP",
+            "Use access logs",
+            "Conduct background checks",
+            "Enable system monitoring"
+        ],
+        "answer": "Implement DLP",
+        "domain": "Security Operations",
+        "explanation": "Data Loss Prevention (DLP) solutions are specifically designed to prevent sensitive data from being accessed, used, or transmitted inappropriately by insiders, making it the most effective tool against insider threats."
     }
 ]

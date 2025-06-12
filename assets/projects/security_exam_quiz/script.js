@@ -74,41 +74,45 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function populateDomains() {
+        domainSelect.innerHTML = '';
+        const allOption = document.createElement('option');
+        allOption.value = 'all';
+        allOption.textContent = 'All Domains';
+        domainSelect.appendChild(allOption);
         const domains = [...new Set(allQuestions.map(q => q.domain))];
-        domains.sort().forEach(domain => {
-            const option = document.createElement('option');
-            option.value = domain;
-            option.textContent = domain;
-            domainSelect.appendChild(option);
+        domains.forEach(domain => {
+            const count = allQuestions.filter(q => q.domain === domain).length;
+            if (count >= 10) {
+                const option = document.createElement('option');
+                option.value = domain;
+                option.textContent = `${domain} (${count})`;
+                domainSelect.appendChild(option);
+            }
         });
     }
 
     function updateQuestionCountOptions() {
-        const domainSelect = document.getElementById('domain-select');
-        const questionCountSelect = document.getElementById('question-count');
-        const selectedDomain = domainSelect.value;
-        
-        // Clear existing options
         questionCountSelect.innerHTML = '';
-        
-        // Get total questions for selected domain
-        let totalQuestions = 0;
+        const selectedDomain = domainSelect.value;
+        let totalQuestions;
+
         if (selectedDomain === 'all') {
             totalQuestions = window.quizQuestions.length;
-            
-            // For "All Domains", show 10, 30, and 90 questions
-            const allDomainOptions = [10, 30, 90];
-            allDomainOptions.forEach(count => {
-                if (count <= totalQuestions) {
+            // For 'all', show 10, 20, 30, 40, 50, and total questions
+            [10, 20, 30, 40, 50].forEach(num => {
+                if (num <= totalQuestions) {
                     const option = document.createElement('option');
-                    option.value = count;
-                    option.textContent = count;
+                    option.value = num;
+                    option.textContent = num;
                     questionCountSelect.appendChild(option);
                 }
             });
+            const option = document.createElement('option');
+            option.value = totalQuestions;
+            option.textContent = totalQuestions;
+            questionCountSelect.appendChild(option);
         } else {
             totalQuestions = window.quizQuestions.filter(q => q.domain === selectedDomain).length;
-            
             // For individual domains, show 10 and total questions
             if (totalQuestions >= 10) {
                 const option = document.createElement('option');
@@ -116,7 +120,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 option.textContent = '10';
                 questionCountSelect.appendChild(option);
             }
-            
             const option = document.createElement('option');
             option.value = totalQuestions;
             option.textContent = totalQuestions;
@@ -124,6 +127,23 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    function updateDomainOptions() {
+        domainSelect.innerHTML = '';
+        const domains = [...new Set(window.quizQuestions.map(q => q.domain))];
+        const allOption = document.createElement('option');
+        allOption.value = 'all';
+        allOption.textContent = 'All Domains';
+        domainSelect.appendChild(allOption);
+        domains.forEach(domain => {
+            const count = window.quizQuestions.filter(q => q.domain === domain).length;
+            if (count >= 10) {
+                const option = document.createElement('option');
+                option.value = domain;
+                option.textContent = `${domain} (${count})`;
+                domainSelect.appendChild(option);
+            }
+        });
+    }
 
     // --- SEED-BASED PRNG ---
     function xmur3(str) {
@@ -235,7 +255,7 @@ document.addEventListener('DOMContentLoaded', () => {
         question.options.forEach((option, index) => {
             const isSelected = userAnswers[currentQuestionIndex] === option;
             optionsHtml += `
-                <div class="quiz-option p-4 border rounded-lg cursor-pointer mb-3 ${isSelected ? 'selected' : 'bg-gray-50'}" data-option-index="${index}">
+                <div class="quiz-option p-4 border rounded-lg cursor-pointer mb-3 ${isSelected ? 'selected bg-blue-800 text-white' : 'bg-gray-50'}" data-option-index="${index}">
                     <span class="font-bold mr-2">${index + 1}.</span> ${option}
                 </div>
             `;
