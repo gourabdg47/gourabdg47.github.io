@@ -24,7 +24,7 @@
     </script>
 
 </head>
-<body class="bg-gray-100 text-gray-800 min-h-screen flex flex-col">
+<body class="min-h-screen flex flex-col">
 
     <!-- Loading Spinner Overlay -->
     <div id="loader-overlay" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[100]">
@@ -35,8 +35,8 @@
     <div class="container mx-auto p-4 md:p-8 max-w-7xl flex-grow">
 
         <header class="text-center mb-8">
-            <h1 class="text-3xl md:text-4xl font-bold text-gray-800">CompTIA Security+ SY0-701 Quiz</h1>
-            <p class="text-base md:text-lg text-gray-600 mt-2">Test your knowledge and prepare for the exam.</p>
+            <h1 class="text-3xl md:text-4xl font-bold mb-2">CompTIA Security+ SY0-701 Quiz</h1>
+            <p class="text-base md:text-lg opacity-75">Test your knowledge and prepare for the exam.</p>
         </header>
 
         <!-- Quiz Setup Section -->
@@ -44,48 +44,46 @@
             <h2 class="text-xl md:text-2xl font-bold mb-4">Exam Configuration</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-4">
                 <div>
-                    <label for="domain-select" class="block text-sm font-medium text-gray-700 mb-2">Select Domain:</label>
-                    <select id="domain-select" class="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                    <label for="domain-select" class="block text-sm font-medium mb-2">Select Domain:</label>
+                    <select id="domain-select" class="w-full">
                         <option value="all">All Domains</option>
-                        <!-- Domains will be populated by JS -->
                     </select>
                 </div>
                 <div>
-                    <label for="question-count" class="block text-sm font-medium text-gray-700 mb-2">Number of Questions:</label>
-                    <select id="question-count" class="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                        <!-- Options populated by JS -->
+                    <label for="question-count" class="block text-sm font-medium mb-2">Number of Questions:</label>
+                    <select id="question-count" class="w-full">
                     </select>
                 </div>
             </div>
-             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                 <div>
-                    <label for="seed-input" class="block text-sm font-medium text-gray-700 mb-2">Start from Seed (Optional):</label>
-                    <input type="text" id="seed-input" class="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Paste a seed value from your history">
+                    <label for="seed-input" class="block text-sm font-medium mb-2">Start from Seed (Optional):</label>
+                    <input type="text" id="seed-input" class="w-full" placeholder="Paste a seed value from your history">
                 </div>
                 <div>
-                    <label for="exam-type" class="block text-sm font-medium text-gray-700 mb-2">Exam Type:</label>
-                    <select id="exam-type" class="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                    <label for="exam-type" class="block text-sm font-medium mb-2">Exam Type:</label>
+                    <select id="exam-type" class="w-full">
                         <option value="practice">Practice Mode</option>
                         <option value="exam">Exam Mode</option>
                     </select>
                 </div>
             </div>
             <div class="mt-6 text-center">
-                <button id="start-exam" class="bg-blue-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 transition duration-300 shadow-md text-base w-full md:w-auto">Start Exam</button>
+                <button id="start-exam" class="bg-[#4A90E2] text-white font-bold py-2 px-6 rounded-lg hover:bg-[#357ABD] transition duration-300 shadow-md text-base w-full md:w-auto">Start Exam</button>
             </div>
         </div>
 
         <!-- Quiz Section -->
         <div id="quiz-section" class="hidden bg-white p-4 md:p-6 rounded-lg shadow-lg mb-8">
             <div class="flex flex-col md:flex-row justify-between items-center mb-4 gap-2">
-                <div id="progress-indicator" class="text-sm font-medium text-gray-600"></div>
-                <div id="timer" class="text-lg md:text-xl font-bold text-red-600"></div>
+                <div id="progress-indicator" class="text-sm font-medium"></div>
+                <div id="timer" class="text-lg md:text-xl font-bold"></div>
             </div>
             <div id="question-container" class="min-h-[450px]"></div>
             <div class="mt-6 flex flex-col md:flex-row justify-between items-center gap-4">
-                <button id="prev-question" class="w-full md:w-auto bg-gray-300 text-gray-800 font-bold py-2 px-6 rounded-lg hover:bg-gray-400 transition duration-300">Previous</button>
-                <button id="next-question" class="w-full md:w-auto bg-blue-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-600 transition duration-300">Next</button>
-                <button id="submit-exam" class="hidden w-full md:w-auto bg-green-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-green-700 transition duration-300">Submit</button>
+                <button id="prev-question" class="w-full md:w-auto bg-gray-200 text-gray-800 font-bold py-2 px-6 rounded-lg hover:bg-gray-300 transition duration-300">Previous</button>
+                <button id="next-question" class="w-full md:w-auto bg-[#4A90E2] text-white font-bold py-2 px-6 rounded-lg hover:bg-[#357ABD] transition duration-300">Next</button>
+                <button id="submit-exam" class="hidden w-full md:w-auto bg-[#50C878] text-white font-bold py-2 px-6 rounded-lg hover:bg-[#3CB371] transition duration-300">Submit</button>
             </div>
         </div>
         
@@ -94,15 +92,14 @@
             <h2 class="text-2xl md:text-3xl font-bold mb-4 text-center">Review Your Answers</h2>
             <div id="review-container" class="min-h-[500px]"></div>
             <div class="mt-6 flex flex-col md:flex-row justify-between items-center gap-4">
-                <button id="prev-review-question" class="w-full md:w-auto bg-gray-300 text-gray-800 font-bold py-2 px-6 rounded-lg hover:bg-gray-400 transition duration-300">Previous</button>
-                <div id="review-progress-indicator" class="text-sm font-medium text-gray-600"></div>
-                <button id="next-review-question" class="w-full md:w-auto bg-blue-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-600 transition duration-300">Next</button>
+                <button id="prev-review-question" class="w-full md:w-auto bg-gray-200 text-gray-800 font-bold py-2 px-6 rounded-lg hover:bg-gray-300 transition duration-300">Previous</button>
+                <div id="review-progress-indicator" class="text-sm font-medium"></div>
+                <button id="next-review-question" class="w-full md:w-auto bg-[#4A90E2] text-white font-bold py-2 px-6 rounded-lg hover:bg-[#357ABD] transition duration-300">Next</button>
             </div>
-             <div class="mt-6 text-center">
+            <div class="mt-6 text-center">
                 <button id="back-to-results" class="w-full md:w-auto bg-gray-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-gray-700 transition duration-300">Back to Results</button>
             </div>
         </div>
-
 
         <!-- Results Section -->
         <div id="results-section" class="hidden bg-white p-4 md:p-6 rounded-lg shadow-lg text-center">
@@ -110,20 +107,20 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-lg">
                 <div class="p-4 bg-gray-50 rounded-lg">
                     <p class="font-bold">Score:</p>
-                    <p id="score" class="text-xl md:text-2xl font-bold text-green-600"></p>
+                    <p id="score" class="text-xl md:text-2xl font-bold text-[#2ECC71]"></p>
                 </div>
                 <div class="p-4 bg-gray-50 rounded-lg">
                     <p class="font-bold">Percentage:</p>
-                    <p id="percentage" class="text-xl md:text-2xl font-bold text-blue-600"></p>
+                    <p id="percentage" class="text-xl md:text-2xl font-bold text-[#4A90E2]"></p>
                 </div>
                 <div class="p-4 bg-gray-50 rounded-lg">
                     <p class="font-bold">Time Taken:</p>
-                    <p id="time-taken" class="text-xl md:text-2xl font-bold text-purple-600"></p>
+                    <p id="time-taken" class="text-xl md:text-2xl font-bold text-[#9B59B6]"></p>
                 </div>
             </div>
             <div class="mt-8 flex flex-col md:flex-row justify-center gap-4">
-                 <button id="review-exam" class="w-full md:w-auto bg-purple-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-purple-700 transition duration-300">Review Answers</button>
-                 <button id="restart-exam" class="w-full md:w-auto bg-blue-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-blue-700 transition duration-300">Take Another Exam</button>
+                <button id="review-exam" class="w-full md:w-auto bg-[#9B59B6] text-white font-bold py-3 px-8 rounded-lg hover:bg-[#8E44AD] transition duration-300">Review Answers</button>
+                <button id="restart-exam" class="w-full md:w-auto bg-[#4A90E2] text-white font-bold py-3 px-8 rounded-lg hover:bg-[#357ABD] transition duration-300">Take Another Exam</button>
             </div>
         </div>
 
@@ -134,12 +131,12 @@
                 <div class="flex flex-wrap items-center gap-2">
                     <button id="download-csv" class="bg-gray-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-gray-700 transition duration-300 text-sm"><i class="fas fa-download mr-1"></i> CSV</button>
                     <button id="download-json" class="bg-gray-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-gray-700 transition duration-300 text-sm"><i class="fas fa-download mr-1"></i> JSON</button>
-                    <button id="reset-history" class="bg-red-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-red-700 transition duration-300 text-sm"><i class="fas fa-trash-alt mr-1"></i> Reset</button>
+                    <button id="reset-history" class="bg-[#E74C3C] text-white font-bold py-2 px-4 rounded-lg hover:bg-[#C0392B] transition duration-300 text-sm"><i class="fas fa-trash-alt mr-1"></i> Reset</button>
                 </div>
             </div>
             <div class="overflow-x-auto">
                 <table class="min-w-full bg-white">
-                    <thead class="bg-gray-200">
+                    <thead>
                         <tr>
                             <th class="py-2 px-4 border-b text-left">Seed</th>
                             <th class="py-2 px-4 border-b text-left">Date</th>
@@ -158,7 +155,7 @@
 
     <!-- Floating Support Icon -->
     <div id="support-icon" class="fixed bottom-8 right-8 cursor-pointer heartbeat z-50">
-        <a href="https://buymeacoffee.com/gourabdg" target="_blank" class="block w-12 h-12 md:w-16 md:h-16 bg-red-500 rounded-full flex items-center justify-center shadow-lg text-white">
+        <a href="https://buymeacoffee.com/gourabdg" target="_blank" class="block w-12 h-12 md:w-16 md:h-16 bg-[#E74C3C] rounded-full flex items-center justify-center shadow-lg text-white">
             <i class="fas fa-heart text-xl md:text-2xl"></i>
         </a>
     </div>
@@ -168,10 +165,10 @@
         <div class="bg-white p-6 md:p-8 rounded-lg shadow-2xl text-center max-w-sm w-full mx-auto">
             <h3 class="text-xl md:text-2xl font-bold mb-4">Support the Developer!</h3>
             <p class="mb-6 text-gray-700">If you find this quiz app helpful, please consider supporting my work. It helps me create more tools like this for the community.</p>
-            <a href="https://buymeacoffee.com/gourabdg" target="_blank" class="bg-yellow-400 text-gray-800 font-bold py-3 px-6 rounded-lg hover:bg-yellow-500 transition duration-300 block mb-3">
+            <a href="https://buymeacoffee.com/gourabdg" target="_blank" class="bg-[#FFDD00] text-gray-800 font-bold py-3 px-6 rounded-lg hover:bg-[#FFD700] transition duration-300 block mb-3">
                 <i class="fas fa-coffee mr-2"></i>Buy me a coffee
             </a>
-            <button id="skip-support" class="bg-gray-300 text-gray-800 font-bold py-3 px-6 rounded-lg hover:bg-gray-400 transition duration-300 w-full">Skip to Exam</button>
+            <button id="skip-support" class="bg-gray-200 text-gray-800 font-bold py-3 px-6 rounded-lg hover:bg-gray-300 transition duration-300 w-full">Skip to Exam</button>
         </div>
     </div>
     
@@ -181,11 +178,36 @@
             <h3 class="text-xl md:text-2xl font-bold mb-4">Confirm Reset</h3>
             <p class="mb-6 text-gray-700">Are you sure you want to delete all exam history? This action cannot be undone.</p>
             <div class="flex flex-col md:flex-row justify-center gap-4">
-                <button id="confirm-reset-btn" class="w-full md:w-auto bg-red-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-red-700 transition duration-300">Reset</button>
-                <button id="cancel-reset-btn" class="w-full md:w-auto bg-gray-300 text-gray-800 font-bold py-2 px-6 rounded-lg hover:bg-gray-400 transition duration-300">Cancel</button>
+                <button id="confirm-reset-btn" class="w-full md:w-auto bg-[#E74C3C] text-white font-bold py-2 px-6 rounded-lg hover:bg-[#C0392B] transition duration-300">Reset</button>
+                <button id="cancel-reset-btn" class="w-full md:w-auto bg-gray-200 text-gray-800 font-bold py-2 px-6 rounded-lg hover:bg-gray-300 transition duration-300">Cancel</button>
             </div>
         </div>
     </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t mt-8 py-6">
+        <div class="container mx-auto px-4 max-w-7xl">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+                <div class="text-center md:text-left">
+                    <p class="text-gray-600">&copy; 2024 Security+ SY0-701 Quiz App. All rights reserved.</p>
+                </div>
+                <div class="flex flex-wrap justify-center items-center gap-4">
+                    <a href="https://github.com/orgs/X3N0-G0D/discussions/14" target="_blank" class="text-[#4A90E2] hover:text-[#357ABD] transition duration-300 flex items-center gap-2">
+                        <i class="fab fa-github"></i>
+                        <span>Join Discussion</span>
+                    </a>
+                    <a href="https://gourabdg47.github.io/posts/revision-topics/" target="_blank" class="text-[#4A90E2] hover:text-[#357ABD] transition duration-300 flex items-center gap-2">
+                        <i class="fas fa-book"></i>
+                        <span>Revision Notes</span>
+                    </a>
+                    <a href="https://gourabdg47.github.io/" target="_blank" class="text-[#4A90E2] hover:text-[#357ABD] transition duration-300 flex items-center gap-2">
+                        <i class="fas fa-blog"></i>
+                        <span>ZeroDay Mindset Blog</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
     
     <script src="questions.js"></script>
     <script src="script.js"></script>
