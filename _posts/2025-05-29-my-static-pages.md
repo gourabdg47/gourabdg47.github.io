@@ -16,9 +16,9 @@ pin: "true"
 
 - [Wartime Wiki - INDIA](https://gourabdg47.github.io/assets/code/wartime_wiki/wartime_wiki_india.html)
 - [Focus Time - For ADHD People](https://gourabdg47.github.io/assets/code/focustime-landing-page.html)
-- [Focus Kanban](https://gourabdg47.github.io/assets/code/simple-task-tracker.html)
+- [Focus Kanban - 300+ users](https://gourabdg47.github.io/assets/code/simple-task-tracker.html)
 - [Signature Style Studio](https://gourabdg47.github.io/assets/code/sig_style_generator/sig-style-generator-v1.html)
-- [Security+ Exam Mock quiz & Resources](https://gourabdg47.github.io/assets/projects/security_exam_quiz/index.html)
+- [Security+ Exam Mock quiz & Resources - 700+ users](https://gourabdg47.github.io/assets/projects/security_exam_quiz/index.html)
 - [Insight - Investigation workspace](https://gourabdg47.github.io/assets/projects/investigation_workspace/index.html)
 
 
