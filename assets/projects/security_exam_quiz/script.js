@@ -114,34 +114,68 @@ document.addEventListener('DOMContentLoaded', () => {
             if (count >= 10) {
                 const option = document.createElement('option');
                 option.value = domain;
-                option.textContent = `${domain} (${count})`;
+                option.textContent = domain;
                 domainSelect.appendChild(option);
             }
         });
     }
 
     function updateQuestionCountOptions() {
-        questionCountSelect.innerHTML = '';
         const selectedDomain = domainSelect.value;
-        const questionsInDomain = selectedDomain === 'all' ?
-            allQuestions :
-            allQuestions.filter(q => q.domain === selectedDomain);
-
-        const totalQuestions = questionsInDomain.length;
-        const optionsToShow = [10, 20, 30, 40, 50];
-
-        optionsToShow.forEach(num => {
-            if (num < totalQuestions) {
-                const option = document.createElement('option');
-                option.value = num;
-                option.textContent = num;
-                questionCountSelect.appendChild(option);
+        const questionsForDomain = selectedDomain === 'all' 
+            ? allQuestions 
+            : allQuestions.filter(q => q.domain === selectedDomain);
+        
+        const totalQuestions = questionsForDomain.length;
+        questionCountSelect.innerHTML = '';
+        
+        // Define the standard options
+        const standardOptions = [10, 30, 90];
+        
+        // Add options based on available questions
+        if (totalQuestions >= 10) {
+            // Always add 10 if we have at least 10 questions
+            const option10 = document.createElement('option');
+            option10.value = 10;
+            option10.textContent = '10 Questions';
+            questionCountSelect.appendChild(option10);
+            
+            if (totalQuestions >= 30) {
+                // Add 30 if we have at least 30 questions
+                const option30 = document.createElement('option');
+                option30.value = 30;
+                option30.textContent = '30 Questions';
+                questionCountSelect.appendChild(option30);
+                
+                if (totalQuestions >= 90) {
+                    // Add 90 if we have at least 90 questions
+                    const option90 = document.createElement('option');
+                    option90.value = 90;
+                    option90.textContent = '90 Questions';
+                    questionCountSelect.appendChild(option90);
+                }
             }
-        });
-        const allOption = document.createElement('option');
-        allOption.value = totalQuestions;
-        allOption.textContent = `All (${totalQuestions})`;
-        questionCountSelect.appendChild(allOption);
+            
+            // Add the maximum value option
+            const maxOption = document.createElement('option');
+            maxOption.value = totalQuestions;
+            
+            // If we have more than 90 questions, show it as "All"
+            if (totalQuestions > 90) {
+                maxOption.textContent = `All (${totalQuestions})`;
+            } else {
+                maxOption.textContent = `${totalQuestions} Questions`;
+            }
+            questionCountSelect.appendChild(maxOption);
+        } else {
+            // If we have less than 10 questions, just show the total
+            const option = document.createElement('option');
+            option.value = totalQuestions;
+            option.textContent = `${totalQuestions} Questions`;
+            questionCountSelect.appendChild(option);
+        }
+        
+        questionCountSelect.classList.remove('hidden');
     }
 
     // --- SEED-BASED PRNG ---
