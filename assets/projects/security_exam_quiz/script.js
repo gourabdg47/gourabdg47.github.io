@@ -169,13 +169,18 @@ document.addEventListener('DOMContentLoaded', () => {
             questionCountSelect.appendChild(maxOption);
         } else {
             // If we have less than 10 questions, just show the total
-            const option = document.createElement('option');
+                const option = document.createElement('option');
             option.value = totalQuestions;
             option.textContent = `${totalQuestions} Questions`;
-            questionCountSelect.appendChild(option);
-        }
+                questionCountSelect.appendChild(option);
+            }
         
         questionCountSelect.classList.remove('hidden');
+        
+        // If in exam mode, ensure 90 questions is selected
+        if (examTypeSelect.value === 'exam') {
+            questionCountSelect.value = '90';
+        }
     }
 
     // --- SEED-BASED PRNG ---
@@ -378,10 +383,10 @@ document.addEventListener('DOMContentLoaded', () => {
         
         if (percentage >= 80) triggerCelebration();
         
-        // Show support modal after a short delay
+        // Show support modal after a short delay (reduced to 30ms)
         setTimeout(() => {
             showSupportModal(false);
-        }, 1000);
+        }, 350);
     }
 
     // --- REVIEW & CELEBRATION ---
@@ -686,6 +691,29 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!isQuizActive) return;
         if (e.key === 'ArrowRight' && !nextQuestionBtn.disabled) nextQuestionBtn.click();
         if (e.key === 'ArrowLeft' && !prevQuestionBtn.disabled) prevQuestionBtn.click();
+    });
+
+    // Add this after the existing event listeners
+    examTypeSelect.addEventListener('change', () => {
+        if (examTypeSelect.value === 'exam') {
+            // Set domain to "All Domains" and disable it
+            domainSelect.value = 'all';
+            domainSelect.disabled = true;
+            
+            // Set questions to 90 and disable it
+            questionCountSelect.value = '90';
+            questionCountSelect.disabled = true;
+            
+            // Update the question count options
+            updateQuestionCountOptions();
+        } else {
+            // Enable both dropdowns in practice mode
+            domainSelect.disabled = false;
+            questionCountSelect.disabled = false;
+            
+            // Update the question count options
+            updateQuestionCountOptions();
+        }
     });
 
     // --- INITIALIZATION ---
