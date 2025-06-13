@@ -343,6 +343,11 @@ document.addEventListener('DOMContentLoaded', () => {
         supportIcon.classList.remove('hidden');
         
         if (percentage >= 80) triggerCelebration();
+        
+        // Show support modal after a short delay
+        setTimeout(() => {
+            showSupportModal(false);
+        }, 1000);
     }
 
     // --- REVIEW & CELEBRATION ---
