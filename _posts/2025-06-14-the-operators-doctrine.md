@@ -618,6 +618,37 @@ The final gate is the job interview. Preparation should focus on articulating th
 
 The path outlined in this doctrine is rigorous. It is designed to be. The tools of the trade will change, new exploits will be discovered, and defenses will evolve. But the mindset—the persistent, creative, and disciplined approach of a true operator—will always be the most valuable weapon in the arsenal. The work is hard because the stakes are high. 
 
+#### Summary
+
+Here is a summarized table of attacks based on each level of your proposed career path. This table is designed to give you a clear, structured overview of the techniques you will master at each stage.
+
+|   |   |   |
+|---|---|---|
+|**Level**|**Attack / Technique**|**Description & Objective**|
+|**Jr. Pen Tester & SOC (Wazuh)**|**Initial Access & Enumeration**|_Objective: Gain an initial foothold on the target system by exploiting known vulnerabilities._|
+||Brute-Force Attacks (SSH, FTP, Tomcat)|Systematically guessing credentials to gain unauthorized access to services.|
+||WebDAV Misconfiguration|Uploading a web shell to a misconfigured WebDAV server to achieve Remote Code Execution (RCE).|
+||WordPress Vulnerable Plugin|Exploiting a known vulnerability in a WordPress plugin to gain access to the underlying server.|
+||Apache Tomcat Manager RCE|Using default or weak credentials to access the Tomcat Manager and deploy a malicious WAR file for RCE.|
+||Jenkins Script Console RCE|Abusing the Jenkins Groovy script console, often accessible without authentication, to execute arbitrary code.|
+||Elasticsearch RCE (CVE-2014-3120)|Exploiting a remote code execution vulnerability in an older version of Elasticsearch to take control of the server.|
+|**Pen Tester**|**Post-Exploitation**|_Objective: Escalate privileges, move laterally through the network, and exfiltrate data._|
+||Windows Privilege Escalation|Exploiting weak service permissions, misconfigurations, or kernel vulnerabilities to elevate from a standard user to an administrator.|
+||Lateral Movement (PsExec/SMB)|Using tools like PsExec to pivot from a compromised machine to other systems on the same network.|
+||Living Off the Land (LotL)|Using pre-existing, legitimate tools on the target system (like PowerShell, WMI) to perform malicious actions and evade detection.|
+||Data Exfiltration|Stealing and extracting sensitive data from the network using methods like DNS tunneling or HTTP-based transfers.|
+|**OSCP Exam**|**Problem Solving & Vulnerability Chaining**|_Objective: Demonstrate practical, creative, and persistent hacking skills under pressure._|
+||Buffer Overflows|Exploiting memory corruption vulnerabilities in custom applications to gain a shell.|
+||Web Application Exploit Chains|Combining multiple web vulnerabilities (e.g., LFI with log poisoning) to achieve RCE.|
+||Creative Pivoting|Using a compromised host to access and exploit other machines in internal, non-routable networks.|
+||Bypassing Simple Filters|Finding clever ways to circumvent basic security controls and input validation to successfully execute an attack.|
+|**Red Team**|**Adversary Emulation & Stealth**|_Objective: Emulate a specific threat actor to test the organization's detection and response capabilities over a prolonged period._|
+||C2 Framework Operations (Sliver, Covenant)|Using Command and Control frameworks to maintain long-term, stealthy access and manage compromised assets.|
+||Defense Evasion|Bypassing advanced security solutions like EDR, application whitelisting, and network monitoring.|
+||Active Directory Attacks (Kerberoasting)|Abusing Kerberos features to harvest service account credentials for privilege escalation and lateral movement.|
+||Social Engineering & Phishing|Manipulating employees to gain credentials, execute malicious code, or obtain physical access.|
+||Objective-Driven Attacks|Focusing on achieving specific, high-value goals (e.g., accessing the "crown jewels") rather than simply finding all possible vulnerabilities.|
+
 
 > To get in touch with me or for general discussion please visit [ZeroDayMindset Discussion](https://github.com/orgs/X3N0-G0D/discussions) 
 {: .prompt-info }
