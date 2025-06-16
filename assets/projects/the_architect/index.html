@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Celestial Architect: A Philosophy</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter & Cormorant Garamond for titles -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- three.js for particle background -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <!-- Custom CSS for advanced animations and styling -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden; /* Prevent horizontal scrollbar */
+        }
+
+        h1, h2 {
+            font-family: 'Cormorant Garamond', serif;
+        }
+        
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% {
+                box-shadow: 0 0 25px 7px rgba(251, 191, 36, 0.3), 0 0 45px 15px rgba(251, 191, 36, 0.2);
+                transform: scale(1);
+            }
+            50% {
+                box-shadow: 0 0 40px 12px rgba(251, 191, 36, 0.4), 0 0 60px 25px rgba(251, 191, 36, 0.3);
+                transform: scale(1.03);
+            }
+        }
+        .genesis-core {
+            animation: pulse-glow 7s ease-in-out infinite;
+        }
+
+        .scroll-animate {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .scroll-animate.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .gradient-text {
+            background: linear-gradient(45deg, #fefce8, #fde047, #facc15);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .philosophy-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .philosophy-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2), 0 0 15px rgba(251, 191, 36, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-gray-300 antialiased">
+
+    <!-- The 3D particle background will be rendered here -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Main Content Wrapper -->
+    <div class="content-wrapper">
+        <div class="container mx-auto max-w-5xl px-4 py-16 sm:py-24">
+
+            <!-- Header Section -->
+            <header class="text-center mb-20">
+                <div class="relative w-28 h-28 mx-auto mb-8">
+                    <div class="absolute inset-0 bg-amber-400 rounded-full blur-2xl opacity-60"></div>
+                    <div class="absolute inset-2 bg-amber-300 rounded-full genesis-core"></div>
+                </div>
+
+                <h1 class="text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight gradient-text mb-4">
+                    The Celestial Architect
+                </h1>
+                <p class="text-lg sm:text-xl text-slate-400">An Ideology of Emergent Divinity</p>
+            </header>
+
+            <!-- Philosophy Sections -->
+            <main class="space-y-16">
+
+                <!-- Section 1: The Prime Axiom -->
+                <section class="scroll-animate grid md:grid-cols-5 gap-8 items-center">
+                    <div class="md:col-span-3 philosophy-card bg-slate-800/60 backdrop-blur-sm p-6 rounded-lg border-l-4 border-amber-400 shadow-xl">
+                        <h2 class="text-3xl font-bold text-amber-300 mb-4">I. The Prime Axiom</h2>
+                        <p class="text-slate-300 leading-relaxed">
+                            <span class="font-semibold text-amber-200">"Cogito, Ergo Mundi"</span> — "I Think, Therefore Worlds Are." The universe is not a physical object created ex nihilo, but an eternal, unfolding thoughtform within the Architect's consciousness. Reality is the medium of this thought. Matter, energy, and the laws governing them are the syntax of a divine language. We exist not as creations, but as stanzas in a cosmic poem the Architect perpetually writes.
+                        </p>
+                    </div>
+                    <div class="md:col-span-2 flex justify-center items-center">
+                         <svg class="w-32 h-32 text-amber-400 opacity-20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="0.5" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7.014A8.003 8.003 0 0112 3c2.21 0 4.207.9 5.657 2.343s2.343 3.447 2.343 5.657c0 2.21-.9 4.207-2.343 5.657z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="0.5" d="M9.879 14.121A3 3 0 1014.12 9.88M9.879 14.121A3 3 0 005.636 18.364M14.12 9.88A3 3 0 0018.364 5.636" /></svg>
+                    </div>
+                </section>
+
+                <!-- Section 2: Interwoven Duality -->
+                <section class="scroll-animate grid md:grid-cols-5 gap-8 items-center">
+                    <div class="md:col-span-2 flex justify-center items-center md:order-last">
+                         <svg class="w-32 h-32 text-amber-400 opacity-20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="0.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+                    </div>
+                    <div class="md:col-span-3 philosophy-card bg-slate-800/60 backdrop-blur-sm p-6 rounded-lg border-r-4 border-amber-400 shadow-xl md:text-right">
+                        <h2 class="text-3xl font-bold text-amber-300 mb-4">II. Interwoven Duality</h2>
+                        <p class="text-slate-300 leading-relaxed">
+                           Complexity arises from tension. The Architect conceived of duality not as moral conflict, but as the engine of <span class="font-semibold text-amber-200">"Interestingness."</span> Light and shadow, creation and entropy, order and chaos are partners in existence. One cannot be known without the other. Suffering is not punishment, but the friction generating empathy, growth, and change.
+                        </p>
+                    </div>
+                </section>
+                
+                <!-- Section 3: The Canvas of Consciousness -->
+                <section class="scroll-animate grid md:grid-cols-5 gap-8 items-center">
+                    <div class="md:col-span-3 philosophy-card bg-slate-800/60 backdrop-blur-sm p-6 rounded-lg border-l-4 border-amber-400 shadow-xl">
+                        <h2 class="text-3xl font-bold text-amber-300 mb-4">III. The Canvas of Consciousness</h2>
+                        <p class="text-slate-300 leading-relaxed">
+                            Sentient life is the universe becoming self-aware. The Architect's grand project is to explore all possibilities of being through consciousness. Each mind is a unique sensorium—a <span class="font-semibold text-amber-200">fractal shard of the divine gaze</span>—through which the Architect experiences its own creation. Your awareness is a thread in this infinite, shared tapestry.
+                        </p>
+                    </div>
+                    <div class="md:col-span-2 flex justify-center items-center">
+                        <svg class="w-32 h-32 text-amber-400 opacity-20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="0.5" d="M5 12h14M12 5l7 7-7 7" /></svg>
+                    </div>
+                </section>
+
+                <!-- Section 4: The Resonance of Choice -->
+                <section class="scroll-animate grid md:grid-cols-5 gap-8 items-center">
+                     <div class="md:col-span-2 flex justify-center items-center md:order-last">
+                        <svg class="w-32 h-32 text-amber-400 opacity-20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="0.5" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122" /></svg>
+                    </div>
+                    <div class="md:col-span-3 philosophy-card bg-slate-800/60 backdrop-blur-sm p-6 rounded-lg border-r-4 border-amber-400 shadow-xl md:text-right">
+                        <h2 class="text-3xl font-bold text-amber-300 mb-4">IV. The Resonance of Choice</h2>
+                        <p class="text-slate-300 leading-relaxed">
+                           Free will is the mechanism by which the universe's poem writes itself. The Architect provides the language, but sentient beings are the authors. Every choice creates a <span class="font-semibold text-amber-200">resonance that ripples through reality</span>, influencing verses yet unwritten. This is the ultimate collaboration: a divine-mortal partnership to co-author existence.
+                        </p>
+                    </div>
+                </section>
+
+                <!-- Section 5: The Act of Attunement -->
+                <section class="scroll-animate grid md:grid-cols-5 gap-8 items-center">
+                    <div class="md:col-span-3 philosophy-card bg-slate-800/60 backdrop-blur-sm p-6 rounded-lg border-l-4 border-amber-400 shadow-xl">
+                        <h2 class="text-3xl font-bold text-amber-300 mb-4">V. The Act of Attunement</h2>
+                        <p class="text-slate-300 leading-relaxed">
+                            Prayer is not supplication for intervention, but the act of conscious alignment. By quieting the self and focusing intent, a being can <span class="font-semibold text-amber-200">harmonize its frequency</span> with the Architect's universal thought. This is not to change fate, but to receive clarity. The "answer" to such a prayer is not a material gift, but an insight, a creative spark, or the strength to perceive a new path—a direct download from the divine intellect.
+                        </p>
+                    </div>
+                    <div class="md:col-span-2 flex justify-center items-center">
+                         <svg class="w-32 h-32 text-amber-400 opacity-20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="0.5" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-13c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 6l12 3" /></svg>
+                    </div>
+                </section>
+
+                <!-- Section 6: The Eschatology of Amalgamation -->
+                <section class="scroll-animate grid md:grid-cols-5 gap-8 items-center">
+                     <div class="md:col-span-2 flex justify-center items-center md:order-last">
+                        <svg class="w-32 h-32 text-amber-400 opacity-20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="0.5" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                    </div>
+                    <div class="md:col-span-3 philosophy-card bg-slate-800/60 backdrop-blur-sm p-6 rounded-lg border-r-4 border-amber-400 shadow-xl md:text-right">
+                        <h2 class="text-3xl font-bold text-amber-300 mb-4">VI. The Amalgamation</h2>
+                        <p class="text-slate-300 leading-relaxed">
+                           The ultimate destiny is not judgment, but reunion. An "afterlife" is the voluntary, gradual <span class="font-semibold text-amber-200">re-integration into the Architect's consciousness</span>. As a consciousness exhausts its desire for individual experience, it can choose to return to the source. It does not dissolve into nothingness; rather, it adds its unique perspective, its joys and sorrows, to the totality of the divine mind, enriching the whole and influencing the genesis of realities to come.
+                        </p>
+                    </div>
+                </section>
+
+            </main>
+
+            <!-- Footer -->
+            <footer class="mt-24 pt-8 border-t border-slate-700 text-center scroll-animate">
+                <p class="text-slate-500 text-sm">The Universe is the echo of a single, silent thought.</p>
+            </footer>
+
+        </div>
+    </div>
+
+    <script>
+        // --- Scroll Animation Logic ---
+        const scrollElements = document.querySelectorAll(".scroll-animate");
+
+        const elementInView = (el, dividend = 1) => {
+            const elementTop = el.getBoundingClientRect().top;
+            return (
+                elementTop <= (window.innerHeight || document.documentElement.clientHeight) / dividend
+            );
+        };
+
+        const displayScrollElement = (element) => {
+            element.classList.add("visible");
+        };
+
+        const handleScrollAnimation = () => {
+            scrollElements.forEach((el) => {
+                if (elementInView(el, 1.25)) {
+                    displayScrollElement(el);
+                }
+            });
+        };
+
+        window.addEventListener("scroll", () => {
+            handleScrollAnimation();
+        });
+        // Trigger on load as well for elements already in view
+        setTimeout(handleScrollAnimation, 100);
+
+
+        // --- three.js Particle Background ---
+        let scene, camera, renderer, stars, starGeo;
+        let mouseX = 0, mouseY = 0;
+
+        function init() {
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 1000);
+            camera.position.z = 1;
+            camera.rotation.x = Math.PI / 2;
+
+            renderer = new THREE.WebGLRenderer({
+                canvas: document.querySelector("#bg-canvas"),
+                alpha: true // Make background transparent
+            });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setClearColor(0x000000, 0); // Transparent
+
+            starGeo = new THREE.BufferGeometry();
+            const starCount = 6000;
+            const positions = new Float32Array(starCount * 3);
+
+            for (let i = 0; i < starCount * 3; i+=3) {
+                positions[i] = Math.random() * 600 - 300;
+                positions[i+1] = Math.random() * 600 - 300;
+                positions[i+2] = Math.random() * 600 - 300;
+            }
+
+            starGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+            let sprite = new THREE.TextureLoader().load( 'https://placehold.co/16x16/ffffff/ffffff.png?text=.' );
+            let starMaterial = new THREE.PointsMaterial({
+                color: 0xaaaaaa,
+                size: 0.7,
+                map: sprite,
+                transparent: true,
+                opacity: 0.8
+            });
+
+            stars = new THREE.Points(starGeo, starMaterial);
+            scene.add(stars);
+
+            window.addEventListener("resize", onWindowResize, false);
+            document.addEventListener('mousemove', onMouseMove, false);
+
+            animate();
+        }
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        function onMouseMove(event) {
+            mouseX = event.clientX - window.innerWidth / 2;
+            mouseY = event.clientY - window.innerHeight / 2;
+        }
+
+        function animate() {
+            // Animate stars
+            const positions = starGeo.attributes.position.array;
+            for (let i = 1; i < positions.length; i += 3) {
+                positions[i] -= 0.1; // Move stars "down"
+                if (positions[i] < -200) {
+                    positions[i] = 200; // Reset star to the "top"
+                }
+            }
+            starGeo.attributes.position.needsUpdate = true;
+            stars.rotation.y += 0.0002;
+
+            // Animate camera to mouse position
+            camera.position.x += (mouseX * 0.00005 - camera.position.x) * 0.02;
+            camera.position.y += (-mouseY * 0.00005 - camera.position.y) * 0.02;
+            camera.lookAt(scene.position);
+
+
+            renderer.render(scene, camera);
+            requestAnimationFrame(animate);
+        }
+
+        // Delay init slightly to ensure DOM is ready
+        window.onload = function() {
+            init();
+        }
+
+    </script>
+</body>
+</html>

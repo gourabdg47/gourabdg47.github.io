@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Endless Path</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #030615;
+            font-family: 'Garamond', 'Times New Roman', serif;
+            color: rgba(255, 255, 255, 0.4);
+        }
+        canvas {
+            display: block;
+        }
+        #instructions {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.2rem;
+            text-align: center;
+            pointer-events: none;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+            animation: fadeInOut 8s ease-in-out forwards;
+        }
+
+        #story {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            max-width: 800px;
+            font-size: 1.2rem;
+            text-align: center;
+            pointer-events: none;
+            color: rgba(255, 255, 255, 0.6);
+            text-shadow: 0 0 10px rgba(150, 150, 200, 0.4);
+            transition: opacity 1.5s ease-in-out;
+            opacity: 0;
+        }
+
+    </style>
+</head>
+<body>
+    <canvas id="scene"></canvas>
+    <div id="instructions">Click or tap anywhere.</div>
+    <div id="story"></div>
+
+    <script>
+        // --- Canvas & Context Setup ---
+        const canvas = document.getElementById('scene');
+        const ctx = canvas.getContext('2d');
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+
+        // --- Global Variables & Scene Management ---
+        let particles = [];
+        let sadTexts = [];
+        let lampPosts = [];
+        let stars = [];
+        let shootingStars = []; 
+        const walkingSpeed = 0.5;
+        let man;
+
+        const phrases = [
+            "that smile...",
+            "a wrong turn.",
+            "if only...",
+            "sorry, Dad.",
+            "empty hands.",
+            "the letter I never sent.",
+            "what was it for?",
+            "her laugh in the rain."
+        ];
+
+        // --- Story Elements ---
+        const storyElement = document.getElementById('story');
+        const storyFragments = [
+            "That porch light again.",
+            "'I'll make you proud.'",
+            "Whose voice was that?",
+            "A stranger's promise.",
+            "Her hand... so warm then.",
+            "The smell of rain on the street.",
+            "I chose the other city.",
+            "Left a ghost behind.",
+            "A life I never lived.",
+            "Father's face at the table.",
+            "Not angry. Just... disappointed.",
+            "That silence was a shovel.",
+            "Burying something I couldn't name.",
+            "These pockets are full of stones.",
+            "Each step, a new mistake.",
+            "The chances I just watched go by.",
+            "Like smoke through my fingers.",
+            "Is anyone even watching this?",
+            "Is there a score being kept?",
+            "Or just this road?",
+            "From one shadow to the next.",
+            "My only friend is the cold.",
+            "Another thought. Another spark.",
+            "And just as quickly, it's gone.",
+            "How many have I had?",
+            "None of them changed anything.",
+            "I've been here before.",
+            "I'm always here.",
+            "The edge of everything.",
+            "Again."
+        ];
+        let storyIndex = 0;
+        let storyTimer;
+
+        // --- Event Listeners ---
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            if (man) {
+                man.x = width / 2; 
+                man.y = height * 0.85 - 45; 
+            }
+            createStars(); 
+        });
+
+        const handleInteraction = (e) => {
+            const instructions = document.getElementById('instructions');
+            if(instructions) instructions.style.display = 'none';
+
+            let x, y;
+            if (e.touches && e.touches.length > 0) {
+                x = e.touches[0].clientX;
+                y = e.touches[0].clientY;
+            } else {
+                x = e.clientX;
+                y = e.clientY;
+            }
+
+            for (let i = 0; i < 15; i++) {
+                particles.push(new Particle(x, y));
+            }
+
+            if (Math.random() > 0.6) {
+                sadTexts.push(new SadText(x, y));
+            }
+        };
+
+        canvas.addEventListener('click', handleInteraction);
+        canvas.addEventListener('touchstart', handleInteraction);
+
+        // --- Classes ---
+        class Man {
+            constructor() {
+                this.x = width / 2;
+                this.y = height * 0.85 - 45; 
+                this.width = 15;
+                this.height = 45;
+                this.walkFrame = 0;
+                this.isFalling = false;
+                this.rotation = 0;
+                this.yVelocity = 0;
+            }
+
+            update() {
+                if (this.isFalling) {
+                    this.y += this.yVelocity;
+                    this.yVelocity += 0.2; // Gravity
+                    this.rotation += 0.05;
+                    this.x += walkingSpeed; // Drift slightly as he falls
+                }
+            }
+
+            startFalling() {
+                if (this.isFalling) return;
+                this.isFalling = true;
+                this.yVelocity = -2; // Initial upward bounce
+            }
+            
+            reset() {
+                this.x = width / 2;
+                this.y = height * 0.85 - 45;
+                this.isFalling = false;
+                this.rotation = 0;
+                this.yVelocity = 0;
+                this.walkFrame = 0;
+            }
+
+            draw() {
+                this.walkFrame += 0.05; 
+                const legSwing = Math.sin(this.walkFrame);
+                
+                ctx.save();
+                ctx.shadowColor = 'rgba(0, 0, 0, 0.4)';
+                ctx.shadowBlur = 15;
+                ctx.shadowOffsetX = -15; 
+                ctx.shadowOffsetY = 3;
+
+                ctx.fillStyle = '#465069';
+                ctx.strokeStyle = '#2d3345';
+                ctx.lineWidth = 2;
+
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation);
+
+                if (!this.isFalling) {
+                    // Back leg
+                    ctx.beginPath();
+                    ctx.moveTo(0, 15);
+                    ctx.lineTo(-2 + legSwing * -5, 30);
+                    ctx.lineTo(2 + legSwing * -5, 30);
+                    ctx.closePath();
+                    ctx.fill();
+                    
+                    // Front leg
+                    ctx.beginPath();
+                    ctx.moveTo(0, 15);
+                    ctx.lineTo(-2 + legSwing * 5, 30);
+                    ctx.lineTo(2 + legSwing * 5, 30);
+                    ctx.closePath();
+                    ctx.fill();
+                }
+                
+                // Torso & Head
+                ctx.beginPath();
+                ctx.moveTo(0, 0); 
+                ctx.quadraticCurveTo(5, -5, 2, -12); 
+                ctx.quadraticCurveTo(-5, -16, -8, -10); 
+                ctx.lineTo(-6, 0); 
+                ctx.closePath();
+                ctx.fill();
+                
+                // Body
+                ctx.beginPath();
+                ctx.rect(-6, 0, 12, 20);
+                ctx.fill();
+
+                ctx.restore();
+            }
+        }
+
+        class ShootingStar {
+            constructor() { this.x = Math.random() * width + width * 0.5; this.y = Math.random() * height * 0.2; this.len = Math.random() * 80 + 60; this.speed = Math.random() * 8 + 7; this.angle = Math.PI / 6; }
+            update() { this.x -= this.speed * Math.cos(this.angle); this.y += this.speed * Math.sin(this.angle); }
+            draw() { ctx.save(); const tailX = this.x + this.len * Math.cos(this.angle); const tailY = this.y - this.len * Math.sin(this.angle); const gradient = ctx.createLinearGradient(this.x, this.y, tailX, tailY); gradient.addColorStop(0, 'rgba(255, 255, 255, 0.8)'); gradient.addColorStop(1, 'rgba(255, 255, 255, 0)'); ctx.strokeStyle = gradient; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(this.x, this.y); ctx.lineTo(tailX, tailY); ctx.stroke(); ctx.restore(); }
+        }
+        class Star {
+            constructor() { this.x = Math.random() * width; this.y = Math.random() * height * 0.7; this.size = Math.random() * 1.5 + 0.5; this.opacity = Math.random() * 0.5 + 0.1; this.flickerSpeed = (Math.random() - 0.5) * 0.02; }
+            draw() { this.opacity += this.flickerSpeed; if(this.opacity > 0.6 || this.opacity < 0.1) { this.flickerSpeed *= -1; } ctx.save(); ctx.globalAlpha = this.opacity; ctx.fillStyle = 'rgba(255, 255, 255, 0.8)'; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); ctx.restore(); }
+        }
+        class LampPost {
+            constructor(x) { this.x = x; this.y = height * 0.85; }
+            update() { this.x -= walkingSpeed; if (man.isFalling) { this.x -= 1; } }
+            draw() { ctx.save(); ctx.fillStyle = '#1a1c38'; ctx.fillRect(this.x - 2, this.y - 120, 4, 120); ctx.beginPath(); ctx.arc(this.x, this.y - 125, 8, 0, Math.PI * 2); ctx.fillStyle = '#404038'; ctx.fill(); ctx.beginPath(); ctx.arc(this.x, this.y - 125, 40, 0, Math.PI * 2); const gradient = ctx.createRadialGradient(this.x, this.y - 125, 5, this.x, this.y - 125, 40); gradient.addColorStop(0, 'rgba(255, 240, 150, 0.08)'); gradient.addColorStop(1, 'rgba(255, 240, 150, 0)'); ctx.fillStyle = gradient; ctx.fill(); ctx.restore(); }
+        }
+        class Particle {
+            constructor(x, y) { this.x = x; this.y = y; this.size = Math.random() * 4 + 1; this.speedX = (Math.random() - 0.5) * 2; this.speedY = (Math.random() * -1.5) - 0.5; this.color = `hsl(${Math.random() * 60 + 180}, 100%, 80%)`; this.lifespan = Math.random() * 150 + 50; this.initialLifespan = this.lifespan; }
+            update() { this.x += this.speedX; this.y += this.speedY; this.lifespan--; }
+            draw() { ctx.save(); ctx.globalAlpha = Math.max(0, this.lifespan / this.initialLifespan); ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fillStyle = this.color; ctx.shadowColor = this.color; ctx.shadowBlur = 15; ctx.fill(); ctx.restore(); }
+        }
+        class SadText {
+            constructor(x, y) { this.x = x; this.y = y; this.text = phrases[Math.floor(Math.random() * phrases.length)]; this.lifespan = 200; this.initialLifespan = this.lifespan; }
+            update() { this.y -= 0.2; this.lifespan--; }
+            draw() { const opacity = Math.sin(Math.PI * (this.lifespan / this.initialLifespan)); ctx.save(); ctx.globalAlpha = Math.max(0, opacity); ctx.fillStyle = 'rgba(200, 200, 220, 0.6)'; ctx.font = '16px Garamond'; ctx.textAlign = 'center'; ctx.shadowColor = 'rgba(100, 100, 200, 0.7)'; ctx.shadowBlur = 5; ctx.fillText(this.text, this.x, this.y); ctx.restore(); }
+        }
+
+        // --- Helper Functions ---
+
+        function createStars() { stars = []; for (let i = 0; i < 150; i++) { stars.push(new Star()); } }
+        function handleStars() { for (const star of stars) { star.draw(); } }
+        function handleShootingStars() { for (let i = shootingStars.length - 1; i >= 0; i--) { shootingStars[i].update(); shootingStars[i].draw(); if (shootingStars[i].x < -200 || shootingStars[i].y > height + 200) { shootingStars.splice(i, 1); } } if (Math.random() < 0.0008) { shootingStars.push(new ShootingStar()); } }
+        function drawBackground() { ctx.save(); ctx.fillStyle = 'rgba(230, 230, 255, 0.6)'; ctx.shadowColor = '#d4d4ff'; ctx.shadowBlur = 50; ctx.beginPath(); ctx.arc(width * 0.75, height * 0.2, 50, 0, Math.PI * 2); ctx.fill(); ctx.restore(); ctx.save(); ctx.fillStyle = '#0a0c24'; ctx.fillRect(0, height * 0.85, width, height * 0.15); ctx.restore(); }
+        function handleScenery() { for (let i = lampPosts.length - 1; i >= 0; i--) { lampPosts[i].update(); lampPosts[i].draw(); if (lampPosts[i].x < -50) lampPosts.splice(i, 1); } if (!man.isFalling && Math.random() < 0.005) { if (lampPosts.length === 0 || lampPosts[lampPosts.length - 1].x < width - 300) { lampPosts.push(new LampPost(width + 50)); } } }
+        function handleParticles() { for (let i = particles.length - 1; i >= 0; i--) { particles[i].update(); particles[i].draw(); if (particles[i].lifespan <= 0) particles.splice(i, 1); } }
+        function handleSadTexts() { for (let i = sadTexts.length - 1; i >= 0; i--) { sadTexts[i].update(); sadTexts[i].draw(); if (sadTexts[i].lifespan <= 0) sadTexts.splice(i, 1); } }
+        
+        function updateStory() {
+            storyElement.style.opacity = '0';
+
+            setTimeout(() => {
+                // Check if we are at the end of the story
+                if (storyIndex >= storyFragments.length) {
+                    man.startFalling();
+                    return; // Stop the story cycle until reset
+                }
+
+                storyElement.textContent = storyFragments[storyIndex];
+                storyElement.style.opacity = '1';
+                storyIndex++;
+            }, 1500); // 1.5s fade out time
+        }
+
+        function resetScene() {
+            man.reset();
+            storyIndex = 0;
+            lampPosts = [];
+            lampPosts.push(new LampPost(width * 0.8));
+            storyElement.style.opacity = '0';
+            // Restart the story loop
+            clearInterval(storyTimer);
+            storyTimer = setInterval(updateStory, 8000); // Adjusted interval for longer story
+            updateStory();
+        }
+
+        function init() {
+            man = new Man();
+            createStars();
+            lampPosts.push(new LampPost(width * 0.8));
+            storyTimer = setInterval(updateStory, 8000); // 6.5s display + 1.5s fade
+            updateStory();
+            animate();
+        }
+
+        // --- Main Animation Loop ---
+        function animate() {
+            ctx.fillStyle = `rgba(3, 6, 21, ${man.isFalling ? 0.1 : 0.25})`;
+            ctx.fillRect(0, 0, width, height);
+
+            handleStars();
+            handleShootingStars();
+            drawBackground();
+            handleScenery();
+            
+            man.update();
+            man.draw();
+
+            if (man.y > height + 100) {
+                resetScene();
+            }
+
+            handleParticles();
+            handleSadTexts();
+
+            requestAnimationFrame(animate);
+        }
+
+        init();
+
+    </script>
+</body>
+</html>
