@@ -123,7 +123,7 @@ function createTestimonialBubble(testimonial) {
         <div class="testimonial-resources">
             <a href="https://buymeacoffee.com/gourabdg/e/420396" target="_blank" class="resource-link">
                 Security+ Resources
-                <span class="discount">30% OFF</span>
+                <span class="discount">80% OFF</span>
             </a>
         </div>
     `;
