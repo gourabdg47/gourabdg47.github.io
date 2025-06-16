@@ -206,8 +206,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Create testimonial container
     const container = document.createElement('div');
     container.className = 'testimonial-container';
-    document.body.appendChild(container);
+    // document.body.appendChild(container); // Commented out to temporarily disable notifications
 
     // Start showing testimonials
-    showTestimonial();
+    // showTestimonial(); // Also comment out the call to showTestimonial()
 }); 
