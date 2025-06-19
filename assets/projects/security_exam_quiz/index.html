@@ -46,53 +46,43 @@
         </header>
 
         <!-- Quiz Setup Section -->
-        <div id="setup-section" class="bg-white p-4 md:p-6 rounded-lg shadow-lg mb-8 w-full max-w-full">
+        <div id="setup-section" class="bg-white p-4 md:p-6 rounded-lg shadow-lg mb-8 w-full max-w-full flex flex-col gap-6">
             <h2 class="text-lg md:text-2xl font-bold mb-4">Exam Configuration</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-4">
-                <div>
-                    <label for="domain-select" class="block text-sm font-medium mb-2">Select Domain:</label>
-                    <select id="domain-select" class="w-full">
-                        <option value="all">All Domains</option>
-                        <option value="General Security Concepts">General Security Concepts</option>
-                        <option value="Threats, Vulnerabilities, and Mitigations">Threats, Vulnerabilities, and Mitigations</option>
-                        <option value="Security Architecture">Security Architecture</option>
-                        <option value="Security Operations">Security Operations</option>
-                        <option value="Security Program Management and Oversight">Security Program Management and Oversight</option>
-                        <option value="Governance, Risk, and Compliance">Governance, Risk, and Compliance</option>
-                        <option value="Infrastructure Security">Infrastructure Security</option>
-                    </select>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+                <div class="flex flex-col gap-2">
+                    <label for="domain-select" class="block text-sm font-medium mb-1">Select Domain:</label>
+                    <select id="domain-select" class="w-full mb-2"></select>
                 </div>
-                <div>
-                    <label for="question-count" class="block text-sm font-medium mb-2">Number of Questions:</label>
-                    <select id="question-count" class="w-full">
-                    </select>
+                <div class="flex flex-col gap-2">
+                    <label for="question-count" class="block text-sm font-medium mb-1">Number of Questions:</label>
+                    <select id="question-count" class="w-full mb-2"></select>
                 </div>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-                <div>
-                    <label for="seed-input" class="block text-sm font-medium mb-2">Start from Seed (Optional):</label>
-                    <input type="text" id="seed-input" class="w-full" placeholder="Paste a seed value from your history">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="flex flex-col gap-2">
+                    <label for="seed-input" class="block text-sm font-medium mb-1">Start from Seed (Optional):</label>
+                    <input type="text" id="seed-input" class="w-full mb-2" placeholder="Paste a seed value from your history">
                 </div>
-                <div>
-                    <label for="exam-type" class="block text-sm font-medium mb-2">Exam Type:</label>
-                    <select id="exam-type" class="w-full">
+                <div class="flex flex-col gap-2">
+                    <label for="exam-type" class="block text-sm font-medium mb-1">Exam Type:</label>
+                    <select id="exam-type" class="w-full mb-2">
                         <option value="practice">Practice Mode</option>
                         <option value="exam">Exam Mode</option>
                     </select>
                 </div>
             </div>
-            <div class="mt-6 text-center">
+            <div class="mt-6 flex justify-center">
                 <button id="start-exam" class="bg-[#4A90E2] text-white font-bold py-2 px-6 rounded-lg hover:bg-[#357ABD] transition duration-300 shadow-md text-base w-full md:w-auto">Start Exam</button>
             </div>
         </div>
 
         <!-- Quiz Section -->
-        <div id="quiz-section" class="hidden bg-white p-4 md:p-6 rounded-lg shadow-lg mb-8 w-full max-w-full">
-            <div class="flex flex-col md:flex-row justify-between items-center mb-4 gap-2 w-full">
+        <div id="quiz-section" class="hidden bg-white p-4 md:p-6 rounded-lg shadow-lg mb-8 w-full max-w-full flex flex-col gap-6">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-4 gap-4 w-full">
                 <div id="progress-indicator" class="text-sm font-medium"></div>
                 <div id="timer" class="text-lg md:text-xl font-bold"></div>
             </div>
-            <div id="question-container" class="min-h-[300px] md:min-h-[450px] w-full"></div>
+            <div id="question-container" class="min-h-[300px] md:min-h-[450px] w-full mb-4"></div>
             <div class="mt-6 flex flex-col md:flex-row justify-between items-center gap-4 w-full">
                 <button id="prev-question" class="w-full md:w-auto bg-gray-200 text-gray-800 font-bold py-2 px-6 rounded-lg hover:bg-gray-300 transition duration-300">Previous</button>
                 <button id="next-question" class="w-full md:w-auto bg-[#4A90E2] text-white font-bold py-2 px-6 rounded-lg hover:bg-[#357ABD] transition duration-300">Next</button>
@@ -101,32 +91,32 @@
         </div>
         
         <!-- Review Section -->
-        <div id="review-section" class="hidden bg-white p-4 md:p-6 rounded-lg shadow-lg mb-8 w-full max-w-full">
+        <div id="review-section" class="hidden bg-white p-4 md:p-6 rounded-lg shadow-lg mb-8 w-full max-w-full flex flex-col gap-6">
             <h2 class="text-xl md:text-3xl font-bold mb-4 text-center">Review Your Answers</h2>
-            <div id="review-container" class="min-h-[300px] md:min-h-[500px] w-full"></div>
+            <div id="review-container" class="min-h-[300px] md:min-h-[500px] w-full mb-4"></div>
             <div class="mt-6 flex flex-col md:flex-row justify-between items-center gap-4 w-full">
                 <button id="prev-review-question" class="w-full md:w-auto bg-gray-200 text-gray-800 font-bold py-2 px-6 rounded-lg hover:bg-gray-300 transition duration-300">Previous</button>
                 <div id="review-progress-indicator" class="text-sm font-medium"></div>
                 <button id="next-review-question" class="w-full md:w-auto bg-[#4A90E2] text-white font-bold py-2 px-6 rounded-lg hover:bg-[#357ABD] transition duration-300">Next</button>
             </div>
-            <div class="mt-6 text-center">
+            <div class="mt-6 flex justify-center">
                 <button id="back-to-results" class="w-full md:w-auto bg-gray-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-gray-700 transition duration-300">Back to Results</button>
             </div>
         </div>
 
         <!-- Results Section -->
-        <div id="results-section" class="hidden bg-white p-4 md:p-6 rounded-lg shadow-lg text-center w-full max-w-full">
+        <div id="results-section" class="hidden bg-white p-4 md:p-6 rounded-lg shadow-lg text-center w-full max-w-full flex flex-col gap-6">
             <h2 class="text-2xl md:text-3xl font-bold mb-4">Exam Results</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-base md:text-lg w-full">
-                <div class="p-4 bg-gray-50 rounded-lg">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-base md:text-lg w-full mb-4">
+                <div class="p-4 bg-gray-50 rounded-lg flex flex-col items-center gap-2">
                     <p class="font-bold">Score:</p>
                     <p id="score" class="text-xl md:text-2xl font-bold text-[#2ECC71]"></p>
                 </div>
-                <div class="p-4 bg-gray-50 rounded-lg">
+                <div class="p-4 bg-gray-50 rounded-lg flex flex-col items-center gap-2">
                     <p class="font-bold">Percentage:</p>
                     <p id="percentage" class="text-xl md:text-2xl font-bold text-[#4A90E2]"></p>
                 </div>
-                <div class="p-4 bg-gray-50 rounded-lg">
+                <div class="p-4 bg-gray-50 rounded-lg flex flex-col items-center gap-2">
                     <p class="font-bold">Time Taken:</p>
                     <p id="time-taken" class="text-xl md:text-2xl font-bold text-[#9B59B6]"></p>
                 </div>
@@ -138,7 +128,7 @@
         </div>
 
         <!-- History Table Section -->
-        <div id="history-section" class="bg-white p-4 md:p-6 rounded-lg shadow-lg mt-8 w-full max-w-full">
+        <div id="history-section" class="bg-white p-4 md:p-6 rounded-lg shadow-lg mt-8 w-full max-w-full flex flex-col gap-6">
             <div class="flex flex-col md:flex-row justify-between items-center mb-4 gap-4 w-full">
                 <h2 class="text-xl md:text-2xl font-bold">Exam History</h2>
                 <div class="flex flex-wrap items-center gap-2">
@@ -147,16 +137,16 @@
                     <button id="reset-history" class="bg-[#E74C3C] text-white font-bold py-2 px-4 rounded-lg hover:bg-[#C0392B] transition duration-300 text-sm"><i class="fas fa-trash-alt mr-1"></i> Reset</button>
                 </div>
             </div>
-            <div class="overflow-x-auto w-full">
+            <div class="overflow-x-auto w-full mb-4">
                 <table class="min-w-full bg-white text-xs md:text-base">
                     <thead>
                         <tr>
-                            <th class="py-2 px-4 border-b text-left">Seed</th>
-                            <th class="py-2 px-4 border-b text-left">Date</th>
-                            <th class="py-2 px-4 border-b text-left">Exam Type</th>
-                            <th class="py-2 px-4 border-b text-left">Score</th>
-                            <th class="py-2 px-4 border-b text-left">Percentage</th>
-                            <th class="py-2 px-4 border-b text-left">Time Taken</th>
+                            <th class="py-3 px-4 border-b text-left">Seed</th>
+                            <th class="py-3 px-4 border-b text-left">Date</th>
+                            <th class="py-3 px-4 border-b text-left">Exam Type</th>
+                            <th class="py-3 px-4 border-b text-left">Score</th>
+                            <th class="py-3 px-4 border-b text-left">Percentage</th>
+                            <th class="py-3 px-4 border-b text-left">Time Taken</th>
                         </tr>
                     </thead>
                     <tbody id="history-table-body">
@@ -169,7 +159,7 @@
             </div>
         </div>
         <!-- Analytics Toggle Button -->
-        <div class="flex justify-end mt-4 w-full">
+        <div class="flex justify-end mt-4 w-full mb-2">
             <button id="toggle-analytics-btn" class="bg-gray-200 text-gray-800 font-bold py-1 px-3 text-sm rounded-md hover:bg-gray-300 transition duration-300">Hide Analytics</button>
         </div>
         <!-- Analytics Section -->
