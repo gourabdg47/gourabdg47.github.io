@@ -51,11 +51,11 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
                 <div class="flex flex-col gap-2">
                     <label for="domain-select" class="block text-sm font-medium mb-1">Select Domain:</label>
-                    <select id="domain-select" class="w-full mb-2"></select>
+                    <select id="domain-select" class="w-full mb-2 rounded-lg border border-blue-200 bg-blue-50 text-gray-700 focus:ring-2 focus:ring-blue-300 focus:border-blue-400 transition placeholder-gray-400"></select>
                 </div>
                 <div class="flex flex-col gap-2">
                     <label for="question-count" class="block text-sm font-medium mb-1">Number of Questions:</label>
-                    <select id="question-count" class="w-full mb-2"></select>
+                    <select id="question-count" class="w-full mb-2 rounded-lg border border-blue-200 bg-blue-50 text-gray-700 focus:ring-2 focus:ring-blue-300 focus:border-blue-400 transition placeholder-gray-400"></select>
                 </div>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -65,7 +65,7 @@
                 </div>
                 <div class="flex flex-col gap-2">
                     <label for="exam-type" class="block text-sm font-medium mb-1">Exam Type:</label>
-                    <select id="exam-type" class="w-full mb-2">
+                    <select id="exam-type" class="w-full mb-2 rounded-lg border border-blue-200 bg-blue-50 text-gray-700 focus:ring-2 focus:ring-blue-300 focus:border-blue-400 transition placeholder-gray-400">
                         <option value="practice">Practice Mode</option>
                         <option value="exam">Exam Mode</option>
                     </select>
@@ -209,11 +209,16 @@
         </div>
     </div>
 
-    <!-- Floating Support Icon -->
-    <div id="support-icon" class="fixed bottom-8 right-8 cursor-pointer heartbeat z-50">
-        <a href="https://buymeacoffee.com/gourabdg" target="_blank" class="block w-12 h-12 md:w-16 md:h-16 bg-[#E74C3C] rounded-full flex items-center justify-center shadow-lg text-white">
-            <i class="fas fa-heart text-xl md:text-2xl"></i>
-        </a>
+    <!-- Floating Support Icon and Dark Mode Toggle -->
+    <div class="fixed bottom-[97px] right-8 flex flex-col items-end gap-3 z-50">
+        <button id="toggle-darkmode" class="w-12 h-12 mb-1 flex items-center justify-center rounded-full bg-gray-200 text-gray-700 shadow-lg hover:bg-gray-300 transition duration-300 text-2xl" title="Toggle Dark Mode">
+            <i id="darkmode-icon" class="fas fa-moon"></i>
+        </button>
+        <div id="support-icon" class="cursor-pointer heartbeat">
+            <a href="https://buymeacoffee.com/gourabdg" target="_blank" class="block w-12 h-12 bg-[#E74C3C] rounded-full flex items-center justify-center shadow-lg text-white text-2xl">
+                <i class="fas fa-heart"></i>
+            </a>
+        </div>
     </div>
 
     <!-- Support Modal -->

@@ -859,6 +859,35 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // --- DARK MODE TOGGLE ---
+    const darkModeBtn = document.getElementById('toggle-darkmode');
+    const darkModeIcon = document.getElementById('darkmode-icon');
+    const body = document.body;
+    // Load preference
+    if (localStorage.getItem('theme') === 'dark') {
+        body.classList.add('dark');
+        if (darkModeIcon) {
+            darkModeIcon.classList.remove('fa-moon');
+            darkModeIcon.classList.add('fa-sun');
+        }
+    }
+    if (darkModeBtn) {
+        darkModeBtn.addEventListener('click', () => {
+            body.classList.toggle('dark');
+            const isDark = body.classList.contains('dark');
+            if (darkModeIcon) {
+                if (isDark) {
+                    darkModeIcon.classList.remove('fa-moon');
+                    darkModeIcon.classList.add('fa-sun');
+                } else {
+                    darkModeIcon.classList.remove('fa-sun');
+                    darkModeIcon.classList.add('fa-moon');
+                }
+            }
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        });
+    }
+
     // --- INITIALIZATION ---
     loadQuestions();
     loadHistory();
