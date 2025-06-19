@@ -38,16 +38,16 @@
     </div>
 
     <!-- Main Container -->
-    <div class="container mx-auto p-4 md:p-8 max-w-7xl flex-grow mb-24">
+    <div class="container mx-auto p-4 md:p-8 max-w-screen-lg flex-grow mb-24 w-full">
 
         <header class="text-center mb-8">
-            <h1 class="text-3xl md:text-4xl font-bold mb-2">CompTIA Security+ SY0-701 Quiz</h1>
+            <h1 class="text-2xl md:text-4xl font-bold mb-2">CompTIA Security+ SY0-701 Quiz</h1>
             <p class="text-base md:text-lg opacity-75">Test your knowledge and prepare for the exam.</p>
         </header>
 
         <!-- Quiz Setup Section -->
-        <div id="setup-section" class="bg-white p-4 md:p-6 rounded-lg shadow-lg mb-8">
-            <h2 class="text-xl md:text-2xl font-bold mb-4">Exam Configuration</h2>
+        <div id="setup-section" class="bg-white p-4 md:p-6 rounded-lg shadow-lg mb-8 w-full max-w-full">
+            <h2 class="text-lg md:text-2xl font-bold mb-4">Exam Configuration</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-4">
                 <div>
                     <label for="domain-select" class="block text-sm font-medium mb-2">Select Domain:</label>
@@ -87,13 +87,13 @@
         </div>
 
         <!-- Quiz Section -->
-        <div id="quiz-section" class="hidden bg-white p-4 md:p-6 rounded-lg shadow-lg mb-8">
-            <div class="flex flex-col md:flex-row justify-between items-center mb-4 gap-2">
+        <div id="quiz-section" class="hidden bg-white p-4 md:p-6 rounded-lg shadow-lg mb-8 w-full max-w-full">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-4 gap-2 w-full">
                 <div id="progress-indicator" class="text-sm font-medium"></div>
                 <div id="timer" class="text-lg md:text-xl font-bold"></div>
             </div>
-            <div id="question-container" class="min-h-[450px]"></div>
-            <div class="mt-6 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div id="question-container" class="min-h-[300px] md:min-h-[450px] w-full"></div>
+            <div class="mt-6 flex flex-col md:flex-row justify-between items-center gap-4 w-full">
                 <button id="prev-question" class="w-full md:w-auto bg-gray-200 text-gray-800 font-bold py-2 px-6 rounded-lg hover:bg-gray-300 transition duration-300">Previous</button>
                 <button id="next-question" class="w-full md:w-auto bg-[#4A90E2] text-white font-bold py-2 px-6 rounded-lg hover:bg-[#357ABD] transition duration-300">Next</button>
                 <button id="submit-exam" class="hidden w-full md:w-auto bg-[#50C878] text-white font-bold py-2 px-6 rounded-lg hover:bg-[#3CB371] transition duration-300">Submit</button>
@@ -101,10 +101,10 @@
         </div>
         
         <!-- Review Section -->
-        <div id="review-section" class="hidden bg-white p-4 md:p-6 rounded-lg shadow-lg mb-8">
-            <h2 class="text-2xl md:text-3xl font-bold mb-4 text-center">Review Your Answers</h2>
-            <div id="review-container" class="min-h-[500px]"></div>
-            <div class="mt-6 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div id="review-section" class="hidden bg-white p-4 md:p-6 rounded-lg shadow-lg mb-8 w-full max-w-full">
+            <h2 class="text-xl md:text-3xl font-bold mb-4 text-center">Review Your Answers</h2>
+            <div id="review-container" class="min-h-[300px] md:min-h-[500px] w-full"></div>
+            <div class="mt-6 flex flex-col md:flex-row justify-between items-center gap-4 w-full">
                 <button id="prev-review-question" class="w-full md:w-auto bg-gray-200 text-gray-800 font-bold py-2 px-6 rounded-lg hover:bg-gray-300 transition duration-300">Previous</button>
                 <div id="review-progress-indicator" class="text-sm font-medium"></div>
                 <button id="next-review-question" class="w-full md:w-auto bg-[#4A90E2] text-white font-bold py-2 px-6 rounded-lg hover:bg-[#357ABD] transition duration-300">Next</button>
@@ -115,9 +115,9 @@
         </div>
 
         <!-- Results Section -->
-        <div id="results-section" class="hidden bg-white p-4 md:p-6 rounded-lg shadow-lg text-center">
+        <div id="results-section" class="hidden bg-white p-4 md:p-6 rounded-lg shadow-lg text-center w-full max-w-full">
             <h2 class="text-2xl md:text-3xl font-bold mb-4">Exam Results</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-lg">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-base md:text-lg w-full">
                 <div class="p-4 bg-gray-50 rounded-lg">
                     <p class="font-bold">Score:</p>
                     <p id="score" class="text-xl md:text-2xl font-bold text-[#2ECC71]"></p>
@@ -131,15 +131,15 @@
                     <p id="time-taken" class="text-xl md:text-2xl font-bold text-[#9B59B6]"></p>
                 </div>
             </div>
-            <div class="mt-8 flex flex-col md:flex-row justify-center gap-4">
+            <div class="mt-8 flex flex-col md:flex-row justify-center gap-4 w-full">
                 <button id="review-exam" class="w-full md:w-auto bg-[#9B59B6] text-white font-bold py-3 px-8 rounded-lg hover:bg-[#8E44AD] transition duration-300">Review Answers</button>
                 <button id="restart-exam" class="w-full md:w-auto bg-[#4A90E2] text-white font-bold py-3 px-8 rounded-lg hover:bg-[#357ABD] transition duration-300">Take Another Exam</button>
             </div>
         </div>
 
         <!-- History Table Section -->
-        <div id="history-section" class="bg-white p-4 md:p-6 rounded-lg shadow-lg mt-8">
-            <div class="flex flex-col md:flex-row justify-between items-center mb-4 gap-4">
+        <div id="history-section" class="bg-white p-4 md:p-6 rounded-lg shadow-lg mt-8 w-full max-w-full">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-4 gap-4 w-full">
                 <h2 class="text-xl md:text-2xl font-bold">Exam History</h2>
                 <div class="flex flex-wrap items-center gap-2">
                     <button id="download-csv" class="bg-gray-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-gray-700 transition duration-300 text-sm"><i class="fas fa-download mr-1"></i> CSV</button>
@@ -147,8 +147,8 @@
                     <button id="reset-history" class="bg-[#E74C3C] text-white font-bold py-2 px-4 rounded-lg hover:bg-[#C0392B] transition duration-300 text-sm"><i class="fas fa-trash-alt mr-1"></i> Reset</button>
                 </div>
             </div>
-            <div class="overflow-x-auto">
-                <table class="min-w-full bg-white">
+            <div class="overflow-x-auto w-full">
+                <table class="min-w-full bg-white text-xs md:text-base">
                     <thead>
                         <tr>
                             <th class="py-2 px-4 border-b text-left">Seed</th>
@@ -163,9 +163,58 @@
                     </tbody>
                 </table>
             </div>
-            <div class="mt-2 px-3 py-1.5 bg-blue-50 rounded text-xs text-blue-600 border border-blue-200 flex items-center gap-1.5">
+            <div class="mt-2 px-3 py-1.5 bg-blue-50 rounded text-xs text-blue-600 border border-blue-200 flex items-center gap-1.5 w-full">
                 <i class="fas fa-info-circle text-blue-500"></i>
                 <span>History is limited to 20 entries and auto-cleared after 7 days. Use Reset button or download for permanent records.</span>
+            </div>
+        </div>
+        <!-- Analytics Toggle Button -->
+        <div class="flex justify-end mt-4 w-full">
+            <button id="toggle-analytics-btn" class="bg-gray-200 text-gray-800 font-bold py-1 px-3 text-sm rounded-md hover:bg-gray-300 transition duration-300">Hide Analytics</button>
+        </div>
+        <!-- Analytics Section -->
+        <div id="analytics-section" class="bg-white p-4 md:p-6 rounded-lg shadow-lg mt-4 flex flex-col md:flex-row gap-8 items-start w-full max-w-full">
+            <div id="history-analytics" class="w-full md:w-64 bg-blue-50 border border-blue-200 rounded-lg p-4 flex flex-col gap-4 justify-center items-center">
+                <h3 class="text-lg font-bold text-blue-700 mb-2">Your Progress</h3>
+                <div class="flex flex-col gap-2 w-full">
+                    <div class="flex justify-between w-full">
+                        <span class="font-medium text-gray-700">Total Exams</span>
+                        <span id="total-exams" class="font-bold text-blue-700">0</span>
+                    </div>
+                    <div class="flex justify-between w-full -mt-2 mb-2">
+                        <span class="text-xs text-gray-500">Avg:</span>
+                        <span id="avg-total" class="text-xs text-gray-500">0%</span>
+                    </div>
+                    <div class="flex justify-between w-full">
+                        <span class="font-medium text-gray-700">Practice Mode</span>
+                        <span id="total-practice" class="font-bold text-green-600">0</span>
+                    </div>
+                    <div class="flex justify-between w-full -mt-2 mb-2">
+                        <span class="text-xs text-gray-500">Avg:</span>
+                        <span id="avg-practice" class="text-xs text-gray-500">0%</span>
+                    </div>
+                    <div class="flex justify-between w-full">
+                        <span class="font-medium text-gray-700">Exam Mode</span>
+                        <span id="total-exam" class="font-bold text-purple-700">0</span>
+                    </div>
+                    <div class="flex justify-between w-full -mt-2 mb-2">
+                        <span class="text-xs text-gray-500">Avg:</span>
+                        <span id="avg-exam" class="text-xs text-gray-500">0%</span>
+                    </div>
+                </div>
+                <div class="mt-4 w-full">
+                    <div class="flex items-center justify-between">
+                        <span class="font-medium text-gray-700">Target (Exam Mode)</span>
+                        <span class="font-bold text-orange-600">80%+</span>
+                    </div>
+                </div>
+                <div class="mt-3 w-full text-xs text-gray-400 text-left">
+                    <i class="fas fa-info-circle mr-1"></i>Practice Mode averages only include exams with more than 10 questions.
+                </div>
+            </div>
+            <div class="flex-1 w-full flex flex-col items-center">
+                <h3 class="text-lg font-bold text-blue-700 mb-4">Score Progression</h3>
+                <canvas id="score-graph" height="180" class="w-full max-w-xl bg-white border border-blue-100 rounded-lg shadow-sm"></canvas>
             </div>
         </div>
     </div>

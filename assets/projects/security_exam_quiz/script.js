@@ -59,6 +59,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const prevReviewBtn = document.getElementById('prev-review-question');
     const nextReviewBtn = document.getElementById('next-review-question');
     const backToResultsBtn = document.getElementById('back-to-results');
+    const analyticsSection = document.getElementById('analytics-section');
+    const toggleAnalyticsBtn = document.getElementById('toggle-analytics-btn');
+
 
     // --- UTILITY FUNCTIONS ---
     function debounce(func, wait) {
@@ -99,7 +102,8 @@ document.addEventListener('DOMContentLoaded', () => {
             allQuestions = window.quizQuestions;
         } else {
             console.error("Questions data could not be loaded or is empty.");
-            alert("Error: Questions could not be loaded. Please check the console for details.");
+            // Changed alert to a console error as per guidelines
+            console.error("Error: Questions could not be loaded. Please check the console for details.");
             allQuestions = [];
         }
         populateDomains();
@@ -128,9 +132,6 @@ document.addEventListener('DOMContentLoaded', () => {
         
         const totalQuestions = questionsForDomain.length;
         questionCountSelect.innerHTML = '';
-        
-        // Define the standard options
-        const standardOptions = [10, 30, 90];
         
         // Add options based on available questions
         if (totalQuestions >= 10) {
@@ -169,11 +170,11 @@ document.addEventListener('DOMContentLoaded', () => {
             questionCountSelect.appendChild(maxOption);
         } else {
             // If we have less than 10 questions, just show the total
-                const option = document.createElement('option');
+            const option = document.createElement('option');
             option.value = totalQuestions;
             option.textContent = `${totalQuestions} Questions`;
-                questionCountSelect.appendChild(option);
-            }
+            questionCountSelect.appendChild(option);
+        }
         
         questionCountSelect.classList.remove('hidden');
         
@@ -255,8 +256,15 @@ document.addEventListener('DOMContentLoaded', () => {
             hasShown50PercentModal = false;
 
             if (timer) clearInterval(timer);
-            totalTime = currentQuestions.length * 60;
-            timeLeft = totalTime;
+            // --- MODIFICATION START ---
+            if (examType === 'exam') {
+                totalTime = 5400; // 90 minutes for exam mode (90 * 60 seconds)
+                timeLeft = 5400;
+            } else {
+                totalTime = currentQuestions.length * 60; // Original logic for practice mode
+                timeLeft = totalTime; // Original logic for practice mode
+            }
+            // --- MODIFICATION END ---
 
             setupSection.classList.add('hidden');
             resultsSection.classList.add('hidden');
@@ -369,6 +377,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         const percentage = currentQuestions.length > 0 ? (score / currentQuestions.length) * 100 : 0;
+        // Calculation of time taken is correct based on exam type and initial totalTime.
         const timeTakenInSeconds = examType === 'exam' ? totalTime - timeLeft : Math.floor((Date.now() - startTime) / 1000);
         
         scoreDisplay.textContent = `${score} / ${currentQuestions.length}`;
@@ -491,6 +500,86 @@ document.addEventListener('DOMContentLoaded', () => {
         return cleaned.slice(0, MAX_HISTORY_ROWS);
     }
 
+    // Load Chart.js if not already loaded
+    function ensureChartJsLoaded(callback) {
+        if (window.Chart) {
+            callback();
+            return;
+        }
+        const script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/chart.js';
+        script.onload = callback;
+        document.head.appendChild(script);
+    }
+
+    let scoreChart = null;
+    function renderScoreGraph(history) {
+        ensureChartJsLoaded(() => {
+            const ctx = document.getElementById('score-graph').getContext('2d');
+            // Filter for Exam Mode only
+            const examHistory = history.filter(r => r.examType === 'Exam');
+            const labels = examHistory.map((r, i) => r.date + ' ' + r.time);
+            const scores = examHistory.map(r => parseFloat(r.percentage.replace('%', '')));
+            // Target line
+            const targetData = Array(scores.length).fill(80);
+
+            if (scoreChart) {
+                scoreChart.data.labels = labels;
+                scoreChart.data.datasets[0].data = scores;
+                scoreChart.data.datasets[1].data = targetData;
+                scoreChart.update();
+                return;
+            }
+
+            scoreChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Your Score (%)',
+                            data: scores,
+                            borderColor: '#4A90E2',
+                            backgroundColor: 'rgba(74,144,226,0.1)',
+                            fill: true,
+                            tension: 0.3,
+                            pointRadius: 4,
+                            pointBackgroundColor: '#4A90E2',
+                        },
+                        {
+                            label: 'Target (80%)',
+                            data: targetData,
+                            borderColor: '#FFA500',
+                            borderDash: [8, 4],
+                            fill: false,
+                            pointRadius: 0,
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: true },
+                        tooltip: { enabled: true }
+                    },
+                    scales: {
+                        y: {
+                            min: 0,
+                            max: 100,
+                            title: { display: true, text: 'Score (%)' },
+                            grid: { color: '#e5e7eb' }
+                        },
+                        x: {
+                            title: { display: false },
+                            grid: { color: '#f3f4f6' }
+                        }
+                    }
+                }
+            });
+        });
+    }
+
+    // Update loadHistory to calculate averages
     function loadHistory() {
         const history = safeLocalStorageGet('quizHistory');
         const cleanedHistory = cleanupHistory(history);
@@ -501,6 +590,9 @@ document.addEventListener('DOMContentLoaded', () => {
         historyTableBody.innerHTML = '';
         if (cleanedHistory.length === 0) {
             historyTableBody.innerHTML = '<tr><td colspan="6" class="text-center py-4 text-gray-500">No exam history found.</td></tr>';
+            // Update analytics panel to zero
+            updateHistoryAnalytics(0, 0, 0, 0, 0, 0);
+            renderScoreGraph([]);
             return;
         }
 
@@ -516,13 +608,50 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
             historyTableBody.appendChild(row);
         });
+
+        // Calculate analytics
+        let totalExams = cleanedHistory.length;
+        let totalPractice = cleanedHistory.filter(r => r.examType === 'Practice').length;
+        let totalExam = cleanedHistory.filter(r => r.examType === 'Exam').length;
+        // Calculate averages
+        let avgPractice = 0, avgExam = 0, avgTotal = 0;
+        if (cleanedHistory.length > 0) {
+            avgTotal = cleanedHistory.reduce((sum, r) => sum + parseFloat(r.percentage.replace('%', '')), 0) / cleanedHistory.length;
+        }
+        // Only include practice records with more than 10 questions
+        const practiceRecords = cleanedHistory.filter(r => r.examType === 'Practice' && r.questionCount > 10);
+        if (practiceRecords.length > 0) {
+            avgPractice = practiceRecords.reduce((sum, r) => sum + parseFloat(r.percentage.replace('%', '')), 0) / practiceRecords.length;
+        }
+        const examRecords = cleanedHistory.filter(r => r.examType === 'Exam');
+        if (examRecords.length > 0) {
+            avgExam = examRecords.reduce((sum, r) => sum + parseFloat(r.percentage.replace('%', '')), 0) / examRecords.length;
+        }
+        updateHistoryAnalytics(totalExams, totalPractice, totalExam, avgPractice, avgExam, avgTotal);
+        renderScoreGraph(cleanedHistory);
+    }
+
+    function updateHistoryAnalytics(total, practice, exam, avgPractice = 0, avgExam = 0, avgTotal = 0) {
+        const totalEl = document.getElementById('total-exams');
+        const practiceEl = document.getElementById('total-practice');
+        const examEl = document.getElementById('total-exam');
+        const avgTotalEl = document.getElementById('avg-total');
+        const avgPracticeEl = document.getElementById('avg-practice');
+        const avgExamEl = document.getElementById('avg-exam');
+        if (totalEl) totalEl.textContent = total;
+        if (practiceEl) practiceEl.textContent = practice;
+        if (examEl) examEl.textContent = exam;
+        if (avgTotalEl) avgTotalEl.textContent = isNaN(avgTotal) ? '0%' : avgTotal.toFixed(1) + '%';
+        if (avgPracticeEl) avgPracticeEl.textContent = isNaN(avgPractice) ? '0%' : avgPractice.toFixed(1) + '%';
+        if (avgExamEl) avgExamEl.textContent = isNaN(avgExam) ? '0%' : avgExam.toFixed(1) + '%';
     }
 
     function downloadData(data, filename, type) {
         try {
             const history = JSON.parse(data);
             if (history.length === 0) {
-                alert("No history to download.");
+                // Changed alert to console error as per guidelines
+                console.error("No history to download.");
                 return;
             }
             let processedData;
@@ -562,7 +691,8 @@ document.addEventListener('DOMContentLoaded', () => {
             URL.revokeObjectURL(url);
         } catch (error) {
             console.error('Error downloading data:', error);
-            alert('There was an error preparing the download. Please try again.');
+            // Changed alert to console error as per guidelines
+            console.error('There was an error preparing the download. Please try again.');
         }
     }
 
@@ -715,6 +845,19 @@ document.addEventListener('DOMContentLoaded', () => {
             updateQuestionCountOptions();
         }
     });
+
+    // --- ANALYTICS TOGGLE ---
+    if (toggleAnalyticsBtn && analyticsSection) {
+        toggleAnalyticsBtn.addEventListener('click', () => {
+            if (analyticsSection.style.display === 'none') {
+                analyticsSection.style.display = '';
+                toggleAnalyticsBtn.textContent = 'Hide Analytics';
+            } else {
+                analyticsSection.style.display = 'none';
+                toggleAnalyticsBtn.textContent = 'Show Analytics';
+            }
+        });
+    }
 
     // --- INITIALIZATION ---
     loadQuestions();
