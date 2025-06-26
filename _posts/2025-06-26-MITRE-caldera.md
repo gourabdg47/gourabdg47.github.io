@@ -301,8 +301,6 @@ For secure environments without direct internet access, Caldera supports offline
 - **Ansible Deployment:** For large-scale agent deployment to Windows clients, Ansible can be used to automate the process, configuring `hosts` and `group_vars` files for user credentials and running playbooks to deploy agents.29
     
 - **SIEM Integration:** Integrate Caldera's output with Security Information and Event Management (SIEM) systems like Zeek, Splunk, or Wazuh. This allows for centralized monitoring and detection of simulated adversary activities. Zeek can detect C2 communications and agent downloads 2, while Splunk Universal Forwarder can collect and forward detections 35, and Wazuh can be configured with custom detection rules to identify modern ransomware and other TTPs.19 This integration is crucial for validating the effectiveness of an organization's detection and response capabilities against real-world threats.2
-    
-
 ## 5. Conclusions
 
 MITRE Caldera stands as a pivotal open-source platform in the contemporary cybersecurity landscape, fundamentally transforming how organizations approach defensive validation and threat intelligence. Its core strength lies in its ability to automate adversary emulation, meticulously mapping simulated attacks to the globally recognized MITRE ATT&CK framework. This deep integration elevates ATT&CK from a mere reference model to an operational blueprint, enabling security teams to translate abstract threat knowledge into concrete, executable actions.
