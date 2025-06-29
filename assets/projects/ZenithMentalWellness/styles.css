@@ -1,27 +1,34 @@
 /* Custom Styles for Zenith Health */
 
+/* General Reset & Base Styles */
 * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
     scroll-behavior: smooth;
 }
 
 body {
     font-family: 'Inter', system-ui, sans-serif;
     line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
-/* Background Animations */
+/* --- Animated Background Elements --- */
 .floating-orb {
     position: absolute;
     border-radius: 50%;
-    filter: blur(80px);
-    opacity: 0.15;
-    animation: float 30s infinite ease-in-out;
+    filter: blur(80px); /* Creates the glow effect */
+    opacity: 0.15; /* Subtler effect */
+    animation: float 30s infinite ease-in-out; /* Main floating animation */
 }
 
+/* Specific orb positions and colors */
 .orb-1 {
     width: 350px;
     height: 350px;
-    background: linear-gradient(45deg, rgba(14, 165, 233, 0.3), rgba(13, 148, 136, 0.2));
+    background: linear-gradient(45deg, rgba(14, 165, 233, 0.3), rgba(13, 148, 136, 0.2)); /* calm-blue & calm-teal with transparency */
     top: 15%;
     left: 5%;
     animation-delay: 0s;
@@ -33,13 +40,13 @@ body {
     background: linear-gradient(45deg, rgba(13, 148, 136, 0.2), rgba(14, 165, 233, 0.3));
     top: 55%;
     right: 5%;
-    animation-delay: -10s;
+    animation-delay: -10s; /* Staggered animation start */
 }
 
 .orb-3 {
     width: 280px;
     height: 280px;
-    background: linear-gradient(45deg, rgba(14, 165, 233, 0.25), rgba(226, 232, 240, 0.4));
+    background: linear-gradient(45deg, rgba(14, 165, 233, 0.25), rgba(226, 232, 240, 0.4)); /* calm-blue & light-accent with transparency */
     bottom: 25%;
     left: 45%;
     animation-delay: -20s;
@@ -54,12 +61,14 @@ body {
     animation-delay: -15s;
 }
 
+/* Adds a subtle radial gradient overlay to soften background */
 .background-gradient {
     position: absolute;
     inset: 0;
-    background: radial-gradient(ellipse at center, transparent 0%, rgba(248, 250, 252, 0.95) 80%);
+    background: radial-gradient(ellipse at center, transparent 0%, rgba(248, 250, 252, 0.95) 80%); /* light-primary with transparency */
 }
 
+/* Keyframe animation for floating orbs */
 @keyframes float {
     0%, 100% {
         transform: translateY(0px) translateX(0px) rotate(0deg) scale(1);
@@ -75,11 +84,16 @@ body {
     }
 }
 
-/* Animations */
+/* --- General Fade-In-Up Animation for Sections/Elements --- */
 .fade-in-up {
     opacity: 0;
     transform: translateY(30px);
-    animation: fadeInUp 0.8s ease-out forwards;
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out; /* Ensure smooth transition */
+}
+
+.fade-in-up.active {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 @keyframes fadeInUp {
@@ -89,109 +103,245 @@ body {
     }
 }
 
-/* Buttons */
+/* --- Button Styles --- */
+/* Base button styling for all buttons */
+.btn-primary, .btn-discord, .btn-discord-simple, .btn-secondary {
+    display: inline-flex; /* Allows icon and text to sit nicely together */
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 2rem; /* Consistent padding */
+    font-weight: 600; /* Semi-bold text */
+    border-radius: 0.5rem; /* Rounded corners */
+    transition: all 0.3s ease-in-out; /* Smooth transitions for all properties */
+    cursor: pointer;
+    text-decoration: none; /* Remove underline for links acting as buttons */
+    white-space: nowrap; /* Prevent text wrapping */
+}
+
+/* Primary Button */
 .btn-primary {
-    @apply inline-flex items-center px-8 py-4 bg-calm-blue hover:bg-calm-blue/80 text-white font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 hover:shadow-lg;
+    background-color: #0ea5e9; /* calm-blue */
+    color: #ffffff; /* white */
+    border: 2px solid transparent; /* No border by default */
 }
 
+.btn-primary:hover {
+    background-color: #0c8ad6; /* slightly darker calm-blue */
+    transform: translateY(-2px) scale(1.02); /* Slight lift and scale */
+    box-shadow: 0 8px 15px rgba(14, 165, 233, 0.3); /* Soft shadow */
+}
+
+/* Secondary Button (for modals, etc.) */
 .btn-secondary {
-    @apply inline-flex items-center px-8 py-4 bg-transparent border-2 border-calm-teal text-calm-teal hover:bg-calm-teal hover:text-white font-semibold rounded-lg transition-all duration-300 transform hover:scale-105;
+    background-color: transparent;
+    border: 2px solid #0d9488; /* calm-teal border */
+    color: #0d9488; /* calm-teal text */
 }
 
+.btn-secondary:hover {
+    background-color: #0d9488; /* calm-teal background */
+    color: #ffffff; /* white text */
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 8px 15px rgba(13, 148, 136, 0.2);
+}
+
+/* Hero Section Discord Button (more pronounced style) */
 .btn-discord {
-    @apply inline-flex items-center px-8 py-4 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-2xl text-lg;
-    background: linear-gradient(135deg, #5865f2 0%, #4338ca 100%);
-    box-shadow: 0 8px 25px rgba(88, 101, 242, 0.3);
+    background: linear-gradient(135deg, #5865f2 0%, #4338ca 100%); /* Discord brand colors */
+    color: #ffffff;
     border: 2px solid transparent;
+    border-radius: 1rem; /* More rounded */
+    box-shadow: 0 8px 25px rgba(88, 101, 242, 0.3); /* Stronger shadow */
+    font-size: 1.125rem; /* text-lg */
+    padding: 1rem 2.5rem; /* Slightly more padding */
 }
 
 .btn-discord:hover {
+    background: linear-gradient(135deg, #4338ca 0%, #3730a3 100%); /* Darker gradient on hover */
     box-shadow: 0 12px 35px rgba(88, 101, 242, 0.4);
-    background: linear-gradient(135deg, #4338ca 0%, #3730a3 100%);
+    transform: translateY(-3px) scale(1.04); /* More pronounced lift and scale */
 }
 
+/* Simple Discord Button (for Discord section) */
 .btn-discord-simple {
-    @apply inline-flex items-center px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 hover:shadow-lg text-lg;
-    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.2);
+    background-color: #4f46e5; /* indigo-600 */
+    color: #ffffff;
+    border: 2px solid transparent;
+    border-radius: 0.5rem; /* Rounded corners */
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.2); /* Softer shadow */
+    font-size: 1.125rem; /* text-lg */
 }
 
 .btn-discord-simple:hover {
+    background-color: #4338ca; /* indigo-700 */
+    transform: translateY(-2px) scale(1.02);
     box-shadow: 0 8px 25px rgba(99, 102, 241, 0.3);
 }
 
-/* Cards */
+/* --- Card Styles (for various sections) --- */
 .card {
-    @apply bg-warm-white p-8 rounded-2xl border border-light-accent backdrop-blur-sm transition-all duration-300 hover:transform hover:scale-105 hover:shadow-lg;
+    background-color: #ffffff; /* warm-white */
+    padding: 2rem;
+    border-radius: 1rem; /* rounded-2xl */
+    border: 1px solid #e2e8f0; /* light-accent border */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+    backdrop-filter: blur(5px); /* backdrop-blur-sm */
+    transition: all 0.3s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-5px); /* Slight lift on hover */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); /* More pronounced shadow */
 }
 
 .card-icon {
-    @apply w-16 h-16 bg-light-accent rounded-xl flex items-center justify-center mb-6;
+    width: 4rem; /* w-16 */
+    height: 4rem; /* h-16 */
+    background-color: #e2e8f0; /* light-accent */
+    border-radius: 0.75rem; /* rounded-xl */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem; /* mb-6 */
 }
 
-/* Statistics Cards */
+/* --- Statistics Cards --- */
 .stat-card {
-    @apply bg-warm-white p-8 rounded-2xl border border-light-accent text-center backdrop-blur-sm transition-all duration-300 hover:transform hover:scale-105 hover:shadow-lg;
+    background-color: #ffffff; /* warm-white */
+    padding: 2rem;
+    border-radius: 1rem;
+    border: 1px solid #e2e8f0;
+    text-align: center;
+    backdrop-filter: blur(5px);
+    transition: all 0.3s ease-in-out;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
 
 .stat-number {
-    @apply text-4xl md:text-5xl font-bold mb-2 font-heading;
+    font-size: 2.25rem; /* text-4xl */
+    line-height: 1; /* Adjust line height */
+    font-weight: 700; /* font-bold */
+    margin-bottom: 0.5rem; /* mb-2 */
+    font-family: 'Poppins', system-ui, sans-serif; /* heading font */
 }
 
 .stat-label {
-    @apply text-text-secondary text-lg;
+    font-size: 1.125rem; /* text-lg */
+    color: #64748b; /* text-secondary */
 }
 
-/* Factor Cards */
+/* --- Factor Cards --- */
 .factor-card {
-    @apply flex items-start space-x-6 bg-warm-white p-6 rounded-xl border border-light-accent backdrop-blur-sm transition-all duration-300 hover:shadow-lg;
+    display: flex;
+    align-items: flex-start; /* Align icon to top */
+    gap: 1.5rem; /* space-x-6 */
+    background-color: #ffffff;
+    padding: 1.5rem; /* p-6 */
+    border-radius: 0.75rem; /* rounded-xl */
+    border: 1px solid #e2e8f0;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03); /* Softer initial shadow */
+    transition: all 0.3s ease-in-out;
+}
+
+.factor-card:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08); /* More pronounced shadow */
 }
 
 .factor-icon {
-    @apply w-12 h-12 bg-light-accent rounded-lg flex items-center justify-center flex-shrink-0;
+    width: 3rem; /* w-12 */
+    height: 3rem; /* h-12 */
+    background-color: #e2e8f0; /* light-accent */
+    border-radius: 0.5rem; /* rounded-lg */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0; /* Prevent icon from shrinking */
 }
 
-.factor-content {
-    @apply flex-1;
-}
-
-/* Community Benefits */
+/* --- Community Benefits --- */
 .community-benefit {
-    @apply p-6 bg-warm-white rounded-xl border border-light-accent backdrop-blur-sm shadow-sm;
+    padding: 1.5rem;
+    background-color: #ffffff;
+    border-radius: 0.75rem;
+    border: 1px solid #e2e8f0;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02); /* shadow-sm */
 }
 
-/* Navigation */
+.community-benefit h3 {
+    margin-top: 0.75rem; /* Space after icon */
+}
+
+/* --- Navigation Links --- */
 .nav-link {
-    @apply relative overflow-hidden;
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+    padding-bottom: 0.25rem; /* Space for underline */
 }
 
 .nav-link::after {
     content: '';
-    @apply absolute bottom-0 left-0 w-0 h-0.5 bg-calm-blue transition-all duration-300;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 0.125rem; /* h-0.5 */
+    background-color: #0ea5e9; /* calm-blue */
+    transition: width 0.3s ease-in-out;
 }
 
 .nav-link:hover::after {
-    @apply w-full;
+    width: 100%;
 }
 
-/* Mobile Menu */
+/* Mobile Menu Specifics */
+#mobile-menu {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex; /* Ensures content is centered */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 40; /* Lower than main nav but still above content */
+}
+
 .mobile-nav-link {
-    @apply relative overflow-hidden;
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+    font-size: 1.5rem; /* text-2xl */
+    padding: 0.5rem 0; /* Vertical padding for touch targets */
 }
 
 .mobile-nav-link::after {
     content: '';
-    @apply absolute bottom-0 left-1/2 w-0 h-1 bg-calm-blue transition-all duration-300 transform -translate-x-1/2;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 0.25rem; /* h-1 */
+    background-color: #0ea5e9;
+    transition: all 0.3s ease-in-out;
+    transform: translateX(-50%);
 }
 
 .mobile-nav-link:hover::after {
-    @apply w-full;
+    width: 100%;
 }
 
-/* Scroll Animations */
+/* --- Scroll Reveal Animation Logic (used by JavaScript) --- */
 .scroll-reveal {
     opacity: 0;
     transform: translateY(50px);
-    transition: all 0.6s ease-out;
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
 }
 
 .scroll-reveal.active {
@@ -199,115 +349,11 @@ body {
     transform: translateY(0);
 }
 
-/* Loading States */
+/* --- Loading States (Placeholder) --- */
 .loading {
-    @apply animate-pulse;
+    animation: pulse-slow 3s ease-in-out infinite;
 }
 
-/* Accessibility */
-@media (prefers-reduced-motion: reduce) {
-    * {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-    }
-    
-    .floating-orb {
-        animation: none;
-    }
-}
-
-/* High Contrast Mode */
-@media (prefers-contrast: high) {
-    .card,
-    .stat-card,
-    .factor-card {
-        border-width: 2px;
-    }
-    
-    .text-text-secondary {
-        @apply text-gray-600;
-    }
-}
-
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-    width: 8px;
-}
-
-::-webkit-scrollbar-track {
-    @apply bg-light-primary;
-}
-
-::-webkit-scrollbar-thumb {
-    @apply bg-light-accent rounded-full;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    @apply bg-calm-blue;
-}
-
-/* Print Styles */
-@media print {
-    .floating-orb,
-    .background-gradient,
-    nav,
-    #mobile-menu,
-    #donation-modal {
-        display: none !important;
-    }
-    
-    body {
-        @apply text-black bg-white;
-    }
-    
-    .card,
-    .stat-card,
-    .factor-card {
-        @apply border-gray-300 bg-gray-100;
-    }
-}
-
-/* Focus Styles for Accessibility */
-button:focus,
-a:focus {
-    @apply outline-none ring-2 ring-calm-blue ring-offset-2 ring-offset-light-primary;
-}
-
-/* Custom Typography */
-.text-gradient {
-    background: linear-gradient(45deg, #4a90a4, #5d8a8a);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-/* Responsive Design Enhancements */
-@media (max-width: 768px) {
-    .floating-orb {
-        width: 200px !important;
-        height: 200px !important;
-    }
-    
-    .orb-2 {
-        width: 250px !important;
-        height: 250px !important;
-    }
-    
-    .stat-number {
-        @apply text-3xl;
-    }
-    
-    .factor-card {
-        @apply flex-col space-x-0 space-y-4 text-center;
-    }
-    
-    .factor-icon {
-        @apply mx-auto;
-    }
-}
-
-/* Loading Animation */
 @keyframes pulse-slow {
     0%, 100% {
         opacity: 0.4;
@@ -317,25 +363,190 @@ a:focus {
     }
 }
 
-.animate-pulse-slow {
-    animation: pulse-slow 3s ease-in-out infinite;
+/* --- Accessibility Enhancements --- */
+/* Visually hidden but accessible for screen readers */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
 }
 
-/* Hover Effects */
-.hover-lift {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+/* Focus styles for keyboard navigation */
+button:focus,
+a:focus {
+    outline: none; /* Remove default outline */
+    box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.5), 0 0 0 6px #e2e8f0; /* calm-blue ring with light-accent offset */
+    border-radius: 0.5rem; /* Match button/link border-radius for cleaner focus */
 }
 
-.hover-lift:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    .floating-orb {
+        animation: none;
+    }
 }
 
-/* Modal Styles */
+/* High Contrast Mode preference */
+@media (prefers-contrast: high) {
+    .card,
+    .stat-card,
+    .factor-card {
+        border-width: 2px;
+        border-color: #000; /* Stronger border in high contrast */
+    }
+    .text-text-secondary {
+        color: #333 !important; /* Darker grey for better contrast */
+    }
+}
+
+/* Custom Scrollbar Styling (Webkit browsers) */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #f8fafc; /* light-primary */
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #e2e8f0; /* light-accent */
+    border-radius: 9999px; /* rounded-full */
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #0ea5e9; /* calm-blue */
+}
+
+/* Print Styles */
+@media print {
+    .floating-orb,
+    .background-gradient,
+    nav,
+    #mobile-menu,
+    #donation-modal {
+        display: none !important; /* Hide decorative and interactive elements */
+    }
+    body {
+        color: #000000;
+        background-color: #ffffff;
+    }
+    .card,
+    .stat-card,
+    .factor-card {
+        border: 1px solid #cccccc;
+        background-color: #f0f0f0;
+        box-shadow: none;
+    }
+}
+
+/* --- Responsive Design Adjustments --- */
+@media (max-width: 767px) { /* Adjust for typical mobile devices */
+    .floating-orb {
+        width: 150px !important;
+        height: 150px !important;
+        filter: blur(50px);
+        opacity: 0.1;
+    }
+    .orb-2 { /* Adjust size for larger orb on mobile */
+        width: 200px !important;
+        height: 200px !important;
+    }
+    .stat-number {
+        font-size: 2rem; /* Smaller stats on mobile */
+    }
+    .factor-card {
+        flex-direction: column; /* Stack elements vertically */
+        align-items: center;
+        text-align: center;
+        gap: 1rem;
+    }
+    .factor-icon {
+        margin: 0 auto 0.75rem auto; /* Center icon when stacked */
+    }
+    .btn-primary, .btn-discord, .btn-discord-simple, .btn-secondary {
+        width: 100%; /* Full width buttons on small screens */
+    }
+}
+
+/* Specific adjustment for Hero Section H1 text size on smaller screens */
+@media (max-width: 639px) { /* Tailwind 'sm' breakpoint */
+    .hero-h1 {
+        font-size: 3rem; /* text-4xl equivalent for smaller phones */
+    }
+}
+
+/* --- Modal Styles (for the donation modal) --- */
 #donation-modal {
+    display: flex; /* Use flex to center content */
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.8); /* Darker overlay */
     backdrop-filter: blur(10px);
+    z-index: 9999; /* Ensure it's on top */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
 
-#donation-modal .bg-dark-secondary {
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+#donation-modal.hidden {
+    display: none;
 }
+
+#donation-modal > div { /* The modal content box */
+    background-color: #ffffff; /* warm-white */
+    border-radius: 1rem; /* rounded-2xl */
+    border: 1px solid #e2e8f0; /* light-accent */
+    padding: 2rem; /* p-8 */
+    max-width: 28rem; /* max-w-md */
+    width: 90%; /* Responsive width */
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5); /* Strong shadow */
+    position: relative; /* For potential absolute positioning of close button */
+    text-align: center;
+}
+
+#donation-modal button { /* Buttons inside the modal */
+    color: white;
+    font-weight: 600;
+    border-radius: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    transition: background-color 0.2s ease-in-out;
+}
+
+#donation-modal button.bg-calm-blue {
+    background-color: #0ea5e9;
+}
+#donation-modal button.bg-calm-blue:hover {
+    background-color: #0c8ad6;
+}
+
+#donation-modal button.bg-calm-teal {
+    background-color: #0d9488;
+}
+#donation-modal button.bg-calm-teal:hover {
+    background-color: #0a7c72;
+}
+
+#donation-modal button.btn-secondary {
+    background-color: transparent;
+    border: 2px solid #64748b; /* text-secondary */
+    color: #64748b;
+}
+
+#donation-modal button.btn-secondary:hover {
+    background-color: #64748b;
+    color: #ffffff;
+}
+
