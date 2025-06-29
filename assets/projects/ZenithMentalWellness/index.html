@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,7 +11,6 @@
     <meta property="og:type" content="website">
     <title>Zenith Health - Men's Mental Health Awareness</title>
     
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -35,17 +35,13 @@
         }
     </script>
     
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="styles.css">
 </head>
 <body class="bg-light-primary text-text-primary font-body overflow-x-hidden">
-    <!-- Animated Background -->
     <div class="fixed inset-0 z-0">
         <div class="floating-orb orb-1"></div>
         <div class="floating-orb orb-2"></div>
@@ -54,7 +50,6 @@
         <div class="background-gradient"></div>
     </div>
     
-    <!-- Navigation -->
     <nav class="fixed top-0 w-full z-50 bg-warm-white/95 backdrop-blur-sm border-b border-light-accent shadow-sm">
         <div class="container mx-auto px-6 py-4">
             <div class="flex justify-between items-center">
@@ -78,7 +73,6 @@
         </div>
     </nav>
     
-    <!-- Mobile Menu -->
     <div class="fixed inset-0 z-40 bg-warm-white/95 backdrop-blur-sm transform translate-x-full transition-transform duration-300" id="mobile-menu">
         <div class="flex flex-col items-center justify-center h-full space-y-8">
             <a href="#importance" class="mobile-nav-link text-2xl text-text-secondary hover:text-calm-blue transition-colors">Why It Matters</a>
@@ -89,7 +83,6 @@
         </div>
     </div>
     
-    <!-- Hero Section -->
     <section class="relative z-10 min-h-screen flex items-center justify-center pt-20">
         <div class="container mx-auto px-6 text-center">
             <div class="fade-in-up">
@@ -115,7 +108,6 @@
         </div>
     </section>
     
-    <!-- Importance Section -->
     <section id="importance" class="relative z-10 py-20 bg-light-secondary">
         <div class="container mx-auto px-6">
             <div class="text-center mb-16 fade-in-up">
@@ -161,7 +153,6 @@
         </div>
     </section>
     
-    <!-- Statistics Section -->
     <section id="statistics" class="relative z-10 py-20">
         <div class="container mx-auto px-6">
             <div class="text-center mb-16 fade-in-up">
@@ -197,7 +188,6 @@
         </div>
     </section>
     
-    <!-- Key Factors Section -->
     <section id="factors" class="relative z-10 py-20 bg-light-secondary">
         <div class="container mx-auto px-6">
             <div class="text-center mb-16 fade-in-up">
@@ -243,7 +233,7 @@
                         <p class="text-text-secondary">
                             Increasing job demands, financial pressures, and the expectation to be primary providers create chronic stress and burnout.
                         </p>
-                    </div>
+                    </d`iv>
                 </div>
                 
                 <div class="factor-card fade-in-up" style="animation-delay: 0.4s">
@@ -261,7 +251,6 @@
         </div>
     </section>
     
-    <!-- Community Section -->
     <section id="community" class="relative z-10 py-20">
         <div class="container mx-auto px-6">
             <div class="text-center mb-16 fade-in-up">
@@ -327,7 +316,6 @@
         </div>
     </section>
     
-    <!-- Resources Section -->
     <section id="resources" class="relative z-10 py-20 bg-light-secondary">
         <div class="container mx-auto px-6">
             <div class="text-center mb-16 fade-in-up">
@@ -399,7 +387,6 @@
         </div>
     </section>
     
-    <!-- Discord Section -->
     <section id="discord-join" class="relative z-10 py-20 bg-gradient-to-br from-light-primary to-light-secondary">
         <div class="container mx-auto px-6 text-center">
             <div class="fade-in-up">
@@ -445,7 +432,6 @@
         </div>
     </section>
 
-    <!-- Footer -->
     <footer class="relative z-10 bg-light-secondary border-t border-light-accent py-12">
         <div class="container mx-auto px-6">
             <div class="text-center">
@@ -467,7 +453,7 @@
                 </div>
                 <div class="border-t border-light-accent pt-6">
                     <p class="text-text-secondary text-sm mb-2">
-                        &copy; 2025 Zenith Health. Made with care for men's mental health awareness.
+                        &copy; 2025 Zenith Health. All rights reserved. Designed with care for men's mental health awareness.
                     </p>
                     <p class="text-text-secondary text-xs">
                         If you're in crisis, please contact your local emergency services or call 988 (Suicide & Crisis Lifeline).
@@ -476,34 +462,6 @@
             </div>
         </div>
     </footer>
-    
-    <!-- Donation Modal -->
-    <div id="donation-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden">
-        <div class="flex items-center justify-center min-h-screen p-4">
-            <div class="bg-warm-white rounded-2xl border border-light-accent p-8 max-w-md w-full">
-                <div class="text-center">
-                    <i class="fas fa-heart text-4xl text-calm-blue mb-4"></i>
-                    <h3 class="text-2xl font-heading font-semibold mb-4">Support Our Mission</h3>
-                    <p class="text-text-secondary mb-6">
-                        Thank you for considering supporting Zenith Health. Your contribution helps us maintain our free resources and reach more men in need.
-                    </p>
-                    <div class="space-y-3 mb-6">
-                        <button class="w-full p-3 bg-calm-blue hover:bg-calm-blue/80 rounded-lg transition-colors cursor-pointer">
-                            <i class="fab fa-paypal mr-2"></i>
-                            Donate via PayPal
-                        </button>
-                        <button class="w-full p-3 bg-calm-teal hover:bg-calm-teal/80 rounded-lg transition-colors cursor-pointer">
-                            <i class="fab fa-stripe mr-2"></i>
-                            Donate via Stripe
-                        </button>
-                    </div>
-                    <button class="btn-secondary w-full cursor-pointer" onclick="hideDonationModal()">
-                        Maybe Later
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
     
     <script src="script.js"></script>
 </body>
