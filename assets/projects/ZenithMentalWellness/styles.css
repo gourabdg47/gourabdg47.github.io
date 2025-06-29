@@ -1,0 +1,341 @@
+/* Custom Styles for Zenith Health */
+
+* {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Inter', system-ui, sans-serif;
+    line-height: 1.6;
+}
+
+/* Background Animations */
+.floating-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.15;
+    animation: float 30s infinite ease-in-out;
+}
+
+.orb-1 {
+    width: 350px;
+    height: 350px;
+    background: linear-gradient(45deg, rgba(14, 165, 233, 0.3), rgba(13, 148, 136, 0.2));
+    top: 15%;
+    left: 5%;
+    animation-delay: 0s;
+}
+
+.orb-2 {
+    width: 450px;
+    height: 450px;
+    background: linear-gradient(45deg, rgba(13, 148, 136, 0.2), rgba(14, 165, 233, 0.3));
+    top: 55%;
+    right: 5%;
+    animation-delay: -10s;
+}
+
+.orb-3 {
+    width: 280px;
+    height: 280px;
+    background: linear-gradient(45deg, rgba(14, 165, 233, 0.25), rgba(226, 232, 240, 0.4));
+    bottom: 25%;
+    left: 45%;
+    animation-delay: -20s;
+}
+
+.orb-4 {
+    width: 320px;
+    height: 320px;
+    background: linear-gradient(45deg, rgba(13, 148, 136, 0.15), rgba(14, 165, 233, 0.2));
+    top: 35%;
+    right: 30%;
+    animation-delay: -15s;
+}
+
+.background-gradient {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, transparent 0%, rgba(248, 250, 252, 0.95) 80%);
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px) translateX(0px) rotate(0deg) scale(1);
+    }
+    25% {
+        transform: translateY(-30px) translateX(15px) rotate(90deg) scale(1.05);
+    }
+    50% {
+        transform: translateY(20px) translateX(-10px) rotate(180deg) scale(0.95);
+    }
+    75% {
+        transform: translateY(-15px) translateX(20px) rotate(270deg) scale(1.02);
+    }
+}
+
+/* Animations */
+.fade-in-up {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 0.8s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Buttons */
+.btn-primary {
+    @apply inline-flex items-center px-8 py-4 bg-calm-blue hover:bg-calm-blue/80 text-white font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 hover:shadow-lg;
+}
+
+.btn-secondary {
+    @apply inline-flex items-center px-8 py-4 bg-transparent border-2 border-calm-teal text-calm-teal hover:bg-calm-teal hover:text-white font-semibold rounded-lg transition-all duration-300 transform hover:scale-105;
+}
+
+.btn-discord {
+    @apply inline-flex items-center px-8 py-4 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-2xl text-lg;
+    background: linear-gradient(135deg, #5865f2 0%, #4338ca 100%);
+    box-shadow: 0 8px 25px rgba(88, 101, 242, 0.3);
+    border: 2px solid transparent;
+}
+
+.btn-discord:hover {
+    box-shadow: 0 12px 35px rgba(88, 101, 242, 0.4);
+    background: linear-gradient(135deg, #4338ca 0%, #3730a3 100%);
+}
+
+.btn-discord-simple {
+    @apply inline-flex items-center px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 hover:shadow-lg text-lg;
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.2);
+}
+
+.btn-discord-simple:hover {
+    box-shadow: 0 8px 25px rgba(99, 102, 241, 0.3);
+}
+
+/* Cards */
+.card {
+    @apply bg-warm-white p-8 rounded-2xl border border-light-accent backdrop-blur-sm transition-all duration-300 hover:transform hover:scale-105 hover:shadow-lg;
+}
+
+.card-icon {
+    @apply w-16 h-16 bg-light-accent rounded-xl flex items-center justify-center mb-6;
+}
+
+/* Statistics Cards */
+.stat-card {
+    @apply bg-warm-white p-8 rounded-2xl border border-light-accent text-center backdrop-blur-sm transition-all duration-300 hover:transform hover:scale-105 hover:shadow-lg;
+}
+
+.stat-number {
+    @apply text-4xl md:text-5xl font-bold mb-2 font-heading;
+}
+
+.stat-label {
+    @apply text-text-secondary text-lg;
+}
+
+/* Factor Cards */
+.factor-card {
+    @apply flex items-start space-x-6 bg-warm-white p-6 rounded-xl border border-light-accent backdrop-blur-sm transition-all duration-300 hover:shadow-lg;
+}
+
+.factor-icon {
+    @apply w-12 h-12 bg-light-accent rounded-lg flex items-center justify-center flex-shrink-0;
+}
+
+.factor-content {
+    @apply flex-1;
+}
+
+/* Community Benefits */
+.community-benefit {
+    @apply p-6 bg-warm-white rounded-xl border border-light-accent backdrop-blur-sm shadow-sm;
+}
+
+/* Navigation */
+.nav-link {
+    @apply relative overflow-hidden;
+}
+
+.nav-link::after {
+    content: '';
+    @apply absolute bottom-0 left-0 w-0 h-0.5 bg-calm-blue transition-all duration-300;
+}
+
+.nav-link:hover::after {
+    @apply w-full;
+}
+
+/* Mobile Menu */
+.mobile-nav-link {
+    @apply relative overflow-hidden;
+}
+
+.mobile-nav-link::after {
+    content: '';
+    @apply absolute bottom-0 left-1/2 w-0 h-1 bg-calm-blue transition-all duration-300 transform -translate-x-1/2;
+}
+
+.mobile-nav-link:hover::after {
+    @apply w-full;
+}
+
+/* Scroll Animations */
+.scroll-reveal {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 0.6s ease-out;
+}
+
+.scroll-reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Loading States */
+.loading {
+    @apply animate-pulse;
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    .floating-orb {
+        animation: none;
+    }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+    .card,
+    .stat-card,
+    .factor-card {
+        border-width: 2px;
+    }
+    
+    .text-text-secondary {
+        @apply text-gray-600;
+    }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    @apply bg-light-primary;
+}
+
+::-webkit-scrollbar-thumb {
+    @apply bg-light-accent rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    @apply bg-calm-blue;
+}
+
+/* Print Styles */
+@media print {
+    .floating-orb,
+    .background-gradient,
+    nav,
+    #mobile-menu,
+    #donation-modal {
+        display: none !important;
+    }
+    
+    body {
+        @apply text-black bg-white;
+    }
+    
+    .card,
+    .stat-card,
+    .factor-card {
+        @apply border-gray-300 bg-gray-100;
+    }
+}
+
+/* Focus Styles for Accessibility */
+button:focus,
+a:focus {
+    @apply outline-none ring-2 ring-calm-blue ring-offset-2 ring-offset-light-primary;
+}
+
+/* Custom Typography */
+.text-gradient {
+    background: linear-gradient(45deg, #4a90a4, #5d8a8a);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Responsive Design Enhancements */
+@media (max-width: 768px) {
+    .floating-orb {
+        width: 200px !important;
+        height: 200px !important;
+    }
+    
+    .orb-2 {
+        width: 250px !important;
+        height: 250px !important;
+    }
+    
+    .stat-number {
+        @apply text-3xl;
+    }
+    
+    .factor-card {
+        @apply flex-col space-x-0 space-y-4 text-center;
+    }
+    
+    .factor-icon {
+        @apply mx-auto;
+    }
+}
+
+/* Loading Animation */
+@keyframes pulse-slow {
+    0%, 100% {
+        opacity: 0.4;
+    }
+    50% {
+        opacity: 0.8;
+    }
+}
+
+.animate-pulse-slow {
+    animation: pulse-slow 3s ease-in-out infinite;
+}
+
+/* Hover Effects */
+.hover-lift {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* Modal Styles */
+#donation-modal {
+    backdrop-filter: blur(10px);
+}
+
+#donation-modal .bg-dark-secondary {
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+}

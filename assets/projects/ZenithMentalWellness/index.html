@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Zenith Health - Men's Mental Health Awareness & Community Support. Join our free Discord community for mental health resources and support.">
+    <meta name="keywords" content="men's mental health, mental health awareness, community support, Discord, free resources">
+    <meta property="og:title" content="Zenith Health - Men's Mental Health Awareness">
+    <meta property="og:description" content="Breaking the silence on men's mental health. Join our supportive community.">
+    <meta property="og:type" content="website">
+    <title>Zenith Health - Men's Mental Health Awareness</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'light-primary': '#f8fafc',
+                        'light-secondary': '#f1f5f9',
+                        'light-accent': '#e2e8f0',
+                        'calm-blue': '#0ea5e9',
+                        'calm-teal': '#0d9488',
+                        'text-primary': '#1e293b',
+                        'text-secondary': '#64748b',
+                        'warm-white': '#ffffff'
+                    },
+                    fontFamily: {
+                        'body': ['Inter', 'system-ui', 'sans-serif'],
+                        'heading': ['Poppins', 'system-ui', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-light-primary text-text-primary font-body overflow-x-hidden">
+    <!-- Animated Background -->
+    <div class="fixed inset-0 z-0">
+        <div class="floating-orb orb-1"></div>
+        <div class="floating-orb orb-2"></div>
+        <div class="floating-orb orb-3"></div>
+        <div class="floating-orb orb-4"></div>
+        <div class="background-gradient"></div>
+    </div>
+    
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-warm-white/95 backdrop-blur-sm border-b border-light-accent shadow-sm">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-calm-blue rounded-lg flex items-center justify-center">
+                        <i class="fas fa-mountain text-white text-lg"></i>
+                    </div>
+                    <h1 class="text-2xl font-heading font-bold text-text-primary">Zenith Health</h1>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#importance" class="nav-link text-text-secondary hover:text-calm-blue transition-colors font-medium">Why It Matters</a>
+                    <a href="#statistics" class="nav-link text-text-secondary hover:text-calm-blue transition-colors font-medium">Statistics</a>
+                    <a href="#factors" class="nav-link text-text-secondary hover:text-calm-blue transition-colors font-medium">Key Factors</a>
+                    <a href="#community" class="nav-link text-text-secondary hover:text-calm-blue transition-colors font-medium">Community</a>
+                    <a href="#resources" class="nav-link text-text-secondary hover:text-calm-blue transition-colors font-medium">Resources</a>
+                </div>
+                <button class="md:hidden text-text-primary" id="mobile-menu-btn">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Mobile Menu -->
+    <div class="fixed inset-0 z-40 bg-warm-white/95 backdrop-blur-sm transform translate-x-full transition-transform duration-300" id="mobile-menu">
+        <div class="flex flex-col items-center justify-center h-full space-y-8">
+            <a href="#importance" class="mobile-nav-link text-2xl text-text-secondary hover:text-calm-blue transition-colors">Why It Matters</a>
+            <a href="#statistics" class="mobile-nav-link text-2xl text-text-secondary hover:text-calm-blue transition-colors">Statistics</a>
+            <a href="#factors" class="mobile-nav-link text-2xl text-text-secondary hover:text-calm-blue transition-colors">Key Factors</a>
+            <a href="#community" class="mobile-nav-link text-2xl text-text-secondary hover:text-calm-blue transition-colors">Community</a>
+            <a href="#resources" class="mobile-nav-link text-2xl text-text-secondary hover:text-calm-blue transition-colors">Resources</a>
+        </div>
+    </div>
+    
+    <!-- Hero Section -->
+    <section class="relative z-10 min-h-screen flex items-center justify-center pt-20">
+        <div class="container mx-auto px-6 text-center">
+            <div class="fade-in-up">
+                <i class="fas fa-mountain text-6xl text-calm-blue mb-6 animate-pulse"></i>
+                <h1 class="text-5xl md:text-7xl font-heading font-bold mb-6 bg-gradient-to-r from-text-primary to-calm-blue bg-clip-text text-transparent">
+                    Zenith Health
+                </h1>
+                <p class="text-xl md:text-2xl text-text-secondary mb-8 max-w-3xl mx-auto leading-relaxed">
+                    Breaking the silence on men's mental health. Creating a supportive community where vulnerability becomes strength.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="#importance" class="btn-primary">
+                        <i class="fas fa-heart mr-2"></i>
+                        Learn Why It Matters
+                    </a>
+                    <a href="https://discord.gg/zenithhealth" class="btn-discord" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-discord mr-3"></i>
+                        Join Our Discord Community
+                        <i class="fas fa-arrow-right ml-2 text-sm"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Importance Section -->
+    <section id="importance" class="relative z-10 py-20 bg-light-secondary">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 fade-in-up">
+                <h2 class="text-4xl md:text-5xl font-heading font-bold mb-6 text-calm-blue">
+                    Why Men's Mental Health Matters
+                </h2>
+                <p class="text-lg text-text-secondary max-w-3xl mx-auto">
+                    Mental health doesn't discriminate, but societal expectations often prevent men from seeking the help they need.
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="card fade-in-up" style="animation-delay: 0.1s">
+                    <div class="card-icon">
+                        <i class="fas fa-shield-heart text-3xl text-calm-blue"></i>
+                    </div>
+                    <h3 class="text-xl font-heading font-semibold mb-4">Breaking Stigma</h3>
+                    <p class="text-text-secondary">
+                        Men are often taught to suppress emotions, leading to isolation and untreated mental health issues. It's time to change this narrative.
+                    </p>
+                </div>
+                
+                <div class="card fade-in-up" style="animation-delay: 0.2s">
+                    <div class="card-icon">
+                        <i class="fas fa-users text-3xl text-calm-teal"></i>
+                    </div>
+                    <h3 class="text-xl font-heading font-semibold mb-4">Building Connections</h3>
+                    <p class="text-text-secondary">
+                        Strong social connections are crucial for mental wellbeing. Men need safe spaces to share experiences and support each other.
+                    </p>
+                </div>
+                
+                <div class="card fade-in-up" style="animation-delay: 0.3s">
+                    <div class="card-icon">
+                        <i class="fas fa-brain text-3xl text-calm-blue"></i>
+                    </div>
+                    <h3 class="text-xl font-heading font-semibold mb-4">Mental Wellness</h3>
+                    <p class="text-text-secondary">
+                        Prioritizing mental health improves every aspect of life - relationships, work performance, and overall life satisfaction.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Statistics Section -->
+    <section id="statistics" class="relative z-10 py-20">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 fade-in-up">
+                <h2 class="text-4xl md:text-5xl font-heading font-bold mb-6 text-calm-teal">
+                    The Reality We Face
+                </h2>
+                <p class="text-lg text-text-secondary max-w-3xl mx-auto">
+                    These statistics reveal the urgent need for men's mental health awareness and support.
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="stat-card fade-in-up" style="animation-delay: 0.1s">
+                    <div class="stat-number text-calm-blue">75%</div>
+                    <div class="stat-label">of suicides are by men</div>
+                </div>
+                
+                <div class="stat-card fade-in-up" style="animation-delay: 0.2s">
+                    <div class="stat-number text-calm-teal">1 in 8</div>
+                    <div class="stat-label">men experience depression</div>
+                </div>
+                
+                <div class="stat-card fade-in-up" style="animation-delay: 0.3s">
+                    <div class="stat-number text-calm-blue">40%</div>
+                    <div class="stat-label">less likely to seek help</div>
+                </div>
+                
+                <div class="stat-card fade-in-up" style="animation-delay: 0.4s">
+                    <div class="stat-number text-calm-teal">3x</div>
+                    <div class="stat-label">higher addiction rates</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Key Factors Section -->
+    <section id="factors" class="relative z-10 py-20 bg-light-secondary">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 fade-in-up">
+                <h2 class="text-4xl md:text-5xl font-heading font-bold mb-6 text-calm-blue">
+                    Why Men's Mental Health Is Declining
+                </h2>
+                <p class="text-lg text-text-secondary max-w-3xl mx-auto">
+                    Research-backed factors contributing to the mental health crisis among men.
+                </p>
+            </div>
+            
+            <div class="max-w-4xl mx-auto space-y-8">
+                <div class="factor-card fade-in-up" style="animation-delay: 0.1s">
+                    <div class="factor-icon">
+                        <i class="fas fa-mask text-2xl text-calm-blue"></i>
+                    </div>
+                    <div class="factor-content">
+                        <h3 class="text-xl font-heading font-semibold mb-3">Toxic Masculinity & Social Expectations</h3>
+                        <p class="text-text-secondary">
+                            Traditional gender roles discourage emotional expression, creating internal pressure and preventing men from seeking help when needed.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="factor-card fade-in-up" style="animation-delay: 0.2s">
+                    <div class="factor-icon">
+                        <i class="fas fa-user-friends text-2xl text-calm-teal"></i>
+                    </div>
+                    <div class="factor-content">
+                        <h3 class="text-xl font-heading font-semibold mb-3">Social Isolation & Loneliness</h3>
+                        <p class="text-text-secondary">
+                            Modern lifestyle changes, remote work, and reduced face-to-face interactions have led to increased isolation and weakened social support networks.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="factor-card fade-in-up" style="animation-delay: 0.3s">
+                    <div class="factor-icon">
+                        <i class="fas fa-briefcase text-2xl text-calm-blue"></i>
+                    </div>
+                    <div class="factor-content">
+                        <h3 class="text-xl font-heading font-semibold mb-3">Work-Life Pressure & Economic Stress</h3>
+                        <p class="text-text-secondary">
+                            Increasing job demands, financial pressures, and the expectation to be primary providers create chronic stress and burnout.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="factor-card fade-in-up" style="animation-delay: 0.4s">
+                    <div class="factor-icon">
+                        <i class="fas fa-mobile-alt text-2xl text-calm-teal"></i>
+                    </div>
+                    <div class="factor-content">
+                        <h3 class="text-xl font-heading font-semibold mb-3">Digital Age & Social Media Impact</h3>
+                        <p class="text-text-secondary">
+                            Constant comparison, information overload, and reduced genuine human connection through social media contribute to anxiety and depression.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Community Section -->
+    <section id="community" class="relative z-10 py-20">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 fade-in-up">
+                <h2 class="text-4xl md:text-5xl font-heading font-bold mb-6 text-calm-teal">
+                    Why Community Matters
+                </h2>
+                <p class="text-lg text-text-secondary max-w-3xl mx-auto">
+                    Together, we can break the silence and create lasting change in men's mental health.
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="fade-in-up">
+                    <div class="space-y-6">
+                        <div class="community-benefit">
+                            <i class="fas fa-comments text-calm-blue text-2xl mb-3"></i>
+                            <h3 class="text-xl font-heading font-semibold mb-2">Safe Space for Expression</h3>
+                            <p class="text-text-secondary">Share experiences without judgment, knowing others understand your struggles.</p>
+                        </div>
+                        
+                        <div class="community-benefit">
+                            <i class="fas fa-hands-helping text-calm-teal text-2xl mb-3"></i>
+                            <h3 class="text-xl font-heading font-semibold mb-2">Peer Support Network</h3>
+                            <p class="text-text-secondary">Connect with men who've walked similar paths and can offer genuine support.</p>
+                        </div>
+                        
+                        <div class="community-benefit">
+                            <i class="fas fa-book-open text-calm-blue text-2xl mb-3"></i>
+                            <h3 class="text-xl font-heading font-semibold mb-2">Resources & Education</h3>
+                            <p class="text-text-secondary">Access mental health resources, coping strategies, and educational content.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="fade-in-up" style="animation-delay: 0.2s">
+                    <div class="bg-warm-white p-8 rounded-2xl border border-light-accent shadow-lg">
+                        <h3 class="text-2xl font-heading font-semibold mb-4 text-calm-blue">Community Benefits</h3>
+                        <ul class="space-y-3 text-text-secondary">
+                            <li class="flex items-center">
+                                <i class="fas fa-check-circle text-calm-teal mr-3"></i>
+                                Reduced feelings of isolation and loneliness
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check-circle text-calm-teal mr-3"></i>
+                                Improved emotional regulation and coping skills
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check-circle text-calm-teal mr-3"></i>
+                                Increased self-awareness and emotional intelligence
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check-circle text-calm-teal mr-3"></i>
+                                Access to professional mental health resources
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check-circle text-calm-teal mr-3"></i>
+                                Building lasting friendships and support networks
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Resources Section -->
+    <section id="resources" class="relative z-10 py-20 bg-light-secondary">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 fade-in-up">
+                <h2 class="text-4xl md:text-5xl font-heading font-bold mb-6 text-calm-blue">
+                    Free Resources & Support
+                </h2>
+                <p class="text-lg text-text-secondary max-w-3xl mx-auto">
+                    Everything is completely free. Our mission is to make mental health support accessible to all men. Optional donations help us grow and improve.
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8 mb-16">
+                <div class="card fade-in-up">
+                    <div class="card-icon">
+                        <i class="fas fa-users text-3xl text-calm-blue"></i>
+                    </div>
+                    <h3 class="text-xl font-heading font-semibold mb-4">Community Support</h3>
+                    <p class="text-text-secondary mb-4">Join our Discord community with over 1,000+ supportive men sharing experiences and offering peer support.</p>
+                    <ul class="space-y-2 text-sm text-text-secondary">
+                        <li>• 24/7 peer support channels</li>
+                        <li>• Weekly group discussions</li>
+                        <li>• Anonymous sharing options</li>
+                    </ul>
+                </div>
+                
+                <div class="card fade-in-up" style="animation-delay: 0.1s">
+                    <div class="card-icon">
+                        <i class="fas fa-book-medical text-3xl text-calm-teal"></i>
+                    </div>
+                    <h3 class="text-xl font-heading font-semibold mb-4">Mental Health Resources</h3>
+                    <p class="text-text-secondary mb-4">Access curated resources, coping strategies, and educational content from mental health professionals.</p>
+                    <ul class="space-y-2 text-sm text-text-secondary">
+                        <li>• Guided meditation sessions</li>
+                        <li>• Stress management techniques</li>
+                        <li>• Crisis intervention resources</li>
+                    </ul>
+                </div>
+                
+                <div class="card fade-in-up" style="animation-delay: 0.2s">
+                    <div class="card-icon">
+                        <i class="fas fa-phone text-3xl text-calm-blue"></i>
+                    </div>
+                    <h3 class="text-xl font-heading font-semibold mb-4">Professional Help</h3>
+                    <p class="text-text-secondary mb-4">Find qualified therapists, counselors, and mental health professionals in your area.</p>
+                    <ul class="space-y-2 text-sm text-text-secondary">
+                        <li>• Therapist directory</li>
+                        <li>• Insurance guidance</li>
+                        <li>• Emergency hotlines</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="max-w-3xl mx-auto text-center fade-in-up">
+                <div class="bg-warm-white p-8 rounded-2xl border border-light-accent shadow-lg">
+                    <i class="fas fa-heart text-4xl text-calm-blue mb-6"></i>
+                    <h3 class="text-2xl font-heading font-semibold mb-4">Support Our Mission</h3>
+                    <p class="text-text-secondary mb-6">
+                        Your optional donations help us maintain the platform, create better resources, and reach more men who need support. All resources remain completely free regardless of donations.
+                    </p>
+                    <button class="btn-primary" onclick="showDonationModal()">
+                        <i class="fas fa-donate mr-2"></i>
+                        Support the Developers
+                    </button>
+                    <p class="text-sm text-text-secondary mt-4">
+                        100% optional - all resources remain free forever
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Discord Section -->
+    <section id="discord-join" class="relative z-10 py-20 bg-gradient-to-br from-light-primary to-light-secondary">
+        <div class="container mx-auto px-6 text-center">
+            <div class="fade-in-up">
+                <div class="w-20 h-20 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fab fa-discord text-4xl text-indigo-600"></i>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-heading font-bold mb-6 text-text-primary">
+                    Ready to Connect?
+                </h2>
+                <p class="text-lg text-text-secondary mb-8 max-w-2xl mx-auto">
+                    Take the first step towards better mental health. Join over 1,000+ men in our supportive Discord community where you can share, learn, and grow together.
+                </p>
+                <div class="mb-8">
+                    <a href="https://discord.gg/zenithhealth" class="btn-discord-simple" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-discord mr-3"></i>
+                        Join Discord Community
+                    </a>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+                    <div class="text-center">
+                        <div class="w-12 h-12 bg-calm-blue/10 rounded-lg flex items-center justify-center mx-auto mb-3">
+                            <i class="fas fa-shield-alt text-calm-blue text-xl"></i>
+                        </div>
+                        <h4 class="font-semibold text-text-primary mb-2">Safe Environment</h4>
+                        <p class="text-sm text-text-secondary">Moderated spaces with zero tolerance for judgment or harassment</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-12 h-12 bg-calm-teal/10 rounded-lg flex items-center justify-center mx-auto mb-3">
+                            <i class="fas fa-clock text-calm-teal text-xl"></i>
+                        </div>
+                        <h4 class="font-semibold text-text-primary mb-2">24/7 Access</h4>
+                        <p class="text-sm text-text-secondary">Someone is always available when you need support or just want to talk</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-12 h-12 bg-calm-blue/10 rounded-lg flex items-center justify-center mx-auto mb-3">
+                            <i class="fas fa-user-secret text-calm-blue text-xl"></i>
+                        </div>
+                        <h4 class="font-semibold text-text-primary mb-2">Anonymous Option</h4>
+                        <p class="text-sm text-text-secondary">Share as much or as little as you're comfortable with</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="relative z-10 bg-light-secondary border-t border-light-accent py-12">
+        <div class="container mx-auto px-6">
+            <div class="text-center">
+                <div class="flex items-center justify-center space-x-3 mb-6">
+                    <div class="w-10 h-10 bg-calm-blue rounded-lg flex items-center justify-center">
+                        <i class="fas fa-mountain text-white text-lg"></i>
+                    </div>
+                    <h3 class="text-2xl font-heading font-bold text-text-primary">Zenith Health</h3>
+                </div>
+                <p class="text-text-secondary mb-8 max-w-2xl mx-auto">
+                    Breaking the silence on men's mental health, one conversation at a time.
+                </p>
+                <div class="flex flex-wrap justify-center gap-6 mb-8">
+                    <a href="#importance" class="text-text-secondary hover:text-calm-blue transition-colors font-medium">Why It Matters</a>
+                    <a href="#statistics" class="text-text-secondary hover:text-calm-blue transition-colors font-medium">Statistics</a>
+                    <a href="#factors" class="text-text-secondary hover:text-calm-blue transition-colors font-medium">Key Factors</a>
+                    <a href="#community" class="text-text-secondary hover:text-calm-blue transition-colors font-medium">Community</a>
+                    <a href="#resources" class="text-text-secondary hover:text-calm-blue transition-colors font-medium">Resources</a>
+                </div>
+                <div class="border-t border-light-accent pt-6">
+                    <p class="text-text-secondary text-sm mb-2">
+                        &copy; 2025 Zenith Health. Made with care for men's mental health awareness.
+                    </p>
+                    <p class="text-text-secondary text-xs">
+                        If you're in crisis, please contact your local emergency services or call 988 (Suicide & Crisis Lifeline).
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Donation Modal -->
+    <div id="donation-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-dark-secondary rounded-2xl border border-dark-accent p-8 max-w-md w-full">
+                <div class="text-center">
+                    <i class="fas fa-heart text-4xl text-calm-blue mb-4"></i>
+                    <h3 class="text-2xl font-heading font-semibold mb-4">Support Our Mission</h3>
+                    <p class="text-soft-gray mb-6">
+                        Thank you for considering supporting Zenith Health. Your contribution helps us maintain our free resources and reach more men in need.
+                    </p>
+                    <div class="space-y-3 mb-6">
+                        <button class="w-full p-3 bg-calm-blue hover:bg-calm-blue/80 rounded-lg transition-colors">
+                            <i class="fab fa-paypal mr-2"></i>
+                            Donate via PayPal
+                        </button>
+                        <button class="w-full p-3 bg-calm-teal hover:bg-calm-teal/80 rounded-lg transition-colors">
+                            <i class="fab fa-stripe mr-2"></i>
+                            Donate via Stripe
+                        </button>
+                    </div>
+                    <button class="btn-secondary w-full" onclick="hideDonationModal()">
+                        Maybe Later
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
