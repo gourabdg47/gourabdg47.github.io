@@ -7,7 +7,6 @@ categories:
   - SOC-101
 tags:
   - study
-  - cybersecurity
 render_with_liquid: false
 ---
 Hi
