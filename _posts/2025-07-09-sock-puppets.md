@@ -1,10 +1,10 @@
 ---
-title: Security Operations Fundamentals
+title: Sock Puppets
 author: gourabdg47
 date: 25-07-09 01:23:00 +0500
 categories:
   - Breach Detected
-  - SOC-101
+  - OSINT
 tags:
   - study
   - cybersecurity
