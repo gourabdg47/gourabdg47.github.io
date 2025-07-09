@@ -31,7 +31,7 @@ Creating effective sock puppets requires careful planning and attention to detai
 While sock puppets can be powerful tools for OSINT, their use also involves ethical considerations and potential legal risks that investigators must weigh.
 
 Few Resources :
-- [OSINT | The Ultimate Guide to Sock Puppet Accounts](https://badbyte.io/osint-sock-puppets-accounts/)
+- [OSINT  The Ultimate Guide to Sock Puppet Accounts](https://badbyte.io/osint-sock-puppets-accounts/)
 - [What are Sock Puppets in OSINT](https://www.sans.org/blog/what-are-sock-puppets-in-osint/)
 - [Identifying Sock puppet Accounts on Social Media Platforms](https://www.gendigital.com/blog/archive/identifying-sockpuppet-accounts-social-media)
 - [Understanding Sock Puppets: Online Influence Explained](https://shunvogue.com/article/what-is-a-sock-puppet)
