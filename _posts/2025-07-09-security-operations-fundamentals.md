@@ -3,10 +3,11 @@ title: Security Operations Fundamentals
 author: gourabdg47
 date: 25-07-09 01:23:00 +0500
 categories:
-  - Cybersecurity
+  - Cyberinfo
   - SOC-101
 tags:
   - study
+  - cybersecurity
 render_with_liquid: false
 ---
 Hi
