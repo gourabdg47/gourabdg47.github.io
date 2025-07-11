@@ -195,8 +195,7 @@ The 2015 Ukraine power grid cyberattack was a landmark event, recognized as the 
     
     - Conduct extensive **reconnaissance** on both the IT (business) and OT (operational technology - SCADA/ICS) networks. This involved scanning networks, identifying vulnerabilities, mapping the infrastructure, and collecting credentials.
         
-    - Gain access to **Virtual Private Network (VPN) credentials** used by grid operators to remotely access control centers.4
-        
+    - Gain access to **Virtual Private Network (VPN) credentials** used by grid operators to remotely access control centers
     - Move laterally from the IT network into the critical **SCADA/ICS networks**, which control the physical equipment of the power grid. This was possible due to insufficient segmentation between the IT and OT environments.
         
 - **The Attack Execution:** On December 23, 2015, the attackers launched a coordinated multi-pronged assault:5
@@ -205,12 +204,9 @@ The 2015 Ukraine power grid cyberattack was a landmark event, recognized as the 
         
     - **Impeding Recovery:** To further hinder recovery efforts, the attackers:
         
-        - Used **KillDisk malware** to wipe data and render critical IT systems (servers, workstations) inoperable.6
-            
-        - Overwrote the firmware on serial-to-ethernet converters, making devices unrecoverable and blocking remote commands to restore power.7
-            
-        - Launched a **denial-of-service (DoS) attack** on the utilities' customer call centers, preventing customers from reporting outages and overwhelming response efforts.8
-            
+        - Used **KillDisk malware** to wipe data and render critical IT systems (servers, workstations) inoperable
+        - Overwrote the firmware on serial-to-ethernet converters, making devices unrecoverable and blocking remote commands to restore power
+        - Launched a **denial-of-service (DoS) attack** on the utilities' customer call centers, preventing customers from reporting outages and overwhelming response efforts
         - Even turned off uninterruptible power supplies (UPS) at some control centers.
             
 - **Recovery:** Power was eventually restored, but largely through manual efforts, highlighting the resilience of human operators in the face of sophisticated cyberattacks.
