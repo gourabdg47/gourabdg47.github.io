@@ -1,16 +1,19 @@
 ---
-title: Security Operations Fundamentals
+title: Phishing Analysis
 author: gourabdg47
-date: 25-07-09 01:23:00 +0500
+date: 25-07-11 01:23:00 +0500
 categories:
   - Breach Detected
   - SOC-101
 tags:
   - study
   - cybersecurity
+  - phishing_analysis
 render_with_liquid: false
 ---
-Hi
+#### Introduction to Phishing
+
+
 
 
 
