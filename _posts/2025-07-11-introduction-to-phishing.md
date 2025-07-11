@@ -177,7 +177,7 @@ The Ubiquiti 2015 case served as a major wake-up call for companies globally abo
 
 ###### 4. 2015 Ukraine power grid cyberattack
 
-The 2015 Ukraine power grid cyberattack was a landmark event, recognized as the **first publicly acknowledged successful cyberattack to cause a power outage**.1 Phishing played a crucial role as the initial access vector in this highly sophisticated and coordinated attack.2
+The 2015 Ukraine power grid cyberattack was a landmark event, recognized as the **first publicly acknowledged successful cyberattack to cause a power outage**. Phishing played a crucial role as the initial access vector in this highly sophisticated and coordinated attack
 
 **The Attack on the Ukrainian Power Grid (December 23, 2015):**
 
