@@ -69,7 +69,7 @@ While the direct "phishing email" might not have been the _final_ step, the inci
     
 In essence, while the Colonial Pipeline attack was a ransomware incident, its root cause (compromised credentials lacking MFA) is precisely the kind of vulnerability that phishing attacks are designed to exploit. It served as a powerful case study for the entire cybersecurity community on the need for basic cyber hygiene, especially MFA, to prevent devastating breaches.
 
-*Read more* : https://abnormal.ai/blog/colonial-pipeline-attack-phishing-email-likely-the-culprit
+*Read more* : [abnormal.ai](https://abnormal.ai/blog/colonial-pipeline-attack-phishing-email-likely-the-culprit)
 
 ###### 2. Levitas Capital  cyberattack in 2020
 
@@ -120,7 +120,7 @@ The Levitas Capital phishing case study in 2020 is a stark reminder of how a see
 
 The Levitas Capital incident is a prime example of why comprehensive cybersecurity training, strong internal controls, and a robust incident response plan are essential, especially for organizations handling significant financial assets.
 
-*Read more*: https://www.secureworld.io/industry-news/hedge-fund-closes-after-bec-cyber-attac
+*Read more*: [www.secureworld.io](https://www.secureworld.io/industry-news/hedge-fund-closes-after-bec-cyber-attac)
 
 ###### 3. Ubiquiti Networks security incident in 2015
 
@@ -170,7 +170,7 @@ The Ubiquiti Networks security incident in 2015 is a crucial case study, primari
     
 The Ubiquiti 2015 case served as a major wake-up call for companies globally about the insidious nature of BEC and the absolute necessity of strengthening human and procedural controls, alongside technical defenses, to combat such sophisticated social engineering attacks.
 
-*Read more* : https://krebsonsecurity.com/2015/08/tech-firm-ubiquiti-suffers-46m-cyberheist/
+*Read more* : [krebsonsecurity.com](https://krebsonsecurity.com/2015/08/tech-firm-ubiquiti-suffers-46m-cyberheist/)
 
 ###### 4. 2015 Ukraine power grid cyberattack
 
@@ -228,7 +228,7 @@ The 2015 Ukraine power grid cyberattack was a landmark event, recognized as the 
 
 The 2015 Ukraine power grid attack served as a wake-up call globally about the real-world, kinetic effects that cyberattacks can have, pushing critical infrastructure sectors to re-evaluate and strengthen their cybersecurity defenses against even the most basic, yet effective, tactics like phishing.
 
-*Read more* :  https://en.wikipedia.org/wiki/2015_Ukraine_power_grid_hack
+*Read more* : [wikipedia.org](https://en.wikipedia.org/wiki/2015_Ukraine_power_grid_hack)
 
 
 
