@@ -134,7 +134,7 @@ Once headers are examined, the email body provides the context for social engine
         
 ### 5. Email Protocols (Underlying Mechanisms)
 
-- **SMTP (Simple Mail Transfer Protocol):** Used for sending and relaying emails between mail servers.40 This is where most of the header information (especially `Received` headers) is generated.
+- **SMTP (Simple Mail Transfer Protocol):** Used for sending and relaying emails between mail servers. This is where most of the header information (especially `Received` headers) is generated.
     
 - **POP3 (Post Office Protocol 3) & IMAP (Internet Message Access Protocol):41** Used by email clients to retrieve emails from a mail server. While less directly involved in the _sending_ of phishing, understanding how your client retrieves mail can be relevant for configurations.
     
