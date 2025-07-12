@@ -134,9 +134,41 @@ Once headers are examined, the email body provides the context for social engine
         
 ### 5. Email Protocols (Underlying Mechanisms)
 
-- **SMTP (Simple Mail Transfer Protocol):** Used for sending and relaying emails between mail servers. This is where most of the header information (especially `Received` headers) is generated.
+###### SMTP (Simple Mail Transfer Protocol) 
+
+**SMTP** is the workhorse of email **sending** and **relaying**. Think of it as the postal service for email. When you hit "send" on an email, your email client (like Outlook or Gmail in your browser) doesn't deliver it directly to the recipient's inbox. Instead, it hands the email off to your mail server using SMTP.
+
+Your mail server then uses SMTP to communicate with the recipient's mail server. This process involves a series of "handshakes" where the sending server identifies itself, the recipient server acknowledges the request, and the email content is transferred. Each server involved in this relay process adds a "Received" header to the email, essentially stamping it with information about its journey. These headers are crucial for tracing the path of an email and are often analyzed in cases of spam or phishing to identify the origin.
+
+###### Ports for SMTP:
+
+- **Port 25 (SMTP):** This is the **original, standard port** for SMTP. It's primarily used for **server-to-server email relay**. However, due to its historical use and susceptibility to spam, many Internet Service Providers (ISPs) block or restrict outbound connections on port 25 for residential users.
     
-- **POP3 (Post Office Protocol 3) & IMAP (Internet Message Access Protocol):** Used by email clients to retrieve emails from a mail server. While less directly involved in the _sending_ of phishing, understanding how your client retrieves mail can be relevant for configurations.
+- **Port 587 (Submission):** This is the **recommended port** for **client-to-server email submission**. When your email client sends an email to your mail server, it typically uses port 587. It often requires **authentication** (your username and password) to prevent unauthorized relaying.
+    
+- **Port 465 (SMTPS):** This port was historically used for SMTP over SSL/TLS (Secure Sockets Layer/Transport Layer Security), providing encrypted communication. While still supported by some servers, **Port 587 with STARTTLS** (a command that upgrades an insecure connection to a secure one) is now the preferred method for secure client-to-server communication.
+
+###### POP3 (Post Office Protocol 3) 
+
+**POP3** is a protocol used by email clients to **retrieve emails from a mail server**. Its name, "Post Office Protocol," gives a good analogy: it's like going to the post office to pick up your mail.
+
+The key characteristic of POP3 is that it typically **downloads emails from the server to your local device and then deletes them from the server**. This means that once you've downloaded an email to your computer, it might not be accessible from other devices unless you've configured your client to leave a copy on the server (an option many clients provide). POP3 is simpler and generally requires less storage on the server since emails are moved to the client.
+
+###### Ports for POP3:
+
+- **Port 110 (POP3):** This is the **standard, unencrypted port** for POP3.
+- **Port 995 (POP3S):** This port is used for **POP3 over SSL/TLS**, providing an encrypted connection for retrieving your emails.
+
+###### IMAP (Internet Message Access Protocol) 
+
+**IMAP** is another protocol used by email clients to **retrieve emails from a mail server**. Unlike POP3, IMAP is designed for **synchronization** and **keeping emails on the server**. Think of IMAP as accessing a shared filing cabinet.
+
+With IMAP, your email client essentially acts as a "window" to your mailbox on the server. When you read an email, move it to a different folder, or delete it, those changes are reflected on the server. This means your email experience is **consistent across all your devices** (computer, phone, tablet) because all devices are accessing the same central copy of your emails on the server. IMAP is more feature-rich than POP3, allowing for server-side folders, flagging, and searching.
+
+###### Ports for IMAP:
+
+- **Port 143 (IMAP):** This is the **standard, unencrypted port** for IMAP.
+- **Port 993 (IMAPS):** This port is used for **IMAP over SSL/TLS**, providing an encrypted connection for accessing your emails.
     
 ### 6. Tools and Techniques for Phishing Analysis
 
