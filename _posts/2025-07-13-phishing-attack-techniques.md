@@ -1,7 +1,7 @@
 ---
 title: Phishing Attack Techniques
 author: gourabdg47
-date: 25-07-13 07:07:00 +0500
+date: 25-07-13 20:07:00 +0500
 categories:
   - Breach Detected
   - SOC-101
