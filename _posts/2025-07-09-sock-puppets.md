@@ -39,7 +39,7 @@ Few Resources :
 - [Shield Your Identity: Secure Sock Puppet Strategy](https://www.tacticalprivacywire.com/shield-your-identity-secure-sock-puppet-strategy/)
 - [Process for setting up anonymous sock puppet accounts](https://www.reddit.com/r/OSINT/comments/dp70jr/my_process_for_setting_up_anonymous_sockpuppet/)
 - [Fake Name Generator](https://www.fakenamegenerator.com/)
-- [This Person Does not Exis](https://www.thispersondoesnotexist.com/](https://www.thispersondoesnotexist.com/)
+- [This Person Does not Exis](https://www.thispersondoesnotexist.com/)
 - [Virtual Credit Card](https://www.privacy.com/virtual-cards)
 
 
