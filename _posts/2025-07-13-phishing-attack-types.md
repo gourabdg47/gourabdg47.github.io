@@ -198,5 +198,9 @@ You receive numerous emails daily advertising questionable health supplements, l
 
 
 
+![[[hishing-type-commonality.png]]
+
+
+
 > To get in touch with me or for general discussion please visit [ZeroDayMindset Discussion](https://github.com/orgs/X3N0-G0D/discussions) 
 {: .prompt-info }
