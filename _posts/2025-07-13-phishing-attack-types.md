@@ -197,6 +197,8 @@ While often annoying, spam refers to unsolicited, irrelevant, or unwanted email 
 You receive numerous emails daily advertising questionable health supplements, lottery winnings from a country you've never visited, or "get rich quick" schemes. These emails are sent indiscriminately to large lists of email addresses. While some might contain links to malicious sites, many are simply unwanted advertisements.
 
 
+![](assets/images/[hishing-type-commonality.png)
+
 
 ![[[hishing-type-commonality.png]]
 
