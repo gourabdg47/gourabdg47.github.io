@@ -159,7 +159,7 @@ These are variations of phishing that utilize different communication channels b
 - **SMiShing (SMS Phishing):**
     
     - **How it Works:** Attackers send malicious SMS (text) messages containing deceptive links. These links often lead to fake login pages or sites that trigger drive-by downloads.
-    - **Example:** You receive a text message that looks like it's from a shipping company, saying "Your package delivery has been delayed. Click here to reschedule: [malicious link]." Clicking the link takes you to a fake website asking for your personal details or installing malware.
+    - **Example:** You receive a text message that looks like it's from a shipping company, saying "Your package delivery has been delayed. Click here to reschedule: [malicious link](https://worldbirthsanddeaths.com/)." Clicking the link takes you to a fake website asking for your personal details or installing malware.
         
 - **Quishing (QR Code Phishing):**
     
