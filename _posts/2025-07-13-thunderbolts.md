@@ -17,6 +17,9 @@ This movie is based on _Marvel world_, so as the movie begins like as all of us 
 
 Ok, came out that the site doesn't work so well, takes forever to buffer randomly. Finding another source ...
 
+Ok, found another source and downloaded from there. Oh yea in the beginning the protagonist did sky dive from a high building and the talk about purpose about life. I do think these from time to time and its true but now I think, no one gonna hand me stuff (someone else not gonna give me purpose of life else I will be keep on waiting) so I try create my own purpose, something meaning full and worthy of investing time in like saving the weak once from bullies and who think they are above everything and everyone so here I am trying to get into cybersecurity anyways ... 
+The protagonist after disabling few guards in a tower where she sky dived into trying to find a way to get into a room which is protected by facial scan
+
 
 > To get in touch with me or for general discussion please visit [ZeroDayMindset Discussion](https://github.com/orgs/X3N0-G0D/discussions/1) 
 {: .prompt-info }
