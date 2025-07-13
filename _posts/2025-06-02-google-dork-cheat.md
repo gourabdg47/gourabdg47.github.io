@@ -3,10 +3,12 @@ title: Google Dork Cheat Sheet
 author: gourabdg47
 date: 25-06-02 11:00:00 +0500
 categories:
-  - Blogging
-  - Interesting
+  - Breach Detected
+  - OSINT
 tags:
   - reading
+  - cybersecurity
+  - OSINT
 render_with_liquid: false
 ---
 # Google Dorks Cheat Sheet for OSINT Researchers & Investigators
@@ -292,3 +294,7 @@ site:company.com filetype:pdf
 ```
 
 This cheat sheet provides a comprehensive foundation for Google Dorking in OSINT investigations. Remember to always operate within legal boundaries and ethical guidelines when conducting research.
+
+
+> To get in touch with me or for general discussion please visit [ZeroDayMindset Discussion](https://github.com/orgs/X3N0-G0D/discussions/1) 
+{: .prompt-info }
