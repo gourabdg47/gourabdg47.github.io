@@ -135,5 +135,5 @@ The final phase covers the most crucial part, as analysts rely on the responses 
 
 
 
-> To get in touch with me or for general discussion please visit [ZeroDayMindset Discussion](https://github.com/orgs/X3N0-G0D/discussions) 
+> To get in touch with me or for general discussion please visit [ZeroDayMindset Discussion](https://github.com/orgs/X3N0-G0D/discussions/1) 
 {: .prompt-info }

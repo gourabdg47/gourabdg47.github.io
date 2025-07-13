@@ -166,5 +166,5 @@ Hardening is a multi-layered approach to security that requires attention to det
 
 
 > 💡 **Join the discussion**:  
-> For questions or collaboration opportunities, visit our [ZeroDayMindset Discussion Board](https://github.com/orgs/X3N0-G0D/discussions)
+> For questions or collaboration opportunities, visit our [ZeroDayMindset Discussion Board](https://github.com/orgs/X3N0-G0D/discussions/1)
 {: .prompt-info }

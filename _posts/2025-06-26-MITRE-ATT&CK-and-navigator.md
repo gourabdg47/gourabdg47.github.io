@@ -100,5 +100,5 @@ A critical advantage of ATT&CK is its ability to provide a common taxonomy and l
 
 
 
-> To get in touch with me or for general discussion please visit [ZeroDayMindset Discussion](https://github.com/orgs/X3N0-G0D/discussions) 
+> To get in touch with me or for general discussion please visit [ZeroDayMindset Discussion](https://github.com/orgs/X3N0-G0D/discussions/1) 
 {: .prompt-info }

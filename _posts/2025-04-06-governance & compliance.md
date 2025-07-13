@@ -427,5 +427,5 @@ A **playbook** is a predefined, step-by-step guide that outlines how to detect
 ---
 
 > 💡 **Join the discussion**:  
-> For questions or collaboration opportunities, visit our [ZeroDayMindset Discussion Board](https://github.com/orgs/X3N0-G0D/discussions)
+> For questions or collaboration opportunities, visit our [ZeroDayMindset Discussion Board](https://github.com/orgs/X3N0-G0D/discussions/1)
 {: .prompt-info }

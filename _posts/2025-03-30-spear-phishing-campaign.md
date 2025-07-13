@@ -153,5 +153,5 @@ The attack was mitigated within 48 hours. Solaris is revising its cybersecurity 
 Spear phishing is a **story of human vs. hacker**. By combining proactive defenses, continuous education, and threat intelligence, organizations can turn the tables. Always ask: *"Why am I receiving this request **now**?"*  
 
 
-> To get in touch with me or for general discussion please visit [ZeroDayMindset Discussion](https://github.com/orgs/X3N0-G0D/discussions) 
+> To get in touch with me or for general discussion please visit [ZeroDayMindset Discussion](https://github.com/orgs/X3N0-G0D/discussions/1) 
 {: .prompt-info }

@@ -233,5 +233,5 @@ The 2015 Ukraine power grid attack served as a wake-up call globally about the r
 
 
 
-> To get in touch with me or for general discussion please visit [ZeroDayMindset Discussion](https://github.com/orgs/X3N0-G0D/discussions) 
+> To get in touch with me or for general discussion please visit [ZeroDayMindset Discussion](https://github.com/orgs/X3N0-G0D/discussions/1) 
 {: .prompt-info }

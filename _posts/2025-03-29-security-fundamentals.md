@@ -151,5 +151,5 @@ A POA&M is a structured document that outlines specific measures to address each
 The POA&M serves as both a roadmap for implementation and an accountability tool to ensure that remediation efforts stay on track and achieve their intended outcomes.
 
 
-> To get in touch with me or for general discussion please visit [ZeroDayMindset Discussion](https://github.com/orgs/X3N0-G0D/discussions) 
+> To get in touch with me or for general discussion please visit [ZeroDayMindset Discussion](https://github.com/orgs/X3N0-G0D/discussions/1) 
 {: .prompt-info }
