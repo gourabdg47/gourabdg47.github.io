@@ -21,7 +21,7 @@ Ok, found another source and downloaded from there. Oh yea in the beginning the 
 The protagonist after disabling few guards in a tower where she sky dived into trying to find a way to get into a room which is protected by facial scan. 
 
 The movie got over, I had dinner. I know, no spoilers !! 
-Gave a great day 
+Have a great day 
 
 
 > To get in touch with me or for general discussion please visit [ZeroDayMindset Discussion](https://github.com/orgs/X3N0-G0D/discussions/1) 
