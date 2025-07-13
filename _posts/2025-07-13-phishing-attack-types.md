@@ -32,7 +32,7 @@ An attacker might send a seemingly innocuous email, perhaps a generic "delivery 
 
 **Sample Reconnaissance Email:**
 
-![[sample_phish_email1.png]]
+![](assets/images/sample_phish_email1.png)
 
 ### Tracking Pixels: A Stealthy Reconnaissance Tool
 
@@ -115,7 +115,7 @@ You receive an email with a subject like "Urgent: Your Pending Invoice" and an a
 
 **Sample Malware Delivery Email:**
 
-![[sample_phishing_mail2.png]]
+![](assets/images/sample_phishing_mail2.png)
 
 ## 4. Spear Phishing
 
@@ -199,8 +199,6 @@ You receive numerous emails daily advertising questionable health supplements, l
 
 ![](assets/images/[hishing-type-commonality.png)
 
-
-![[[hishing-type-commonality.png]]
 
 
 
