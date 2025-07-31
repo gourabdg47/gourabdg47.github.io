@@ -15,7 +15,7 @@ pin: "true"
 #### My Static Project
 
 - [My Portfolio](https://gourab-portfolio-26.netlify.app/)
-- [Security+ Exam Mock quiz & Resources - 2.2k+ users](https://gourabdg47.github.io/assets/projects/security_exam_quiz/index.html)
+- [Security+ Exam Mock quiz & Resources - 3.8k+ users](https://gourabdg47.github.io/assets/projects/security_exam_quiz/index.html)
 - [Zenith Health - Men's Mental Health/Wellness](https://zenithmen.surge.sh/)
 - [Wartime Wiki - INDIA](https://gourabdg47.github.io/assets/code/wartime_wiki/wartime_wiki_india.html)
 - [Focus Time - For ADHD People](https://gourabdg47.github.io/assets/code/focustime-landing-page.html)
