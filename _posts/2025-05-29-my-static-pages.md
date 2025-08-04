@@ -17,7 +17,7 @@ pin: "true"
 - [My Portfolio](https://gourab-portfolio-26.netlify.app/)
 - My Agency - [formacraft.com](https://formacraft.com/)
 - [Security+ Mock Exam & Resources - 3.8k+ users](https://gourabdg47.github.io/assets/projects/security_exam_quiz/index.html)
-- [Zenith Health - Men's Mental Health/Wellness](https://zenithmen.surge.sh/)
+- [Zenith Health - Men's Mental Health/Wellness](https://zenith-men.pages.dev/)
 - [Wartime Wiki - INDIA](https://gourabdg47.github.io/assets/code/wartime_wiki/wartime_wiki_india.html)
 - [Focus Time - For ADHD People](https://gourabdg47.github.io/assets/code/focustime-landing-page.html)
 - [Focus Kanban - 300+ users](https://gourabdg47.github.io/assets/code/simple-task-tracker.html)
