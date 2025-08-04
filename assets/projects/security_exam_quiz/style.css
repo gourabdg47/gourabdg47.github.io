@@ -11,6 +11,15 @@
     --hover-color: #E8F0FE;        /* Light blue for hover states */
 }
 
+/* Font classes for mental health modal */
+.font-roboto {
+    font-family: 'Roboto', sans-serif;
+}
+
+.font-roboto-slab {
+    font-family: 'Roboto Slab', serif;
+}
+
 body {
     font-family: 'Nunito', sans-serif;
     line-height: 1.6;
@@ -512,6 +521,49 @@ body.dark .border-b {
     border-bottom-color: #353945 !important;
 }
 
+/* Dark mode mental health modal styles */
+body.dark #mental-health-modal .bg-white {
+    background-color: #23262F !important;
+    color: #F3F4F6 !important;
+}
+
+body.dark #mental-health-modal .text-gray-700 {
+    color: #E6E8EC !important;
+}
+
+body.dark #mental-health-modal .text-gray-500 {
+    color: #A0AEC0 !important;
+}
+
+body.dark #mental-health-modal .text-gray-500:hover {
+    color: #E6E8EC !important;
+}
+
+body.dark #mental-health-modal .bg-blue-50 {
+    background-color: #1A4A7A !important;
+    border-color: #6D9EFF !important;
+}
+
+body.dark #mental-health-modal .border-blue-500 {
+    border-color: #6D9EFF !important;
+}
+
+body.dark #mental-health-modal .text-blue-600 {
+    color: #6D9EFF !important;
+}
+
+body.dark #mental-health-modal .text-blue-500 {
+    color: #8BB4FF !important;
+}
+
+body.dark #mental-health-modal .bg-blue-600 {
+    background-color: #1A4A7A !important;
+}
+
+body.dark #mental-health-modal .bg-blue-600:hover {
+    background-color: #223A5E !important;
+}
+
 /* Dark mode answer selection styles */
 body.dark .option.selected,
 body.dark .quiz-option.selected {
@@ -533,4 +585,85 @@ body.dark .quiz-option.selected {
     background-color: #223A5E !important;
     border-color: #6D9EFF !important;
     color: #F3F4F6 !important;
+}
+
+/* Mental Health Button Achievement Animation */
+#mens-mental-health-btn {
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+#mens-mental-health-btn::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, #3B82F6, #1D4ED8, #3B82F6);
+    border-radius: 50%;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+#mens-mental-health-btn::after {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    background: linear-gradient(45deg, #60A5FA, #3B82F6, #60A5FA);
+    border-radius: 50%;
+    z-index: -2;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+#mens-mental-health-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.6);
+}
+
+#mens-mental-health-btn:hover::before,
+#mens-mental-health-btn:hover::after {
+    opacity: 1;
+}
+
+#mens-mental-health-btn:hover i {
+    animation: achievementBounce 0.6s ease-in-out;
+}
+
+@keyframes achievementGlow {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 0.7;
+    }
+    50% {
+        transform: scale(1.05);
+        opacity: 1;
+    }
+}
+
+@keyframes achievementBounce {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+}
+
+/* Dark mode achievement animation adjustments */
+body.dark #mens-mental-health-btn::before {
+    background: linear-gradient(45deg, #6D9EFF, #4A7CFF, #6D9EFF);
+}
+
+body.dark #mens-mental-health-btn::after {
+    background: linear-gradient(45deg, #8BB4FF, #6D9EFF, #8BB4FF);
+}
+
+body.dark #mens-mental-health-btn:hover {
+    box-shadow: 0 0 20px rgba(109, 158, 255, 0.6);
 }

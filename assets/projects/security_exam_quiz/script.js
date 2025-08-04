@@ -61,6 +61,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const backToResultsBtn = document.getElementById('back-to-results');
     const analyticsSection = document.getElementById('analytics-section');
     const toggleAnalyticsBtn = document.getElementById('toggle-analytics-btn');
+    const mensMentalHealthBtn = document.getElementById('mens-mental-health-btn');
+    const mentalHealthModal = document.getElementById('mental-health-modal');
+    const closeMentalHealthModal = document.getElementById('close-mental-health-modal');
 
 
     // --- UTILITY FUNCTIONS ---
@@ -806,6 +809,16 @@ document.addEventListener('DOMContentLoaded', () => {
         loadHistory();
         resetModal.classList.add('hidden');
     });
+    
+    // Mental Health Modal Event Listeners
+    mensMentalHealthBtn.addEventListener('click', () => mentalHealthModal.classList.remove('hidden'));
+    closeMentalHealthModal.addEventListener('click', () => mentalHealthModal.classList.add('hidden'));
+    mentalHealthModal.addEventListener('click', (e) => {
+        if (e.target === mentalHealthModal) {
+            mentalHealthModal.classList.add('hidden');
+        }
+    });
+
     downloadJsonBtn.addEventListener('click', () => downloadData(localStorage.getItem('quizHistory') || '[]', 'quiz_history.json', 'application/json'));
     downloadCsvBtn.addEventListener('click', () => downloadData(localStorage.getItem('quizHistory') || '[]', 'quiz_history.csv', 'text/csv'));
 
