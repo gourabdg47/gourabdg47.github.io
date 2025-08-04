@@ -9,7 +9,7 @@ tags:
   - reading
 render_with_liquid: false
 ---
-**  
+
 
 > This was created using Deep Research based on Key points 
 {: .prompt-info }
