@@ -12,7 +12,7 @@ tags:
 render_with_liquid: true
 pin: "false"
 ---
-# **Revision Topics**
+# **Revision Topics** 
 
 So here's what happening, I doubt that I will pass the exam (CompTIA Security+). There are so many topics, I am getting confused. I will pickup some topics I think I am weak at and study them from different sources. 
 
