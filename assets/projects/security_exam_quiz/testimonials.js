@@ -121,7 +121,7 @@ function createTestimonialBubble(testimonial) {
         <div class="testimonial-author">${testimonial.author}</div>
         <div class="testimonial-rating">${createStarRating(testimonial.rating)}</div>
         <div class="testimonial-resources">
-            <a href="https://buymeacoffee.com/gourabdg/e/420396" target="_blank" class="resource-link">
+            <a href="" target="_blank" class="resource-link">
                 Security+ Resources
                 <span class="discount">Get Exam Ready for $13!</span>
             </a>
