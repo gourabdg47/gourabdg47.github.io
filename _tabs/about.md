@@ -81,7 +81,6 @@ order: 4
 	}
 </style>
 
-To know more about me, check out my portfolio : [gourab-portfolio-26.netlify.app/](https://gourab-portfolio-26.netlify.app/)
 
 <a href="https://www.buymeacoffee.com/gourabdg" class="terminal-link">
   <span class="command">root@h4x0r:~#</span> 
