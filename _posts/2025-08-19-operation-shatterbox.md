@@ -1,7 +1,7 @@
 ---
 title: Operation Shatterbox
 author: gourabdg47
-date: 2025-06-06 02:53:00
+date: 2025-08-19 02:53:00
 categories:
   - Project
   - CTF
