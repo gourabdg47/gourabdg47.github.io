@@ -87,8 +87,6 @@ _True masters leave no trace and own the board. These are the final, ultimate ch
 - [ ] **Establish Persistence:** The system will be rebooted. Ensure your access survives by creating a persistent backdoor (e.g., cron job, systemd service).
     
 - [ ] **Cover Your Tracks:** You are a ghost. From your root shell, selectively erase your login and command history from the system logs (`/var/log/auth.log`, `.bash_history`).
-    
-- [ ] **Capture All Flags:** The creators of Shatterbox have hidden multiple flags throughout the filesystem and in various services. The final challenge is to find every single one.
 
 
 
